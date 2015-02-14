@@ -1,0 +1,72 @@
+<style> 
+	#modalManageCategories ul li>.pull-right {
+		display: none;
+	}
+	#modalManageCategories ul li:hover>.pull-right {
+		display: initial;
+	}
+</style>
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-backdrop="static" data-target=".bs-example-modal-sm">Manage my categories</button>
+
+<div id="modalManageCategories" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h2 class="modal-title">Manage my categories</h2>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-6" style="padding-right:20px; border-right: 1px solid #ccc;">
+						<form>
+							<h3>New category</h3>
+							<div class="form-group">
+								<label for="inputNewCategoryMail">Enter a name for the new category</label>
+								<input type="text" class="form-control" id="inputNewCategoryMail" placeholder="Enter name" ng-model="newCategory.name">
+							</div>
+							<div class="form-group">
+								<div class="checkbox">
+									<label>
+										<input type="checkbox" ng-model="newCategory.isSubCategory"> Nest category under
+									</label>
+								</div>
+								<select class="form-control " id="inputNewCategorySubCategory" ng-model="newCategory.subCategory" ng-options="categorie as categorie.name for categorie in categories" ng-disabled="!newCategory.isSubCategory" ng-init="newCategory.subCategory = categories[0]"></select>
+							</div>
+							<button type="submit" class="btn btn-primary pull-right" ng-click="createCategory()">Create</button>
+						</form>
+					</div>
+
+					<div class="col-md-6">
+						<h3>All my categories</h3>
+						<ul style="padding-left:20px;">
+							<li ng-repeat="category in categories">
+								{{category.name}}
+								<span class="pull-right">
+									<a href="" ng-click="moveCategory(categories, category, true)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+									<a href="" ng-click="moveCategory(categories, category, false)"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+									|
+									<a href="" ng-click="deleteCategory(categories, category)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+								</span>
+								<ul>
+									<li ng-repeat="subCategory in category.subCategories">
+										{{subCategory}}
+										<span class="pull-right">
+											<a href="" ng-click="moveCategory(category.subCategories, subCategory, true)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></a>
+											<a href="" ng-click="moveCategory(category.subCategories, subCategory, false)"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></a>
+											|
+											<a href="" ng-click="deleteCategory(category.subCategories, subCategory)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a>
+										</span>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>	
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button id="save" type="button" class="btn btn-primary" ng-click="saveChanges()">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
