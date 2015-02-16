@@ -36,6 +36,23 @@ var Schema = mongoose.Schema;
 	user: String
 })*/
 
+// var AccountSchema  = new Schema({
+// 	id: String,
+// 	name: String,
+// 	type: String,
+// 	solde: String,
+// 	deviseId: String
+// })
+
+
+// var CurrencySchema  = new Schema({
+// 	id: String,
+// 	symbole: String,
+// 	libelle: String,
+// 	CurrencyId: String,
+// 	format: String
+// }) 
+
 
 console.log('init db end')
 

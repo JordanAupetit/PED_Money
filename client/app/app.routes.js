@@ -11,13 +11,19 @@
 
     function configUiRoute($stateProvider, $urlRouterProvider) {
         // $urlRouterProvider.otherwise('account');
-        //
+      
         // Now set up the states
         $stateProvider
-            .state('operation', {
-                url: '/operation',
-                templateUrl: 'app/components/operation/operationView.html',
-                controller: 'OperationController'
+            .state('accounts', {
+                url: '/accounts',
+                templateUrl: 'app/components/accounts/accountsView.html',
+                controller: 'accountsController'
+            })
+
+            .state('createAccount', {
+                url: '/createAccount',
+                templateUrl: 'app/components/createAccount/createAccountView.html',
+                controller: 'createAccountController'
             })
 
 
