@@ -14,6 +14,11 @@
 	  //
 	  // Now set up the states
 	  $stateProvider
+		.state('category', {
+			url: '/category',
+			templateUrl: 'app/components/category/categoryView.html',
+			controller: 'CategoryController'
+		})
 	  	// .state('login', {
 	   //    url: '/login',
 	   //    templateUrl: 'components/auth/loginView.html',
