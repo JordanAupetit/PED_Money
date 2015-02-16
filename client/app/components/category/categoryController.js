@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('appModule')
+        .module('controllers')
         .controller('CategoryController', CategoryController);
 
     function CategorieUnderConstruction(subCategory){

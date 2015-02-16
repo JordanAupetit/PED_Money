@@ -4,14 +4,14 @@ var Promise = Promise || ES6Promise.Promise;
 	'use strict';
 	// angular.module('ccServices')
 
-	// angular.module('ccControllers')
+	angular.module('controllers', [])
 
 	angular
 		.module('appModule', [
 			'ui.router',
 			// 'ngDialog',
 			// 'ccDirectives',
-			// 'ccControllers',
+			'controllers'
 			// 'ccServices'
 		])
 
