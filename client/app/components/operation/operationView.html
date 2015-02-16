@@ -1,0 +1,78 @@
+
+<div class="container">
+
+    <div class="mb20">
+        <input datepicker type="text" ng-model="operationCreateModel.dateOperation" class="form-control mb10 wid170 ftl mr10" placeholder="Date de l'opération">
+
+        <!-- TODO 
+
+        Ajouter une case à cocher pour faire apparaitre ou non l'input de la date prélèvement
+        -->
+
+        <input datepicker type="text" ng-model="operationCreateModel.datePrelevement" class="form-control mb10 wid170 ftl mr10" placeholder="Date du prélèvement">
+        <input type="text" ng-model="operationCreateModel.description" class="form-control mb10 wid200 ftl mr10" placeholder="Description">
+        <input type="text" ng-model="operationCreateModel.thirdParty" class="form-control mb10 wid150 ftl mr10" placeholder="Tiers">
+        <input type="text" ng-model="operationCreateModel.type" class="form-control mb10 wid150 ftl mr10" placeholder="Type">
+        <input type="text" ng-model="operationCreateModel.value" class="form-control mb10 wid100 ftl mr10" placeholder="Montant">
+        <button ng-click="addOperation()" class="btn btn-default">Ajouter</button>
+    </div>
+
+    <div ng-if="operations.length > 0" class="mb20">
+        <strong>Solde : </strong>
+
+        <span ng-if="solde <= 0" class="colorRed">
+            {{ solde }}€
+        </span>
+        <span ng-if="solde > 0" class="colorGreen">
+            +{{ solde }}€
+        </span>
+
+    </div>
+
+    <table ng-if="operations.length > 0" class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th class="algcenter">Date</th>
+                <th class="algcenter">Valeur</th>
+                <th class="algcenter">Operation</th>
+                <th class="algcenter">Tiers</th>
+                <th class="algcenter">Type</th>
+                <th class="algcenter">Débit</th>
+                <th class="algcenter">Crédit</th>
+                <th class="algcenter">Validé</th>
+                <th class="algcenter">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="op in operations">
+                <td>{{ op.dateOperation }}</td>
+                <td>{{ op.datePrelevement }}</td>
+                <td>{{ op.description }}</td>
+                <td>{{ op.thirdParty }}</td>
+                <td>{{ op.type }}</td>
+                <td>
+                    <span ng-if="op.value < 0" class="colorRed">
+                        {{ op.value }}
+                    </span>
+                </td>
+                <td>
+                    <span ng-if="op.value > 0" class="colorGreen">
+                        +{{ op.value }}
+                    </span>
+                </td>
+                <td class="algcenter">
+                    <input ng-if="op.checked" type="checkbox" checked>
+                    <input ng-if="!op.checked" type="checkbox">
+                </td>
+                <td class="algcenter">
+                    <button ng-click="deleteOperation(op._id)" class="btn btn-danger btn-xs">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <span ng-if="operations.length <= 0">Il n'y a encore aucunes opérations sur ce compte.</span>
+
+</div>

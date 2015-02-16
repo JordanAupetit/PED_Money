@@ -6,9 +6,15 @@ var Promise = Promise || ES6Promise.Promise;
 
 	// angular.module('ccControllers')
 
+	angular.module('services', ['ngResource'])
+	angular.module('controllers', ['services'])
+
 	angular
 		.module('appModule', [
 			'ui.router',
+			'controllers'
+
+			
 			// 'ngDialog',
 			// 'ccDirectives',
 			// 'ccControllers',
