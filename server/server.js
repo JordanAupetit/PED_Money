@@ -2,12 +2,18 @@
 var application_root = __dirname,
 	express = require('express'), //Web framework
 	path = require('path'), //Utilities for dealing with file paths
+	jwt  = require("jsonwebtoken"),
 	bodyParser  = require('body-parser');
 
 var database = require('./database')
+var apiUser = require('./api-user')
 var apiOperation = require('./api-operation')
+
 var apiCategory = require('./api-category')
 // var apiExpense = require('./api-expense')
+
+var apiPeriod = require('./api-period')
+
 // var apiTools = require('./api-tools')
 // var apiOther = require('./api-other')
 // var api = require('./api')
@@ -43,16 +49,11 @@ db.once('open', function (callback) {
 
 
 
-// var userModel = database.getUserModel()
-// var expenseModel = database.getExpenseModel()
+var userModel = database.getUserModel()
 
-
-
-
-// apiExpense(app, expenseModel)
-// apiTools(app, userModel, expenseModel)
-// apiOther(app, userModel, expenseModel)
+apiUser(app, userModel , jwt)
 apiOperation(app, database.getOperationModel())
+apiPeriod(app, database.getPeriodModel())
 
 apiCategory(app, database.getCategoryModel())
 

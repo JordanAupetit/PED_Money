@@ -1,0 +1,81 @@
+<!-- periodeView.html -->
+
+
+<div class="container">
+    <h2>Periodic operation</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th data-field="name">Name</th>
+                <th data-field="dateBegin">Date Begin</th>
+                <th data-field="dateEnd">Date End</th>
+                <th data-field="nbRepeat">Number of Repeat</th>
+                <th data-field="step">Step</th>
+                <th data-field="intervalType">Interval type</th>
+                <th data-field="amount">Amount</th>
+                <th data-field="action">    <a ng-show="!isAdding" type="button" ng-click="add()" class="btn btn-primary" role="button">Add</a>
+    <a ng-show="isAdding" type="button" ng-click="addCancel()" class="btn btn-warning" role="button">Cancel</a></th>
+            </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-show="isAdding">
+            <td><input type="text" class="form-control"  ng-model="periodTmp.name"></td>
+            <td><input type="date" class="form-control"  ng-model="periodTmp.dateBegin"></td>
+            <td><input ng-change="computeRepeatDate()" type="date" class="form-control"  ng-model="periodTmp.dateEnd" ng-disabled="periodTmp.isInifinite"></td>
+            <td><input ng-change="computeDateRepeat()" type="number" class="form-control"  ng-model="periodTmp.nbRepeat" ng-disabled="periodTmp.isInifinite"> 
+                <input ng-change="setInfinite()" type="checkbox" ng-model="periodTmp.isInifinite"> Infinite</td>
+            <td><input type="number" class="form-control" ng-model="periodTmp.step"></td>
+            <td><select class="form-control" ng-model="periodTmp.intervalType" ng-options="interval as interval.type for interval in intervalType"></select></td>
+            <td><input type="number" class="form-control"  ng-model="periodTmp.amount"></td>
+            <td>
+                <a ng-show="isAdding" type="button" ng-click="addValid()" class="btn btn-info" role="button">Ok</a>
+            </td>
+
+<!--             
+            <td>{{periodTmp.name}}</td>
+            <td>{{periodTmp.dateBegin | date}}</td>
+            <td>{{periodTmp.dateEnd | date}}</td>
+            <td>{{periodTmp.nbRepeat | repeat}}</td>
+            <td>{{periodTmp.step}}</td>
+            <td>{{periodTmp.intervalType}}</td>
+            <td>{{periodTmp.amount | currency:'€':0:true}}</td> -->
+        </tr>
+        <tr ng-repeat="period in periods">
+            <td>{{period.name}}</td>
+            <td>{{period.dateBegin | date2:'dd/MM/yyyy'}}</td>
+            <td>{{period.dateEnd | date2:'dd/MM/yyyy'}}</td>
+            <td>{{period.nbRepeat | repeat}}</td>
+            <td>{{period.step}}</td>
+            <td>{{period.intervalType | period}}</td>
+            <td>{{period.amount | currency:'€':0:true}}</td>
+            <td> <a type="button" ng-click="remove(period)" class="btn btn-danger btn-xs" role="button">X</a>
+                <a type="button" ng-click="makeProjection(period)" class="btn btn-info btn-xs" role="button">P</a></td>
+        </tr>
+
+
+
+        <!-- sub array of real operation -->
+        <!-- sub array of projection -->
+    	</tbody>
+    </table>
+
+    <table class="table" ng-show="isProjection">
+        <thead>
+            <tr>
+                <!-- <th data-field="name">Name</th> -->
+                <th data-field="date">Date</th>
+                <th data-field="amount">Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="operation in projection">
+                <td>{{operation.date | date2:'dd/MM/yyyy'}}</td>
+                <td>{{operation.amount | currency:'€':0:true}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
