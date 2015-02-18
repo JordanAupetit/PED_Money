@@ -4,6 +4,9 @@ module.exports = {
     },
     getOperationModel: function(){
         return operationModel
+    },
+    getCategoryModel: function(){
+        return categoryModel
     }
     // getUserModel: function(){
     //  return userModel
@@ -54,6 +57,11 @@ var OperationSchema = new Schema({
     subOperations: []*/
 })
 
+var CategorySchema = new Schema({
+    name: String,
+    subCategories:[]
+})
+
 console.log('init db end')
 
 // ExpenseSchema.index( { user: 1 } )
@@ -61,5 +69,6 @@ console.log('init db end')
 //Models
 
 var operationModel = mongoose.model('operationModel', OperationSchema);
+var categoryModel = mongoose.model('categoryModel', CategorySchema);
 // var userModel = mongoose.model('userModel', UserSchema);
 // var expenseModel = mongoose.model('expenseModel', ExpenseSchema);
