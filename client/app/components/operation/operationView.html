@@ -61,8 +61,9 @@
                     </span>
                 </td>
                 <td class="algcenter">
-                    <input ng-if="op.checked" type="checkbox" checked>
-                    <input ng-if="!op.checked" type="checkbox">
+                    <input ng-click="updateOperation(op)" type="checkbox" ng-model="op.checked">
+                    <!-- <input ng-click="updateOperation(op)" ng-if="op.checked" type="checkbox" checked>
+                    <input ng-click="updateOperation(op)" ng-if="!op.checked" type="checkbox"> -->
                 </td>
                 <td class="algcenter">
                     <button ng-click="deleteOperation(op._id)" class="btn btn-danger btn-xs">

@@ -9,6 +9,7 @@
             getAll : {method:'GET', isArray:true},
             get : {method:'GET'},
             add : {method:'POST'},
+            update : {method:'PUT'},
             delete : {method:'DELETE'}
         })
 
@@ -18,6 +19,9 @@
             },
             add: function(operation){
                 operationResource.add(operation)
+            },
+            update: function(operation){
+                operationResource.update(operation)
             },
             remove: function(periodId){
                 return operationResource.delete({id : periodId})

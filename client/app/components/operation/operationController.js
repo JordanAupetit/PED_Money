@@ -51,6 +51,7 @@
             }
 
             getOperations()
+
             
             /*  
                 ==== TODO ====
@@ -69,6 +70,11 @@
                 OperationResource.remove(idOperation).$promise.then(function(){
                     getOperations()
                 })
+            }
+
+            $scope.updateOperation = function(operation) {
+                console.log("Update op")
+                OperationResource.update(operation)
             }
 
 
