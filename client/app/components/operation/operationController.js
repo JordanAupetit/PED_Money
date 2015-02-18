@@ -35,19 +35,26 @@
             OperationResource.add(op2)
 
 
-
-            $scope.operationCreateModel = {};
+            $scope.editable = false
+            $scope.operationCreateModel = {}
 
             var getOperations = function() {
                 OperationResource.getAll().$promise.then(function(operations){
                     $scope.operations = operations
 
-                    $scope.solde = 0
-
-                    for(var i = 0; i < operations.length; i++) {
-                        $scope.solde += operations[i].value
-                    }
+                    updateSolde()
                 })
+            }
+
+            var updateSolde = function() {
+                $scope.solde = 0
+
+                for(var i = 0; i < $scope.operations.length; i++) {
+                    // 2 decimal au maximum
+                    $scope.solde += parseFloat($scope.operations[i].value)
+                }
+
+                $scope.solde = $scope.solde.toFixed(2)
             }
 
             getOperations()
@@ -72,11 +79,19 @@
                 })
             }
 
-            $scope.updateOperation = function(operation) {
-                console.log("Update op")
+            $scope.validateOperation = function(operation) {
                 OperationResource.update(operation)
             }
 
+            $scope.updateOperation = function(operation) {
+                operation.editable = false
+                OperationResource.update(operation)
+                updateSolde()
+            }
+
+            $scope.showUpdateOperation = function(operation) {
+                operation.editable = true
+            }
 
         }]);
 

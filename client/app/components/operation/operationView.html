@@ -45,27 +45,48 @@
         </thead>
         <tbody>
             <tr ng-repeat="op in operations">
-                <td>{{ op.dateOperation }}</td>
-                <td>{{ op.datePrelevement }}</td>
-                <td>{{ op.description }}</td>
-                <td>{{ op.thirdParty }}</td>
-                <td>{{ op.type }}</td>
+                <td class="wid150">
+                    <span ng-hide="op.editable">{{ op.dateOperation }}</span>
+                    <input ng-hide="!op.editable" datepicker type="text" class="form-control" ng-model="op.dateOperation">
+                </td>
                 <td>
-                    <span ng-if="op.value < 0" class="colorRed">
+                    <span ng-hide="op.editable">{{ op.datePrelevement }}</span>
+                    <input ng-hide="!op.editable" datepicker type="text" class="form-control" ng-model="op.datePrelevement">
+                </td>
+                <td>
+                    <span ng-hide="op.editable">{{ op.description }}</span>
+                    <input ng-hide="!op.editable" type="text" class="form-control" ng-model="op.description">
+                </td>
+                <td>
+                    <span ng-hide="op.editable">{{ op.thirdParty }}</span>
+                    <input ng-hide="!op.editable" type="text" class="form-control" ng-model="op.thirdParty">
+                </td>
+                <td>
+                    <span ng-hide="op.editable">{{ op.type }}</span>
+                    <input ng-hide="!op.editable" type="text" class="form-control" ng-model="op.type">
+                </td>
+                <td>
+                    <span ng-hide="op.editable" ng-if="op.value <= 0" class="colorRed">
                         {{ op.value }}
                     </span>
+                    <!-- <input ng-hide="!op.editable" ng-if="op.value <= 0" type="text" class="form-control" ng-model="op.value"> -->
                 </td>
                 <td>
-                    <span ng-if="op.value > 0" class="colorGreen">
+                    <span ng-hide="op.editable" ng-if="op.value > 0" class="colorGreen">
                         +{{ op.value }}
                     </span>
+                    <input ng-hide="!op.editable" type="number" class="form-control" ng-model="op.value">
                 </td>
-                <td class="algcenter">
-                    <input ng-click="updateOperation(op)" type="checkbox" ng-model="op.checked">
-                    <!-- <input ng-click="updateOperation(op)" ng-if="op.checked" type="checkbox" checked>
-                    <input ng-click="updateOperation(op)" ng-if="!op.checked" type="checkbox"> -->
+                <td class="algcenter wid50">
+                    <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
                 </td>
-                <td class="algcenter">
+                <td class="algcenter minwid100">
+                    <button ng-hide="!op.editable" ng-click="updateOperation(op)" class="doUpdateOperation btn btn-primary btn-xs">
+                        Save
+                    </button>
+                    <button ng-hide="op.editable" ng-click="showUpdateOperation(op)" class="showUpdateOperation btn btn-warning btn-xs">
+                        Edit
+                    </button>
                     <button ng-click="deleteOperation(op._id)" class="btn btn-danger btn-xs">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
