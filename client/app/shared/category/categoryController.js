@@ -58,7 +58,7 @@
 
 */
 			var getCategories = function() {
-                CategoryResource.getAll().$promise.then(function(categories){
+                CategoryResource.getAll('54e4d019e6d52f98153df4c9').$promise.then(function(categories){
                     $scope.categories = categories
                     $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
                 })
@@ -104,15 +104,18 @@
 			}
 
 			$scope.saveChanges = function(){
-				event.target.textContent = "loading ..."
-				event.target.disabled = true;
+				var target = event.target
+				target.textContent = "loading ..."
+				target.disabled = true;
 				
-				//CategoryResource.update($scope.categories, true, callback);
+				CategoryResource.update('54e4d019e6d52f98153df4c9', $scope.categories).$promise.then(function callback (err, numAffected) {
 
-				function callback (err, numAffected) {
-					event.target.textContent = "Save"
-					event.target.disabled = false;
-				}
+					console.log("ouiiii")
+					$('#modalManageCategories').modal('hide');
+					
+					target.textContent = "Save changes"
+					target.disabled = false;
+				});
 
 				//TODO
 				/*

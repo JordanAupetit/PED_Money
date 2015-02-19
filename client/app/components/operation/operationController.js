@@ -4,7 +4,7 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', 'OperationResource', function($scope, OperationResource) {
+        .controller('OperationController', ['$scope', 'OperationResource', 'CategoryResource', function($scope, OperationResource, CategoryResource) {
 
             var op1 = {
                 value: -50,
@@ -52,6 +52,23 @@
 
             getOperations()
             
+
+            var getCategories = function() {
+                CategoryResource.getAll('54e4d019e6d52f98153df4c9').$promise.then(function(categories){
+                    $scope.categories = []
+                    for(var i in categories){
+                        $scope.categories.push(categories[i])
+                        for(var j in categories[i].subCategories){
+                            $scope.categories.push({name: "-    -- "+categories[i].subCategories[j]})
+                        }
+                    }
+
+                    //$scope.categories = categories
+                })
+            }
+
+            getCategories()
+
             /*  
                 ==== TODO ====
                 - Gérer les erreurs / champs vides dans le formulaire d'ajout d'operations

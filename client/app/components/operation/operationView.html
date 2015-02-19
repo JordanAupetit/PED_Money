@@ -13,10 +13,8 @@
         <input type="text" ng-model="operationCreateModel.thirdParty" class="form-control mb10 wid150 ftl mr10" placeholder="Tiers">
 
         <div class="input-group mb10 wid150 ftl mr10">
-            <select ng-model="operationCreateModel.type" class="form-control">
-                <option value="value1">Valeur 1</option> 
-                <option value="value2" selected>Valeur 2</option>
-                <option value="value3">Valeur 3</option>
+            <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie as categorie.name for categorie in categories">
+                <option value="" disabled selected>Categorie</option>
             </select>
             <div class="input-group-btn">
                 <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>

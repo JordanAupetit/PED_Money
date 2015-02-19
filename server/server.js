@@ -55,7 +55,7 @@ apiUser(app, userModel , jwt)
 apiOperation(app, database.getOperationModel())
 apiPeriod(app, database.getPeriodModel())
 
-apiCategory(app, database.getCategoryModel())
+apiCategory(app, database.getCategoryModel(), database.getUserModel())
 
 
 

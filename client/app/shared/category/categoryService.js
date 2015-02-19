@@ -5,24 +5,18 @@
     angular.module('services')
     .factory('CategoryResource', ['$resource', function($resource){
 
-        var categoryResource =  $resource('/api/category/:id', {}, {
+        var categoryResource =  $resource('/api/category/:userid', {}, {
             getAll : {method:'GET', isArray:true},
-            get : {method:'GET'},
-            add : {method:'POST'},
-            delete : {method:'DELETE'}
+            update : {method:'PUT', isArray:true}
         })
 
         return {
-            getAll: function(){
-                return categoryResource.getAll()
+            getAll: function(userid){
+                return categoryResource.getAll({userid: userid})
             },
-            add: function(category){
-                categoryResource.add(category)
-            },
-            remove: function(periodId){
-                return categoryResource.delete({id : periodId})
+            update: function(userid, categories){
+                return categoryResource.update({userid: userid}, categories)
             }
         }
     }])
-
 })();

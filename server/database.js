@@ -53,6 +53,9 @@ var UserSchema  = new Schema({
 	email: String,
 	password: String,
 	token: String
+    //pour categories
+    ,
+    categories: {type: [CategorySchema], default: defaultCategories}
 })
 
 var OperationSchema = new Schema({
@@ -74,6 +77,31 @@ var CategorySchema = new Schema({
     name: String,
     subCategories:[]
 })
+
+var defaultCategories = [
+    {
+        name: "Shooping",
+        subCategories:[
+            "Food",
+            "Clothes",
+            "Gifts"
+        ]
+    },
+    {
+        name: "Loisir",
+        subCategories:[
+            "Football",
+            "Cinema",
+            "Others"
+        ]
+    },
+    {   
+        name: "Others",
+        subCategories:[
+            "Pets"
+        ]
+    }
+]
 
 console.log('init db end')
 
