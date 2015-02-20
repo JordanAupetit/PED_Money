@@ -17,14 +17,10 @@
             .state('accounts', {
                 url: '/accounts',
                 templateUrl: 'app/components/accounts/accountsView.html',
-                controller: 'accountsController'
+                controller: 'AccountController'
             })
 
-            .state('createAccount', {
-                url: '/createAccount',
-                templateUrl: 'app/components/createAccount/createAccountView.html',
-                controller: 'createAccountController'
-            })
+            
 
 
         // .state('account', {

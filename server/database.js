@@ -1,13 +1,10 @@
 module.exports = {
-	getDB : function(){
-		return db
-	}
-	// getUserModel: function(){
-	// 	return userModel
-	// },
-	// getExpenseModel: function(){
-	// 	return expenseModel
-	// }
+    getDB : function(){
+        return db
+    },
+    getAccountModel: function(){
+        return accountModel
+    }
 }
 
 
@@ -36,13 +33,12 @@ var Schema = mongoose.Schema;
 	user: String
 })*/
 
-// var AccountSchema  = new Schema({
-// 	id: String,
-// 	name: String,
-// 	type: String,
-// 	solde: String,
-// 	deviseId: String
-// })
+var AccountSchema  = new Schema({
+	name: String,
+	type: String,
+	solde: Number,
+	currency: String
+})
 
 
 // var CurrencySchema  = new Schema({
@@ -62,3 +58,4 @@ console.log('init db end')
 
 // var userModel = mongoose.model('userModel', UserSchema);
 // var expenseModel = mongoose.model('expenseModel', ExpenseSchema);
+var accountModel = mongoose.model('accountModel', AccountSchema);

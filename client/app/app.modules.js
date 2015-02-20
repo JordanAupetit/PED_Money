@@ -2,7 +2,8 @@ var Promise = Promise || ES6Promise.Promise;
 
 (function() {
 	'use strict';
-	// angular.module('ccServices')
+	angular.module('services', ['ngResource'])
+	angular.module('controllers', ['services'])
 
 	// angular.module('ccControllers')
 
@@ -11,8 +12,8 @@ var Promise = Promise || ES6Promise.Promise;
 			'ui.router',
 			// 'ngDialog',
 			// 'ccDirectives',
-			// 'ccControllers',
-			// 'ccServices'
+			'controllers'
+			//'ccServices'
 		])
 
 })();

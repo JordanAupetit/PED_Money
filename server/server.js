@@ -5,7 +5,8 @@ var application_root = __dirname,
 	bodyParser  = require('body-parser');
 
 var database = require('./database')
-// var apiExpense = require('./api-expense')
+
+ var apiAccount = require('./api-account')
 // var apiTools = require('./api-tools')
 // var apiOther = require('./api-other')
 // var api = require('./api')
@@ -46,7 +47,7 @@ db.once('open', function (callback) {
 
 
 
-
+apiAccount(app, database.getAccountModel())
 // apiExpense(app, expenseModel)
 // apiTools(app, userModel, expenseModel)
 // apiOther(app, userModel, expenseModel)
