@@ -1,7 +1,6 @@
 <div class="container">
-
     <div class="row">
-        <form role="form" ng-submit="SignupController()">
+        <!-- <form role="form" ng-submit="SignupController()">
            
                 <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Required Field</strong></div>
                 <div class="form-group">
@@ -49,7 +48,48 @@
                
                 <input type="submit" name="submit" id="submit" value="Submit" class="btn btn-info pull-right">
         
+        </form> -->
+
+
+
+        <form class="loginSignUp" ng-submit="SignupController()">
+            <md-input-container flex="" class="md-default-theme">
+                <label for="input_03G">Username</label>
+                <input ng-model="User.name" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                <div class="md-placeholder"></div>
+            </md-input-container>
+
+            <md-input-container flex="" class="md-default-theme">
+                <label for="input_03G">Firstname</label>
+                <input type="password" ng-model="User.first" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                <div class="md-placeholder"></div>
+            </md-input-container>
+
+            <md-input-container flex="" class="md-default-theme">
+                <label for="input_03G">Lastname</label>
+                <input type="password" ng-model="User.last" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                <div class="md-placeholder"></div>
+            </md-input-container>
+
+            <md-input-container flex="" class="md-default-theme">
+                <label for="input_03G">Email</label>
+                <input type="password" ng-model="User.mail" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                <div class="md-placeholder"></div>
+            </md-input-container>
+
+            <md-input-container flex="" class="md-default-theme">
+                <label for="input_03G">Password</label>
+                <input type="password" ng-model="User.pass" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                <div class="md-placeholder"></div>
+            </md-input-container>
+
+            <md-input-container flex="" class="md-default-theme">
+                <label for="input_03G">Confirm password</label>
+                <input type="password" ng-model="User.confirmpass" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                <div class="md-placeholder"></div>
+            </md-input-container>
+
+           <input type="submit" value="Sign Up" class="btn btn-success btn-sm" />
         </form>
-       
     </div>
 </div>

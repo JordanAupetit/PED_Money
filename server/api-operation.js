@@ -3,7 +3,7 @@ module.exports = function (app, operationModel) {
     app.get('/api/operation/', getAllOperations)
     app.post('/api/operation/', addOperation)
     app.get('/api/operation/:id', getOperation)
-    // app.put('/api/operation/', getExpenseByTag)
+    app.put('/api/operation/', updateOperation)
     app.delete('/api/operation/:id', deleteOperation)
     // app.post('/api/operation/:id', editOperation)
 
@@ -37,6 +37,42 @@ module.exports = function (app, operationModel) {
             }
         });
 
+    }
+
+    function updateOperation(req, res, next) {
+
+        var updateOperation = new operationModel(req.body)
+        var idOp = updateOperation._id
+        delete updateOperation._id
+
+        operationModel.findByIdAndUpdate(idOp, {$set: updateOperation}, function (err, qcm) {
+            if (err) return handleError(err);
+            res.send(qcm);
+        });
+
+        /*var updatedRecipe = new qcmModel(req.body);
+
+        // Même une réponse simultané ne permettrais pas de valider des réponses en trop
+        if(updatedRecipe.answeredQCM > updatedRecipe.answerToEnd) {
+
+            console.log("Le QCM est deja fermé.");
+            res.send("Le QCM est deja fermé.");
+        } else {
+
+            var updateData = {
+                $set: {
+                    isOpen: updatedRecipe.isOpen,
+                    answeredQCM: updatedRecipe.answeredQCM,
+                    goodAnswer: updatedRecipe.goodAnswer,
+                    badAnswer: updatedRecipe.badAnswer
+                }
+            }
+
+            qcmModel.findByIdAndUpdate(updatedRecipe._id, updateData, function (err, qcm) {
+              if (err) return handleError(err);
+              res.send(qcm);
+            });
+        }*/
     }
 
     function addOperation(req, res, next) {

@@ -6,7 +6,7 @@
     margin: 0;
 }*/
 
-.wrap
+/* .wrap
 {
     width: 100%;
     height: 100%;
@@ -88,8 +88,6 @@ form.login .signUp
     min-height: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
-
-
 }
 form.login label, form.login a
 {
@@ -188,6 +186,7 @@ form.login a:hover
     padding: 10px;
     left: 45%;
 }
+ */
 
 
 
@@ -196,16 +195,67 @@ form.login a:hover
 
 
 
+body {
+    font-family: Helvetica;
+    background: #eee;
+    -webkit-font-smoothing: antialiased;
+}
+
+form.loginSignUp {
+    width: 380px;
+    margin: 4em auto;
+    padding: 2em 2em 1em 2em;
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    box-shadow: rgba(0,0,0,0.14902) 0px 1px 1px 0px,rgba(0,0,0,0.09804) 0px 1px 2px 0px;
+}
+
+form.loginSignUp input[type="submit"]
+{
+    width: 100%;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: 16px;
+    outline: 0;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
 
 
+form.loginSignUp .forgot-pass-content
+{
+    min-height: 20px;
+    margin-top: 10px;
+}
+
+form.loginSignUp .signUp
+{
+    min-height: 20px;
+    margin-top: 10px;
+}
 
 
+/* section {
+    background: #f7f7f7;
+    border-radius: 3px;
+    text-align: center;
+    margin: 1em;
+    position: relative !important;
+    padding-bottom: 10px; 
+}
 
-
-
-
-
-
+md-content {
+    margin-right: 7px; }
+  
+section .md-button:not(.md-fab) {
+    min-width: 10em; }
+  
+section .md-button {
+    display: block;
+    margin: 1em;
+    line-height: 25px; } */
+  
 
 
 
@@ -274,6 +324,8 @@ form.login a:hover
 .algleft {text-align: left;}
 .algjust {text-align: justify;}
 
+.algverticalmid {vertical-align: middle;}
+
 .ht55 {height:55px;}
 
 .wid50 {width:50px;}
@@ -287,6 +339,17 @@ form.login a:hover
 .wid400 {width:400px;}
 .wid500 {width:500px;}
 .wid600 {width:600px;}
+
+.minwid50 {min-width:50px;}
+.minwid100 {min-width:100px;}
+.minwid150 {min-width:150px;}
+.minwid170 {min-width:170px;}
+.minwid200 {min-width:200px;}
+.minwid300 {min-width:300px;}
+.minwid400 {min-width:400px;}
+.minwid400 {min-width:400px;}
+.minwid500 {min-width:500px;}
+.minwid600 {min-width:600px;}
 
 .fs10 {font-size:10px;}
 .fs12 {font-size:12px;}

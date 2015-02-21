@@ -15,7 +15,8 @@ var Promise = Promise || ES6Promise.Promise;
 			// 'ngResource',
 			'LocalStorageModule',
 			'ui.bootstrap',
-			'controllers'
+			'controllers',
+			'ngMaterial'
 		])
 
 })();
