@@ -39,6 +39,15 @@
         }
       })
 
+      .state('accounts', {
+        url: '/accounts',
+        templateUrl: 'app/components/accounts/accountsView.html',
+        controller: 'AccountController',
+        data: {
+          requireLogin: true
+        }
+      })
+
       .state('operation', {
         url: '/operation',
         templateUrl: 'app/components/operation/operationView.html',
@@ -56,9 +65,8 @@
           requireLogin: true
         }
       })
-
-
-    }])
+	   	
+  }])
 
   .run(function($rootScope, $state, localStorageService) {
 

@@ -2,6 +2,9 @@ module.exports = {
     getDB : function(){
         return db
     },
+    getAccountModel: function(){
+        return accountModel
+    },
     getOperationModel: function(){
         return operationModel
     },
@@ -22,6 +25,7 @@ module.exports = {
     getUserModel: function(){
 	 	return userModel
 	}
+
 }
 
 
@@ -45,6 +49,16 @@ var PeriodSchema = new Schema({
 	intervalType: String
 })
 
+var AccountSchema  = new Schema({
+	name: String,
+	type: String,
+	balance: Number,
+	currency: String
+})
+
+
+
+
 var UserSchema  = new Schema({
 	id: String,
 	username: String,
@@ -55,6 +69,7 @@ var UserSchema  = new Schema({
 	token: String,
     categories: {type: [CategorySchema], default: defaultCategories}
 })
+
 
 var OperationSchema = new Schema({
     value: Number,
@@ -106,9 +121,13 @@ console.log('init db end')
 // ExpenseSchema.index( { user: 1 } )
 
 //Models
+
+
+var accountModel = mongoose.model('accountModel', AccountSchema);
 var userModel = mongoose.model('userModel', UserSchema);
 var operationModel = mongoose.model('operationModel', OperationSchema);
 var categoryModel = mongoose.model('categoryModel', CategorySchema);
 // var userModel = mongoose.model('userModel', UserSchema);
 // var expenseModel = mongoose.model('expenseModel', ExpenseSchema);
 var periodModel = mongoose.model('periodModel', PeriodSchema);
+

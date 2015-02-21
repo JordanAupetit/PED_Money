@@ -6,6 +6,7 @@ var application_root = __dirname,
 	bodyParser  = require('body-parser');
 
 var database = require('./database')
+var apiAccount = require('./api-account')
 var apiUser = require('./api-user')
 var apiOperation = require('./api-operation')
 
@@ -51,11 +52,14 @@ db.once('open', function (callback) {
 
 var userModel = database.getUserModel()
 
+
+apiAccount(app, database.getAccountModel())
 apiUser(app, userModel , jwt)
 apiOperation(app, database.getOperationModel())
 apiPeriod(app, database.getPeriodModel())
 
 apiCategory(app, database.getCategoryModel(), database.getUserModel())
+
 
 
 
