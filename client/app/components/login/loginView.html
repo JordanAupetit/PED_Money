@@ -1,27 +1,49 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-12">
-            <div class="wrap">
-                <p class="form-title">
-                    Sign In</p>
-                <form class="login" ng-submit='signin()' >
-                <input type="text" ng-model='username' placeholder="Username" />
-                <input type="password"  ng-model='password' placeholder="Password" />
-                <input type="submit" value="Sign In" class="btn btn-success btn-sm" />
-                <div class="remember-forgot">
-                    <div class="row">
+        <!-- <p class="form-title">
+            Sign In
+        </p> -->
+        <form class="loginSignUp" ng-submit='signin()' >
+           <!--  <input type="text" ng-model='username' placeholder="Username" />
+           <input type="password"  ng-model='password' placeholder="Password" /> -->
 
-                        <div class="col-md-6 signUp">
-                            <a href="" ui-sref="signup" class="signUp">Sign Up</a>
-                        </div>
-                        
-                        <div class="col-md-6 forgot-pass-content">
-                            <a href="javascription:void(0)" class="forgot-pass">Forgot Password</a>
-                        </div>
+            <md-input-container flex="" class="md-default-theme">
+                <label for="input_03G">Username</label>
+                <input ng-model="username" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                <div class="md-placeholder"></div>
+            </md-input-container>
+
+            <md-input-container flex="" class="md-default-theme">
+                <label for="input_03G">Password</label>
+                <input type="password" ng-model="password" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                <div class="md-placeholder"></div>
+            </md-input-container>
+
+           <input type="submit" value="Sign In" class="btn btn-success btn-sm" />
+            
+            <!-- <md-content>
+                <section layout="row" layout-sm="column" layout-align="center center">
+                  <md-button class="md-raised">Button</md-button>
+                  <md-button class="md-raised md-primary">Primary</md-button>
+                  <md-button ng-disabled="true" class="md-raised md-primary">Disabled</md-button>
+                  <md-button class="md-raised md-warn">Warn</md-button>
+                  <div class="label">raised</div>
+                </section>
+            </md-content> -->
+
+            <div class="remember-forgot">
+                <div class="row">
+
+                    <div class="col-md-6 signUp">
+                        <a href="" ui-sref="signup" class="signUp">Sign Up</a>
+                    </div>
+                    
+                    <div class="col-md-6 forgot-pass-content algright">
+                        <a href="javascription:void(0)" class="forgot-pass">Forgot Password</a>
                     </div>
                 </div>
-                </form>
             </div>
-        </div>
+
+        </form>
     </div>
 </div>

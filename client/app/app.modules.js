@@ -14,7 +14,8 @@ var Promise = Promise || ES6Promise.Promise;
 			'ui.router',
 			// 'ngResource',
 			'LocalStorageModule',
-			'controllers'
+			'controllers',
+			'ngMaterial'
 		])
 
 })();
