@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "description": "MyMoneyClient web app",
   "dependencies": {
+    "angular-local-storage": "^0.1.5"
   },
   "devDependencies": {
-    "bower": "*"
+    "bower": "*",
+    "jshint": "^2.6.0"
   },
   "scripts": {
+    "jshint": "jshint app",
     "install": "bower install"
   }
 }
