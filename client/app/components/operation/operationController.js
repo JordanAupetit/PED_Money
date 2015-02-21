@@ -31,13 +31,10 @@
             }
 
 
-            OperationResource.add(op1)
-            OperationResource.add(op2)
-
-
+            //OperationResource.add(op1)
+            //OperationResource.add(op2)
 
             $scope.operationCreateModel = {};
-
             var getOperations = function() {
                 OperationResource.getAll().$promise.then(function(operations){
                     $scope.operations = operations
@@ -45,13 +42,12 @@
                     $scope.solde = 0
 
                     for(var i = 0; i < operations.length; i++) {
+                        console.log(operations[i])
+
                         $scope.solde += operations[i].value
                     }
                 })
             }
-
-            getOperations()
-            
 
             var getCategories = function() {
                 CategoryResource.getAll('54e4d019e6d52f98153df4c9').$promise.then(function(categories){
@@ -67,7 +63,19 @@
                 })
             }
 
-            getCategories()
+            getOperations()
+
+            
+
+
+
+            
+
+            getCategories()            
+
+            
+
+            
 
             /*  
                 ==== TODO ====

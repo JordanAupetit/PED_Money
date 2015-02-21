@@ -52,9 +52,7 @@ var UserSchema  = new Schema({
 	firstName: String,
 	email: String,
 	password: String,
-	token: String
-    //pour categories
-    ,
+	token: String,
     categories: {type: [CategorySchema], default: defaultCategories}
 })
 
