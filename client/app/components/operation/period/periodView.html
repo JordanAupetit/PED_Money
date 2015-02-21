@@ -47,7 +47,7 @@
 						<p ng-show="periodForm.dateEnd.$error.date" class="help-block">Date end must be after of date begin.</p>
 					</div>
 					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : periodForm.nbRepeat.$invalid && !periodForm.nbRepeat.$pristine && !periodTmp.isInfinite}">
-						<label>Nb repeat</label>
+						<label>Occurrency</label>
 						<input ng-change="computeDateRepeat()" type="number" name="nbRepeat" class="form-control"  ng-model="periodTmp.nbRepeat" ng-disabled="periodTmp.isInfinite"  min="1" required> 
 						<p ng-show="periodForm.nbRepeat.$error.required && !periodForm.nbRepeat.$pristine" class="help-block">Nb repeat is required.</p>
 						<p ng-show="periodForm.nbRepeat.$error.min && !periodTmp.isInfinite " class="help-block">Nb repeat must be superior of 0.</p>
