@@ -42,7 +42,7 @@
                     $scope.solde = 0
 
                     for(var i = 0; i < operations.length; i++) {
-                        console.log(operations[i])
+                        //console.log(operations[i])
 
                         $scope.solde += operations[i].value
                     }

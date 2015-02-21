@@ -3,7 +3,7 @@
 'use strict';
 
     angular
-        .module('appModule')
+        .module('controllers')
         .controller('NavbarController', ['$scope','$rootScope','$state','localStorageService', function($scope,$rootScope,$state,localStorageService) {
                 $rootScope.currentUserSignedIn = localStorageService.cookie.get('token');
                 //alert($localStorage.token);

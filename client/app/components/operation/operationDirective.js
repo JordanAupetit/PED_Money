@@ -1,11 +1,7 @@
-
-
-
-
 (function() {
     'use strict';
 
-    angular.module('appModule')
+    angular.module('controllers')
     .directive('datepicker', function () {
         return {
             restrict: 'AE',

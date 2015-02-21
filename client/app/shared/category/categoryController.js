@@ -2,10 +2,10 @@
     'use strict';
 
     angular
-        .module('controllers')
-        .controller('ManageCategoriesController', 
-            ['$scope', 'CategoryResource', function ManageCategoriesController($scope, CategoryResource) {
-        
+    .module('controllers')
+    .controller('ManageCategoriesController', 
+        ['$scope', 'CategoryResource', function ManageCategoriesController($scope, CategoryResource) {
+            
             function CategorieUnderConstruction(subCategory){
                 this.name = ""
                 this.isSubCategory = false
@@ -56,7 +56,7 @@
                 }
             ];
 
-*/
+            */
             var getCategories = function() {
                 CategoryResource.getAll('54e4d019e6d52f98153df4c9').$promise.then(function(categories){
                     $scope.categories = categories
@@ -117,5 +117,5 @@
                     $('#modalManageCategories').modal('hide');
                 });
             }
-    }])  
+        }])  
 })();
