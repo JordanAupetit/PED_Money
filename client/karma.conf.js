@@ -82,10 +82,23 @@ module.exports = function(config) {
     // browsers: ['Chrome', 'Firefox'],
     // browsers: ['Firefox'],
     browsers: ['Chrome'],
+    
+    // This is the new content for your travis-ci configuration test
+    //  Custom launcher for Travis-CI
+    customLaunchers: {
+        Chrome_travis_ci: {
+            base: 'Chrome',
+            flags: ['--no-sandbox']
+        }
+    },
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false
   });
+  
+  if(process.env.TRAVIS){
+      config.browsers = ['Chrome_travis_ci'];
+  }
 };
