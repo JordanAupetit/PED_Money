@@ -61,4 +61,9 @@ module.exports = function (app, periodModel) {
 			res.sendStatus(204)
 		})
 	}
+
+
+	function checkPeriodForUser(){
+		
+	}
 }

@@ -3,27 +3,36 @@
 	'use strict';
 
 	angular.module('services')
-	.factory('periodService', ['$resource', function($resource){
+		.factory('periodService', ['$resource', function($resource) {
 
 
-		var periodsRes =  $resource('/api/period/:id', {}, {
-					getAll : {method:'GET', isArray:true},
-					get : {method:'GET'},
-					add : {method:'POST'},
-					delete : {method:'DELETE'}
-				})
+			var periodsRes = $resource('/api/period/:id', {}, {
+				getAll: {
+					method: 'GET',
+					isArray: true
+				},
+				get: {
+					method: 'GET'
+				},
+				add: {
+					method: 'POST'
+				},
+				delete: {
+					method: 'DELETE'
+				}
+			})
 
-		var p1 = {
-			_id: 2,
-			name: 'Loyer',
-			dateBegin: '2015-01-15',
-			nbRepeat: -1,
-			step: 3,
-			intervalType: 'M',
-			amount: 300
-		}
+			var p1 = {
+				_id: 2,
+				name: 'Loyer',
+				dateBegin: '2015-01-15',
+				nbRepeat: -1,
+				step: 3,
+				intervalType: 'M',
+				amount: 300
+			}
 
-		var p2 = {
+			var p2 = {
 				_id: 1,
 				name: 'Zebulon',
 				dateBegin: new Date(2015, 1, 13),
@@ -33,37 +42,39 @@
 				amount: 52
 			}
 
-		var p3 = {
-			_id: 3,
-			name: 'Essence',
-			dateBegin:  new Date(2015, 1, 2),
-			nbRepeat: -1,
-			step: 1,
-			intervalType: 'w',
-			amount: 20
-		}
-
-		return {
-			init: function(){
-				periodsRes.add(p1)
-				periodsRes.add(p2)
-				periodsRes.add(p3)
-			},
-
-			getAll: function(){
-				return periodsRes.getAll()
-			},
-			add: function(operation){
-				return periodsRes.add(operation)
-			},
-			remove: function(periodId){
-				return periodsRes.delete({id : periodId})
-			},
-			computeNewOpt: function(){
-				
+			var p3 = {
+				_id: 3,
+				name: 'Essence',
+				dateBegin: new Date(2015, 1, 2),
+				nbRepeat: -1,
+				step: 1,
+				intervalType: 'w',
+				amount: 20
 			}
 
-		}
-	}])
+			return {
+				init: function() {
+					periodsRes.add(p1)
+					periodsRes.add(p2)
+					periodsRes.add(p3)
+				},
+
+				getAll: function() {
+					return periodsRes.getAll()
+				},
+				add: function(operation) {
+					return periodsRes.add(operation)
+				},
+				remove: function(periodId) {
+					return periodsRes.delete({
+						id: periodId
+					})
+				},
+				computeNewOpt: function() {
+
+				}
+
+			}
+		}])
 
 })();

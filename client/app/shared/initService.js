@@ -3,11 +3,14 @@
 	'use strict';
 
 	angular.module('services')
-	.factory('initService', ['periodService', function(periodService){
+	.factory('initService', ['periodService', initService])
+
+	function initService(periodService){
 
 		return {
 			populate: function(){
 				periodService.init()
 			}
 		}
+	}
 })()

@@ -7,13 +7,14 @@ var Promise = Promise || ES6Promise.Promise;
 	angular.module('filters', [])
 	angular.module('directives', [])
 	angular.module('services', ['ngResource'])
-	angular.module('controllers', ['currencyFilter', 'services', 'filters'])
+	angular.module('controllers', ['currencyFilter', 'services', 'filters', 'directives'])
 
 	angular
 		.module('appModule', [
 			'ui.router',
 			// 'ngResource',
 			'LocalStorageModule',
+			'ui.bootstrap',
 			'controllers'
 		])
 

@@ -13,10 +13,6 @@ PED_Money est un clone de MS Money qui permet à un particulier de gérer ses co
 
 ##Installation :
 
-Dans le dossier client :
-> npm install
-
-Dans le dossier server :
 > npm install
 
 
@@ -32,12 +28,23 @@ Dans le dossier server :
 
 ##Autre commandes
 
-####client 
+Lancer seulement la bdd
+> npm run db 
 
-pour vérifier le code client
+Lancer seulement le serveur
+> npm run start 
+
+Vérifier le code JS client
 > npm run jshint 
 
+Vérifier le code JS server
+> npm run jshints 
 
+Lancer le watcher des tests
+> npm run karma 
+
+NB: Pour utiliser karma il est recomandé d'installer karma-cli
+> npm install -g karma-cli
 
 ##Contribution
 

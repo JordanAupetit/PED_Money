@@ -1,44 +1,42 @@
 (function() {
-    'use strict';
+  'use strict';
 
-    
+  /* App Module */
 
-    /* App Module */
+  angular
+    .module('appModule')
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-	angular
-		.module('appModule')
-		.config(['$stateProvider','$urlRouterProvider',function($stateProvider, $urlRouterProvider) {
-	 
 
-    $urlRouterProvider.otherwise('/login');
-	  // Now set up the states
-	  
-    $stateProvider
-	  	.state('login', {
-        url: '/login',
-	      templateUrl: 'app/components/login/loginView.html',
-	 	    controller: 'LoginController',
+      $urlRouterProvider.otherwise('/login');
+      // Now set up the states
+
+      $stateProvider
+        .state('login', {
+          url: '/login',
+          templateUrl: 'app/components/login/loginView.html',
+          controller: 'LoginController',
+          data: {
+            requireLogin: false
+          }
+        })
+
+      .state('signup', {
+        url: '/signup',
+        templateUrl: 'app/components/signup/signupView.html',
+        controller: 'SignupController',
         data: {
           requireLogin: false
         }
-	    })
-
-	  	.state('signup', {
-	      url: '/signup',
-	      templateUrl: 'app/components/signup/signupView.html',
-	      controller: 'SignupController',
-        data: {
-          requireLogin: false
-        }
-	    })
+      })
 
       .state('compte', {
-	      url: '/compte',
-	      templateUrl: 'app/components/compte/compte.html',
+        url: '/compte',
+        templateUrl: 'app/components/compte/compte.html',
         data: {
           requireLogin: true
         }
-	    })
+      })
 
       .state('operation', {
         url: '/operation',
@@ -52,24 +50,24 @@
       .state('optPeriod', {
         url: '/operation/period/',
         templateUrl: 'app/components/operation/period/periodView.html',
-        controller: 'periodController',
+        controller: 'PeriodCtrl',
         data: {
           requireLogin: true
         }
       })
-	   
-		
-}])
 
-  .run(function ($rootScope,$state,localStorageService) {
 
-    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+    }])
+
+  .run(function($rootScope, $state, localStorageService) {
+
+    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
       var requireLogin = toState.data.requireLogin;
-      if (requireLogin && localStorageService.cookie.get('token')==null) {
+      if (requireLogin && localStorageService.cookie.get('token') == null) {
         event.preventDefault();
-       $state.go('login');
+        $state.go('login');
       }
     });
   });
-  
+
 })();
