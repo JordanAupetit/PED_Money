@@ -5,6 +5,17 @@ module.exports = {
     getOperationModel: function(){
         return operationModel
     },
+
+    getCategoryModel: function(){
+        return categoryModel
+    },
+    // getUserModel: function(){
+    //  return userModel
+    // },
+    // getExpenseModel: function(){
+    //  return expenseModel
+    // }
+
     getPeriodModel: function(){
         return periodModel
     },
@@ -41,7 +52,8 @@ var UserSchema  = new Schema({
 	firstName: String,
 	email: String,
 	password: String,
-	token: String
+	token: String,
+    categories: {type: [CategorySchema], default: defaultCategories}
 })
 
 var OperationSchema = new Schema({
@@ -59,7 +71,44 @@ var OperationSchema = new Schema({
 })
 
 
+var CategorySchema = new Schema({
+    name: String,
+    subCategories:[]
+})
+
+var defaultCategories = [
+    {
+        name: "Shooping",
+        subCategories:[
+            "Food",
+            "Clothes",
+            "Gifts"
+        ]
+    },
+    {
+        name: "Loisir",
+        subCategories:[
+            "Football",
+            "Cinema",
+            "Others"
+        ]
+    },
+    {   
+        name: "Others",
+        subCategories:[
+            "Pets"
+        ]
+    }
+]
+
+console.log('init db end')
+
+// ExpenseSchema.index( { user: 1 } )
+
 //Models
 var userModel = mongoose.model('userModel', UserSchema);
 var operationModel = mongoose.model('operationModel', OperationSchema);
+var categoryModel = mongoose.model('categoryModel', CategorySchema);
+// var userModel = mongoose.model('userModel', UserSchema);
+// var expenseModel = mongoose.model('expenseModel', ExpenseSchema);
 var periodModel = mongoose.model('periodModel', PeriodSchema);

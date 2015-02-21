@@ -1,9 +1,6 @@
-
-
-
-
 (function() {
     'use strict';
+
 
     angular.module('appModule')
         .directive('mydatepicker', function () {

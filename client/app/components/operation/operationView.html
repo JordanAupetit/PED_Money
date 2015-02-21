@@ -1,4 +1,3 @@
-
 <div class="container">
 
     <div class="mb20">
@@ -12,8 +11,17 @@
         <input mydatepicker type="text" ng-model="operationCreateModel.datePrelevement" class="form-control mb10 wid170 ftl mr10" placeholder="Date du prélèvement"> 
         <input type="text" ng-model="operationCreateModel.description" class="form-control mb10 wid200 ftl mr10" placeholder="Description">
         <input type="text" ng-model="operationCreateModel.thirdParty" class="form-control mb10 wid150 ftl mr10" placeholder="Tiers">
-        <input type="text" ng-model="operationCreateModel.type" class="form-control mb10 wid150 ftl mr10" placeholder="Type">
+
+        <div class="input-group mb10 wid150 ftl mr10">
+            <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie as categorie.name for categorie in categories">
+                <option value="" disabled selected>Categorie</option>
+            </select>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
+            </div>
+        </div>
         <input type="text" ng-model="operationCreateModel.value" class="form-control mb10 wid100 ftl mr10" placeholder="Montant">
+        <input type="text" ng-model="operationCreateModel.type" class="form-control mb10 wid100 ftl mr10" placeholder="Type">
         <button ng-click="addOperation()" class="btn btn-default">Ajouter</button>
     </div>
 
@@ -98,3 +106,5 @@
     <span ng-if="operations.length <= 0">Il n'y a encore aucunes opérations sur ce compte.</span>
 
 </div>
+
+<div ng-include src="'/app/shared/category/categoryView.html'"/>

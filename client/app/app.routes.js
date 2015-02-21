@@ -8,8 +8,9 @@
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
 
-      $urlRouterProvider.otherwise('/login');
-      // Now set up the states
+
+    $urlRouterProvider.otherwise('/login');
+	  // Now set up the states
 
       $stateProvider
         .state('login', {

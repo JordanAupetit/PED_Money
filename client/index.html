@@ -1,55 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>MyMoney</title>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <head>
+        <meta charset="UTF-8">
+        <title>MyMoney</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+        <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap-theme.min.css">
+
+        <link rel="stylesheet" href="assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css">
+        <link rel="stylesheet" href="assets/libs/angular-material/angular-material.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+    </head>
 
 
-    <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap-theme.min.css">
+    <body ng-app="appModule" role="document">
 
-    <link rel="stylesheet" href="assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css">
-    <link rel="stylesheet" href="assets/libs/angular-material/angular-material.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-
-
-</head>
-<body ng-app="appModule" role="document">
-
-     <div ng-include src="'./app/shared/navbar/navbar.html'"> 
-</div>
-
-<!--     <nav class="navbar navbar-default" role="navigation" ng-controller="NavbarController" > 
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="" ui-sref="account">MyMoney</a>
-        </div>
-
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li ng-hide="currentUserSignedIn"><a ui-sref="login">login</a></li>
-                <li ng-hide="currentUserSignedIn"><a ui-sref="signup">Signup</a></li>
-                <li ng-show="currentUserSignedIn"><a style="cursor: hand;cursor: pointer;" ng-click="logout()">Logout</a></li>
-                <li ng-show="currentUserSignedIn"><a class="" ui-sref="operation">Operations</a></li>
-                <li ng-show="currentUserSignedIn"><a class="" ui-sref="optPeriod">Operations périodiques</a></li>
-            </ul>
-        </div>
-    </div>
-</nav> -->
-
-    <div ui-view></div>
-
-
-    
-</body>
-
+        <div ng-include src="'./app/shared/navbar/navbar.html'"></div>
+        <div ui-view></div>
+    </body>
 
     <!-- Libs -->
     <script src="assets/libs/jquery/dist/jquery.js"></script>
-    <script src="assets/libs/jquery-ui/jquery-ui.min.js"></script>
+    <script src="assets/libs/jquery-ui/jquery-ui.js"></script>
     <script src="assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- <script src="assets/libs/lodash/dist/lodash.min.js"></script>  -->
     <script src="assets/js/es6-promise-2.0.1.min.js"></script>
 
     <!-- Angular & Plugins -->
@@ -66,32 +40,37 @@
     <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
     <!-- Data plugins -->
-    <!-- <script src="assets/js/FileSaver.min.js"></script> -->
-    <!-- <script src="assets/js/lawnchair-0.6.1.min.js"></script>
-    <script src="assets/js/lawnchair-query-0.6.1.js"></script> -->
     <script src="assets/js/angular-local-storage.min.js"></script>
     <script src="assets/libs/angular-currency-filter/src/currency-filter.js"></script>
     <script src="assets/libs/moment/min/moment.min.js"></script>
 
-    
     <!-- Application files -->
-     <script src="app/app.modules.js"></script>
+    <script src="app/app.modules.js"></script>
     <script src="app/app.routes.js"></script>
 
     <script src="app/components/login/loginController.js"></script>
     <script src="app/components/login/loginService.js"></script>
+
     <script src="app/components/signup/signupController.js"></script>
     <script src="app/components/signup/signupService.js"></script>
-    <script src="app/shared/navbar/navbarController.js"></script>
-
+    
     <script src="app/components/operation/operationController.js"></script>
     <script src="app/components/operation/operationService.js"></script>
     <script src="app/components/operation/operationDirective.js"></script>
-
-    <script src="app/shared/filters.js"></script>
-    <script src="app/shared/datePickerDirective.js"></script>
+    
     <script src="app/components/operation/period/periodService-db.js"></script>
     <script src="app/components/operation/period/periodDirectives.js"></script>
     <script src="app/components/operation/period/periodController.js"></script>
+    
+    <script src="app/components/category/categoryController.js"></script> 
+
+    <script src="app/shared/category/categoryController.js"></script>
+    <script src="app/shared/category/categoryService.js"></script>
+    
+    <script src="app/shared/navbar/navbarController.js"></script>
+    
+    <script src="app/shared/filters.js"></script>
+    
+    <script src="app/shared/datePickerDirective.js"></script>  
 
 </html>

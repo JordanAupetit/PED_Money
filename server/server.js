@@ -8,7 +8,12 @@ var application_root = __dirname,
 var database = require('./database')
 var apiUser = require('./api-user')
 var apiOperation = require('./api-operation')
+
+var apiCategory = require('./api-category')
+// var apiExpense = require('./api-expense')
+
 var apiPeriod = require('./api-period')
+
 // var apiTools = require('./api-tools')
 // var apiOther = require('./api-other')
 // var api = require('./api')
@@ -49,6 +54,8 @@ var userModel = database.getUserModel()
 apiUser(app, userModel , jwt)
 apiOperation(app, database.getOperationModel())
 apiPeriod(app, database.getPeriodModel())
+
+apiCategory(app, database.getCategoryModel(), database.getUserModel())
 
 
 
