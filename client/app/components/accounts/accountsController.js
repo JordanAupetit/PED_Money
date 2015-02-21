@@ -10,31 +10,22 @@
             var acc1 = {
                 name: "loisir",
                 type: "type 1",
-                solde:23456,
+                balance:23456,
                 currency: "EUR(€)"
             }
 
             var acc2 = {
                 name: "course",
                 type: "type 2",
-                solde: 3543 ,
+                balance: 3543 ,
                 currency: "USD($)"
-
-
             }
-            var acc3 = {
-                name: "course",
-                type: "type 2",
-                solde: 343 ,
-                currency: "USD($)"
 
 
-            }
+          
 
             AccountResource.add(acc1)
             AccountResource.add(acc2)
-            AccountResource.add(acc3)
-
 
 
             $scope.accountCreateModel = {};
@@ -43,21 +34,15 @@
                 AccountResource.getAll().$promise.then(function(accounts){
                     $scope.accounts = accounts
 
-                    $scope.solde = 0
+                    // $scope.solde = 0
 
-                    for(var i = 0; i < accounts.length; i++) {
-                        $scope.solde += accounts[i].solde
-                    }
+                    // for(var i = 0; i < accounts.length; i++) {
+                    //     $scope.solde += accounts[i].solde
+                    // }
                 })
             }
 
             getAccounts()
-            
-            /*  
-                ==== TODO ====
-                - Gérer les erreurs / champs vides dans le formulaire d'ajout d'operations
-
-            */
 
 
             $scope.addAccount = function() {
@@ -70,6 +55,15 @@
                 AccountResource.remove(idAccount).$promise.then(function(){
                     getAccounts()
                 })
+            }
+
+             $scope.updateAccount = function(account) {
+                account.editable = false
+                AccountResource.update(account)
+            }
+
+            $scope.showUpdateAccount = function(account) {
+                account.editable = true
             }
 
 

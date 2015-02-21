@@ -9,18 +9,25 @@
             getAll : {method:'GET', isArray:true},
             get : {method:'GET'},
             add : {method:'POST'},
-            delete : {method:'DELETE'}
+            delete : {method:'DELETE'},
+            update : {method : 'PUT'}
         })
 
         return {
             getAll: function(){
                 return accountResource.getAll()
             },
+            
             add: function(account){
                 accountResource.add(account)
             },
+            
             remove: function(accountId){
                 return accountResource.delete({id : accountId})
+            },
+
+            update: function(account){
+                accountResource.update(account)
             }
         }
     }])

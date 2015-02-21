@@ -36,7 +36,7 @@ var Schema = mongoose.Schema;
 var AccountSchema  = new Schema({
 	name: String,
 	type: String,
-	solde: Number,
+	balance: Number,
 	currency: String
 })
 

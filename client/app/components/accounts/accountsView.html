@@ -9,7 +9,7 @@
           <div class="form-group">
             <label class=" control-label" for="textinput">Account Name</label>  
             <div class="">
-              <input id="textinput" name="textinput" ng-model="accountCreateModel.name" placeholder="name" class="form-control input-md" type="text"> 
+              <input id="textinput" name="textinput" ng-model="accountCreateModel.name" placeholder="Account Name" class="form-control input-md" type="text"> 
             </div>
           </div>
 
@@ -18,7 +18,7 @@
           <div class="form-group">
             <label class=" control-label" for="selectbasic">Type</label>
             <div class="">
-              <select id="selectbasic" name="selectbasic" ng-model="accountCreateModel.type" class="form-control">
+              <select id="selectbasic" name="selectbasic" ng-model="accountCreateModel.type" class="form-control" >
                 <option value="1">Type 1</option>
                 <option value="2">Type 2</option>
               </select>
@@ -29,7 +29,7 @@
            <div class="form-group">
             <label class=" control-label" for="textinput">Account Balance</label>  
             <div class="">
-              <input id="textinput" name="textinput" ng-model="accountCreateModel.solde" placeholder="Account Balance" class="form-control input-md" type="text"> 
+              <input id="textinput" name="textinput" ng-model="accountCreateModel.balance" placeholder="Account Balance" class="form-control input-md" type="text"> 
             </div>
           </div>
 
@@ -37,8 +37,8 @@
             <label class=" control-label"  for="selectbasic">Currency</label>
             <div class="">
               <select id="selectbasic" name="selectbasic" ng-model="accountCreateModel.currency" class="form-control">
-                <option value="1">EUR($)</option>
-                <option value="2">USD(€)</option>
+                <option value="EUR($)"EUR($)>EUR(€)</option>
+                <option value="USD(€)">USD($)</option>
               </select>
             </div>
           </div>
@@ -58,7 +58,7 @@
   </div>
 
 
- <div ng-if="accounts.length > 0" class="mb20">
+<!--  <div ng-if="accounts.length > 0" class="mb20">
         <strong>Solde : </strong>
 
         <span ng-if="solde <= 0" class="colorRed">
@@ -68,7 +68,7 @@
             +{{ solde }}€
         </span>
 
-    </div>
+    </div> -->
 
     <table ng-if="accounts.length > 0" class="table table-bordered table-striped">
         <thead>
@@ -82,38 +82,56 @@
         </thead>
         <tbody>
             <tr ng-repeat="acc in accounts">
-                <td>{{ acc.name }}</td>
-                <td>{{ acc.type }}</td>
-                <span ng-if="acc.solde < 0" class="colorRed">
-                        {{ acc.solde }}
-                    </span>
+                <td>
+                        <span ng-hide="acc.editable"> {{ acc.name }}</span>
+                        <input ng-hide="!acc.editable" type="text" class="form-control" ng-model="acc.name">
                 </td>
                 <td>
-                    <span ng-if="acc.solde > 0" class="colorGreen">
-                        +{{ acc.solde }}
-                    </span>
+                    <span ng-hide="acc.editable"> {{ acc.type }}</span>
+                    <select ng-hide="!acc.editable" id="selectbasic" name="selectbasic" ng-model="acc.type" class="form-control">
+                        <option value="Type 1">Type 1</option>
+                        <option value="Type 2">Type 2</option>
+                        <option selected="true" style="display:none;">{{acc.type}}</option>
+                   </select>
                 </td>
-                <td>{{ acc.currency}}</td>
+
+                <td>
+                        <span ng-hide="acc.editable" ng-if="acc.balance < 0" class="colorRed"> {{ acc.balance}}</span>
+                       <!--  <input ng-hide="!acc.editable" type="text" class="form-control" ng-model="acc.solde"> -->
+                  
+              
+                        <span ng-hide="acc.editable" ng-if="acc.balance > 0" class="colorGreen"> {{ acc.balance }}</span>
+                        <input ng-hide="!acc.editable" type="text" class="form-control" ng-model="acc.balance">
+                    
+                </td>
+
+                <td>
+                  <span ng-hide="acc.editable"> {{ acc.currency }}</span>
+                  <select ng-hide="!acc.editable" id="selectbasic" name="selectbasic" ng-model="acc.currency" class="form-control">
+                <option value="EUR(€)">EUR(€)</option>
+                <option value="USD($)">USD($)</option>
+                <option selected="true" style="display:none;">{{acc.currency}}</option>
+              </select>
+                </td>
+
+
+
                 <td class="algcenter">
+                 <button ng-hide="!acc.editable" ng-click="updateAccount(acc)" class="btn btn-danger btn-xs">
+                        Save
+                    </button>
+                    <button ng-hide="acc.editable" ng-click="showUpdateAccount(acc)" class="btn btn-danger btn-xs">
+                        Edit
+                    </button>
                     <button ng-click="deleteAccount(acc._id)" class="btn btn-danger btn-xs">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
                 </td>
 
-                    
-              <!--   <td class="algcenter">
-                    <input ng-if="acc.checked" type="checkbox" checked>
-                    <input ng-if="acc.checked" type="checkbox">
-                </td> -->
-               <!--  <td class="algcenter">
-                    <button ng-click="deleteOperation(op._id)" class="btn btn-danger btn-xs">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </button>
-                </td> -->
             </tr>
         </tbody>
     </table>
 
-    <span ng-if="accounts.length <= 0">Il n'y a encore aucunes comptes sur ce compte.</span>
+    <span ng-if="accounts.length <= 0">Il n'y a encore aucuns comptes sur ce compte.</span>
 
 </div>

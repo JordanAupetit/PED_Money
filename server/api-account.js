@@ -4,9 +4,8 @@ module.exports = function (app, accountModel) {
     app.get('/api/account/:id', getAccount)
     app.post('/api/account/', addAccount)
     
-    // app.put('/api/operation/', getExpenseByTag)
+    app.put('/api/account/', updateAccount)
     app.delete('/api/account/:id', deleteAccount)
-    // app.post('/api/operation/:id', editOperation)
 
 
     function getAllAccounts(req, resp, next) {
@@ -26,7 +25,7 @@ module.exports = function (app, accountModel) {
 
     function getAccount(req, resp, next) {
         'use strict';
-        // var userId = req.get('X-User-Id');
+       
         var accountId = req.params.id;
 
         accountModel.findOne({_id: accountId}, function (err, coll) {
@@ -55,7 +54,6 @@ module.exports = function (app, accountModel) {
 
     function deleteAccount(req, res, next) {
         'use strict';
-        // var userId = req.get('X-User-Id');
         var accountId = req.params.id ;
         accountModel.remove({_id: accountId},function (err, results) {
             if (err) return next(err);
@@ -63,5 +61,18 @@ module.exports = function (app, accountModel) {
         })
     }
 
-    // TODO: UPDATE OPERATION
+    function updateAccount(req, res, next) {
+
+        var account = new accountModel(req.body)
+        var accountId = account._id
+        delete account._id
+
+        accountModel.findByIdAndUpdate(accountId, {$set: account}, function (err, qcm) {
+            if (err) return handleError(err);
+            res.send(qcm);
+        });
+    }
+
+
+
 }

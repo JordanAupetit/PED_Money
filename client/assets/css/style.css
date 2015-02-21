@@ -1,101 +1,5 @@
 
 
-.operation {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid rgba(131, 131, 131, 0.45);
-    margin-bottom: 5px;
-}
-
-
-
-
-
-
-/* === ALL === */ 
-
-.hideit {display:none;}
-
-.marginTop {margin-top:20px;}
-.marginNull {margin:0px;}
-
-.mg0 {margin:0px;}
-
-.mt10 {margin-top:10px;}
-.mt20 {margin-top:20px;}
-.mt30 {margin-top:30px;}
-.mt40 {margin-top:40px;}
-.mt50 {margin-top:50px;}
-.mt60 {margin-top:60px;}
-.mt70 {margin-top:70px;}
-
-.mb10 {margin-bottom:10px;}
-.mb20 {margin-bottom:20px;}
-.mb30 {margin-bottom:30px;}
-.mb40 {margin-bottom:40px;}
-.mb50 {margin-bottom:50px;}
-
-.ml10 {margin-left:10px;}
-.ml20 {margin-left:20px;}
-.ml30 {margin-left:30px;}
-.ml40 {margin-left:40px;}
-.ml50 {margin-left:50px;}
-.ml60 {margin-left:60px;}
-
-.mr5  {margin-right:5px;}
-.mr10 {margin-right:10px;}
-.mr20 {margin-right:20px;}
-.mr30 {margin-right:30px;}
-.mr40 {margin-right:40px;}
-
-.pt0  {padding-top:0px;}
-.pt55 {padding-top:55px;}
-
-.pb0 {padding-bottom:0px;}
-.pb55 {padding-bottom: 55px;}
-
-.pad10 {padding:10px;}
-
-.ftl {float:left;}
-.ftr {float:right;}
-
-.algcenter {text-align: center;}
-.algright {text-align: right;}
-.algleft {text-align: left;}
-.algjust {text-align: justify;}
-
-.ht55 {height:55px;}
-
-.wid50 {width:50px;}
-.wid100 {width:100px;}
-.wid150 {width:150px;}
-.wid200 {width:200px;}
-.wid300 {width:300px;}
-.wid400 {width:400px;}
-.wid400 {width:400px;}
-.wid500 {width:500px;}
-.wid600 {width:600px;}
-
-.fs10 {font-size:10px;}
-.fs12 {font-size:12px;}
-.fs14 {font-size:14px;}
-.fs16 {font-size:16px;}
-.fs18 {font-size:18px;}
-.fs20 {font-size:20px;}
-
-.nostyle {text-decoration: none; color:black;}
-.nostyle:hover {color:black;}
-
-.pointer {cursor:pointer;}
-
-.colorRed {color: red;}
-.colorGreen {color: green;}
-
-
-.margin-top-20{
-  margin-top: 20px;
-}
-
 /*body{
   background:url('http://www.wallpaperup.com/uploads/wallpapers/2012/08/30/12087/3574f899daef41d2f145eba13ff7840f.jpg');
   background-size:100% 100%;
@@ -103,7 +7,7 @@
   background-repeat:no-repeat;
   font-family: 'Open Sans', sans-serif;
   padding-bottom: 40px;
-}
+}*/
 .auth h1{
   color:#fff!important;
   font-weight:300;
@@ -276,72 +180,82 @@
   left:0!important;
   top: 1px!important;
 }
-*/
 
-#wrap{
-background-image: -ms-linear-gradient(top, #FFFFFF 0%, #D3D8E8 100%);
-/* Mozilla Firefox */ 
-background-image: -moz-linear-gradient(top, #FFFFFF 0%, #D3D8E8 100%);
-/* Opera */ 
-background-image: -o-linear-gradient(top, #FFFFFF 0%, #D3D8E8 100%);
-/* Webkit (Safari/Chrome 10) */ 
-background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #FFFFFF), color-stop(1, #D3D8E8));
-/* Webkit (Chrome 11+) */ 
-background-image: -webkit-linear-gradient(top, #FFFFFF 0%, #D3D8E8 100%);
-/* W3C Markup, IE10 Release Preview */ 
-background-image: linear-gradient(to bottom, #FFFFFF 0%, #D3D8E8 100%);
-background-repeat: no-repeat;
-background-attachment: fixed;
-}
-legend{
-	color:#141823;
-	font-size:25px;
-	font-weight:bold;
-}
-.signup-btn {
-  background: #79bc64;
-  background-image: -webkit-linear-gradient(top, #79bc64, #578843);
-  background-image: -moz-linear-gradient(top, #79bc64, #578843);
-  background-image: -ms-linear-gradient(top, #79bc64, #578843);
-  background-image: -o-linear-gradient(top, #79bc64, #578843);
-  background-image: linear-gradient(to bottom, #79bc64, #578843);
-  -webkit-border-radius: 4;
-  -moz-border-radius: 4;
-  border-radius: 4px;
-  text-shadow: 0px 1px 0px #898a88;
-  -webkit-box-shadow: 0px 0px 0px #a4e388;
-  -moz-box-shadow: 0px 0px 0px #a4e388;
-  box-shadow: 0px 0px 0px #a4e388;
-  font-family: Arial;
-  color: #ffffff;
-  font-size: 20px;
-  padding: 10px 20px 10px 20px;
-  border: solid #3b6e22  1px;
-  text-decoration: none;
-}
 
-.signup-btn:hover {
-  background: #79bc64;
-  background-image: -webkit-linear-gradient(top, #79bc64, #5e7056);
-  background-image: -moz-linear-gradient(top, #79bc64, #5e7056);
-  background-image: -ms-linear-gradient(top, #79bc64, #5e7056);
-  background-image: -o-linear-gradient(top, #79bc64, #5e7056);
-  background-image: linear-gradient(to bottom, #79bc64, #5e7056);
-  text-decoration: none;
-}
-.navbar-default .navbar-brand{
-		color:#fff;
-		font-size:30px;
-		font-weight:bold;
-	}
-.form .form-control { margin-bottom: 10px; }
-@media (min-width:768px) {
-	#home{
-		margin-top:50px;
-	}
-	#home .slogan{
-		color: #0e385f;
-		line-height: 29px;
-		font-weight:bold;
-	}
-}
+.hideit {display:none;}
+
+.marginTop {margin-top:20px;}
+.marginNull {margin:0px;}
+
+.mg0 {margin:0px;}
+
+.mt10 {margin-top:10px;}
+.mt20 {margin-top:20px;}
+.mt30 {margin-top:30px;}
+.mt40 {margin-top:40px;}
+.mt50 {margin-top:50px;}
+.mt60 {margin-top:60px;}
+.mt70 {margin-top:70px;}
+
+.mb10 {margin-bottom:10px;}
+.mb20 {margin-bottom:20px;}
+.mb30 {margin-bottom:30px;}
+.mb40 {margin-bottom:40px;}
+.mb50 {margin-bottom:50px;}
+
+.ml10 {margin-left:10px;}
+.ml20 {margin-left:20px;}
+.ml30 {margin-left:30px;}
+.ml40 {margin-left:40px;}
+.ml50 {margin-left:50px;}
+.ml60 {margin-left:60px;}
+
+.mr5  {margin-right:5px;}
+.mr10 {margin-right:10px;}
+.mr20 {margin-right:20px;}
+.mr30 {margin-right:30px;}
+.mr40 {margin-right:40px;}
+
+.pt0  {padding-top:0px;}
+.pt55 {padding-top:55px;}
+
+.pb0 {padding-bottom:0px;}
+.pb55 {padding-bottom: 55px;}
+
+.pad10 {padding:10px;}
+
+.ftl {float:left;}
+.ftr {float:right;}
+
+.algcenter {text-align: center;}
+.algright {text-align: right;}
+.algleft {text-align: left;}
+.algjust {text-align: justify;}
+
+.ht55 {height:55px;}
+
+.wid50 {width:50px;}
+.wid100 {width:100px;}
+.wid150 {width:150px;}
+.wid170 {width:170px;}
+.wid200 {width:200px;}
+.wid300 {width:300px;}
+.wid400 {width:400px;}
+.wid400 {width:400px;}
+.wid500 {width:500px;}
+.wid600 {width:600px;}
+
+.fs10 {font-size:10px;}
+.fs12 {font-size:12px;}
+.fs14 {font-size:14px;}
+.fs16 {font-size:16px;}
+.fs18 {font-size:18px;}
+.fs20 {font-size:20px;}
+
+.nostyle {text-decoration: none; color:black;}
+.nostyle:hover {color:black;}
+
+.pointer {cursor:pointer;}
+
+.colorRed {color: red;}
+.colorGreen {color: green;}
