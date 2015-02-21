@@ -2,14 +2,14 @@
 <div class="container">
 
     <div class="mb20">
-        <input datepicker type="text" ng-model="operationCreateModel.dateOperation" class="form-control mb10 wid170 ftl mr10" placeholder="Date de l'opération">
+        <input mydatepicker type="text" ng-model="operationCreateModel.dateOperation" class="form-control mb10 wid170 ftl mr10" placeholder="Date de l'opération"> 
 
         <!-- TODO 
 
         Ajouter une case à cocher pour faire apparaitre ou non l'input de la date prélèvement
         -->
 
-        <input datepicker type="text" ng-model="operationCreateModel.datePrelevement" class="form-control mb10 wid170 ftl mr10" placeholder="Date du prélèvement">
+        <input mydatepicker type="text" ng-model="operationCreateModel.datePrelevement" class="form-control mb10 wid170 ftl mr10" placeholder="Date du prélèvement"> 
         <input type="text" ng-model="operationCreateModel.description" class="form-control mb10 wid200 ftl mr10" placeholder="Description">
         <input type="text" ng-model="operationCreateModel.thirdParty" class="form-control mb10 wid150 ftl mr10" placeholder="Tiers">
         <input type="text" ng-model="operationCreateModel.type" class="form-control mb10 wid150 ftl mr10" placeholder="Type">
@@ -46,12 +46,12 @@
         <tbody>
             <tr ng-repeat="op in operations">
                 <td class="wid150">
-                    <span ng-hide="op.editable">{{ op.dateOperation }}</span>
-                    <input ng-hide="!op.editable" datepicker type="text" class="form-control" ng-model="op.dateOperation">
+                    <span ng-hide="op.editable">{{ op.dateOperation | date2:'dd/MM/yyyy' }}</span>
+                    <input ng-hide="!op.editable" mydatepicker type="text" class="form-control" ng-model="op.dateOperation">
                 </td>
                 <td>
-                    <span ng-hide="op.editable">{{ op.datePrelevement }}</span>
-                    <input ng-hide="!op.editable" datepicker type="text" class="form-control" ng-model="op.datePrelevement">
+                    <span ng-hide="op.editable">{{ op.datePrelevement | date2:'dd/MM/yyyy' }}</span>
+                    <input ng-hide="!op.editable" mydatepicker type="text" class="form-control" ng-model="op.datePrelevement">
                 </td>
                 <td>
                     <span ng-hide="op.editable">{{ op.description }}</span>

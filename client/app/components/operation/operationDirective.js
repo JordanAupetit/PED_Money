@@ -6,7 +6,7 @@
     'use strict';
 
     angular.module('appModule')
-        .directive('datepicker', function () {
+        .directive('mydatepicker', function () {
             return {
                 restrict: 'AE',
                 replace: false,

@@ -12,8 +12,10 @@
                 description: "Règlement des courses",
                 type: "Chèque",
                 checked: false,
-                dateOperation: "20/01/2015",
-                datePrelevement: "25/01/2015",
+                // dateOperation: "20/01/2015",
+                // datePrelevement: "25/01/2015",
+                dateOperation: new Date(2015, 0, 20),
+                datePrelevement: new Date(2015, 0, 25),
                 categoryId: "54684654dqs",
                 subOperations: []
             }
@@ -24,8 +26,10 @@
                 description: "Argent de poche",
                 type: "Virement",
                 checked: true,
-                dateOperation: "01/01/2015",
-                datePrelevement: "12/01/2015",
+                // dateOperation: "01/01/2015",
+                // datePrelevement: "12/01/2015",
+                dateOperation: new Date(2015, 0, 1),
+                datePrelevement: new Date(2015, 0, 12),
                 categoryId: "eza5484654dqs",
                 subOperations: []
             }
