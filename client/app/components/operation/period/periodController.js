@@ -32,7 +32,7 @@
 							})
 						}
 					} else {
-						for (var i = 0; i < period.nbRepeat; i++) {
+						for (var i = 1; i < period.nbRepeat; i++) {
 							var proj = {
 								date: date.add(1 * period.step, period.intervalType).clone().toDate(),
 								amount: period.amount
@@ -52,7 +52,7 @@
 				 * @Return {Date} The date of the end of the periodic operation
 				 */
 				computeEndDate: function(period) {
-					return moment(period.dateBegin).add(period.nbRepeat * period.step, period.intervalType).toDate()
+					return moment(period.dateBegin).add(period.nbRepeat+1 * period.step, period.intervalType).toDate()
 				}
 			}
 		})
@@ -137,7 +137,7 @@
 				name: '',
 				dateBegin: undefined,
 				dateEnd: undefined,
-				nbRepeat: undefined,
+				nbRepeat: 1,
 				step: 1,
 				intervalType: intervalType[2],
 				amount: undefined,
@@ -207,7 +207,11 @@
 			}
 		}
 
+
 		resetAddForm()
+
+
+
 
 
 		// Watchers for the projection
@@ -215,7 +219,7 @@
 		$scope.$watch('periodTmp.step', prepareProjection)
 		$scope.$watch('periodTmp.dateBegin', prepareProjection)
 		$scope.$watch('periodTmp.isInfinite', prepareProjection)
-		$scope.$watch('periodTmp.dateEnd', prepareProjection)
+		// $scope.$watch('periodTmp.dateEnd', prepareProjection)
 		$scope.$watch('periodTmp.nbRepeat', prepareProjection)
 		$scope.$watch('periodTmp.amount', prepareProjection)
 	}
@@ -242,7 +246,7 @@
 		}, {
 			type: 'year',
 			value: 365,
-			code: 'Y'
+			code: 'y'
 		}]
 		$scope.intervalType = intervalType
 
@@ -298,6 +302,14 @@
 			refresh()
 		}
 
+
+		$scope.addData = function(){
+			periodService.init().then(function(){
+				refresh()
+			})
+			
+		}
+
 		/**
 		 * @Description
 		 * Refresh the page
@@ -317,6 +329,8 @@
 			})
 
 		}
+
+		$scope.refresh = refresh
 
 		// Controller initialisation
 		refresh()

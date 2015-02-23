@@ -31,7 +31,7 @@
 			</div>
 			<div class="form-group" ng-class="{ 'has-error' : (periodForm.dateBegin.$invalid || periodForm.dateBegin.$error.date) && !periodForm.dateBegin.$pristine }">
 				<label>Date begin</label>
-				<input type="date" name="dateBegin" class="form-control"  ng-model="periodTmp.dateBegin" date-before before="{{periodTmp.dateEnd}}" required>
+				<input type="date" name="dateBegin" class="form-control"  ng-model="periodTmp.dateBegin"  required> <!-- date-before before="{{periodTmp.dateEnd}}" -->
 				<p ng-show="periodForm.dateBegin.$error.required && !periodForm.dateBegin.$pristine" class="help-block">Date begin is required.</p>
 				<p ng-show="periodForm.dateBegin.$error.date" class="help-block">Date begin must be before of date end.</p>
 						<!--                 <p class=""> invalid: {{periodForm.dateBegin.$invalid}} 
@@ -40,12 +40,12 @@
 						</p> -->
 						<p class=""><input type="checkbox" ng-change="setInfinite()" name="isInfinite" ng-model="periodTmp.isInfinite"> Infinite</p> <!--  -->
 					</div>
-					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : (periodForm.dateEnd.$invalid || periodForm.dateEnd.$error.date) && !periodForm.dateEnd.$pristine }">
+<!-- 					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : (periodForm.dateEnd.$invalid || periodForm.dateEnd.$error.date) && !periodForm.dateEnd.$pristine }">
 						<label>Date end</label>
 						<input ng-change="computeRepeatDate()" type="date" name="dateEnd" class="form-control"  ng-model="periodTmp.dateEnd"  date-after after="{{periodTmp.dateBegin}}" ng-disabled="periodTmp.isInfinite" required>
 						<p ng-show="periodForm.dateEnd.$error.required && !periodForm.dateEnd.$pristine && !periodTmp.isInfinite" class="help-block">Date end is required.</p>
 						<p ng-show="periodForm.dateEnd.$error.date" class="help-block">Date end must be after of date begin.</p>
-					</div>
+					</div> -->
 					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : periodForm.nbRepeat.$invalid && !periodForm.nbRepeat.$pristine && !periodTmp.isInfinite}">
 						<label>Occurrency</label>
 						<input ng-change="computeDateRepeat()" type="number" name="nbRepeat" class="form-control"  ng-model="periodTmp.nbRepeat" ng-disabled="periodTmp.isInfinite"  min="1" required> 
@@ -102,14 +102,17 @@
 
 <div class="container">
 
-	<h2>Periodic operation</h2>
+	<h2>Periodic operation 
+		<a type="button" ng-click="addData()" class="btn btn-warning btn-xs" role="button">Add data</a> 
+		<a type="button" ng-click="refresh()" class="btn btn-warning btn-xs" role="button">Refresh</a>
+	</h2>
 	<table class="table">
 		<thead>
 			<tr>
 				<th data-field="name">Name</th>
 				<th data-field="dateBegin">Date Begin</th>
 				<th data-field="dateEnd">Date End</th>
-				<th data-field="nbRepeat">Number of Repeat</th>
+				<th data-field="nbRepeat">Occurrency</th>
 				<th data-field="step">Step</th>
 				<th data-field="intervalType">Interval type</th>
 				<th data-field="amount">Amount</th>
