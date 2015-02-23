@@ -436,8 +436,42 @@ section .md-button {
 
 
 
+.circle {
+    /* background-color: #c06;
+    color: white;
+    padding: 20px;
+    height: 55px;
+    width: 55px; */
+ /* height: 150px;
+ -moz-border-radius:75px;
+ -webkit-border-radius: 75px;
+ width: 150px; */
 
+    background-color: #db4437;
+    height: 56px;
+    width: 56px;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
 
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 4px rgba(0,0,0,.14),0 4px 8px rgba(0,0,0,.28);
+    box-sizing: content-box;
+    cursor: pointer;
+    outline: none;
+    padding: 0;
+    pointer-events: auto;
+    -webkit-user-drag: none;
+}
+
+.circle span {
+    color: white;
+    position: relative;
+    left: 20px;
+    top: 18px;
+    font-size: 18px;
+}
 
 
 

@@ -95,7 +95,7 @@
                     <button ng-hide="op.editable" ng-click="showUpdateOperation(op)" class="showUpdateOperation btn btn-warning btn-xs">
                         Edit
                     </button>
-                    <button ng-click="deleteOperation(op._id)" class="btn btn-danger btn-xs">
+                    <button ng-click="deleteOperation(op._id, $index)" class="btn btn-danger btn-xs">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
                 </td>
@@ -108,3 +108,45 @@
 </div>
 
 <div ng-include src="'/app/shared/category/categoryView.html'"/>
+
+<div tooltip class="circle" data-toggle="modal" data-placement="left" title="Add operation" data-target=".modal-operation">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+</div>
+
+<div class="modal fade modal-operation" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <md-input-container flex="" class="md-default-theme">
+                    <label for="input_03G">Operation date</label>
+                    <input mydatepicker ng-model="operationCreateModel.dateOperation" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                    <div class="md-placeholder"></div>
+                </md-input-container>
+
+                <md-input-container flex="" class="md-default-theme">
+                    <label for="input_03G">Levy date</label>
+                    <input mydatepicker ng-model="operationCreateModel.datePrelevement" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                    <div class="md-placeholder"></div>
+                </md-input-container>
+
+                <md-input-container flex="" class="md-default-theme">
+                    <label for="input_03G">Levy date</label>
+                    <input mydatepicker ng-model="operationCreateModel.datePrelevement" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                    <div class="md-placeholder"></div>
+                </md-input-container>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                <button class="btn btn-default">Advanced</button>
+                <button type="button" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

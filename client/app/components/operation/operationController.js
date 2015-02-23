@@ -87,7 +87,7 @@
             /*  
                 ==== TODO ====
                 - Gérer les erreurs / champs vides dans le formulaire d'ajout d'operations
-
+                - Peut etre virer les GetOperations() qui ralentissent la page
             */
 
 
@@ -97,9 +97,11 @@
                 getOperations()
             }
 
-            $scope.deleteOperation = function(idOperation) {
+            $scope.deleteOperation = function(idOperation, index) {
                 OperationResource.remove(idOperation).$promise.then(function(){
-                    getOperations()
+                    //getOperations()
+                    $scope.operations.splice(index, 1)
+                    updateSolde();
                 })
             }
 

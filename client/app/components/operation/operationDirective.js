@@ -14,4 +14,15 @@
             };
         })
 
+        .directive('tooltip', function () {
+            return {
+                restrict: 'AE',
+                replace: false,
+                transclude: false,
+                link: function (scope, element, attrs) {
+                    $(element).tooltip()
+                }
+            };
+        })
+
 })();
