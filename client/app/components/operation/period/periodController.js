@@ -52,7 +52,7 @@
 				 * @Return {Date} The date of the end of the periodic operation
 				 */
 				computeEndDate: function(period) {
-					return moment(period.dateBegin).add(period.nbRepeat+1 * period.step, period.intervalType).toDate()
+					return moment(period.dateBegin).add((period.nbRepeat-1) * period.step, period.intervalType).toDate()
 				}
 			}
 		})
