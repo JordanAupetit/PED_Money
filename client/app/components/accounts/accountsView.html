@@ -126,6 +126,9 @@
                         <button ng-click="deleteAccount(acc._id)" class="btn btn-danger btn-xs">
                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                         </button>
+                        <button  ui-sref="operation({accountId : acc._id})" class="btn btn-info btn-xs">
+                            GO
+                        </button>
                     </td>
 
                 </tr>

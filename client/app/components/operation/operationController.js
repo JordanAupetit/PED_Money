@@ -4,39 +4,16 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', 'OperationResource', 'CategoryResource', function($scope, OperationResource, CategoryResource) {
-
-            var op1 = {
-                value: -50,
-                thirdParty: "Auchan",
-                description: "Règlement des courses",
-                type: "Chèque",
-                checked: false,
-                // dateOperation: "20/01/2015",
-                // datePrelevement: "25/01/2015",
-                dateOperation: new Date(2015, 0, 20),
-                datePrelevement: new Date(2015, 0, 25),
-                categoryId: "54684654dqs",
-                subOperations: []
-            }
-
-            var op2 = {
-                value: 100,
-                thirdParty: "Maman",
-                description: "Argent de poche",
-                type: "Virement",
-                checked: true,
-                // dateOperation: "01/01/2015",
-                // datePrelevement: "12/01/2015",
-                dateOperation: new Date(2015, 0, 1),
-                datePrelevement: new Date(2015, 0, 12),
-                categoryId: "eza5484654dqs",
-                subOperations: []
-            }
+        .controller('OperationController', ['$scope', 'OperationResource', 'CategoryResource', 'initService', '$state', OperationController])
 
 
-            OperationResource.add(op1)
-            OperationResource.add(op2)
+        function OperationController($scope, OperationResource, CategoryResource, initService, $state) {
+
+            var accountId = $state.params.accountId
+            // console.log($state.params.accountId)
+            // initService.populateOperation(accountId)
+            // initService.populateOperation('other')
+            
 
 
             $scope.editable = false
@@ -44,7 +21,7 @@
 
 
             var getOperations = function() {
-                OperationResource.getAll().$promise.then(function(operations){
+                OperationResource.getAll(accountId).$promise.then(function(operations){
                     $scope.operations = operations
 
                     updateSolde()
@@ -117,6 +94,6 @@
                 operation.editable = true
             }
 
-        }]);
+        }
 
 })();

@@ -31,14 +31,6 @@
         }
       })
 
-      .state('compte', {
-        url: '/compte',
-        templateUrl: 'app/components/compte/compte.html',
-        data: {
-          requireLogin: true
-        }
-      })
-
       .state('accounts', {
         url: '/accounts',
         templateUrl: 'app/components/accounts/accountsView.html',
@@ -49,7 +41,7 @@
       })
 
       .state('operation', {
-        url: '/operation',
+        url: '/:accountId/operation/',
         templateUrl: 'app/components/operation/operationView.html',
         controller: 'OperationController',
         data: {
