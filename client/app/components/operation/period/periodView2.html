@@ -1,0 +1,208 @@
+<!-- periodeView.html -->
+<script type="text/ng-template" id="periodModalContent.html">
+	<div class="modal-header">
+		<h3 class="modal-title">Add periodic operation</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-6">
+
+				<form name="periodForm" class="" ng-submit="submitForm(periodForm.$valid)" >
+					<div class="form-group" ng-class="{ 'has-error' : periodForm.name.$invalid && !periodForm.name.$pristine }">
+						<label>Name</label>
+						<input type="text" name="name" class="form-control"  ng-model="periodTmp.name" ng-minlength="3" ng-maxlength="50"required>
+						<p ng-show="periodForm.name.$error.required && !periodForm.name.$pristine" class="help-block">A name is required.</p>
+						<p ng-show="periodForm.name.$error.minlength" class="help-block">Name is too short.</p>
+						<p ng-show="periodForm.name.$error.maxlength" class="help-block">Name is too long.</p>
+						<!-- <p class=""> invalid :{{periodForm.name.$invalid}} pristine: {{!periodForm.name.$pristine}}</p> -->
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : periodForm.intervalType.$invalid && !periodForm.intervalType.$pristine }">
+						<label>Period</label>
+						<select name="intervalType" class="form-control" ng-model="periodTmp.intervalType" ng-options="interval as interval.type for interval in intervalType" required></select>
+						<p ng-show="periodForm.intervalType.$invalid && !periodForm.intervalType.$pristine" class="help-block">Period is required.</p> <!-- Useless -->
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : periodForm.step.$invalid && !periodForm.step.$pristine }">
+						<label>Period step</label>
+						<input type="number" class="form-control" name="step" ng-model="periodTmp.step" min="1" required>
+						<p ng-show="periodForm.step.$error.required && !periodForm.step.$pristine" class="help-block">Period step is required.</p>
+						<p ng-show="periodForm.step.$error.min" class="help-block">Period step must be superior of 0.</p>
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : (periodForm.dateBegin.$invalid || periodForm.dateBegin.$error.date) && !periodForm.dateBegin.$pristine }">
+						<label>Date begin</label>
+						<input type="date" name="dateBegin" class="form-control"  ng-model="periodTmp.dateBegin"  required> <!-- date-before before="{{periodTmp.dateEnd}}" -->
+						<p ng-show="periodForm.dateBegin.$error.required && !periodForm.dateBegin.$pristine" class="help-block">Date begin is required.</p>
+						<p ng-show="periodForm.dateBegin.$error.date" class="help-block">Date begin must be before of date end.</p>
+						<!--                 <p class=""> invalid: {{periodForm.dateBegin.$invalid}}
+						pristine: {{!periodForm.dateBegin.$pristine}}
+						error: {{periodForm.dateBegin.$error}}
+						</p> -->
+						<p class=""><input type="checkbox" ng-change="setInfinite()" name="isInfinite" ng-model="periodTmp.isInfinite"> Infinite</p> <!--  -->
+					</div>
+						<!-- 					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : (periodForm.dateEnd.$invalid || periodForm.dateEnd.$error.date) && !periodForm.dateEnd.$pristine }">
+							<label>Date end</label>
+							<input ng-change="computeRepeatDate()" type="date" name="dateEnd" class="form-control"  ng-model="periodTmp.dateEnd"  date-after after="{{periodTmp.dateBegin}}" ng-disabled="periodTmp.isInfinite" required>
+							<p ng-show="periodForm.dateEnd.$error.required && !periodForm.dateEnd.$pristine && !periodTmp.isInfinite" class="help-block">Date end is required.</p>
+							<p ng-show="periodForm.dateEnd.$error.date" class="help-block">Date end must be after of date begin.</p>
+						</div> -->
+					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : periodForm.nbRepeat.$invalid && !periodForm.nbRepeat.$pristine && !periodTmp.isInfinite}">
+						<label>Occurrency</label>
+						<input ng-change="computeDateRepeat()" type="number" name="nbRepeat" class="form-control"  ng-model="periodTmp.nbRepeat" ng-disabled="periodTmp.isInfinite"  min="1" required>
+						<p ng-show="periodForm.nbRepeat.$error.required && !periodForm.nbRepeat.$pristine" class="help-block">Nb repeat is required.</p>
+						<p ng-show="periodForm.nbRepeat.$error.min && !periodTmp.isInfinite " class="help-block">Nb repeat must be superior of 0.</p>
+
+					</div>
+					<div class="form-group" ng-class="{ 'has-error' : periodForm.amount.$invalid && !periodForm.amount.$pristine }">
+						<label>Amount</label>
+						<input type="number" name="amount" class="form-control"  ng-model="periodTmp.amount" required>
+						<p ng-show="periodForm.amount.$invalid && !periodForm.amount.$pristine" class="help-block">Amount is required.</p>
+					</div>
+					<div class="form-group">
+						<!-- <a ng-show="isAdding" type="button" ng-click="addValid()" class="btn btn-info" role="button">Ok</a> -->
+						<!-- <button type="submit" class="mt30 btn btn-primary" ng-disabled="periodForm.$invalid">Ok</button> -->
+					</div>
+					<!--             <p class="">
+						invalid :{{periodForm.$invalid}}
+						error :{{periodForm.$error}}
+					</p> -->
+				</form>
+			</div>
+			<div class="col-md-6">
+				<!-- <h3>Projection of this operation</h3> -->
+				<table class="table" ng-show="projection !== undefinded">
+					<thead>
+						<tr>
+							<!-- <th data-field="name">Name</th> -->
+							<th data-field="date">Date</th>
+							<th data-field="amount">Amount</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="operation in projection">
+							<td>{{operation.date | date2:'dd/MM/yyyy'}}</td>
+							<td>{{operation.amount | currency:'€':0:true}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-primary" ng-click="submitForm(periodForm.$valid)" ng-disabled="periodForm.$invalid">OK</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div>
+</script>
+<div layout="column"> <!-- class="container" -->
+	<h2>Periodic operation
+		<a type="button" ng-click="addData()" class="btn btn-warning btn-xs" role="button">Add data</a>
+		<a type="button" ng-click="refresh()" class="btn btn-warning btn-xs" role="button">Refresh</a>
+	</h2>
+
+	<div layout="row" flex ng-click="toggleSearch = false">
+		<div layout="column" flex id="content">
+			<md-content layout="column" flex >
+<!-- 				<md-table headers="headers" content="content" sortable="sortable" filters="search" custom-class="custom" thumbs="thumbs" count="count">
+
+
+				</md-table> -->
+				<table class="md-table">
+					<thead>
+						<tr class="md-table-headers-row">
+							<th class="md-table-header" ng-repeat="h in headers">
+								<a href ng-if="handleSort(h.field)" ng-click="reverse=!reverse;order(h.field,reverse)">
+									{{h.name}} 
+									<span  class="md-table-caret" ng-show="reverse && h.field == predicate">
+										<img src="https://google.github.io/material-design-icons/navigation/svg/ic_arrow_drop_up_24px.svg">
+									</span>
+									<span  class="md-table-caret" ng-show="!reverse && h.field == predicate">
+										<img src="https://google.github.io/material-design-icons/navigation/svg/ic_arrow_drop_down_24px.svg">
+									</span>
+								</a>
+								<span ng-if="!handleSort(h.field)">
+									{{h.name}}
+								</span>
+							</th>
+							<th class="md-table-header">
+								
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<!-- <tr class="md-table-content-row" ng-repeat="c in content | filter:filters | startFrom:currentPage*count | limitTo: count"> -->
+						<tr class="md-table-content-row" ng-repeat="c in periods">
+							<td ng-repeat="h in headers" ng-if="h.field == thumbs" class="md-table-thumbs">
+								<div ng-if="h.field == thumbs" style="background-image:url({{c.thumb}})"></div>
+							</td>
+<!-- 							<td class="md-table-thumbs">
+								<div ></div>
+							</td> -->
+<!-- 							<td class="md-table-content" ng-repeat="h in headers" ng-class="custom[h.field]" ng-if="h.field != thumbs">
+								{{h.field}}
+								{{c[h.field]}}
+							</td> -->
+							<td>{{c.name}}</td>
+							<td>{{c.dateBegin | date2:'dd/MM/yyyy'}}</td>
+							<td>{{c.dateEnd | date2:'dd/MM/yyyy'}}</td>
+							<td>{{c.nbRepeat | repeat}}</td>
+							<td>{{c.step}}</td>
+							<td>{{c.intervalType | period}}</td>
+							<td>{{c.amount | currency:'€':0:true}}</td>
+							<td> 
+								<a type="button" ng-click="remove(c)" class="btn btn-danger btn-xs" role="button">X</a>
+								<a type="button" ng-click="makeProjection(c)" class="btn btn-info btn-xs" role="button">P</a>
+							</td>
+<!-- 							<td class="md-table-td-more">
+								<md-button>
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+										<path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+									</svg>
+								</md-button>
+							</td> -->
+						</tr>
+					</tbody>
+				</table>
+			</md-content>
+		</div>
+	</div>
+
+
+<!-- 	<div layout="row" flex="" ng-click="toggleSearch = false" tabindex="0">
+	<div layout="column" flex="" id="content">
+		<md-content layout="column" flex="" class="md-default-theme">
+			<md-table headers="headers" content="content" sortable="sortable" filters="search" custom-class="custom" thumbs="thumbs" count="count" class="ng-isolate-scope"><table class="md-table">
+				<thead>
+					<tr class="md-table-headers-row">ngRepeat: h in headers
+						<th class="md-table-header ng-scope" ng-repeat="h in headers">ngIf: handleSort(h.field)ngIf: !handleSort(h.field)
+							<span ng-if="!handleSort(h.field)" class="ng-binding ng-scope">
+								
+							</span>end ngIf: !handleSort(h.field)
+						</th>end ngRepeat: h in headers
+						<th class="md-table-header ng-scope" ng-repeat="h in headers">ngIf: handleSort(h.field)
+							<a href="" ng-if="handleSort(h.field)" ng-click="reverse=!reverse;order(h.field,reverse)" class="ng-binding ng-scope" tabindex="0">Name <span class="md-table-caret ng-hide" ng-show="reverse &amp;&amp; h.field == predicate" aria-hidden="true"><img src="https://google.github.io/material-design-icons/navigation/svg/ic_arrow_drop_up_24px.svg"></span><span class="md-table-caret" ng-show="!reverse &amp;&amp; h.field == predicate" aria-hidden="false"><img src="https://google.github.io/material-design-icons/navigation/svg/ic_arrow_drop_down_24px.svg"></span></a>end ngIf: handleSort(h.field)ngIf: !handleSort(h.field)
+						</th>end ngRepeat: h in headers
+						<th class="md-table-header ng-scope" ng-repeat="h in headers">ngIf: handleSort(h.field)<a href="" ng-if="handleSort(h.field)" ng-click="reverse=!reverse;order(h.field,reverse)" class="ng-binding ng-scope" tabindex="0">Description <span class="md-table-caret ng-hide" ng-show="reverse &amp;&amp; h.field == predicate" aria-hidden="true"><img src="https://google.github.io/material-design-icons/navigation/svg/ic_arrow_drop_up_24px.svg"></span><span class="md-table-caret ng-hide" ng-show="!reverse &amp;&amp; h.field == predicate" aria-hidden="true"><img src="https://google.github.io/material-design-icons/navigation/svg/ic_arrow_drop_down_24px.svg"></span></a>end ngIf: handleSort(h.field)ngIf: !handleSort(h.field)
+						</th>end ngRepeat: h in headers
+						<th class="md-table-header ng-scope" ng-repeat="h in headers">ngIf: handleSort(h.field)<a href="" ng-if="handleSort(h.field)" ng-click="reverse=!reverse;order(h.field,reverse)" class="ng-binding ng-scope" tabindex="0">Last Modified <span class="md-table-caret ng-hide" ng-show="reverse &amp;&amp; h.field == predicate" aria-hidden="true"><img src="https://google.github.io/material-design-icons/navigation/svg/ic_arrow_drop_up_24px.svg"></span><span class="md-table-caret ng-hide" ng-show="!reverse &amp;&amp; h.field == predicate" aria-hidden="true"><img src="https://google.github.io/material-design-icons/navigation/svg/ic_arrow_drop_down_24px.svg"></span></a>end ngIf: handleSort(h.field)ngIf: !handleSort(h.field)
+
+
+
+				</th>end ngRepeat: h in headers<th class="md-table-header"></th></tr></thead><tbody>ngRepeat: c in content | filter:filters | startFrom:currentPage*count | limitTo: count<tr class="md-table-content-row ng-scope" ng-repeat="c in content | filter:filters | startFrom:currentPage*count | limitTo: count">ngRepeat: h in headersngIf: h.field == thumbs<td ng-repeat="h in headers" ng-if="h.field == thumbs" class="md-table-thumbs ng-scope">ngIf: h.field == thumbs<div ng-if="h.field == thumbs" style="background-image:url(http://www.otakia.com/wp-content/uploads/V_1/article_3573/7405.jpg)" class="ng-scope"></div>end ngIf: h.field == thumbs</td>end ngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngRepeat: h in headersngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope bold" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">AT-AT</td>end ngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope grey" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">Robot</td>end ngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope grey" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">Jun 5, 2014</td>end ngIf: h.field != thumbsend ngRepeat: h in headers<td class="md-table-td-more"><button class="md-button md-default-theme" ng-transclude=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ng-scope"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg></button></td></tr>end ngRepeat: c in content | filter:filters | startFrom:currentPage*count | limitTo: count<tr class="md-table-content-row ng-scope" ng-repeat="c in content | filter:filters | startFrom:currentPage*count | limitTo: count">ngRepeat: h in headersngIf: h.field == thumbs<td ng-repeat="h in headers" ng-if="h.field == thumbs" class="md-table-thumbs ng-scope">ngIf: h.field == thumbs<div ng-if="h.field == thumbs" style="background-image:url(https://lh3.googleusercontent.com/-5NfcdlvGQhs/AAAAAAAAAAI/AAAAAAAAABY/ibGrApGYTuQ/photo.jpg)" class="ng-scope"></div>end ngIf: h.field == thumbs</td>end ngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngRepeat: h in headersngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope bold" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">Bruno Mars</td>end ngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope grey" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">Human</td>end ngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope grey" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">Jun 5, 2014</td>end ngIf: h.field != thumbsend ngRepeat: h in headers<td class="md-table-td-more"><button class="md-button md-default-theme" ng-transclude=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ng-scope"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg></button></td></tr>end ngRepeat: c in content | filter:filters | startFrom:currentPage*count | limitTo: count<tr class="md-table-content-row ng-scope" ng-repeat="c in content | filter:filters | startFrom:currentPage*count | limitTo: count">ngRepeat: h in headersngIf: h.field == thumbs<td ng-repeat="h in headers" ng-if="h.field == thumbs" class="md-table-thumbs ng-scope">ngIf: h.field == thumbs<div ng-if="h.field == thumbs" style="background-image:url(http://25.media.tumblr.com/61ebf04c3cc7a84944aa0246e902f2a7/tumblr_mm35b87dGz1qmwrnuo1_1280.jpg)" class="ng-scope"></div>end ngIf: h.field == thumbs</td>end ngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngIf: h.field == thumbsend ngRepeat: h in headersngRepeat: h in headersngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope bold" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">Daft Punk</td>end ngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope grey" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">Human-Robot</td>end ngIf: h.field != thumbsend ngRepeat: h in headersngIf: h.field != thumbs<td class="md-table-content ng-binding ng-scope grey" ng-repeat="h in headers" ng-class="customClass[h.field]" ng-if="h.field != thumbs">Jun 5, 2014</td>end ngIf: h.field != thumbsend ngRepeat: h in headers<td class="md-table-td-more"><button class="md-button md-default-theme" ng-transclude=""><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="ng-scope"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"></path></svg></button></td></tr>end ngRepeat: c in content | filter:filters | startFrom:currentPage*count | limitTo: count</tbody></table><div class="md-table-footer" layout="row"><span class="md-table-count-info">Rows count per page : <a href="" ng-click="goToPage(0); count=1" tabindex="0">1</a>, <a href="" ng-click="goToPage(0); count=10" tabindex="0">10</a>, <a href="" ng-click="goToPage(0); count=25" tabindex="0">25</a>, <a href="" ng-click="goToPage(0); count=50" tabindex="0">50</a>, <a href="" ng-click="goToPage(0); count=100" tabindex="0">100</a> (current is <strong class="ng-binding">3</strong>)</span><span flex=""></span><span ng-show="nbOfPages() > 1" aria-hidden="false"><button class="md-table-footer-item md-button md-default-theme" ng-transclude="" ng-disabled="currentPage==0" ng-click="currentPage=currentPage-1" tabindex="0" aria-disabled="true" disabled="disabled"><img src="http://google.github.io/material-design-icons/hardware/svg/ic_keyboard_arrow_left_24px.svg" class="ng-scope"></button>ngRepeat: i in getNumber(nbOfPages()) track by $index<a href="" ng-repeat="i in getNumber(nbOfPages()) track by $index" class="ng-scope"><button class="md-primary md-table-footer-item md-button md-default-theme" ng-transclude="" ng-click="goToPage($index)" tabindex="0"><span ng-class="{ 'md-table-active-page': currentPage==$index}" class="ng-binding ng-scope md-table-active-page">1</span></button></a>end ngRepeat: i in getNumber(nbOfPages()) track by $index<a href="" ng-repeat="i in getNumber(nbOfPages()) track by $index" class="ng-scope"><button class="md-primary md-table-footer-item md-button md-default-theme" ng-transclude="" ng-click="goToPage($index)" tabindex="0"><span ng-class="{ 'md-table-active-page': currentPage==$index}" class="ng-binding ng-scope">2</span></button></a>end ngRepeat: i in getNumber(nbOfPages()) track by $index<button class="md-table-footer-item md-button md-default-theme" ng-transclude="" ng-disabled="currentPage==nbOfPages()-1" ng-click="currentPage=currentPage+1" tabindex="0" aria-disabled="false"><img src="http://google.github.io/material-design-icons/hardware/svg/ic_keyboard_arrow_right_24px.svg" class="ng-scope"></button></span></div>
+			</md-table>
+		</md-content>
+	</div>
+</div> -->
+	<table class="table" ng-show="isProjection">
+		<thead>
+			<tr>
+				<!-- <th data-field="name">Name</th> -->
+				<th data-field="date">Date</th>
+				<th data-field="amount">Amount</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="operation in projection">
+				<td>{{operation.date | date2:'dd/MM/yyyy'}}</td>
+				<td>{{operation.amount | currency:'€':0:true}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

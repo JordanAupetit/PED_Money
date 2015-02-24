@@ -52,7 +52,7 @@
 				 * @Return {Date} The date of the end of the periodic operation
 				 */
 				computeEndDate: function(period) {
-					return moment(period.dateBegin).add((period.nbRepeat-1) * period.step, period.intervalType).toDate()
+					return moment(period.dateBegin).add((period.nbRepeat - 1) * period.step, period.intervalType).toDate()
 				}
 			}
 		})
@@ -212,14 +212,12 @@
 
 
 
-
-
 		// Watchers for the projection
 		$scope.$watch('periodTmp.intervalType', prepareProjection)
 		$scope.$watch('periodTmp.step', prepareProjection)
 		$scope.$watch('periodTmp.dateBegin', prepareProjection)
 		$scope.$watch('periodTmp.isInfinite', prepareProjection)
-		// $scope.$watch('periodTmp.dateEnd', prepareProjection)
+			// $scope.$watch('periodTmp.dateEnd', prepareProjection)
 		$scope.$watch('periodTmp.nbRepeat', prepareProjection)
 		$scope.$watch('periodTmp.amount', prepareProjection)
 	}
@@ -229,6 +227,36 @@
 	 * The controller of the periodic operation
 	 */
 	function PeriodCtrl($scope, periodService, $modal, $log, periodHelper) {
+
+		$scope.headers = [
+			{
+				name: 'Name',
+				field: 'Name',
+			}, {
+				name: 'Date Begin',
+				field: 'Date Begin'
+			}, {
+				name: 'Date End',
+				field: 'Date End'
+			}, {
+				name: 'Occurrency',
+				field: 'Occurrency'
+			}, {
+				name: 'Step',
+				field: 'Step'
+			}, {
+				name: 'Interval type',
+				field: 'Interval type'
+			}, {
+				name: 'Amount',
+				field: 'Amount'
+			}, {
+				name: '',
+				field: 'action'
+			}
+		];
+
+		$scope.custom = {name: 'bold', description:'grey',last_modified: 'grey'};
 
 		// TODO Put in shared place
 		var intervalType = [{
@@ -287,6 +315,7 @@
 
 		$scope.makeProjection = function(period) {
 			$scope.isProjection = !$scope.isProjection
+			// period.isProjection = !period.isProjection
 			$scope.projection = periodHelper.genProjection(period)
 		}
 
@@ -303,11 +332,11 @@
 		}
 
 
-		$scope.addData = function(){
-			periodService.init().then(function(){
+		$scope.addData = function() {
+			periodService.init().then(function() {
 				refresh()
 			})
-			
+
 		}
 
 		/**

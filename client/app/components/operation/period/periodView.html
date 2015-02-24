@@ -40,7 +40,7 @@
 						</p> -->
 						<p class=""><input type="checkbox" ng-change="setInfinite()" name="isInfinite" ng-model="periodTmp.isInfinite"> Infinite</p> <!--  -->
 					</div>
-<!-- 					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : (periodForm.dateEnd.$invalid || periodForm.dateEnd.$error.date) && !periodForm.dateEnd.$pristine }">
+					<!-- 					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : (periodForm.dateEnd.$invalid || periodForm.dateEnd.$error.date) && !periodForm.dateEnd.$pristine }">
 						<label>Date end</label>
 						<input ng-change="computeRepeatDate()" type="date" name="dateEnd" class="form-control"  ng-model="periodTmp.dateEnd"  date-after after="{{periodTmp.dateBegin}}" ng-disabled="periodTmp.isInfinite" required>
 						<p ng-show="periodForm.dateEnd.$error.required && !periodForm.dateEnd.$pristine && !periodTmp.isInfinite" class="help-block">Date end is required.</p>
@@ -100,7 +100,17 @@
 </script>
 
 
-<div class="container">
+<md-content >
+	<div class="container"> <!-- class="container" -->
+<!--     <md-toolbar>
+		<h2 class="md-toolbar-tools">
+			Periodic operation 
+		</h2>
+		<a type="button" ng-click="addData()" class="btn btn-warning btn-xs" role="button">Add data</a> 
+		<a type="button" ng-click="refresh()" class="btn btn-warning btn-xs" role="button">Refresh</a>
+    </md-toolbar> -->
+    <md-card>
+    <md-card-content>
 
 	<h2>Periodic operation 
 		<a type="button" ng-click="addData()" class="btn btn-warning btn-xs" role="button">Add data</a> 
@@ -163,13 +173,14 @@
 			<td>{{period.intervalType | period}}</td>
 			<td>{{period.amount | currency:'€':0:true}}</td>
 			<td> <a type="button" ng-click="remove(period)" class="btn btn-danger btn-xs" role="button">X</a>
-				<a type="button" ng-click="makeProjection(period)" class="btn btn-info btn-xs" role="button">P</a></td>
-			</tr>
+				<a type="button" ng-click="makeProjection(period)" class="btn btn-info btn-xs" role="button">P</a>
+			</td>
+		</tr>
 
 
 
-			<!-- sub array of real operation -->
-			<!-- sub array of projection -->
+		<!-- sub array of real operation -->
+		<!-- sub array of projection -->
 		</tbody>
 	</table>
 
@@ -189,4 +200,7 @@
 		</tbody>
 	</table>
 
-</div>
+	</md-card-content>
+    </md-card>
+	</div>
+</md-content>	
