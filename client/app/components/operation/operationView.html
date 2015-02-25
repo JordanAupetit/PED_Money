@@ -1,17 +1,16 @@
 <div class="container">
 
-    <div class="mb20">
+    <!-- <div class="mb20">
         <input mydatepicker type="text" ng-model="operationCreateModel.dateOperation" class="form-control mb10 wid170 ftl mr10" placeholder="Date de l'opération"> 
-
-        <!-- TODO 
-
+    
+        TODO 
+    
         Ajouter une case à cocher pour faire apparaitre ou non l'input de la date prélèvement
-        -->
-
+    
         <input mydatepicker type="text" ng-model="operationCreateModel.datePrelevement" class="form-control mb10 wid170 ftl mr10" placeholder="Date du prélèvement"> 
         <input type="text" ng-model="operationCreateModel.description" class="form-control mb10 wid200 ftl mr10" placeholder="Description">
         <input type="text" ng-model="operationCreateModel.thirdParty" class="form-control mb10 wid150 ftl mr10" placeholder="Tiers">
-
+    
         <div class="input-group mb10 wid150 ftl mr10">
             <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie as categorie.name for categorie in categories">
                 <option value="" disabled selected>Categorie</option>
@@ -20,11 +19,14 @@
                 <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
             </div>
         </div>
+        
         <input type="text" ng-model="operationCreateModel.value" class="form-control mb10 wid100 ftl mr10" placeholder="Montant">
         <input type="text" ng-model="operationCreateModel.type" class="form-control mb10 wid100 ftl mr10" placeholder="Type">
         <button ng-click="addOperation()" class="btn btn-default">Ajouter</button>
-    </div>
+    </div> -->
 
+
+    <!-- TODO -- Rajouter le SOLDE différé -->
     <div ng-if="operations.length > 0" class="mb20">
         <strong>Solde : </strong>
 
@@ -109,33 +111,62 @@
 
 <div ng-include src="'/app/shared/category/categoryView.html'"/>
 
-<div tooltip class="circle" data-toggle="modal" data-placement="left" title="Add operation" data-target=".modal-operation">
+<div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add operation" data-target=".modal-operation">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 </div>
 
-<div class="modal fade modal-operation" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+
+
+<!-- <div class="modal fade modal-operation" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Add operation</h4>
             </div>
             <div class="modal-body">
                 <md-input-container flex="" class="md-default-theme">
                     <label for="input_03G">Operation date</label>
-                    <input mydatepicker ng-model="operationCreateModel.dateOperation" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                    <input mydatepicker ng-model="operationCreateModel.dateOperation" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
                     <div class="md-placeholder"></div>
                 </md-input-container>
 
                 <md-input-container flex="" class="md-default-theme">
                     <label for="input_03G">Levy date</label>
-                    <input mydatepicker ng-model="operationCreateModel.datePrelevement" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                    <input mydatepicker ng-model="operationCreateModel.datePrelevement" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
                     <div class="md-placeholder"></div>
                 </md-input-container>
 
                 <md-input-container flex="" class="md-default-theme">
-                    <label for="input_03G">Levy date</label>
-                    <input mydatepicker ng-model="operationCreateModel.datePrelevement" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" id="input_03G" aria-invalid="false">
+                    <label for="input_03G">Description</label>
+                    <input ng-model="operationCreateModel.description" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+                    <div class="md-placeholder"></div>
+                </md-input-container>
+
+                <md-input-container flex="" class="md-default-theme">
+                    <label for="input_03G">Third party</label>
+                    <input ng-model="operationCreateModel.thirdParty" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+                    <div class="md-placeholder"></div>
+                </md-input-container>
+
+                <div class="input-group mb10 wid150 ftl mr10">
+                    <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie as categorie.name for categorie in categories">
+                        <option value="" disabled selected>Category</option>
+                    </select>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
+                    </div>
+                </div> <br>
+
+                <md-input-container flex="" class="md-default-theme">
+                    <label for="input_03G">Value</label>
+                    <input ng-model="operationCreateModel.value" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+                    <div class="md-placeholder"></div>
+                </md-input-container>
+
+                <md-input-container flex="" class="md-default-theme">
+                    <label for="input_03G">Type</label>
+                    <input ng-model="operationCreateModel.type" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
                     <div class="md-placeholder"></div>
                 </md-input-container>
 
@@ -143,10 +174,61 @@
 
             </div>
             <div class="modal-footer">
-                <!-- <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> -->
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button class="btn btn-default">Advanced</button>
                 <button type="button" class="btn btn-primary">Add</button>
             </div>
         </div>
     </div>
+</div> -->
+
+
+<div class="wid250 menuCreateOperation" style="background:white; position:fixed; top:52px; right: -300px; padding:20px">
+    <md-input-container flex="" class="md-default-theme">
+        <label for="input_03G">Operation date</label>
+        <input mydatepicker ng-model="operationCreateModel.dateOperation" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+        <div class="md-placeholder"></div>
+    </md-input-container>
+    
+    <md-input-container flex="" class="md-default-theme">
+        <label for="input_03G">Levy date</label>
+        <input mydatepicker ng-model="operationCreateModel.datePrelevement" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+        <div class="md-placeholder"></div>
+    </md-input-container>
+
+    <md-input-container flex="" class="md-default-theme">
+        <label for="input_03G">Description</label>
+        <input ng-model="operationCreateModel.description" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+        <div class="md-placeholder"></div>
+    </md-input-container>
+
+    <md-input-container flex="" class="md-default-theme">
+        <label for="input_03G">Third party</label>
+        <input ng-model="operationCreateModel.thirdParty" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+        <div class="md-placeholder"></div>
+    </md-input-container>
+
+    <!-- <div class="input-group mb10 wid150 ftl mr10">
+        <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie as categorie.name for categorie in categories">
+            <option value="" disabled selected>Category</option>
+        </select>
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
+        </div>
+    </div> -->
+
+    <md-input-container flex="" class="md-default-theme">
+        <label for="input_03G">Value</label>
+        <input ng-model="operationCreateModel.value" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+        <div class="md-placeholder"></div>
+    </md-input-container>
+
+    <md-input-container flex="" class="md-default-theme">
+        <label for="input_03G">Type</label>
+        <input ng-model="operationCreateModel.type" class="ng-pristine ng-untouched ng-valid md-input" tabindex="0" aria-invalid="false">
+        <div class="md-placeholder"></div>
+    </md-input-container>
+
+    <button ng-click="addOperation()" class="btn btn-primary">Add</button>
+    <button close-menu-create-operation class="btn btn-default">Close</button>
 </div>
