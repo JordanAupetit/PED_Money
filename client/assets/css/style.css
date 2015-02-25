@@ -310,13 +310,21 @@ form.login a:hover
 
 
 
-body {
+/* body {
     font-family: Helvetica;
     background: #eee;
     -webkit-font-smoothing: antialiased;
+    position: relative;
+    height: 100%;
+} */
+
+body, .body {
+    font-family: Helvetica;
+    background: #eee;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+    /*height: 100%;*/
 }
-
-
 
 
 
@@ -489,11 +497,124 @@ section .md-button {
 
 
 
+
+
+
+
+
+
+
+
+
+
+#sidebar-wrapper {
+    /* z-index: 1000;
+    position: fixed;
+    height: 100%;
+    top:0;
+    right:0;
+    overflow-y: auto;
+    overflow-x: hidden; 
+    background: white;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease; */
+
+    position: fixed;
+    top: 52px;
+    right: -300px;
+    bottom: 0px;
+    width: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: white;
+}
+
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+}
+
+/* Sidebar Styles */
+
+.sidebar-nav {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 0 20px 0 20px;
+    margin: 0;
+    list-style: none;
+}
+
+/* .sidebar-nav li {
+    text-indent: 20px;
+    line-height: 40px;
+} */
+
+
+.sidebar-nav > .sidebar-brand {
+    height: 65px;
+    font-size: 18px;
+    line-height: 60px;
+    text-indent: 20px;
+}
+
+.sidebar-nav > .sidebar-brand {
+    color: #999999;
+}
+
+/* 
+@media(min-width:768px) {
+    #wrapper {
+        padding-left: 250px;
+    }
+
+    #wrapper.toggled {
+        padding-left: 0;
+    }
+
+    #sidebar-wrapper {
+        width: 250px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 0;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* === ALL === */ 
-
-
-
-
 
 .hideit {display:none;}
 
