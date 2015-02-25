@@ -10,7 +10,7 @@
         function OperationController($scope, OperationResource, CategoryResource, initService, $state) {
 
             var accountId = $state.params.accountId
-            // console.log($state.params.accountId)
+            console.log($state.params.accountId)
             // initService.populateOperation(accountId)
             // initService.populateOperation('other')
             
@@ -45,7 +45,7 @@
                     for(var i in categories){
                         $scope.categories.push(categories[i])
                         for(var j in categories[i].subCategories){
-                            $scope.categories.push({name: "-    -- "+categories[i].subCategories[j]})
+                            $scope.categories.push({name: "-    -- " + categories[i].subCategories[j]})
                         }
                     }
 
@@ -69,6 +69,10 @@
 
 
             $scope.addOperation = function() {
+                if(accountId !== "") {
+                    $scope.operationCreateModel.accountId = accountId
+                }
+
                 OperationResource.add($scope.operationCreateModel)
                 $scope.operationCreateModel = {}
                 getOperations()

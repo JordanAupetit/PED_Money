@@ -5,11 +5,11 @@ module.exports = function (app, operationModel) {
     app.get('/api/operation/:id', getOperation)
     app.put('/api/operation/', updateOperation)
     app.delete('/api/operation/:id', deleteOperation)
-    // app.post('/api/operation/:id', editOperation)
-    app.get('/api/account/:accountId/operation/', getAllOperations2)
+
+    app.get('/api/account/:accountId/operation/', getAllOperationsByAccount)
 
 
-    function getAllOperations2(req, resp, next) {
+    function getAllOperationsByAccount(req, resp, next) {
         'use strict';
 
         var accountId = req.params.accountId
@@ -56,6 +56,7 @@ module.exports = function (app, operationModel) {
 
     }
 
+
     function updateOperation(req, res, next) {
 
         var updateOperation = new operationModel(req.body)
@@ -92,6 +93,7 @@ module.exports = function (app, operationModel) {
         }*/
     }
 
+
     function addOperation(req, res, next) {
         'use strict';
         // var userId = req.get('X-User-Id');
@@ -105,6 +107,7 @@ module.exports = function (app, operationModel) {
         })
     }
 
+
     function deleteOperation(req, res, next) {
         'use strict';
         // var userId = req.get('X-User-Id');
@@ -115,6 +118,4 @@ module.exports = function (app, operationModel) {
             res.sendStatus(204);
         })
     }
-
-    // TODO: UPDATE OPERATION
 }
