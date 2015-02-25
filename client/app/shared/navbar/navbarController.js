@@ -4,12 +4,14 @@
 
     angular
         .module('appModule')
-        .controller('NavbarController', ['$scope','$rootScope','$state','localStorageService', function($scope,$rootScope,$state,localStorageService) {
-                $rootScope.currentUserSignedIn = localStorageService.cookie.get('token');
-                //alert($localStorage.token);
+        .controller('NavbarController', ['$scope','$rootScope','$state','ipCookie', function($scope,$rootScope,$state,ipCookie) {
+                $rootScope.currentUserSignedIn = ipCookie('token');
+                $rootScope.utlisateurCourant = ipCookie('user');
            $scope.logout = function() {
-                localStorageService.cookie.remove('token');
+                ipCookie.remove('token');
+                ipCookie.remove('user');
                 $rootScope.currentUserSignedIn = null;
+                $rootScope.utlisateurCourant = null ;
                 $state.go('login');
             }, function() {
                 alert("Failed to logout!");

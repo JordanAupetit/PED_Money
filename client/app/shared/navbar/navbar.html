@@ -1,15 +1,6 @@
-<!-- <div ng-controller="NavbarController" class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-        <li ng-hide="currentUserSignedIn"><a ui-sref="login">login</a></li>
-        <li ng-hide="currentUserSignedIn"><a ui-sref="signup">Signup</a></li>
-        <li ng-show="currentUserSignedIn"><a style="cursor: hand;cursor: pointer;" ng-click="logout()">Logout</a></li>
-    </ul>
-</div> -->
-
-
 <nav ng-controller="NavbarController" class="navbar navbar-default" role="navigation" > <!-- ng-controller="NavController" -->
     <div class="container-fluid">
-        <div class="navbar-header">
+        <div class="navbar-haeder">
             <a class="navbar-brand" href="" ui-sref="account">MyMoney</a>
         </div>
 
@@ -17,10 +8,16 @@
             <ul class="nav navbar-nav">
             	<li ng-hide="currentUserSignedIn"><a ui-sref="login">login</a></li>
 		        <li ng-hide="currentUserSignedIn"><a ui-sref="signup">Signup</a></li>
+                <li ng-hide="currentUserSignedIn"><a href="/auth/facebook">facebook</a></li>
+                <li ng-hide="currentUserSignedIn"><a href="/auth/google">google</a></li>
 		        <li ng-show="currentUserSignedIn"><a style="cursor: hand;cursor: pointer;" ng-click="logout()">Logout</a></li>
                 <li ng-show="currentUserSignedIn"><a class="" ui-sref="operation">Operations</a></li>
                 <li ng-show="currentUserSignedIn"><a class="" ui-sref="optPeriod">Operations périodiques</a></li>
             </ul>
+            <div ng-show="currentUserSignedIn" class="navbar-brand pull-right ">
+                logged as :{{utlisateurCourant}}</a>
+            </div>
+            
         </div>
     </div>
 </nav>

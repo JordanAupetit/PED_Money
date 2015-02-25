@@ -4,7 +4,7 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope','$rootScope','LoginService','$state','localStorageService', function($scope,$rootScope,LoginService,$state,localStorageService) {
+        .controller('LoginController', ['$scope','$rootScope','LoginService','$state','ipCookie', function($scope,$rootScope,LoginService,$state,ipCookie) {
 
 
 
@@ -20,8 +20,10 @@
             if (res.type == false) {
                 alert(res.data);   
             } else {
-                localStorageService.cookie.set('token',res.data.token);
+                ipCookie('token', res.data.token);
+                ipCookie('user', res.data.username);
                 $rootScope.currentUserSignedIn = res.data.token;
+                $rootScope.utlisateurCourant = res.data.username;
                 $state.go('compte');    
             }
         });

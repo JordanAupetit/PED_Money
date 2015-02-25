@@ -35,7 +35,7 @@ var PeriodSchema = new Schema({
 })
 
 var UserSchema  = new Schema({
-	id: String,
+	clientID: Number,
 	username: String,
 	lastName: String,
 	firstName: String,
