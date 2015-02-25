@@ -22,7 +22,7 @@
                         } else {
                             localStorageService.cookie.set('token',res.data.token);
                             $rootScope.currentUserSignedIn = res.data.token;
-                            $state.go('compte');    
+                            $state.go('accounts');    
                         }
                     });
                 };

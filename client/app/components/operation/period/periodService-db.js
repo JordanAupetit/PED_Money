@@ -54,9 +54,16 @@
 
 			return {
 				init: function() {
-					periodsRes.add(p1)
-					periodsRes.add(p2)
-					periodsRes.add(p3)
+					return new Promise(function(resolve, reject) {
+						periodsRes.add(p1).$promise.then(function(){
+							periodsRes.add(p2).$promise.then(function(){
+								periodsRes.add(p3).$promise.then(function(){
+									resolve()
+								})
+							})
+						})
+					})
+					
 				},
 
 				getAll: function() {

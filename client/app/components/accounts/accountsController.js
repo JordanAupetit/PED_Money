@@ -3,30 +3,11 @@
 'use strict';
 
     angular
-        .module('appModule')
-        .controller('AccountController', ['$scope', 'AccountResource', function($scope, AccountResource) {
+        .module('controllers')
+        .controller('AccountController', ['$scope', 'AccountResource', 'initService', function($scope, AccountResource, initService) {
 
 
-            var acc1 = {
-                name: "loisir",
-                type: "type 1",
-                balance:23456,
-                currency: "EUR(€)"
-            }
-
-            var acc2 = {
-                name: "course",
-                type: "type 2",
-                balance: 3543 ,
-                currency: "USD($)"
-            }
-
-
-          
-
-            AccountResource.add(acc1)
-            AccountResource.add(acc2)
-
+            // initService.populateAccount()
 
             $scope.accountCreateModel = {};
 

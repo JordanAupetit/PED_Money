@@ -20,7 +20,7 @@ describe('PeriodHelper', function() {
 		_id: 2,
 		name: 'Loyer',
 		dateBegin: '2015-01-15',
-		nbRepeat: 1,
+		nbRepeat: 2,
 		step: 3,
 		intervalType: 'M',
 		amount: 300
@@ -33,7 +33,7 @@ describe('PeriodHelper', function() {
 			// console.log(new periodHelper.computeEndDate(period))
 			// dump(new periodHelper.computeEndDate(period))
 			// dump(new Date(2015,03,15))
-			expect(new periodHelper.computeEndDate(period)).toEqual(new Date(2015, 03, 15));
+			expect(new periodHelper.computeEndDate(period)).toEqual(new Date(2015, 03, 15)); // 2015-04-15
 		});
 
 	});

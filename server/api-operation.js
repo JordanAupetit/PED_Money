@@ -6,6 +6,23 @@ module.exports = function (app, operationModel) {
     app.put('/api/operation/', updateOperation)
     app.delete('/api/operation/:id', deleteOperation)
     // app.post('/api/operation/:id', editOperation)
+    app.get('/api/account/:accountId/operation/', getAllOperations2)
+
+
+    function getAllOperations2(req, resp, next) {
+        'use strict';
+
+        var accountId = req.params.accountId
+
+        operationModel.find({accountId: accountId}, function (err, coll) {
+            if (!err) {
+                return resp.send(coll);
+            } else {
+                console.log(err);
+                next(err);
+            }
+        });
+    }
 
 
     function getAllOperations(req, resp, next) {

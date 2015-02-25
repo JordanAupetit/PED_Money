@@ -13,9 +13,13 @@
             delete : {method:'DELETE'}
         })
 
+        var operationResource2 =  $resource('/api/account/:accountId/operation/', {}, {
+            getAll : {method:'GET', isArray:true},
+        })
+
         return {
-            getAll: function(){
-                return operationResource.getAll()
+            getAll: function(accountId){
+                return operationResource2.getAll({accountId : accountId})
             },
             add: function(operation){
                 operationResource.add(operation)

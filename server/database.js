@@ -53,7 +53,8 @@ var AccountSchema  = new Schema({
 	name: String,
 	type: String,
 	balance: Number,
-	currency: String
+	currency: String,
+    userId: String
 })
 
 
@@ -65,7 +66,7 @@ var UserSchema  = new Schema({
 	lastName: String,
 	firstName: String,
 	email: String,
-	password: String,
+	password: String, // TODO Add salt ??
 	token: String,
     categories: {type: [CategorySchema], default: defaultCategories}
 })
@@ -82,7 +83,8 @@ var OperationSchema = new Schema({
     dateOperation: String,
     datePrelevement: String,
     categoryId: String/*,
-    subOperations: []*/
+    subOperations: []*/,
+    accountId: String
 })
 
 
