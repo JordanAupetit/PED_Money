@@ -9,7 +9,6 @@
             function($scope, $rootScope, LoginService, $state, localStorageService) {
 
                 $scope.signin = function() {
-
                     var formData = {
                         username: $scope.username,
                         password: $scope.password
@@ -20,12 +19,20 @@
                         if (res.type == false) {
                             alert(res.data);   
                         } else {
+                            $.jStorage.set("account", res.data)
+                            $scope.login = res.data.username
+
                             localStorageService.cookie.set('token',res.data.token);
                             $rootScope.currentUserSignedIn = res.data.token;
-                            $state.go('accounts');    
+                            //$state.go('accounts');    
+
                         }
                     });
                 };
-        
+
+                var account = $.jStorage.get("account")
+
+                if(account)
+                    $scope.login = account.username
             }]);
 })();
