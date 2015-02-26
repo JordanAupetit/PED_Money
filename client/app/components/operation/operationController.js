@@ -14,10 +14,14 @@
             // initService.populateOperation(accountId)
             // initService.populateOperation('other')
             
+            var resetOperationCreate = function () {
+                $scope.operationCreateModel = {}
+                $scope.operationCreateModel.advanced = false
+            }
 
 
             $scope.editable = false
-            $scope.operationCreateModel = {}
+            resetOperationCreate()
 
 
             var getOperations = function() {
@@ -64,7 +68,6 @@
             /*  
                 ==== TODO ====
                 - Gérer les erreurs / champs vides dans le formulaire d'ajout d'operations
-                - Peut etre virer les GetOperations() qui ralentissent la page
             */
 
 
@@ -73,8 +76,9 @@
                     $scope.operationCreateModel.accountId = accountId
                 }
 
+                // TODO: Add a promise HERE
                 OperationResource.add($scope.operationCreateModel)
-                $scope.operationCreateModel = {}
+                resetOperationCreate()
                 getOperations()
             }
 
@@ -98,6 +102,10 @@
 
             $scope.showUpdateOperation = function(operation) {
                 operation.editable = true
+            }
+
+            $scope.createOperationAdvanced = function() {
+                $scope.operationCreateModel.advanced = true
             }
 
         }
