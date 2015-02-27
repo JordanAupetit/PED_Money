@@ -51,4 +51,24 @@
             };
         })
 
+        .directive('hoverOperation', function () {
+            return {
+                restrict: 'AE',
+                replace: false,
+                transclude: false,
+                link: function (scope, element, attrs) {
+
+                    var btns = $(element).find(".operationButtons")
+                    btns.hide()
+
+                    $(element).hover(function() {
+                        btns.show()
+                    },
+                    function(){
+                        btns.hide()
+                    })
+                }
+            };
+        })
+
 })();

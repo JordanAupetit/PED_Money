@@ -37,7 +37,9 @@
 
                 for(var i = 0; i < $scope.operations.length; i++) {
                     // 2 decimal au maximum
-                    $scope.solde += parseFloat($scope.operations[i].value)
+                    if($scope.operations[i].value !== "" && $scope.operations[i].value !== undefined) {
+                        $scope.solde += parseFloat($scope.operations[i].value)
+                    }
                 }
 
                 $scope.solde = $scope.solde.toFixed(2)

@@ -105,28 +105,55 @@
             </tbody>
         </table> -->
 
-        <div class="operationLine" ng-repeat="op in operations"> 
-            <div class="wid20p ftl">
-                <span ng-hide="op.editable">{{ op.dateOperation | date2:'dd/MM/yyyy' }}</span>
-                <span class="datePrelevement" ng-hide="op.editable">({{ op.datePrelevement | date2:'dd/MM/yyyy' }})</span>
-            </div>
-            <div class="wid20p ftl">
-                <span ng-hide="op.editable">Shopping</span>
-            </div>
-            <div class="wid45p ftl">
-                <span ng-hide="op.editable">{{ op.description }}  –  {{ op.thirdParty }}  –  {{ op.type }}</span>
-            </div>
-            <div class="wid10p ftl algright">
-                <span ng-hide="op.editable" ng-if="op.value <= 0" class="colorRed">
-                    {{ op.value }}
-                </span>
-                <span ng-hide="op.editable" ng-if="op.value > 0" class="colorGreen">
-                    +{{ op.value }}
-                </span>
+        <div hover-operation class="operationLine" ng-repeat="op in operations"> 
+            
+            <div ng-show="op.editable" class="wid100p operationLineEditable">
+                <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.dateOperation">
+                <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.datePrelevement">
+                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.description">
+                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.thirdParty">
+                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.type">
+                <input type="number" class="form-control wid100 ftl mr10" ng-model="op.value">
             </div>
 
-            <div class="operationOptions">
+            <div ng-show="!op.editable">
+                <div  class="wid20p ftl">
+                    <span ng-hide="op.editable">{{ op.dateOperation | date2:'dd/MM/yyyy' }}</span>
+                    <span class="datePrelevement">({{ op.datePrelevement | date2:'dd/MM/yyyy' }})</span>
+                </div>
+                <div class="wid20p ftl">
+                    <span>Shopping (Category)</span>
+                </div>
+                <div class="wid50p ftl">
+                    <span>{{ op.description }}  –  {{ op.thirdParty }}  –  {{ op.type }}</span>
+                </div>
+                <div class="wid10p ftl algright">
+                    <span ng-if="op.value <= 0" class="colorRed">
+                        {{ op.value }}
+                    </span>
+                    <span ng-if="op.value > 0" class="colorGreen">
+                        +{{ op.value }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- <div class="operationOptions">
                 <span class="glyphicon glyphicon-option-vertical" aria-hidden="true"></span>
+            </div> -->
+
+            <div class="operationButtons">
+                <button ng-hide="!op.editable" ng-click="updateOperation(op)" class="doUpdateOperation btn btn-primary btn-xs">
+                    Save
+                </button>
+                <button ng-hide="op.editable" ng-click="showUpdateOperation(op)" class="showUpdateOperation btn btn-warning btn-xs">
+                    Edit
+                </button>
+                <button ng-click="deleteOperation(op._id, $index)" class="btn btn-danger btn-xs">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <button class="btn btn-default btn-xs">
+                    <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
+                </button>
             </div>
         </div>
 
@@ -139,6 +166,8 @@
     <div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add operation" data-target=".modal-operation">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </div>
+
+    
 
     
     <div id="sidebar-wrapper" class="menuCreateOperation">
