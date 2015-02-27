@@ -6,13 +6,26 @@
     .controller('ManageCategoriesController', 
         ['$scope', '$rootScope', 'CategoryResource', function ManageCategoriesController($scope, $rootScope, CategoryResource) {
             
-            function CategorieUnderConstruction(subCategory){
+
+            var uniqid = function() {
+                function s4() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1)
+                }
+
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                    s4() + '-' + s4() + s4() + s4();
+            }
+
+            function CategorieUnderConstruction(subCategory) {
                 this.name = ""
                 this.isSubCategory = false
                 this.subCategory = subCategory
             }
 
-            function Categorie(name){
+            function Categorie(name) {
+                this.id = uniqid()
                 this.name = name
                 this.subCategories = []
             }
@@ -65,9 +78,15 @@
                 
                 if(idUser !== "" && idUser !== undefined) {
                     CategoryResource.getAll(idUser).$promise.then(function(categories){
-                        $scope.categories = categories
+                        $scope.categories = []
+                        for(var i = 0; i < categories.length; i++) {
+                            if(categories[i] !== null) {
+                                $scope.categories.push(categories[i])
+                            }
+                        }
                         $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
                         
+                        // TODO: /!\ voir si ça fonctionne tous le temps
                         $scope.$parent.$parent.getCategoriesOperation()
                     })
                 }
@@ -75,16 +94,13 @@
 
             getCategories()
 
-
-
-
             $scope.createCategory = function(){
                 if($scope.newCategory.name){
                     if($scope.newCategory.isSubCategory){
                         var index = $scope.categories.indexOf($scope.newCategory.subCategory)
                         $scope.categories[index].subCategories.push($scope.newCategory.name)
                     }
-                    else{
+                    else {
                         $scope.categories.push(new Categorie($scope.newCategory.name))
                     }
                     $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])

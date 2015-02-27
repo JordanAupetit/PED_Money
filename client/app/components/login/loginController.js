@@ -25,7 +25,6 @@
 
                             // (jordan) Peut être temporaire, j'ai besoin de l'ID pour les catégories
                             $rootScope.currentUserSignedInId = res.data._id
-                            console.log($rootScope)
                             $state.go('accounts');    
                         }
                     });

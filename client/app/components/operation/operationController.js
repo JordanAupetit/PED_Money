@@ -28,6 +28,28 @@
 
             var getOperations = function() {
                 OperationResource.getAll(accountId).$promise.then(function(operations){
+                    for(var i = 0; i < operations.length; i++) {
+                        if(operations[i].categoryId !== "") {
+
+                            operations[i].categoryName = "No category"
+
+                            console.log("chtulu")
+
+                            for(var j = 0; j < $scope.categories.length; j++) {
+                                console.log("FUCK")
+                                console.log($scope.categories[j].id)
+                                console.log(operations[i].categoryId)
+                                if($scope.categories[j].id === operations[i].categoryId) {
+                                    operations[i].categoryName = $scope.categories[j].name
+                                }
+                            }
+                        }
+                    }
+
+                    console.log("HERE")
+                    console.log(operations)
+                    console.log($scope.categories)
+                    
                     $scope.operations = operations
 
                     updateSolde()
@@ -47,34 +69,24 @@
                 $scope.solde = $scope.solde.toFixed(2)
             }
 
-            /*var getCategories = function() {
-                CategoryResource.getAll('54e4d019e6d52f98153df4c9').$promise.then(function(categories){
-                    $scope.categories = []
-                    for(var i in categories){
-                        $scope.categories.push(categories[i])
-                        for(var j in categories[i].subCategories){
-                            $scope.categories.push({name: "-    -- " + categories[i].subCategories[j]})
-                        }
-                    }
-
-                    //$scope.categories = categories
-                })
-            }*/
-
             $scope.getCategoriesOperation = function() {
                 var idUser = $rootScope.currentUserSignedInId
                 
                 if(idUser !== "" && idUser !== undefined) {
                     CategoryResource.getAll(idUser).$promise.then(function(categories){
-                        $scope.categories = categories
+                        $scope.categories = []
+                        for(var i = 0; i < categories.length; i++) {
+                            if(categories[i] !== null) {
+                                $scope.categories.push(categories[i])
+                            }
+                        }
+                        console.log($scope.categories)
                     })
                 }
             }
 
+            $scope.getCategoriesOperation()
             getOperations()
-
-            // getCategories()            
-
             
 
             
@@ -88,6 +100,12 @@
             $scope.addOperation = function() {
                 if(accountId !== "") {
                     $scope.operationCreateModel.accountId = accountId
+                }
+
+                console.log($scope.operationCreateModel)
+
+                if($scope.operationCreateModel.hasOwnProperty("category")) {
+                    $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
 
                 // TODO: Add a promise HERE

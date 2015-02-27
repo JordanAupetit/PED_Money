@@ -122,7 +122,7 @@
                     <span class="datePrelevement">({{ op.datePrelevement | date2:'dd/MM/yyyy' }})</span>
                 </div>
                 <div class="wid20p ftl">
-                    <span>Shopping (Category)</span>
+                    <span>{{ op.categoryName }}</span>
                 </div>
                 <div class="wid50p ftl">
                     <span>{{ op.description }}  –  {{ op.thirdParty }}  –  {{ op.type }}</span>
@@ -178,8 +178,7 @@
 
             <li>
                 <div class="input-group">
-                    <div ng-include src="'/app/shared/category/categoryView.html'"/>
-                    <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie as categorie.name for categorie in categories">
+                    <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie.name for categorie in categories track by categorie.id">
                         <option value="" disabled selected>Select a category</option>
                     </select>
                     <div class="input-group-btn">

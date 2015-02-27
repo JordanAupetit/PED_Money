@@ -33,7 +33,6 @@ module.exports = function (app, categoryModel, userModel) {
         'use strict';
         var userid = req.params.userid;
 
-        console.log(userid)
         userModel.findOneAndUpdate({_id: userid}, {categories: req.body}, function(err, coll){
             if (!err) {
                 return res.send(coll.categories);
