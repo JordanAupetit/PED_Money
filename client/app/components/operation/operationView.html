@@ -178,6 +178,7 @@
 
             <li>
                 <div class="input-group">
+                    <div ng-include src="'/app/shared/category/categoryView.html'"/>
                     <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie as categorie.name for categorie in categories">
                         <option value="" disabled selected>Select a category</option>
                     </select>

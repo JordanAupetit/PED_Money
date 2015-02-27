@@ -4,7 +4,7 @@
     angular
     .module('controllers')
     .controller('ManageCategoriesController', 
-        ['$scope', 'CategoryResource', function ManageCategoriesController($scope, CategoryResource) {
+        ['$scope', '$rootScope', 'CategoryResource', function ManageCategoriesController($scope, $rootScope, CategoryResource) {
             
             function CategorieUnderConstruction(subCategory){
                 this.name = ""
@@ -57,14 +57,26 @@
             ];
 
             */
+            
+            $scope.categories = []
+
             var getCategories = function() {
-                CategoryResource.getAll('54e4d019e6d52f98153df4c9').$promise.then(function(categories){
-                    $scope.categories = categories
-                    $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
-                })
+                var idUser = $rootScope.currentUserSignedInId
+                
+                if(idUser !== "" && idUser !== undefined) {
+                    CategoryResource.getAll(idUser).$promise.then(function(categories){
+                        $scope.categories = categories
+                        $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
+                        
+                        $scope.$parent.$parent.getCategoriesOperation()
+                    })
+                }
             }
 
-            // getCategories()
+            getCategories()
+
+
+
 
             $scope.createCategory = function(){
                 if($scope.newCategory.name){
@@ -106,16 +118,21 @@
             $scope.saveChanges = function(){
                 var target = event.target
                 target.textContent = "loading ..."
-                target.disabled = true;
+                target.disabled = true
+
+                var idUser = $rootScope.currentUserSignedInId
                 
-                CategoryResource.update('54e4d019e6d52f98153df4c9', $scope.categories).$promise.then(function callback (err, numAffected) {
+                if(idUser !== "" && idUser !== undefined) {
+                    CategoryResource.update(idUser, $scope.categories).$promise.then(function callback (err, numAffected) {
 
-                    
-                    target.textContent = "Save changes"
-                    target.disabled = false;
+                        target.textContent = "Save changes"
+                        target.disabled = false;
 
-                    $('#modalManageCategories').modal('hide');
-                });
+                        getCategories()
+
+                        $('#modalManageCategories').modal('hide');
+                    });
+                }
             }
         }])  
 })();

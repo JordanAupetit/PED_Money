@@ -4,13 +4,15 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', 'OperationResource', 'CategoryResource', 'initService', '$state', OperationController])
+        .controller('OperationController', ['$scope', '$rootScope', 'OperationResource', 'CategoryResource', 'initService', '$state', OperationController])
 
 
-        function OperationController($scope, OperationResource, CategoryResource, initService, $state) {
+        function OperationController($scope, $rootScope, OperationResource, CategoryResource, initService, $state) {
 
             var accountId = $state.params.accountId
-            console.log($state.params.accountId)
+            $scope.categories = []
+
+
             // initService.populateOperation(accountId)
             // initService.populateOperation('other')
             
@@ -45,7 +47,7 @@
                 $scope.solde = $scope.solde.toFixed(2)
             }
 
-            var getCategories = function() {
+            /*var getCategories = function() {
                 CategoryResource.getAll('54e4d019e6d52f98153df4c9').$promise.then(function(categories){
                     $scope.categories = []
                     for(var i in categories){
@@ -57,6 +59,16 @@
 
                     //$scope.categories = categories
                 })
+            }*/
+
+            $scope.getCategoriesOperation = function() {
+                var idUser = $rootScope.currentUserSignedInId
+                
+                if(idUser !== "" && idUser !== undefined) {
+                    CategoryResource.getAll(idUser).$promise.then(function(categories){
+                        $scope.categories = categories
+                    })
+                }
             }
 
             getOperations()
