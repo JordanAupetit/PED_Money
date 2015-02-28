@@ -33,12 +33,7 @@
 
                             operations[i].categoryName = "No category"
 
-                            console.log("chtulu")
-
                             for(var j = 0; j < $scope.categories.length; j++) {
-                                console.log("FUCK")
-                                console.log($scope.categories[j].id)
-                                console.log(operations[i].categoryId)
                                 if($scope.categories[j].id === operations[i].categoryId) {
                                     operations[i].categoryName = $scope.categories[j].name
                                 }
@@ -46,10 +41,6 @@
                         }
                     }
 
-                    console.log("HERE")
-                    console.log(operations)
-                    console.log($scope.categories)
-                    
                     $scope.operations = operations
 
                     updateSolde()
@@ -80,7 +71,6 @@
                                 $scope.categories.push(categories[i])
                             }
                         }
-                        console.log($scope.categories)
                     })
                 }
             }
@@ -94,6 +84,8 @@
             /*  
                 ==== TODO ====
                 - Gérer les erreurs / champs vides dans le formulaire d'ajout d'operations
+                - Lorsque l'on raffraichis la page (F5), le rootScope est vidé, et on ne
+                possède plus l'User ID, et donc plus de requêtes qui ont besoin de cet ID
             */
 
 
@@ -108,8 +100,32 @@
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
 
-                // TODO: Add a promise HERE
-                OperationResource.add($scope.operationCreateModel)
+                // TODO: Verifier le bon format de la date
+                if( !$scope.operationCreateModel.hasOwnProperty("dateOperation") 
+                    || $scope.operationCreateModel.dateOperation === ""
+                    || !moment($scope.operationCreateModel.dateOperation).isValid) {
+
+                    $scope.operationCreateModel.dateOperation = moment().format('DD/MM/YYYY')
+                }
+
+                if( !$scope.operationCreateModel.hasOwnProperty("datePrelevement") 
+                    || $scope.operationCreateModel.datePrelevement === ""
+                    || !moment($scope.operationCreateModel.datePrelevement).isValid) {
+
+                    $scope.operationCreateModel.datePrelevement = $scope.operationCreateModel.dateOperation
+                }
+
+                if( $scope.operationCreateModel.hasOwnProperty("periodic")
+                    && $scope.operationCreateModel.periodic) {
+
+                    // TODO: Add operation periodic
+
+                } else { // Add normal operation
+
+                    // TODO: Add a promise HERE
+                    OperationResource.add($scope.operationCreateModel)
+                }
+
                 resetOperationCreate()
                 getOperations()
             }
