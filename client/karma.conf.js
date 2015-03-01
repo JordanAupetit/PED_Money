@@ -27,6 +27,9 @@ module.exports = function(config) {
       'assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'assets/libs/moment/min/moment.min.js',
       'assets/libs/angular-currency-filter/src/currency-filter.js',
+      'assets/libs/angular-aria/angular-aria.js',
+      'assets/libs/angular-animate/angular-animate.js',
+      'assets/libs/angular-material/angular-material.js',
       // 'assets/libs/',
       // 'assets/libs/',
       // 'assets/libs/angular-mocks/angular-mocks.js',
@@ -38,8 +41,8 @@ module.exports = function(config) {
       'app/components/**/*.js',
       'app/shared/**/*.js',
       'test/**/*.js',
-      'test/unit/**/*.js',
-      'test/unit/**/*.js'
+      'test/unit/**/*.js'//,
+      //'test/unit/**/*.js'
     ],
 
 

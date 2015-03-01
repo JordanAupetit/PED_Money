@@ -21,7 +21,10 @@
                             alert(res.data);   
                         } else {
                             localStorageService.cookie.set('token',res.data.token);
-                            $rootScope.currentUserSignedIn = res.data.token;
+                            $rootScope.currentUserSignedIn = res.data.token
+
+                            // (jordan) Peut être temporaire, j'ai besoin de l'ID pour les catégories
+                            $rootScope.currentUserSignedInId = res.data._id
                             $state.go('accounts');    
                         }
                     });

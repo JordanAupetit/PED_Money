@@ -51,6 +51,19 @@
             };
         })
 
+        .directive('buttonCheckbox', function () {
+            return {
+                restrict: 'AE',
+                replace: false,
+                transclude: false,
+                link: function (scope, element, attrs) {
+                    $(element).click(function() {
+                        $(this).find("input").click();
+                    });
+                }
+            };
+        })
+
         .directive('hoverOperation', function () {
             return {
                 restrict: 'AE',
