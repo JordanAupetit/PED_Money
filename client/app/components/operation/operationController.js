@@ -10,7 +10,7 @@
         function OperationController($scope, OperationResource, CategoryResource, initService, $state) {
 
             var accountId = $state.params.accountId
-            console.log($state.params.accountId)
+            // console.log($state.params.accountId)
             // initService.populateOperation(accountId)
             // initService.populateOperation('other')
             

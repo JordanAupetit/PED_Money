@@ -18,7 +18,9 @@ var Promise = Promise || ES6Promise.Promise;
 			'LocalStorageModule',
 			'ui.bootstrap',
 			'controllers',
-			'ngMaterial'
+			'ngMaterial',
+			'highcharts-ng',
+			'chart.js'
 		])
 
 })();

@@ -57,6 +57,24 @@
           requireLogin: true
         }
       })
+
+      .state('budget', {
+        url: '/budget/',
+        templateUrl: 'app/components/budget/budgetView.html',
+        controller: 'BudgetCtrl',
+        data: {
+          requireLogin: true
+        }
+      })
+
+      .state('budgetdetails', {
+        url: '/budget/details/',
+        templateUrl: 'app/components/budget/details/detailsView.html',
+        controller: 'BudgetDetailsCtrl',
+        data: {
+          requireLogin: true
+        }
+      })
 	   	
   }])
 
