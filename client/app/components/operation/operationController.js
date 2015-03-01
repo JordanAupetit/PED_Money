@@ -9,24 +9,19 @@
 
         function OperationController($scope, $rootScope, OperationResource, CategoryResource, initService, $state) {
 
-            var accountId = $state.params.accountId
-            $scope.categories = []
-
-
-            // initService.populateOperation(accountId)
-            // initService.populateOperation('other')
-            
-            var resetOperationCreate = function () {
+            $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
             }
 
-
+            var accountId = $state.params.accountId
+            $scope.categories = []
             $scope.editable = false
-            resetOperationCreate()
+            $scope.resetOperationCreate()
+            $scope.operations = []
 
 
-            var getOperations = function() {
+            $scope.getOperations = function() {
                 OperationResource.getAll(accountId).$promise.then(function(operations){
                     for(var i = 0; i < operations.length; i++) {
                         if(operations[i].categoryId !== "") {
@@ -43,11 +38,11 @@
 
                     $scope.operations = operations
 
-                    updateSolde()
+                    $scope.updateSolde()
                 })
             }
 
-            var updateSolde = function() {
+            $scope.updateSolde = function() {
                 $scope.solde = 0
 
                 for(var i = 0; i < $scope.operations.length; i++) {
@@ -76,7 +71,7 @@
             }
 
             $scope.getCategoriesOperation()
-            getOperations()
+            $scope.getOperations()
             
 
             
@@ -94,7 +89,7 @@
                     $scope.operationCreateModel.accountId = accountId
                 }
 
-                console.log($scope.operationCreateModel)
+                //console.log($scope.operationCreateModel)
 
                 if($scope.operationCreateModel.hasOwnProperty("category")) {
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
@@ -126,15 +121,15 @@
                     OperationResource.add($scope.operationCreateModel)
                 }
 
-                resetOperationCreate()
-                getOperations()
+                $scope.resetOperationCreate()
+                $scope.getOperations()
             }
 
             $scope.deleteOperation = function(idOperation, index) {
                 OperationResource.remove(idOperation).$promise.then(function(){
-                    //getOperations()
+                    //$scope.getOperations()
                     $scope.operations.splice(index, 1)
-                    updateSolde();
+                    $scope.updateSolde();
                 })
             }
 
@@ -145,7 +140,7 @@
             $scope.updateOperation = function(operation) {
                 operation.editable = false
                 OperationResource.update(operation)
-                updateSolde()
+                $scope.updateSolde()
             }
 
             $scope.showUpdateOperation = function(operation) {
