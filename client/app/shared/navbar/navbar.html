@@ -1,27 +1,50 @@
-<!-- <div ng-controller="NavbarController" class="navbar-collapse collapse">
-    <ul class="nav navbar-nav">
-        <li ng-hide="currentUserSignedIn"><a ui-sref="login">login</a></li>
-        <li ng-hide="currentUserSignedIn"><a ui-sref="signup">Signup</a></li>
-        <li ng-show="currentUserSignedIn"><a style="cursor: hand;cursor: pointer;" ng-click="logout()">Logout</a></li>
-    </ul>
-</div> -->
 
+<div ng-controller="NavbarController">
+    <nav class="navbar navbar-default" role="navigation" >
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="" ui-sref="account">MyMoney</a>
+            </div>
 
-<nav ng-controller="NavbarController" class="navbar navbar-default" role="navigation" > <!-- ng-controller="NavController" -->
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="" ui-sref="account">MyMoney</a>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li ng-hide="currentUserSignedIn"><a ui-sref="login">login</a></li>
+                    <li ng-hide="currentUserSignedIn"><a ui-sref="signup">Signup</a></li>
+                    
+                    <li ng-show="currentUserSignedIn">
+                        <button show-sidebar-menu class="btn btn-default navbar-btn">Menu (Temporaire)</button>
+                    </li>
+                    <!-- <li ng-show="currentUserSignedIn"><a class="pointer" ng-click="logout()">Logout</a></li>
+                    <li ng-show="currentUserSignedIn"><a ui-sref="operation">Operations</a></li>
+                    <li ng-show="currentUserSignedIn"><a ui-sref="optPeriod">Operations périodiques</a></li>
+                     <li ng-show="currentUserSignedIn"><a ui-sref="accounts">Accounts</a></li> -->
+                </ul>
+            </div>
         </div>
+    </nav>
 
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-            	<li ng-hide="currentUserSignedIn"><a ui-sref="login">login</a></li>
-		        <li ng-hide="currentUserSignedIn"><a ui-sref="signup">Signup</a></li>
-		        <li ng-show="currentUserSignedIn"><a style="cursor: hand;cursor: pointer;" ng-click="logout()">Logout</a></li>
-                <li ng-show="currentUserSignedIn"><a class="" ui-sref="operation">Operations</a></li>
-                <li ng-show="currentUserSignedIn"><a class="" ui-sref="optPeriod">Operations périodiques</a></li>
-                 <li ng-show="currentUserSignedIn"><a class="" ui-sref="accounts">Accounts</a></li>
+
+    <div id="sidebar-wrapper-left" class="menuSidebar">
+        <form name="addOperationForm">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    Menu
+                </li>
+        
+                <!-- TODO: A styliser -->
+
+                <li>
+                    <a hide-sidebar-menu ui-sref="accounts">Accounts</a>
+                </li>
+
+                <li>
+                    <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
+                </li>
+
+                <li>
+                    <button hide-sidebar-menu class="btn btn-default">Close</button>
+                </li>
             </ul>
-        </div>
+        </form>
     </div>
-</nav>
+</div>

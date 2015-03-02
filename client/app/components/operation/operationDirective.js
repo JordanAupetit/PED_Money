@@ -32,7 +32,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     $(element).click(function() {
-                        $(".menuCreateOperation").animate({ "right": "0" }, "slow" );
+                        $("#sidebar-wrapper-right").animate({ "right": "0" }, "slow" );
                     });
                 }
             };
@@ -45,7 +45,33 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     $(element).click(function() {
-                        $(".menuCreateOperation").animate({ "right": "-300px" }, "slow" );
+                        $("#sidebar-wrapper-right").animate({ "right": "-300px" }, "slow" );
+                    });
+                }
+            };
+        })
+
+        .directive('showSidebarMenu', function () {
+            return {
+                restrict: 'AE',
+                replace: false,
+                transclude: false,
+                link: function (scope, element, attrs) {
+                    $(element).click(function() {
+                        $("#sidebar-wrapper-left").animate({ "left": "0" }, "slow" );
+                    });
+                }
+            };
+        })
+
+        .directive('hideSidebarMenu', function () {
+            return {
+                restrict: 'AE',
+                replace: false,
+                transclude: false,
+                link: function (scope, element, attrs) {
+                    $(element).click(function() {
+                        $("#sidebar-wrapper-left").animate({ "left": "-300px" }, "slow" );
                     });
                 }
             };

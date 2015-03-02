@@ -179,10 +179,11 @@ form.loginSignUp .signUp
     font-size: 18px;
 }
 
-.menuCreateOperation {
+.menuSidebar {
     background: #fff;
     box-shadow: 0 0 4px rgba(0,0,0,.14),2px 4px 8px rgba(0,0,0,.28);
     color: #757575;
+    z-index: 10;
 }
 
 .operationLine {
@@ -234,10 +235,21 @@ form.loginSignUp .signUp
 
 
 
-#sidebar-wrapper {
+#sidebar-wrapper-right {
     position: fixed;
     top: 52px;
     right: -300px;
+    bottom: 0px;
+    width: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: white;
+}
+
+#sidebar-wrapper-left {
+    position: fixed;
+    top: 52px;
+    left: -300px;
     bottom: 0px;
     width: 250px;
     overflow-y: auto;
