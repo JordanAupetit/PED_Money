@@ -46,12 +46,12 @@
                 $scope.solde = 0
 
                 for(var i = 0; i < $scope.operations.length; i++) {
-                    // 2 decimal au maximum
                     if($scope.operations[i].value !== "" && $scope.operations[i].value !== undefined) {
                         $scope.solde += parseFloat($scope.operations[i].value)
                     }
                 }
 
+                // 2 decimal au maximum
                 $scope.solde = $scope.solde.toFixed(2)
             }
 
@@ -89,9 +89,9 @@
                     $scope.operationCreateModel.accountId = accountId
                 }
 
-                //console.log($scope.operationCreateModel)
+                console.log($scope.operationCreateModel)
 
-                if($scope.operationCreateModel.hasOwnProperty("category")) {
+                if($scope.operationCreateModel.hasOwnProperty("category") && $scope.operationCreateModel.category !== undefined) {
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
 
