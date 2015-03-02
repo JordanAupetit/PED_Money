@@ -23,7 +23,6 @@
 
             $scope.getOperations = function() {
                 OperationResource.getAll(accountId).$promise.then(function(operations){
-                    console.log(operations)
                     for(var i = 0; i < operations.length; i++) {
 
                         operations[i].categoryName = "No category"
@@ -92,8 +91,6 @@
                     $scope.operationCreateModel.accountId = accountId
                 }
 
-                console.log($scope.operationCreateModel)
-
                 if($scope.operationCreateModel.hasOwnProperty("category") && $scope.operationCreateModel.category !== undefined) {
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
@@ -150,8 +147,6 @@
                     operation.categoryId = ""
                     operation.categoryName = "No category"
                 }
-
-                console.log(operation)
 
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
