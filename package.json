@@ -7,6 +7,10 @@
     {
       "name": "Jordan Aupetit",
       "email": "jordan.aupetit@gmail.com"
+    },
+    {
+      "name": "Dimitri Ranc",
+      "email": "ranc.dimitri@gmail.com"
     }
   ],
   "license": "Apache 2.0",
@@ -26,7 +30,7 @@
     "karma-jasmine": "^0.3.5"
   },
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start ./client/karma.conf.js --single-run",
+    "test": "node node_modules/karma/bin/karma start ./client/karma.conf.js --single-run",
     "db": "mongod --dbpath ./server/db",
     "start": "node ./server/server.js",
     "startalll": "screen -dmS mongo npm run db && npm start",

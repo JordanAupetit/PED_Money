@@ -4,15 +4,28 @@
     angular
     .module('controllers')
     .controller('ManageCategoriesController', 
-        ['$scope', 'CategoryResource', function ManageCategoriesController($scope, CategoryResource) {
+        ['$scope', '$rootScope', 'CategoryResource', function ManageCategoriesController($scope, $rootScope, CategoryResource) {
             
-            function CategorieUnderConstruction(subCategory){
+
+            var uniqid = function() {
+                function s4() {
+                    return Math.floor((1 + Math.random()) * 0x10000)
+                        .toString(16)
+                        .substring(1)
+                }
+
+                return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+                    s4() + '-' + s4() + s4() + s4();
+            }
+
+            function CategorieUnderConstruction(subCategory) {
                 this.name = ""
                 this.isSubCategory = false
                 this.subCategory = subCategory
             }
 
-            function Categorie(name){
+            function Categorie(name) {
+                this.id = uniqid()
                 this.name = name
                 this.subCategories = []
             }
@@ -57,14 +70,29 @@
             ];
 
             */
+            
+            $scope.categories = []
+
             var getCategories = function() {
-                CategoryResource.getAll('54e4d019e6d52f98153df4c9').$promise.then(function(categories){
-                    $scope.categories = categories
-                    $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
-                })
+                var idUser = $rootScope.currentUserSignedInId
+                
+                if(idUser !== "" && idUser !== undefined) {
+                    CategoryResource.getAll(idUser).$promise.then(function(categories){
+                        $scope.categories = []
+                        for(var i = 0; i < categories.length; i++) {
+                            if(categories[i] !== null) {
+                                $scope.categories.push(categories[i])
+                            }
+                        }
+                        $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
+                        
+                        // TODO: /!\ voir si ça fonctionne tous le temps
+                        $scope.$parent.$parent.getCategoriesOperation()
+                    })
+                }
             }
 
-            // getCategories()
+            getCategories()
 
             $scope.createCategory = function(){
                 if($scope.newCategory.name){
@@ -72,7 +100,7 @@
                         var index = $scope.categories.indexOf($scope.newCategory.subCategory)
                         $scope.categories[index].subCategories.push($scope.newCategory.name)
                     }
-                    else{
+                    else {
                         $scope.categories.push(new Categorie($scope.newCategory.name))
                     }
                     $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
@@ -106,16 +134,21 @@
             $scope.saveChanges = function(){
                 var target = event.target
                 target.textContent = "loading ..."
-                target.disabled = true;
+                target.disabled = true
+
+                var idUser = $rootScope.currentUserSignedInId
                 
-                CategoryResource.update('54e4d019e6d52f98153df4c9', $scope.categories).$promise.then(function callback (err, numAffected) {
+                if(idUser !== "" && idUser !== undefined) {
+                    CategoryResource.update(idUser, $scope.categories).$promise.then(function callback (err, numAffected) {
 
-                    
-                    target.textContent = "Save changes"
-                    target.disabled = false;
+                        target.textContent = "Save changes"
+                        target.disabled = false;
 
-                    $('#modalManageCategories').modal('hide');
-                });
+                        getCategories()
+
+                        $('#modalManageCategories').modal('hide');
+                    });
+                }
             }
         }])  
 })();

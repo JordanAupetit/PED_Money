@@ -89,6 +89,7 @@ var OperationSchema = new Schema({
 
 
 var CategorySchema = new Schema({
+    id: String,
     name: String,
     subCategories:[]
 })
