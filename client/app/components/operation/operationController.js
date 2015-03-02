@@ -23,14 +23,17 @@
 
             $scope.getOperations = function() {
                 OperationResource.getAll(accountId).$promise.then(function(operations){
+                    console.log(operations)
                     for(var i = 0; i < operations.length; i++) {
-                        if(operations[i].categoryId !== "") {
 
-                            operations[i].categoryName = "No category"
+                        operations[i].categoryName = "No category"
+
+                        if(operations[i].categoryId !== "") {
 
                             for(var j = 0; j < $scope.categories.length; j++) {
                                 if($scope.categories[j].id === operations[i].categoryId) {
                                     operations[i].categoryName = $scope.categories[j].name
+                                    operations[i].category = $scope.categories[j]
                                 }
                             }
                         }
@@ -139,8 +142,21 @@
 
             $scope.updateOperation = function(operation) {
                 operation.editable = false
-                OperationResource.update(operation)
-                $scope.updateSolde()
+
+                if(operation.hasOwnProperty("category") && operation.category !== undefined) {
+                    operation.categoryId = operation.category.id
+
+                } else { // Plus de catégories
+                    operation.categoryId = ""
+                    operation.categoryName = "No category"
+                }
+
+                console.log(operation)
+
+                OperationResource.update(operation).$promise.then(function(){
+                    // Permet principalement la Mise à jour du nom de la catégorie
+                    $scope.getOperations()
+                })
             }
 
             $scope.showUpdateOperation = function(operation) {
