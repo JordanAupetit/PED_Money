@@ -158,10 +158,13 @@
                 operation.editable = true
             }
 
-            $scope.createOperationAdvanced = function() {
+            $scope.showOperationAdvanced = function() {
                 $scope.operationCreateModel.advanced = true
             }
 
+            $scope.hideOperationAdvanced = function() {
+                $scope.operationCreateModel.advanced = false
+            }
         }
 
 })();

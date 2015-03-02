@@ -204,7 +204,9 @@
 
                 <li>
                     <button close-menu-create-operation ng-disabled="addOperationForm.$invalid" ng-click="addOperation()" class="btn btn-primary">Add</button>
-                    <button type="button" ng-if="!operationCreateModel.advanced" ng-click="createOperationAdvanced()" class="btn btn-default">Advanced</button>
+                    <button type="button" ng-if="!operationCreateModel.advanced" ng-click="showOperationAdvanced()" class="btn btn-default">Advanced</button>
+
+                    <button type="button" ng-if="operationCreateModel.advanced" ng-click="hideOperationAdvanced()" class="btn btn-default">Simple</button>
 
                     <!-- TODO: Ameliorer en mettant une croix en haut -->
 
