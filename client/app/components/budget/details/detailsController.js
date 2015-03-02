@@ -12,30 +12,30 @@
 	function BudgetDetailsCtrl($scope, budgetService, $modal, $log, budgetHelper){
 
 
-		var months = [
-			{id:1,name:"January"},
-			{id:2,name:"Febrary"},
-			{id:3,name:"March"},
-			{id:4,name:"April"},
-			{id:5,name:"May"},
-			{id:6,name:"June"},
-			{id:7,name:"Jully"},
-			{id:8,name:"August"},
-			{id:9,name:"September"},
-			{id:10,name:"October"},
-			{id:11,name:"November"},
-			{id:12,name:"December"}
-		]
+		// var months = [
+		// 	{id:1,name:"January"},
+		// 	{id:2,name:"Febrary"},
+		// 	{id:3,name:"March"},
+		// 	{id:4,name:"April"},
+		// 	{id:5,name:"May"},
+		// 	{id:6,name:"June"},
+		// 	{id:7,name:"Jully"},
+		// 	{id:8,name:"August"},
+		// 	{id:9,name:"September"},
+		// 	{id:10,name:"October"},
+		// 	{id:11,name:"November"},
+		// 	{id:12,name:"December"}
+		// ]
 
-		var years = [
-			{
-				year: 2015,
-				months: months
-			}
-		]
+		// var years = [
+		// 	{
+		// 		year: 2015,
+		// 		months: months
+		// 	}
+		// ]
 
-		$scope.years = years
-		$scope.months = months
+		// $scope.years = years
+		// $scope.months = months
 
 		$scope.currentSelection = 'nothing'
 
@@ -129,12 +129,12 @@
 			size: {
 				width: 600,
 				height: 400
-			},
-			//function (optional)
-			func: function(chart) {
-				//setup some logic for the chart
-				
 			}
+			//function (optional)
+			// func: function(chart) {
+			// 	//setup some logic for the chart
+				
+			// }
 		};
 
 		$scope.chartConfig = chartConfig

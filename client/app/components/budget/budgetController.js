@@ -22,7 +22,7 @@
 
 
 					// Active the month
-					angular.forEach(months, function(v, k){
+					angular.forEach(months, function(v){
 						v.isActive = false
 					})
 					months[month-1].isActive = true
@@ -34,13 +34,13 @@
 					callback()
 				},
 				resetMonth : function(years, yearPos){
-					angular.forEach(years[yearPos].months, function(v, k){
+					angular.forEach(years[yearPos].months, function(v){
 						v.isActive = false
 					})
 				},
-				changeYear: function(years, year, dateSelector, months, callback){
+				changeYear: function(years, year, dateSelector, months/*, callback*/){
 					// Find year position
-					var yearPos = undefined
+					var yearPos
 					angular.forEach(years, function(y, key){
 						if(y.year === year){
 							yearPos = key
@@ -50,7 +50,7 @@
 					this.resetMonth(years, yearPos)
 
 					// Active the year
-					angular.forEach(years, function(v, k){
+					angular.forEach(years, function(v){
 						v.isActive = false
 					})
 					years[yearPos].isActive = true
@@ -147,33 +147,33 @@
 				size: {
 					width: 400,
 					height: 300
-				},
-				//function (optional)
-				func: function(chart) {
-					//setup some logic for the chart
 				}
+				//function (optional)
+				// func: function(chart) {
+				// 	//setup some logic for the chart
+				// }
 			}
 
 			$scope.chartConfig = chartConfig
 		}
 
-		function genChartConfig2(){
-			// $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-			$scope.labels = ['My expense of the month'];
-			// $scope.series = ['Series A', 'Series B'];
-			$scope.series = ['sss'];
+		// function genChartConfig2(){
+		// 	// $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+		// 	$scope.labels = ['My expense of the month'];
+		// 	// $scope.series = ['Series A', 'Series B'];
+		// 	$scope.series = ['sss'];
 
-			$scope.data = [
-				// [65, 59, 80, 81, 56, 55, 40],
-				// [28, 48, 40, 19, 86, 27, 90]
-				[28]
-			];
+		// 	$scope.data = [
+		// 		// [65, 59, 80, 81, 56, 55, 40],
+		// 		// [28, 48, 40, 19, 86, 27, 90]
+		// 		[28]
+		// 	];
 
-			$scope.options = {
-				// scaleShowLabels: false,
-				responsive: true
-			}
-		}
+		// 	$scope.options = {
+		// 		// scaleShowLabels: false,
+		// 		responsive: true
+		// 	}
+		// }
 
 		
 
@@ -213,11 +213,11 @@
 			]
 
 		function updateGraph(){
-			if($scope.chartConfig.series === undefined || $scope.chartConfig.series.length != 2){
+			if($scope.chartConfig.series === undefined || $scope.chartConfig.series.length !== 2){
 				$scope.chartConfig.series = defaultData
 			}
-			if(budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth) === undefined 
-				&& dateSelector.currentMonth !== 13){
+			if(budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth) === undefined && 
+				dateSelector.currentMonth !== 13){
 				$scope.chartConfig.series = undefined
 			}else{
 
@@ -269,11 +269,11 @@
 			
 		// }
 
-		function resetMonth(yearPos){
-			angular.forEach($scope.years[yearPos].months, function(v, k){
-				v.isActive = false
-			})
-		}
+		// function resetMonth(yearPos){
+		// 	angular.forEach($scope.years[yearPos].months, function(v, k){
+		// 		v.isActive = false
+		// 	})
+		// }
 
 		$scope.changeYear = function(year){
 			$scope.months = budgetHelper.changeYear($scope.years, year, dateSelector, $scope.months)
@@ -308,25 +308,22 @@
 		// 	$scope.changeMonth(dateSelector.currentMonth)
 		// }
 
-		$scope.changeYearOld = function(yearPos){
-			resetMonth(yearPos)
+		// $scope.changeYearOld = function(yearPos){
+		// 	resetMonth(yearPos)
 
-			// Active the year
-			angular.forEach($scope.years, function(v, k){
-				v.isActive = false
-			})
-			$scope.years[yearPos].isActive = true
+		// 	// Active the year
+		// 	angular.forEach($scope.years, function(v){
+		// 		v.isActive = false
+		// 	})
+		// 	$scope.years[yearPos].isActive = true
 
-			$scope.yearSelector = $scope.years[yearPos].year
-			$scope.currentYear = yearPos
+		// 	$scope.yearSelector = $scope.years[yearPos].year
+		// 	$scope.currentYear = yearPos
 
-			// console.log(yearPos)
-			$scope.months = $scope.years[yearPos].months
-			$scope.changeMonth($scope.currentMonth)
-		}
-
-		var accountValues = []
-
+		// 	// console.log(yearPos)
+		// 	$scope.months = $scope.years[yearPos].months
+		// 	$scope.changeMonth($scope.currentMonth)
+		// }
 
 		genChartConfig()
 

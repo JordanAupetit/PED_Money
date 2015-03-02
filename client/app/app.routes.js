@@ -82,7 +82,7 @@
 
     $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
       var requireLogin = toState.data.requireLogin;
-      if (requireLogin && localStorageService.cookie.get('token') == null) {
+      if (requireLogin && localStorageService.cookie.get('token') === null) {
         event.preventDefault();
         $state.go('login');
       }

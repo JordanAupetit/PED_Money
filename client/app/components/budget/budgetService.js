@@ -22,7 +22,7 @@
 				}
 			})
 
-			var accountValues = undefined
+			var accountValues
 
 
 			return {
@@ -47,15 +47,15 @@
 				},
 				remove: function(budgetId) {
 					return budgetRes.delete({
-						id: budgetIdId
+						id: budgetId
 					})
 				},
 				getExpense: function(year, month){
-					if(month == undefined){
+					if(month === undefined){
 						var tmp = 0
 
 						for(var i = 0; i <12; i++){
-							if(accountValues[i+year*12-1] != undefined){
+							if(accountValues[i+year*12-1] !== undefined){
 								tmp += accountValues[i+year*12-1]
 							}
 						}

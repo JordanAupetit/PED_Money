@@ -6,7 +6,7 @@
         .controller('CategoryController', CategoryController);
 
     function CategorieUnderConstruction(subCategory){
-    	this.name = ""
+    	this.name = ''
     	this.isSubCategory = false
 		this.subCategory = subCategory
     }
@@ -19,25 +19,25 @@
     function CategoryController($scope) {
         $scope.categories = [
 		    {
-		    	name: "Shooping",
+		    	name: 'Shooping',
 		    	subCategories:[
-		    		"Food",
-		    		"Clothes",
-		    		"Gifts"
+		    		'Food',
+		    		'Clothes',
+		    		'Gifts'
 		    	]
 		    },
 	        {
-	        	name: "Loisir",
+	        	name: 'Loisir',
 	        	subCategories:[
-        			"Football",
-        			"Cinema",
-        			"Others"
+        			'Football',
+        			'Cinema',
+        			'Others'
 	        	]
 	        },
 	        {	
-	        	name: "Others",
+	        	name: 'Others',
 	        	subCategories:[
-	        		"Pets"
+	        		'Pets'
 	        	]
 	        }
 	    ];
@@ -82,7 +82,7 @@
 		}
 
 		$scope.saveChanges = function(){
-			event.target.textContent = "loading ..."
+			event.target.textContent = 'loading ...'
 			event.target.disabled = true;
 			
 			//TODO

@@ -24,9 +24,9 @@
             $scope.getOperations = function() {
                 OperationResource.getAll(accountId).$promise.then(function(operations){
                     for(var i = 0; i < operations.length; i++) {
-                        if(operations[i].categoryId !== "") {
+                        if(operations[i].categoryId !== '') {
 
-                            operations[i].categoryName = "No category"
+                            operations[i].categoryName = 'No category'
 
                             for(var j = 0; j < $scope.categories.length; j++) {
                                 if($scope.categories[j].id === operations[i].categoryId) {
@@ -47,7 +47,7 @@
 
                 for(var i = 0; i < $scope.operations.length; i++) {
                     // 2 decimal au maximum
-                    if($scope.operations[i].value !== "" && $scope.operations[i].value !== undefined) {
+                    if($scope.operations[i].value !== '' && $scope.operations[i].value !== undefined) {
                         $scope.solde += parseFloat($scope.operations[i].value)
                     }
                 }
@@ -58,7 +58,7 @@
             $scope.getCategoriesOperation = function() {
                 var idUser = $rootScope.currentUserSignedInId
                 
-                if(idUser !== "" && idUser !== undefined) {
+                if(idUser !== '' && idUser !== undefined) {
                     CategoryResource.getAll(idUser).$promise.then(function(categories){
                         $scope.categories = []
                         for(var i = 0; i < categories.length; i++) {
@@ -85,32 +85,32 @@
 
 
             $scope.addOperation = function() {
-                if(accountId !== "") {
+                if(accountId !== '') {
                     $scope.operationCreateModel.accountId = accountId
                 }
 
                 //console.log($scope.operationCreateModel)
 
-                if($scope.operationCreateModel.hasOwnProperty("category")) {
+                if($scope.operationCreateModel.hasOwnProperty('category')) {
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
 
                 // TODO: Verifier le bon format de la date
-                if( !$scope.operationCreateModel.hasOwnProperty("dateOperation") 
-                    || $scope.operationCreateModel.dateOperation === ""
+                if( !$scope.operationCreateModel.hasOwnProperty('dateOperation') 
+                    || $scope.operationCreateModel.dateOperation === ''
                     || !moment($scope.operationCreateModel.dateOperation).isValid) {
 
                     $scope.operationCreateModel.dateOperation = moment().format('DD/MM/YYYY')
                 }
 
-                if( !$scope.operationCreateModel.hasOwnProperty("datePrelevement") 
-                    || $scope.operationCreateModel.datePrelevement === ""
+                if( !$scope.operationCreateModel.hasOwnProperty('datePrelevement') 
+                    || $scope.operationCreateModel.datePrelevement === ''
                     || !moment($scope.operationCreateModel.datePrelevement).isValid) {
 
                     $scope.operationCreateModel.datePrelevement = $scope.operationCreateModel.dateOperation
                 }
 
-                if( $scope.operationCreateModel.hasOwnProperty("periodic")
+                if( $scope.operationCreateModel.hasOwnProperty('periodic')
                     && $scope.operationCreateModel.periodic) {
 
                     // TODO: Add operation periodic
