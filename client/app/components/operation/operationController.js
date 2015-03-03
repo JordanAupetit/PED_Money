@@ -26,6 +26,7 @@
             function postOperation(accountId, operation){
                 // TODO: Add a promise HERE
                 if(Offline.state == "up"){
+                    //console.log($scope.operationCreateModel)
                     OperationResource.add($scope.operationCreateModel)
                 }
                 else{
@@ -63,12 +64,12 @@
                 $scope.solde = 0
 
                 for(var i = 0; i < $scope.operations.length; i++) {
-                    // 2 decimal au maximum
                     if($scope.operations[i].value !== "" && $scope.operations[i].value !== undefined) {
                         $scope.solde += parseFloat($scope.operations[i].value)
                     }
                 }
 
+                // 2 decimal au maximum
                 $scope.solde = $scope.solde.toFixed(2)
             }
 
@@ -86,22 +87,19 @@
                     })
                 }
             }
+
             /*  
                 ==== TODO ====
                 - Gérer les erreurs / champs vides dans le formulaire d'ajout d'operations
                 - Lorsque l'on raffraichis la page (F5), le rootScope est vidé, et on ne
                 possède plus l'User ID, et donc plus de requêtes qui ont besoin de cet ID
             */
-
-
             $scope.addOperation = function() {
                 if(accountId !== "") {
                     $scope.operationCreateModel.accountId = accountId
                 }
 
-                //console.log($scope.operationCreateModel)
-
-                if($scope.operationCreateModel.hasOwnProperty("category")) {
+                if($scope.operationCreateModel.hasOwnProperty("category") && $scope.operationCreateModel.category !== undefined) {
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
 
@@ -149,8 +147,19 @@
 
             $scope.updateOperation = function(operation) {
                 operation.editable = false
-                OperationResource.update(operation)
-                $scope.updateSolde()
+
+                if(operation.hasOwnProperty("category") && operation.category !== undefined) {
+                    operation.categoryId = operation.category.id
+
+                } else { // Plus de catégories
+                    operation.categoryId = ""
+                    operation.categoryName = "No category"
+                }
+
+                OperationResource.update(operation).$promise.then(function(){
+                    // Permet principalement la Mise à jour du nom de la catégorie
+                    getOperations()
+                })
             }
 
             $scope.showUpdateOperation = function(operation) {

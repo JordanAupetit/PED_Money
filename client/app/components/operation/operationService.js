@@ -8,7 +8,7 @@
         var operationResource =  $resource('/api/operation/:id', {}, {
             getAll : {method:'GET', isArray:true},
             get : {method:'GET'},
-            add : {method:'POST '},
+            add : {method:'POST'},
             update : {method:'PUT'},
             delete : {method:'DELETE'}
         })
@@ -22,10 +22,10 @@
                 return operationResourceToAccount.getAll({accountId : accountId})
             },
             add: function(operation){
-                operationResource.add(operation)
+                return operationResource.add(operation)
             },
             update: function(operation){
-                operationResource.update(operation)
+                return operationResource.update(operation)
             },
             remove: function(periodId){
                 return operationResource.delete({id : periodId})
