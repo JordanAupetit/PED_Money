@@ -14,6 +14,14 @@
                     <li ng-show="currentUserSignedIn">
                         <button show-sidebar-menu class="btn btn-default navbar-btn">Menu (Temporaire)</button>
                     </li>
+
+                    <li ng-controller="offlineController">
+                        <a>
+                            <b ng-if="!up">HORS LIGNE</b>
+                            <b ng-if="up">En LIGNE (Debug)</b>
+                        </a>
+                    </li>
+
                     <!-- <li ng-show="currentUserSignedIn"><a class="pointer" ng-click="logout()">Logout</a></li>
                     <li ng-show="currentUserSignedIn"><a ui-sref="operation">Operations</a></li>
                     <li ng-show="currentUserSignedIn"><a ui-sref="optPeriod">Operations périodiques</a></li>
@@ -22,7 +30,6 @@
             </div>
         </div>
     </nav>
-
 
     <div id="sidebar-wrapper-left" class="menuSidebar">
         <form name="addOperationForm">

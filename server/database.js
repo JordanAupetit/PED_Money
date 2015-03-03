@@ -8,7 +8,6 @@ module.exports = {
     getOperationModel: function(){
         return operationModel
     },
-
     getCategoryModel: function(){
         return categoryModel
     },
@@ -25,16 +24,11 @@ module.exports = {
     getUserModel: function(){
 	 	return userModel
 	}
-
 }
 
-
 var mongoose = require('mongoose')
-
-//Connect to database
 mongoose.connect('mongodb://localhost/mymoney');
 var db = mongoose.connection;
-
 
 //Schemas
 var Schema = mongoose.Schema;
@@ -55,43 +49,6 @@ var AccountSchema  = new Schema({
 	balance: Number,
 	currency: String,
     userId: String
-})
-
-
-
-
-var UserSchema  = new Schema({
-	id: String,
-	username: String,
-	lastName: String,
-	firstName: String,
-	email: String,
-	password: String, // TODO Add salt ??
-	token: String,
-    categories: {type: [CategorySchema], default: defaultCategories}
-})
-
-
-var OperationSchema = new Schema({
-    value: Number,
-    thirdParty: String,
-    description: String,
-    type: String,
-    checked: Boolean,
-    /*dateOperation: Date,
-    datePrelevement: Date,*/
-    dateOperation: String,
-    datePrelevement: String,
-    categoryId: String/*,
-    subOperations: []*/,
-    accountId: String
-})
-
-
-var CategorySchema = new Schema({
-    id: String,
-    name: String,
-    subCategories:[]
 })
 
 var defaultCategories = [
@@ -119,7 +76,37 @@ var defaultCategories = [
     }
 ]
 
-console.log('init db end')
+var UserSchema  = new Schema({
+	id: String,
+	username: String,
+	lastName: String,
+	firstName: String,
+	email: String,
+	password: String, // TODO Add salt ??
+	token: String,
+    categories: {type: [CategorySchema], default: defaultCategories}
+})
+
+var OperationSchema = new Schema({
+    value: Number,
+    thirdParty: String,
+    description: String,
+    type: String,
+    checked: Boolean,
+    /*dateOperation: Date,
+    datePrelevement: Date,*/
+    dateOperation: String,
+    datePrelevement: String,
+    categoryId: String/*,
+    subOperations: []*/,
+    accountId: String
+})
+
+var CategorySchema = new Schema({
+    id: String,
+    name: String,
+    subCategories:[]
+})
 
 // ExpenseSchema.index( { user: 1 } )
 

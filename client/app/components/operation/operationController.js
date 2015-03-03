@@ -8,7 +8,6 @@
 
 
         function OperationController($scope, $rootScope, OperationResource, CategoryResource, initService, $state) {
-
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
@@ -20,31 +19,71 @@
             $scope.resetOperationCreate()
             $scope.operations = []
 
+            function saveOperationsOffline(accountId, operations){
+                localStorage.setItem("operations-"+accountId, JSON.stringify(operations))
+            }
 
             // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
 
-            $scope.getOperations = function() {
+
+            /*$scope.getOperations = function() {
                 OperationResource.getAll(accountId).$promise.then(function(operations){
                     for(var i = 0; i < operations.length; i++) {
 
                         operations[i].categoryName = "No category"
 
-                        if(operations[i].categoryId !== "") {
+                        if(operations[i].categoryId !== "") {*/
 
-                            for(var j = 0; j < $scope.categories.length; j++) {
-                                if($scope.categories[j].id === operations[i].categoryId) {
-                                    operations[i].categoryName = $scope.categories[j].name
-                                    operations[i].category = $scope.categories[j]
+
+            function postOperation(accountId, operation){
+                // TODO: Add a promise HERE
+                if(Offline.state == "up"){
+                    //console.log($scope.operationCreateModel)
+                    //OperationResource.add($scope.operationCreateModel)
+
+                    OperationResource.add($scope.operationCreateModel).$promise.then(function(){
+                        $scope.getOperations()
+                    })
+                }
+                else{
+                    var wfc = eval("("+localStorage.getItem("waitingforconnection")+")")        
+                    wfc.operations.POSTs.push(operation)
+                    localStorage.setItem("waitingforconnection", JSON.stringify(wfc))
+                }
+            }
+
+            $scope.getOperations = function() {
+                if(Offline.state == "up"){
+                    OperationResource.getAll(accountId).$promise.then(function(operations){
+
+                        console.log(operations)
+
+                        for(var i = 0; i < operations.length; i++) {
+
+                            operations[i].categoryName = "No category"
+
+                            if(operations[i].categoryId !== "") {
+
+                                for(var j = 0; j < $scope.categories.length; j++) {
+                                    if($scope.categories[j].id === operations[i].categoryId) {
+                                        operations[i].categoryName = $scope.categories[j].name
+                                        operations[i].category = $scope.categories[j]
+                                    }
                                 }
                             }
                         }
-                    }
-
-                    $scope.operations = operations
-
-                    $scope.updateSolde()
-                })
+                        
+                        $scope.operations = operations
+                        saveOperationsOffline(accountId, operations)       
+                        $scope.updateSolde()
+                    })
+                }
+                else{
+                    $scope.operations = eval("("+localStorage.getItem("operations-"+accountId)+")")
+                }
             }
+
+            $scope.getOperations()
 
             $scope.updateSolde = function() {
                 $scope.solde = 0
@@ -78,20 +117,12 @@
                 }
             }
 
-            $scope.getCategoriesOperation()
-            $scope.getOperations()
-            
-
-            
-
             /*  
                 ==== TODO ====
                 - Gérer les erreurs / champs vides dans le formulaire d'ajout d'operations
                 - Lorsque l'on raffraichis la page (F5), le rootScope est vidé, et on ne
                 possède plus l'User ID, et donc plus de requêtes qui ont besoin de cet ID
             */
-
-
             $scope.addOperation = function() {
                 if(accountId !== "") {
                     $scope.operationCreateModel.accountId = accountId
@@ -122,12 +153,12 @@
                     // TODO: Add operation periodic
 
                 } else { // Add normal operation
-                    OperationResource.add($scope.operationCreateModel).$promise.then(function(){
-                        $scope.getOperations()
-                    })
+
+                    postOperation(accountId, $scope.operationCreateModel)
                 }
 
                 $scope.resetOperationCreate()
+                $scope.getOperations()
             }
 
             $scope.deleteOperation = function(idOperation, index) {

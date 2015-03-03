@@ -30,47 +30,6 @@
                 this.subCategories = []
             }
             
-            /*
-            var op = {
-                    name: "Shooping",
-                    subCategories:[
-                        "Food",
-                        "Clothes",
-                        "Gifts"
-                    ]
-                }
-
-
-            //CategoryResource.add(op)
-            /*
-
-            $scope.categories = [
-                {
-                    name: "Shooping",
-                    subCategories:[
-                        "Food",
-                        "Clothes",
-                        "Gifts"
-                    ]
-                },
-                {
-                    name: "Loisir",
-                    subCategories:[
-                        "Football",
-                        "Cinema",
-                        "Others"
-                    ]
-                },
-                {   
-                    name: "Others",
-                    subCategories:[
-                        "Pets"
-                    ]
-                }
-            ];
-
-            */
-            
             $scope.categories = []
 
             var getCategories = function() {

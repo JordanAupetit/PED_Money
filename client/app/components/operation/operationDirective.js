@@ -45,7 +45,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     $(element).click(function() {
-                        $("#sidebar-wrapper-right").animate({ "right": "-300px" }, "slow" );
+                        $("#sidebar-wrapper-right").animate({ "right": "-350px" }, "slow" );
                     });
                 }
             };
