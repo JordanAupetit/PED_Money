@@ -8,7 +8,7 @@
         var operationResource =  $resource('/api/operation/:id', {}, {
             getAll : {method:'GET', isArray:true},
             get : {method:'GET'},
-            add : {method:'POST'},
+            add : {method:'POST '},
             update : {method:'PUT'},
             delete : {method:'DELETE'}
         })

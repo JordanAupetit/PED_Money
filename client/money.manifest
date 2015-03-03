@@ -1,6 +1,6 @@
 CACHE MANIFEST
  
-# Version 0.0.0.11
+# Version 0.0.0.12
 
 index.html
 app/shared/navbar/navbar.html
@@ -57,6 +57,8 @@ app/shared/category/categoryService.js
 app/shared/navbar/navbarController.js
 app/shared/filters.js
 app/shared/datePickerDirective.js
-app/components/offline/offlineService.js
+
+app/components/offline/offline.min.js
 app/components/offline/offlineController.js
-app/components/offline/jstorage.js
+
+favicon.ico 
