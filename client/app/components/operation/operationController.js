@@ -21,6 +21,8 @@
             $scope.operations = []
 
 
+            // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
+
             $scope.getOperations = function() {
                 OperationResource.getAll(accountId).$promise.then(function(operations){
                     for(var i = 0; i < operations.length; i++) {
@@ -139,6 +141,8 @@
             $scope.validateOperation = function(operation) {
                 OperationResource.update(operation)
             }
+
+            // TODO: Update non fonctionnel au CREMI, à vérifier
 
             $scope.updateOperation = function(operation) {
                 operation.editable = false
