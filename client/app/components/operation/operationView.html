@@ -16,7 +16,7 @@
 
         <div hover-operation class="operationLine" ng-repeat="op in operations"> 
             
-            <div ng-show="op.editable" class="wid100p operationLineEditable">
+            <form ng-show="op.editable" class="wid100p operationLineEditable">
                 <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.dateOperation">
                 <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.datePrelevement">
 
@@ -32,8 +32,13 @@
                 <input type="text" class="form-control wid100 ftl mr10" ng-model="op.description">
                 <input type="text" class="form-control wid100 ftl mr10" ng-model="op.thirdParty">
                 <input type="text" class="form-control wid100 ftl mr10" ng-model="op.type">
-                <input ng-class="{ 'has-error' : op.value }" type="number" class="form-control wid100 ftl mr10" ng-model="op.value">
-            </div>
+
+                <!-- TODO: Il faut afficher l'input en rouge s'il y a une erreur, ça ne marche pas -->
+
+                <div class="form-group" ng-class="{ 'has-error' : op.value.$invalid }">
+                    <input type="number" class="form-control wid100 ftl mr10" ng-model="op.value" placeholder="Value" required>
+                </div>
+            </form>
 
             <div ng-show="!op.editable">
                 <div  class="wid30p ftl">

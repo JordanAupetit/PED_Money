@@ -143,6 +143,8 @@
             $scope.updateOperation = function(operation) {
                 operation.editable = false
 
+                console.log(operation)
+
                 if(operation.hasOwnProperty("category") && operation.category !== undefined) {
                     operation.categoryId = operation.category.id
 
@@ -151,7 +153,9 @@
                     operation.categoryName = "No category"
                 }
 
-                if(operation.)
+                /*if(operation.value == "" || operation.value == null) {
+                    operation.value = 0
+                }*/
 
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
