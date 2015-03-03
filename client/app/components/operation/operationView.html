@@ -32,7 +32,7 @@
                 <input type="text" class="form-control wid100 ftl mr10" ng-model="op.description">
                 <input type="text" class="form-control wid100 ftl mr10" ng-model="op.thirdParty">
                 <input type="text" class="form-control wid100 ftl mr10" ng-model="op.type">
-                <input type="number" class="form-control wid100 ftl mr10" ng-model="op.value">
+                <input ng-class="{ 'has-error' : op.value }" type="number" class="form-control wid100 ftl mr10" ng-model="op.value">
             </div>
 
             <div ng-show="!op.editable">

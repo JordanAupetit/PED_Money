@@ -22,7 +22,7 @@
                 return operationResourceToAccount.getAll({accountId : accountId})
             },
             add: function(operation){
-                operationResource.add(operation)
+                return operationResource.add(operation)
             },
             update: function(operation){
                 return operationResource.update(operation)

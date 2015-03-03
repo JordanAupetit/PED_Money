@@ -68,6 +68,10 @@
                                 $scope.categories.push(categories[i])
                             }
                         }
+
+                        // On réactualise les opérations dans le cas où des
+                        // catégories auraient été supprimées
+                        $scope.getOperations()
                     })
                 }
             }
@@ -116,13 +120,12 @@
                     // TODO: Add operation periodic
 
                 } else { // Add normal operation
-
-                    // TODO: Add a promise HERE
-                    OperationResource.add($scope.operationCreateModel)
+                    OperationResource.add($scope.operationCreateModel).$promise.then(function(){
+                        $scope.getOperations()
+                    })
                 }
 
                 $scope.resetOperationCreate()
-                $scope.getOperations()
             }
 
             $scope.deleteOperation = function(idOperation, index) {
@@ -147,6 +150,8 @@
                     operation.categoryId = ""
                     operation.categoryName = "No category"
                 }
+
+                if(operation.)
 
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
