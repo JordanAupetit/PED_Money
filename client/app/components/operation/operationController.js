@@ -56,8 +56,6 @@
                 if(Offline.state == "up"){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
 
-                        console.log(operations)
-
                         for(var i = 0; i < operations.length; i++) {
 
                             operations[i].categoryName = "No category"
@@ -158,7 +156,6 @@
                 }
 
                 $scope.resetOperationCreate()
-                $scope.getOperations()
             }
 
             $scope.deleteOperation = function(idOperation, index) {
@@ -177,8 +174,6 @@
 
             $scope.updateOperation = function(operation) {
                 operation.editable = false
-
-                console.log(operation)
 
                 if(operation.hasOwnProperty("category") && operation.category !== undefined) {
                     operation.categoryId = operation.category.id
