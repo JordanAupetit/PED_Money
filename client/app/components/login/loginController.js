@@ -19,7 +19,7 @@
                         if (res.type == false) {
                             alert(res.data);   
                         } else {
-                            $.jStorage.set("account", res.data)
+                            //$.jStorage.set("account", res.data)
                             $scope.login = res.data.username
 
                             localStorageService.cookie.set('token',res.data.token);
@@ -34,9 +34,11 @@
                     });
                 };
 
+/*
                 var account = $.jStorage.get("account")
 
                 if(account)
                     $scope.login = account.username
+*/
             }]);
 })();

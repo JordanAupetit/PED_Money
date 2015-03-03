@@ -10,7 +10,7 @@
            $scope.logout = function() {
                 localStorageService.cookie.remove('token');
                 $rootScope.currentUserSignedIn = null;
-                $.jStorage.flush()
+                //$.jStorage.flush()
                 $state.go('login');
 
 
