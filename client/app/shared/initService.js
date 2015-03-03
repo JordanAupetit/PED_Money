@@ -3,9 +3,9 @@
 	'use strict';
 
 	angular.module('services')
-		.factory('initService', ['periodService', 'AccountResource', 'OperationResource', initService])
+		.factory('initService', ['$log', 'periodService', 'AccountResource', 'OperationResource', 'signupService', 'LoginService', initService])
 
-	function initService(periodService, accountRes, operationRes) {
+	function initService($log, periodService, accountRes, operationRes, signupRes, loginRes) {
 
 		return {
 			populatePeriod: function() {
@@ -65,7 +65,78 @@
 
 				operationRes.add(op1)
 				operationRes.add(op2)
+			},
+			loadDataset1 : function(){
+				var user = {
+					name: 'asagaya',
+					first: 'Marc',
+					last: 'Robin',
+					mail: 'marc.robin@yopmail.com',
+					pass: 'azeaze'
+				}
+
+				var acc1 = {
+					name: 'Compte courant',
+					type: 'type 1',
+					balance: 1024,
+					currency: 'EUR(€)',
+					userId: undefined // to set
+				}
+
+				var op1 = {
+					value: -50,
+					thirdParty: 'Auchan',
+					description: 'Règlement des courses',
+					type: 'CB',
+					checked: false,
+					dateOperation: '2015-01-20',
+					datePrelevement: '2015-01-25',
+					categoryId: '54684654dqs',
+					subOperations: [],
+					accountId: undefined // to set
+				}
+
+
+				return new Promise(function(resolve, reject) {
+
+
+					// signupRes.save(user).$promise.then(function(res){
+					// 	$log.info(res.data)
+
+						//login
+						var formData = {
+	                        username: user.name,
+	                        password: user.pass
+	                    }
+
+	                    loginRes.query(formData).$promise.then(function(res){
+							$log.info(res.data)
+							var userId = res.data._id
+
+							// Add account
+							acc1.userId = userId
+							accountRes.add(acc1, function(res){
+								$log.info(res)
+								var accountId = res._id
+
+								// Add operations
+								op1.accountId = accountId
+								operationRes.add(op1)
+
+								resolve()
+
+							})
+	                    })
+
+					// })
+
+				})
+				
+
+
 			}
+
+
 		}
 	}
 })()

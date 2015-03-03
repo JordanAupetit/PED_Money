@@ -18,8 +18,8 @@
                 return accountResource.getAll()
             },
             
-            add: function(account){
-                accountResource.add(account)
+            add: function(account, callback){
+                accountResource.add(account, callback)
             },
             
             remove: function(accountId){

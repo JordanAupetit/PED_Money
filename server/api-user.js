@@ -7,7 +7,7 @@ app.delete('/api/expense/:id', deleteExpense)
 app.post('/api/expense/:id', editExpense)*/
 
 function addUser(req, res , next) {
-'use strict';
+    'use strict';
 
 	userModel.findOne({ username: req.body.name}, function(err, user) {
         if (err) {

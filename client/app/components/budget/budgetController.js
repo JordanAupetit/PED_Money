@@ -5,8 +5,6 @@
 
 	angular.module('controllers')
 		.factory('budgetHelper', function() {
-
-
 			return {
 				changeMonth: function(months, month, dateSelector, callback){
 					// console.log(months)
@@ -144,10 +142,10 @@
 				//Whether to use HighStocks instead of HighCharts (optional). Defaults to false.
 				useHighStocks: false,
 				//size (optional) if left out the chart will default to size of the div or something sensible.
-				size: {
-					width: 400,
-					height: 300
-				}
+				// size: {
+				// 	width: 400,
+				// 	height: 300
+				// }
 				//function (optional)
 				// func: function(chart) {
 				// 	//setup some logic for the chart
@@ -222,6 +220,9 @@
 			}else{
 
 				if(dateSelector.currentMonth === 13){
+					$scope.chartConfig.yAxis.currentMin = 4000
+					$scope.chartConfig.yAxis.currentMax = 15000
+
 					$scope.chartConfig.series[1].data = [
 						[budgetService.getExpense(dateSelector.currentYear)]
 					]
@@ -230,13 +231,20 @@
 						[12000]
 					]
 
+					
+
 				}else{
+					$scope.chartConfig.yAxis.currentMin = 400
+					$scope.chartConfig.yAxis.currentMax = 1500
+					
 					$scope.chartConfig.series[1].data = [
 						[budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth)]
 					]
 					$scope.chartConfig.series[0].data = [
 						[1000]
 					]
+
+					
 				}
 			}
 		}
