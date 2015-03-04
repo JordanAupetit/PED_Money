@@ -5,11 +5,11 @@
         <div ng-if="operations.length > 0" class="mb20">
             <strong>Solde : </strong>
 
-            <span ng-if="solde <= 0" class="colorRed">
-                {{ solde }}€
+            <span ng-if="account.balance <= 0" class="colorRed">
+                {{ account.balance }}€
             </span>
-            <span ng-if="solde > 0" class="colorGreen">
-                +{{ solde }}€
+            <span ng-if="account.balance > 0" class="colorGreen">
+                +{{ account.balance }}€
             </span>
 
         </div>

@@ -4,10 +4,9 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', '$rootScope', 'OperationResource', 'CategoryResource', 'initService', '$state', OperationController])
+        .controller('OperationController', ['$scope', '$rootScope', 'OperationResource', 'AccountResource', 'CategoryResource', 'initService', '$state', OperationController])
 
-
-        function OperationController($scope, $rootScope, OperationResource, CategoryResource, initService, $state) {
+        function OperationController($scope, $rootScope, OperationResource, AccountResource, CategoryResource, initService, $state) {
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
@@ -34,7 +33,15 @@
                     wfc.operations.POSTs.push(operation)
                     localStorage.setItem("waitingforconnection", JSON.stringify(wfc))
                 }
+                getAccount()
             }
+
+            function getAccount(){
+                AccountResource.get($state.params.accountId).$promise.then(function(account){
+                    $scope.account = account
+                })
+            }
+            getAccount()
 
             function getOperations() {
                 if(Offline.state == "up"){
@@ -130,6 +137,7 @@
                 }
 
                 $scope.resetOperationCreate()
+                getAccount()
                 getOperations()
             }
 
@@ -138,6 +146,8 @@
                     //$scope.getOperations()
                     $scope.operations.splice(index, 1)
                     $scope.updateSolde();
+                    getAccount()
+                    getOperations()
                 })
             }
 
@@ -159,6 +169,7 @@
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
                     getOperations()
+                    getAccount()
                 })
             }
 

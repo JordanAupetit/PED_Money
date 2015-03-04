@@ -51,41 +51,78 @@ db.once('open', function (callback) {
 
 
 var userModel = database.getUserModel()
+var accountModel = database.getAccountModel()
+var operationModel = database.getOperationModel()
 
-
-apiAccount(app, database.getAccountModel())
-apiUser(app, userModel , jwt)
-apiOperation(app, database.getOperationModel())
+apiAccount(app, accountModel, operationModel)
+apiUser(app, userModel, jwt)
+apiOperation(app, operationModel, accountModel)
 apiPeriod(app, database.getPeriodModel())
+apiCategory(app, database.getCategoryModel(), userModel)
 
-apiCategory(app, database.getCategoryModel(), database.getUserModel())
+//CRON TASK
 
+var CronJob = require('cron').CronJob;
 
-
-
-
-// Example
-
-// module.exports = function (app, expenseModel) {
-// 	app.get('/api/expense/', getAllExpenses)
-// 	app.post('/api/expense/', addExpense)
-// 	app.get('/api/expense/:id', getExpense)
-// 	app.put('/api/expense/', getExpenseByTag)
-// 	app.delete('/api/expense/:id', deleteExpense)
-// 	app.post('/api/expense/:id', editExpense)
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+        user: 'do.not.respond.money@gmail.com',
+        pass: 'ped-money'
+    }
+});
 
 
-// 	function getAllExpenses(req, resp , next) {
-// 		'use strict';
-// 		var userId = req.get('X-User-Id');
-
-// 		expenseModel.find({user: userId}, function (err, coll) {
-// 			if (!err) {
-// 				return resp.send(coll);
-// 			} else {
-// 				console.log(err);
-// 				next(err);
-// 			}
-// 		});
-// 	}
-// }
+/**
+*	choisir la ligne a commenter, la permiere lance un tache une fois par jour à 1h30 
+*	du matin, la seconde en lance une toute les secondes
+**/
+var job = new CronJob('00 30 01 * * *', function(){
+//var job = new CronJob('* * * * * *', function(){
+    
+    console.info("CronJob starting")
+	userModel.find(function (err, users) {
+	    if(err){
+	        console.log(err)
+	    }else{
+	        for(var i in users){
+	        	if(users[i].allowAlert === true){
+	        		accountModel.find(function(err, accounts){
+	        			if(err){
+	        				console.log(err)
+	        			}else{
+	        				for(var j in accounts){
+	        					if(accounts[j].balance < accounts[j].alert){
+	        						console.log("it should send an email for " + accounts[j].name)
+	        						var account = accounts[j]
+	        						var mytext = "You have " + account.balance + " " +account.currency + " in your account " 
+	        						+ accounts[j].name + ". Visite MyMoney.com to fix this issue"
+	        						var mailOptions = {
+									    from: 'MyMoney <do.not.respond.money@gmail.com>',
+									    to: users[i].email, // list of receivers
+									    subject: 'Account balance below your alert level', // Subject line
+									    text: mytext, // plaintext body
+									    html: "<b>"+ mytext + "</b>" // html body
+									};
+									
+									transporter.sendMail(mailOptions, function(error, info){
+									    if(error){
+									        console.log(error);
+									    }
+									})
+										
+	        					}
+	        				}
+	        			}
+	        		})
+	        	}
+	        }
+	    }
+	});
+  }, function () {
+    // This function is executed when the job stops
+  },
+  true /* Start the job right now */,
+  "Europe/Paris" /* Time zone of this job. */
+);

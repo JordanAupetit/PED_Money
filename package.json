@@ -16,9 +16,17 @@
   "license": "Apache 2.0",
   "dependencies": {
     "body-parser": "*",
+    "buildmail": "^1.2.1",
+    "cron": "^1.0.8",
     "express": "*",
+    "hyperquest": "^1.0.1",
     "jsonwebtoken": "0.4.0",
-    "mongoose": "*"
+    "libmime": "^0.1.7",
+    "mongoose": "*",
+    "nodemailer": "^1.3.1",
+    "nodemailer-direct-transport": "^1.0.1",
+    "nodemailer-smtp-transport": "^1.0.0",
+    "sendmail": "^0.2.1"
   },
   "devDependencies": {
     "bower": "^1.3.12",

@@ -1,5 +1,5 @@
 
-module.exports = function (app, accountModel) {
+module.exports = function (app, accountModel, operationModel) {
     app.get('/api/account/', getAllAccounts)
     app.get('/api/account/:id', getAccount)
     app.post('/api/account/', addAccount)
@@ -24,19 +24,33 @@ module.exports = function (app, accountModel) {
 
 
     function getAccount(req, resp, next) {
-        'use strict';
-       
+        'use strict';       
         var accountId = req.params.id;
 
-        accountModel.findOne({_id: accountId}, function (err, coll) {
+        operationModel.find({accountId: accountId}, function (err, operations) {
             if (!err) {
-                return resp.send(coll);
+                var balance = 0
+                for(var i in operations){
+                    balance = balance + operations[i].value
+                }
+                accountModel.findByIdAndUpdate(accountId, {'balance': balance}, function(err, res){
+                    if(err)
+                        console.log(err)
+                    else{
+                        accountModel.findOne({_id: accountId}, function (err, account) {
+                            if (!err) {
+                                return resp.send(account);
+                            } else {
+                                console.log(err);
+                                next(err);
+                            }
+                        });
+                    }
+                })
             } else {
                 console.log(err);
-                next(err);
             }
-        });
-
+        })
     }
 
     function addAccount(req, res, next) {

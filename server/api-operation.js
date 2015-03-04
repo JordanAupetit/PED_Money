@@ -1,5 +1,4 @@
-
-module.exports = function (app, operationModel) {
+module.exports = function (app, operationModel, accountModel) {
     app.get('/api/operation/', getAllOperations)
     app.post('/api/operation/', addOperation)
     app.get('/api/operation/:id', getOperation)
@@ -23,7 +22,6 @@ module.exports = function (app, operationModel) {
             }
         });
     }
-
 
     function getAllOperations(req, resp, next) {
         'use strict';
@@ -57,15 +55,15 @@ module.exports = function (app, operationModel) {
     }
 
 
-    function updateOperation(req, res, next) {
+    function updateOperation(req, resp, next) {
 
         var updateOperation = new operationModel(req.body)
         var idOp = updateOperation._id
         delete updateOperation._id
 
-        operationModel.findByIdAndUpdate(idOp, {$set: updateOperation}, function (err, qcm) {
+        operationModel.findByIdAndUpdate(idOp, {$set: updateOperation}, function (err, res) {
             if (err) return handleError(err);
-            res.send(qcm);
+            resp.send(res);
         });
 
         /*var updatedRecipe = new qcmModel(req.body);
@@ -93,17 +91,18 @@ module.exports = function (app, operationModel) {
         }*/
     }
 
-
     function addOperation(req, res, next) {
         'use strict';
-        // var userId = req.get('X-User-Id');
         var operation = req.body
-        delete operation._id // Security
-        // console.log(operation)
+        delete operation._id
+
         var newOperation = new operationModel(operation);
         newOperation.save(function(e, results){
-            if (e) return next(e);
-            res.send(results);
+            if(e){
+                return next(e)
+            }else{
+                res.send(results);   
+            }
         })
     }
 

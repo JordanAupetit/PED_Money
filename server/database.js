@@ -46,8 +46,9 @@ var PeriodSchema = new Schema({
 var AccountSchema  = new Schema({
 	name: String,
 	type: String,
-	balance: Number,
+	balance: {type: Number, default: 0},
 	currency: String,
+    alert: {type: Number, default: 0},
     userId: String
 })
 
@@ -83,6 +84,7 @@ var UserSchema  = new Schema({
 	firstName: String,
 	email: String,
 	password: String, // TODO Add salt ??
+    allowAlert: {type: Boolean, default: true},
 	token: String,
     categories: {type: [CategorySchema], default: defaultCategories}
 })
