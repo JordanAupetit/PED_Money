@@ -19,7 +19,6 @@
             $scope.resetOperationCreate()
             $scope.operations = []
             $scope.groupOfOperations = []
-            $scope.groupSelectedId = -1
             $scope.operationsOfGroup = []
 
             function saveOperationsOffline(accountId, operations){
@@ -221,8 +220,6 @@
                 $scope.groupOfOperations = []
                 $scope.operationsOfGroup = []
 
-                console.log($scope.groupedBy)
-
                 if($scope.groupedBy !== "") {
 
                     for(var i = 0; i < $scope.operations.length; i++) {
@@ -241,6 +238,10 @@
                         } else {
                             // Il doit y avoir une erreur dans le "select"
                             break
+                        }
+
+                        if(operationGroupedByField === "" || operationGroupedByField === undefined) {
+                            operationGroupedByField = "Empty field"
                         }
 
                         for(var j = 0; j < $scope.groupOfOperations.length; j++) {
@@ -262,14 +263,9 @@
                         }
                     }
 
-                    // Reset
-                    $scope.operations = []
-
                 } else {
                     $scope.getOperations()
                 }
-
-                console.log($scope.groupOfOperations)
             }
 
             // TODO: Dans le cas de la suppression d'une operation d'un groupe 
@@ -283,8 +279,6 @@
                         $scope.groupOfOperations[i].value += $scope.groupOfOperations[i].subOperations[j].value
                     }
                 }
-
-                console.log("Groups updated.")
             }
 
             $scope.showOperationsOfGroup = function(index) {
@@ -295,7 +289,6 @@
 
                 $scope.groupOfOperations[index].showOps = true
                 $scope.operationsOfGroup = $scope.groupOfOperations[index].subOperations
-                console.log("Show ops")
             }
         }
 
