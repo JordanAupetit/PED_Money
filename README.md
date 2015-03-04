@@ -1,4 +1,4 @@
-# PED_Money [![Build Status](https://travis-ci.org/JordanAupetit/PED_Money.svg?branch=master)](https://travis-ci.org/JordanAupetit/PED_Money)
+# PED_Money [![Build Status](https://travis-ci.org/JordanAupetit/PED_Money.svg?branch=master)](https://travis-ci.org/JordanAupetit/PED_Money) [![Build Status](https://david-dm.org/JordanAupetit/PED_Money.svg)](https://david-dm.org/JordanAupetit/PED_Money)
 
 PED_Money est un clone de MS Money qui permet à un particulier de gérer ses comptes bancaires.
 
