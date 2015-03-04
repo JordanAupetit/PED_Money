@@ -18,6 +18,7 @@
             $scope.editable = false
             $scope.resetOperationCreate()
             $scope.operations = []
+            $scope.operationsGrouped = []
 
             function saveOperationsOffline(accountId, operations){
                 localStorage.setItem("operations-"+accountId, JSON.stringify(operations))
@@ -203,6 +204,51 @@
 
             $scope.hideOperationAdvanced = function() {
                 $scope.operationCreateModel.advanced = false
+            }
+
+            $scope.groupOperation = function() {
+
+                $scope.operationsGrouped = []
+
+                if($scope.groupedBy !== "") {
+
+                    for(var i = 0; i < $scope.operations.length; i++) {
+                        var found = false
+                        var operationGroupedByField = ""
+
+                        // TODO: Voir si on groupe aussi par date différée
+                        if($scope.groupedBy === "date") { 
+                            operationGroupedByField = $scope.operations[i].dateOperation
+                        } else if($scope.groupedBy === "category") {
+                            operationGroupedByField = $scope.operations[i].categoryName
+                        } else if($scope.groupedBy === "type") {
+                            operationGroupedByField = $scope.operations[i].type
+                        } else if($scope.groupedBy === "thirdParty") {
+                            operationGroupedByField = $scope.operations[i].thirdParty
+                        } else {
+                            // Il doit y avoir une erreur dans le "select"
+                            break
+                        }
+
+                        for(var j = 0; j < $scope.operationsGrouped.length; j++) {
+                            if(operationGroupedByField === $scope.operationsGrouped[j].groupedByField) {
+                                $scope.operationsGrouped[j].value += $scope.operations[i].value
+                                $scope.operationsGrouped[j].subOperations.push($scope.operations[i])
+                                found = true
+                                break
+                            }
+                        }
+
+                        if(!found) {
+                            $scope.operationsGrouped.push({
+                                groupedBy: $scope.groupedBy,
+                                groupedByField: operationGroupedByField,
+                                value: $scope.operations[i].value,
+                                subOperations: [$scope.operations[i]]
+                            })
+                        }
+                    }
+                }
             }
         }
 

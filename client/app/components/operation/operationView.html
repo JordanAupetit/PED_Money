@@ -14,6 +14,34 @@
 
         </div>
 
+        <select class="form-control wid200" ng-change="groupOperation()" ng-model="groupedBy">
+            <option value="">Not grouped</option>
+            <option value="date">Grouped by Date</option>
+            <option value="category">Grouped by Category</option>
+            <option value="type">Grouped by Type</option>
+            <option value="thirdParty">Grouped by Third Party</option>
+        </select>
+
+        <label ng-if="operationsGrouped.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
+        <div class="operationLine" ng-repeat="op in operationsGrouped">
+            <div  class="wid50p ftl">
+                <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
+            </div>
+
+            <div class="wid40p ftl">
+                <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
+            </div>
+            <div class="wid10p ftl algright">
+                <span ng-if="op.value <= 0" class="colorRed">
+                    {{ op.value }}
+                </span>
+                <span ng-if="op.value > 0" class="colorGreen">
+                    +{{ op.value }}
+                </span>
+            </div>
+        </div>
+
+        <label ng-if="operations.length > 0" class="mt20">Operations</label>
         <div hover-operation class="operationLine" ng-repeat="op in operations"> 
             
             <form ng-show="op.editable" class="wid100p operationLineEditable">
