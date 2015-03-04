@@ -110,9 +110,9 @@
 
 
 				//Series object (optional) - a list of series using normal highcharts series options.
-				series: [{
-					data: [10, 15, 12, 8, 7]
-				}],
+				// series: [{
+				// 	data: [10, 15, 12, 8, 7]
+				// }],
 				//Title configuration (optional)
 				title: {
 					text: ''
@@ -137,7 +137,17 @@
 					// currentMax: 1500,
 					title: {
 						text: ''
-					}
+					},
+					// plotLines: [{
+					// 	color: '#FF0000',
+					// 	dashStyle: 'ShortDash',
+					// 	width: 2,
+					// 	value: 100,
+					// 	zIndex: 0,
+					// 	label : {
+					// 		text : 'Goal'
+					// 	}
+					// }]
 				},
 				//Whether to use HighStocks instead of HighCharts (optional). Defaults to false.
 				useHighStocks: false,
@@ -182,23 +192,24 @@
 		}
 
 		var defaultData = [
-				{
-					name : 'max',
-					// data : [1000],
-					color: 'rgba(165,170,217,1)',
-					pointPadding: 0,
-					pointPlacement: 0.15,
-					dataLabels: {
-                        enabled: true,
-                        x: 80,
-                        y: 20,
-                        color: 'rgba(126,0,0,.9)',	
-                        format: '{point.y:,.1f}€'
-                    }
-				},
+				// {
+				// 	name : 'max',
+				// 	// data : [1000],
+				// 	color: 'rgba(165,170,217,1)',
+				// 	pointPadding: 0,
+				// 	pointPlacement: 0.15,
+				// 	dataLabels: {
+    //                     enabled: true,
+    //                     x: 80,
+    //                     y: 20,
+    //                     color: 'rgba(126,0,0,.9)',	
+    //                     format: '{point.y:,.1f}€'
+    //                 }
+				// },
 				{
 					name : 'expenses',
 					// data : [accountValues[month+$scope.currentYear*12-1]],
+					// data: [[0]],
 					color: 'rgba(126,86,134,.9)',
 					pointPadding: 0.2,
 					pointPlacement: -0.15,
@@ -210,26 +221,46 @@
 				}
 			]
 
+		var defaultMaxLine = {
+						color: '#FF0000',
+						dashStyle: 'ShortDash',
+						width: 2,
+						value: 100,
+						zIndex: 0,
+						label : {
+							text : 'Goal'
+						}
+					}
+
 		function updateGraph(){
-			if($scope.chartConfig.series === undefined || $scope.chartConfig.series.length !== 2){
+			if($scope.chartConfig.series === undefined || $scope.chartConfig.series.length !== 1){
 				$scope.chartConfig.series = defaultData
+				$scope.chartConfig.yAxis.plotLines = [defaultMaxLine]
+				console.log('set defaultData')
 			}
 			if(budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth) === undefined && 
 				dateSelector.currentMonth !== 13){
 				$scope.chartConfig.series = undefined
+				$scope.chartConfig.yAxis.plotLines = undefined
 			}else{
 
 				if(dateSelector.currentMonth === 13){
 					$scope.chartConfig.yAxis.currentMin = 4000
 					$scope.chartConfig.yAxis.currentMax = 15000
 
-					$scope.chartConfig.series[1].data = [
+					// $scope.chartConfig.series[1].data = [
+					// 	[budgetService.getExpense(dateSelector.currentYear)]
+					// ]
+
+					// $scope.chartConfig.series[0].data = [
+					// 	[12000]
+					// ]
+
+					$scope.chartConfig.series[0].data = [
 						[budgetService.getExpense(dateSelector.currentYear)]
 					]
 
-					$scope.chartConfig.series[0].data = [
-						[12000]
-					]
+					$scope.chartConfig.yAxis.plotLines[0].value = 12000
 
 					
 
@@ -237,12 +268,21 @@
 					$scope.chartConfig.yAxis.currentMin = 400
 					$scope.chartConfig.yAxis.currentMax = 1500
 					
-					$scope.chartConfig.series[1].data = [
+					
+					// $scope.chartConfig.series[1].data = [
+					// 	[budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth)]
+					// ]
+					// $scope.chartConfig.series[0].data = [
+					// 	[1000]
+					// ]
+
+					$scope.chartConfig.series[0].data = [
 						[budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth)]
 					]
-					$scope.chartConfig.series[0].data = [
-						[1000]
-					]
+
+					// $scope.chartConfig.series[0].data[0] = budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth)
+
+					$scope.chartConfig.yAxis.plotLines[0].value = 1000
 
 					
 				}
