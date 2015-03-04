@@ -62,6 +62,21 @@ describe('OperationTest', function() {
             
             $httpBackend.expect('PUT', '/api/operation').respond(200, '');
             $httpBackend.expect('PUT', '/api/operation').respond(200, '');
+            $httpBackend.expectGET('/api/account/operation').respond(200, 
+                [{
+                    _id: "2132sdq0sq",
+                    value: -50,
+                    thirdParty: "Auchan",
+                    description: "Règlement des courses",
+                    type: "Chèque",
+                    checked: true,
+                    dateOperation: "2015-01-20",
+                    datePrelevement: "2015-01-25",
+                    categoryId: "54684654dqs",
+                    subOperations: [],
+                    accountId: "sddqs1123sqd"
+                }]
+            );
 
             scope.validateOperation(scope.operations[0]);
             scope.updateOperation(scope.operations[0]);

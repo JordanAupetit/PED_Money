@@ -12,6 +12,7 @@
     function NavbarController($scope, $rootScope, $state, localStorageService, initService) {
         $rootScope.currentUserSignedIn = localStorageService.cookie.get('token');
         //alert($localStorage.token);
+
         $scope.logout = function() {
             localStorageService.cookie.remove('token');
             $rootScope.currentUserSignedIn = null;

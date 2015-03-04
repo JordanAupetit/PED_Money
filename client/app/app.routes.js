@@ -58,6 +58,7 @@
         }
       })
 
+
       .state('budget', {
         url: '/budget/',
         templateUrl: 'app/components/budget/budgetView.html',
@@ -71,6 +72,15 @@
         url: '/budget/details/',
         templateUrl: 'app/components/budget/details/detailsView.html',
         controller: 'BudgetDetailsCtrl',
+        data: {
+          requireLogin: true
+        }
+      })
+
+      .state('offline', {
+        url: '/offline',
+        templateUrl: 'app/components/offline/offlineView.html',
+        controller: 'offlineController',
         data: {
           requireLogin: true
         }

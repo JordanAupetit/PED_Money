@@ -8,7 +8,6 @@
 
 
         function OperationController($scope, $rootScope, OperationResource, CategoryResource, initService, $state) {
-
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
@@ -20,27 +19,69 @@
             $scope.resetOperationCreate()
             $scope.operations = []
 
+            function saveOperationsOffline(accountId, operations){
+                localStorage.setItem("operations-"+accountId, JSON.stringify(operations))
+            }
 
-            $scope.getOperations = function() {
+            // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
+
+
+            /*$scope.getOperations = function() {
                 OperationResource.getAll(accountId).$promise.then(function(operations){
                     for(var i = 0; i < operations.length; i++) {
-                        if(operations[i].categoryId !== '') {
+
+                        operations[i].categoryName = "No category"
+
+                        if(operations[i].categoryId !== "") {*/
+
+
+            function postOperation(accountId, operation){
+                // TODO: Add a promise HERE
+                if(Offline.state == "up"){
+                    //console.log($scope.operationCreateModel)
+                    //OperationResource.add($scope.operationCreateModel)
+
+                    OperationResource.add($scope.operationCreateModel).$promise.then(function(){
+                        $scope.getOperations()
+                    })
+                }
+                else{
+                    var wfc = eval("("+localStorage.getItem("waitingforconnection")+")")        
+                    wfc.operations.POSTs.push(operation)
+                    localStorage.setItem("waitingforconnection", JSON.stringify(wfc))
+                }
+            }
+
+            $scope.getOperations = function() {
+                if(Offline.state == "up"){
+                    OperationResource.getAll(accountId).$promise.then(function(operations){
+
+                        for(var i = 0; i < operations.length; i++) {
 
                             operations[i].categoryName = 'No category'
 
-                            for(var j = 0; j < $scope.categories.length; j++) {
-                                if($scope.categories[j].id === operations[i].categoryId) {
-                                    operations[i].categoryName = $scope.categories[j].name
+                            if(operations[i].categoryId !== "") {
+
+                                for(var j = 0; j < $scope.categories.length; j++) {
+                                    if($scope.categories[j].id === operations[i].categoryId) {
+                                        operations[i].categoryName = $scope.categories[j].name
+                                        operations[i].category = $scope.categories[j]
+                                    }
                                 }
                             }
                         }
-                    }
-
-                    $scope.operations = operations
-
-                    $scope.updateSolde()
-                })
+                        
+                        $scope.operations = operations
+                        saveOperationsOffline(accountId, operations)       
+                        $scope.updateSolde()
+                    })
+                }
+                else{
+                    $scope.operations = eval("("+localStorage.getItem("operations-"+accountId)+")")
+                }
             }
+
+            $scope.getOperations()
 
             $scope.updateSolde = function() {
                 $scope.solde = 0
@@ -52,6 +93,7 @@
                     }
                 }
 
+                // 2 decimal au maximum
                 $scope.solde = $scope.solde.toFixed(2)
             }
 
@@ -66,15 +108,13 @@
                                 $scope.categories.push(categories[i])
                             }
                         }
+
+                        // On réactualise les opérations dans le cas où des
+                        // catégories auraient été supprimées
+                        $scope.getOperations()
                     })
                 }
             }
-
-            $scope.getCategoriesOperation()
-            $scope.getOperations()
-            
-
-            
 
             /*  
                 ==== TODO ====
@@ -82,16 +122,13 @@
                 - Lorsque l'on raffraichis la page (F5), le rootScope est vidé, et on ne
                 possède plus l'User ID, et donc plus de requêtes qui ont besoin de cet ID
             */
-
-
             $scope.addOperation = function() {
                 if(accountId !== '') {
                     $scope.operationCreateModel.accountId = accountId
                 }
 
-                //console.log($scope.operationCreateModel)
+                if($scope.operationCreateModel.hasOwnProperty("category") && $scope.operationCreateModel.category !== undefined) {
 
-                if($scope.operationCreateModel.hasOwnProperty('category')) {
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
 
@@ -117,12 +154,10 @@
 
                 } else { // Add normal operation
 
-                    // TODO: Add a promise HERE
-                    OperationResource.add($scope.operationCreateModel)
+                    postOperation(accountId, $scope.operationCreateModel)
                 }
 
                 $scope.resetOperationCreate()
-                $scope.getOperations()
             }
 
             $scope.deleteOperation = function(idOperation, index) {
@@ -137,20 +172,40 @@
                 OperationResource.update(operation)
             }
 
+            // TODO: Update non fonctionnel au CREMI, à vérifier
+
             $scope.updateOperation = function(operation) {
                 operation.editable = false
-                OperationResource.update(operation)
-                $scope.updateSolde()
+
+                if(operation.hasOwnProperty("category") && operation.category !== undefined) {
+                    operation.categoryId = operation.category.id
+
+                } else { // Plus de catégories
+                    operation.categoryId = ""
+                    operation.categoryName = "No category"
+                }
+
+                /*if(operation.value == "" || operation.value == null) {
+                    operation.value = 0
+                }*/
+
+                OperationResource.update(operation).$promise.then(function(){
+                    // Permet principalement la Mise à jour du nom de la catégorie
+                    $scope.getOperations()
+                })
             }
 
             $scope.showUpdateOperation = function(operation) {
                 operation.editable = true
             }
 
-            $scope.createOperationAdvanced = function() {
+            $scope.showOperationAdvanced = function() {
                 $scope.operationCreateModel.advanced = true
             }
 
+            $scope.hideOperationAdvanced = function() {
+                $scope.operationCreateModel.advanced = false
+            }
         }
 
 })();
