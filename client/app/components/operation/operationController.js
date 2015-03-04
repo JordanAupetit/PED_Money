@@ -272,6 +272,9 @@
                 console.log($scope.groupOfOperations)
             }
 
+            // TODO: Dans le cas de la suppression d'une operation d'un groupe 
+            // ne contenant qu'une operation il faudra supprimer le groupe
+
             $scope.updateGroups = function() {
                 for(var i = 0; i < $scope.groupOfOperations.length; i++) {
                     $scope.groupOfOperations[i].value = 0
