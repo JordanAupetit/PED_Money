@@ -18,7 +18,9 @@
             $scope.editable = false
             $scope.resetOperationCreate()
             $scope.operations = []
-            $scope.operationsGrouped = []
+            $scope.groupOfOperations = []
+            $scope.groupSelectedId = -1
+            $scope.operationsOfGroup = []
 
             function saveOperationsOffline(accountId, operations){
                 localStorage.setItem("operations-"+accountId, JSON.stringify(operations))
@@ -162,8 +164,16 @@
             $scope.deleteOperation = function(idOperation, index) {
                 OperationResource.remove(idOperation).$promise.then(function(){
                     //$scope.getOperations()
-                    $scope.operations.splice(index, 1)
-                    $scope.updateSolde();
+
+                    // On clique sur le delete d'une operation d'un group
+                    if($scope.operationsOfGroup.length > 0) {
+                        $scope.operationsOfGroup.splice(index, 1)
+                        $scope.updateGroups();
+                    } else {
+                        $scope.operations.splice(index, 1)
+                        $scope.updateSolde();
+                    }
+                    
                 })
             }
 
@@ -208,7 +218,10 @@
 
             $scope.groupOperation = function() {
 
-                $scope.operationsGrouped = []
+                $scope.groupOfOperations = []
+                $scope.operationsOfGroup = []
+
+                console.log($scope.groupedBy)
 
                 if($scope.groupedBy !== "") {
 
@@ -230,17 +243,17 @@
                             break
                         }
 
-                        for(var j = 0; j < $scope.operationsGrouped.length; j++) {
-                            if(operationGroupedByField === $scope.operationsGrouped[j].groupedByField) {
-                                $scope.operationsGrouped[j].value += $scope.operations[i].value
-                                $scope.operationsGrouped[j].subOperations.push($scope.operations[i])
+                        for(var j = 0; j < $scope.groupOfOperations.length; j++) {
+                            if(operationGroupedByField === $scope.groupOfOperations[j].groupedByField) {
+                                $scope.groupOfOperations[j].value += $scope.operations[i].value
+                                $scope.groupOfOperations[j].subOperations.push($scope.operations[i])
                                 found = true
                                 break
                             }
                         }
 
                         if(!found) {
-                            $scope.operationsGrouped.push({
+                            $scope.groupOfOperations.push({
                                 groupedBy: $scope.groupedBy,
                                 groupedByField: operationGroupedByField,
                                 value: $scope.operations[i].value,
@@ -248,7 +261,38 @@
                             })
                         }
                     }
+
+                    // Reset
+                    $scope.operations = []
+
+                } else {
+                    $scope.getOperations()
                 }
+
+                console.log($scope.groupOfOperations)
+            }
+
+            $scope.updateGroups = function() {
+                for(var i = 0; i < $scope.groupOfOperations.length; i++) {
+                    $scope.groupOfOperations[i].value = 0
+
+                    for(var j = 0; j < $scope.groupOfOperations[i].subOperations.length; j++) {
+                        $scope.groupOfOperations[i].value += $scope.groupOfOperations[i].subOperations[j].value
+                    }
+                }
+
+                console.log("Groups updated.")
+            }
+
+            $scope.showOperationsOfGroup = function(index) {
+
+                for(var i = 0; i < $scope.groupOfOperations.length; i++) {
+                    $scope.groupOfOperations[i].showOps = false
+                }
+
+                $scope.groupOfOperations[index].showOps = true
+                $scope.operationsOfGroup = $scope.groupOfOperations[index].subOperations
+                console.log("Show ops")
             }
         }
 
