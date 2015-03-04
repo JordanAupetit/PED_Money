@@ -58,6 +58,7 @@
         }
       })
 
+
       .state('offline', {
         url: '/offline',
         templateUrl: 'app/components/offline/offlineView.html',
@@ -69,14 +70,22 @@
 	   	
   }])
 
-  .run(function($rootScope, $state, localStorageService) {
+  .run(function ($rootScope,$state,localStorageService,ipCookie) {
 
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState) {
       var requireLogin = toState.data.requireLogin;
-      if (requireLogin && localStorageService.cookie.get('token') == null) {
+      
+      if (requireLogin && ipCookie('token')==undefined) {
+
         event.preventDefault();
         $state.go('login');
       }
+      if ( toState.templateUrl === "app/components/login/loginView.html" && ipCookie('token')!=undefined) {
+          alert("Access denied you have to logout ");
+           event.preventDefault();
+          $state.go('accounts');
+
+        }
     });
   });
 
