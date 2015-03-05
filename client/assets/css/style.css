@@ -190,6 +190,15 @@ form.loginSignUp .signUp
     background: white;
     padding: 15px;
     box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    /* cursor: pointer; */
+    height: 50px;
+    position:relative;
+}
+
+.operationLineOfGroup {
+    background: rgb(249, 255, 199);
+    padding: 15px;
+    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
     cursor: pointer;
     height: 50px;
     position:relative;
@@ -216,13 +225,18 @@ form.loginSignUp .signUp
     right: 10px;
     color: #999;
     /* height: 100%; */
-    background: white;
+    /* background: white; */
     width: 20%;
     text-align: right;
 }
 
+.operationLine > div > div > .operationButtons {
+    background: white;
+}
 
-
+.operationLineOfGroup > div > div > .operationButtons {
+    background: rgb(249, 255, 199);
+}
 
 
 

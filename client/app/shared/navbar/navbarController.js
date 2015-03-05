@@ -3,23 +3,24 @@
     'use strict';
 
     angular
+
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state','localStorageService', 'initService', NavbarController])
+        .controller('NavbarController', ['$scope','$rootScope','$state','ipCookie', 'initService', NavbarController])
 
 
 
 
-    function NavbarController($scope, $rootScope, $state, localStorageService, initService) {
-        $rootScope.currentUserSignedIn = localStorageService.cookie.get('token');
-        //alert($localStorage.token);
+    function NavbarController($scope, $rootScope, $state, ipCookie, initService) {
+        $rootScope.currentUserSignedIn = ipCookie('token')
+        $rootScope.utlisateurCourant = ipCookie('user')
 
         $scope.logout = function() {
-            localStorageService.cookie.remove('token');
-            $rootScope.currentUserSignedIn = null;
-            $state.go('login');
-        }, function() {
-            alert('Failed to logout!');
-        };
+                ipCookie.remove('token')
+                ipCookie.remove('user')
+                $rootScope.currentUserSignedIn = null
+                $rootScope.utlisateurCourant = null 
+                $state.go('login')
+        }
         
         $scope.initData = function(){
             initService.loadDataset1()

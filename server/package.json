@@ -1,0 +1,23 @@
+{
+  "name": "MyMoney",
+  "version": "0.0.1",
+  "description": "Money like web app",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "mongoose": "*",
+    "jsonwebtoken": "0.4.0",
+    "cookies": "^0.5.0",
+    "passport": "^0.2.1",
+    "passport-facebook": "^1.0.3",
+    "passport-google-oauth": "^0.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node_modules/.bin/mocha -w",
+    "db": "mongod --dbpath ./db",
+    "start": "node server.js",
+    "startalll": "screen -dmS mongo npm run db && npm start",
+    "startallw": "start npm run db && npm start"
+  }
+}

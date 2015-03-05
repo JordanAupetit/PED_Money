@@ -2,88 +2,49 @@
     <div class="container">
 
         <!-- TODO -- Rajouter le SOLDE différé (Fonctionnel) -->
+        <div ng-if="operations.length > 0">
+            <strong>Balance : </strong>
+
+            <span ng-if="balance <= 0" class="colorRed">
+                {{ balance }}€
+            </span>
+            <span ng-if="balance > 0" class="colorGreen">
+                +{{ balance }}€
+            </span>
+        </div>
+
         <div ng-if="operations.length > 0" class="mb20">
-            <strong>Solde : </strong>
+            <strong>Deferred balance : </strong>
 
-            <span ng-if="solde <= 0" class="colorRed">
-                {{ solde }}€
+            <span ng-if="deferredBalance <= 0" class="colorRed">
+                {{ deferredBalance }}€
             </span>
-            <span ng-if="solde > 0" class="colorGreen">
-                +{{ solde }}€
+            <span ng-if="deferredBalance > 0" class="colorGreen">
+                +{{ deferredBalance }}€
             </span>
-
         </div>
 
         <a class="" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
 
-        <select class="form-control wid200" ng-change="groupOperation()" ng-model="groupedBy">
-            <option value="">Not grouped</option>
-            <option value="date">Grouped by Date</option>
-            <option value="category">Grouped by Category</option>
-            <option value="type">Grouped by Type</option>
-            <option value="thirdParty">Grouped by Third Party</option>
-        </select>
-
-        <label ng-if="operationsGrouped.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
-        <div class="operationLine" ng-repeat="op in operationsGrouped">
-            <div  class="wid50p ftl">
-                <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
-            </div>
-
-            <div class="wid40p ftl">
-                <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
-            </div>
-            <div class="wid10p ftl algright">
-                <span ng-if="op.value <= 0" class="colorRed">
-                    {{ op.value }}
-                </span>
-                <span ng-if="op.value > 0" class="colorGreen">
-                    +{{ op.value }}
-                </span>
-            </div>
+        <div>
+            <select class="form-control wid200" ng-change="groupOperation()" ng-model="groupedBy">
+                <option value="">Not grouped</option>
+                <option value="date">Grouped by Date</option>
+                <option value="category">Grouped by Category</option>
+                <option value="type">Grouped by Type</option>
+                <option value="thirdParty">Grouped by Third Party</option>
+            </select>
         </div>
 
-        <label ng-if="operations.length > 0" class="mt20">Operations</label>
-        <div hover-operation class="operationLine" ng-repeat="op in operations"> 
-            
-            <form ng-show="op.editable" class="wid100p operationLineEditable">
-                <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.dateOperation">
-                <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.datePrelevement">
-
-                <div class="input-group wid200 ftl mr10">
-                    <select class="form-control " id="inputNewCategorySubCategory" ng-model="op.category" ng-options="categorie.name for categorie in categories track by categorie.id">
-                        <option value="">No category</option>
-                    </select>
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
-                    </div>
+        <label ng-if="groupOfOperations.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
+        <div ng-repeat="op in groupOfOperations">
+            <div ng-click="showOperationsOfGroup($index)" class="operationLine pointer">
+                <div  class="wid40p ftl">
+                    <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
                 </div>
 
-                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.description">
-                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.thirdParty">
-                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.type">
-
-                <!-- TODO: Il faut afficher l'input en rouge s'il y a une erreur, ça ne marche pas -->
-
-                <div class="form-group" ng-class="{ 'has-error' : op.value.$invalid }">
-                    <input type="number" class="form-control wid100 ftl mr10" ng-model="op.value" placeholder="Value" required>
-                </div>
-            </form>
-
-            <div ng-show="!op.editable">
-                <div  class="wid30p ftl">
-                    <span ng-hide="op.editable">{{ op.dateOperation | date2:'dd/MM/yyyy' }}</span>
-                    <span class="datePrelevement">({{ op.datePrelevement | date2:'dd/MM/yyyy' }})</span>
-                </div>
-
-                <div class="wid60p ftl">
-                    <span class="label label-default">{{ op.categoryName }}</span>
-                    <span ng-if="op.description !== undefined"> – </span>
-                    <span ng-if="op.description !== undefined">{{ op.description }}</span>
-                    <span ng-if="op.description !== undefined && op.thirdParty !== undefined"> – </span>
-                    <span ng-if="op.thirdParty !== undefined">{{ op.thirdParty }}</span>  
-                    <span ng-if="op.thirdParty !== undefined && op.type !== undefined"> – </span>
-                    <span ng-if="op.type !== undefined">{{ op.type }}</span>
+                <div class="wid50p ftl">
+                    <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
                 </div>
                 <div class="wid10p ftl algright">
                     <span ng-if="op.value <= 0" class="colorRed">
@@ -95,23 +56,38 @@
                 </div>
             </div>
 
-            <div class="operationButtons">
-                <button ng-hide="!op.editable" ng-click="updateOperation(op)" class="doUpdateOperation btn btn-primary btn-xs">
-                    Save
-                </button>
-                <button ng-hide="op.editable" ng-click="showUpdateOperation(op)" class="showUpdateOperation btn btn-warning btn-xs">
-                    Edit
-                </button>
-                <button ng-hide="op.editable" ng-click="deleteOperation(op._id, $index)" class="btn btn-danger btn-xs">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-default btn-xs">
-                    <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
-                </button>
+            <div ng-if="op.showOps">
+                <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
+                    <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                </div>
             </div>
         </div>
 
-        <span ng-if="operations.length <= 0">Il n'y a encore aucunes opérations sur ce compte.</span>
+        <!-- <div ng-if="operationsOfGroup.length > 0">
+               <label class="mt20">Operations of the selected group</label>
+           
+               <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
+                   <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+               </div>
+           </div> -->   
+
+        <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
+            <label class="mt20">Operations</label>
+
+            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations">
+                <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            </div>
+
+            <div class="mt20">
+                <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations"> 
+                    <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                </div>
+            </div>
+        </div>   
+
+        <div ng-if="operations.length <= 0 && groupOfOperations.length <= 0" class="mt20">
+            Il n'y a encore aucunes opérations sur ce compte.
+        </div>
 
     </div>
 

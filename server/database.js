@@ -66,7 +66,7 @@ var CategorySchema = new Schema({
 })
 
 var UserSchema  = new Schema({
-	id: String,
+	clientID: Number,
 	username: String,
 	lastName: String,
 	firstName: String,
@@ -148,4 +148,4 @@ var categoryModel = mongoose.model('categoryModel', CategorySchema);
 var periodModel = mongoose.model('periodModel', PeriodSchema);
 
 
-periodModel.collection.drop(); 
+// periodModel.collection.drop(); 

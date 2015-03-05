@@ -13,7 +13,7 @@
                     if(res.type == false) {
                         alert(res.data);
                     } else {
-                        localStorageService.cookie.set('token',res.data.token);
+                        //localStorageService.cookie.set('token',res.data.token);
                         $state.go('login');
                     }
                 });
