@@ -1,20 +1,18 @@
 CACHE MANIFEST
  
-# Version 0.0.0.12
+# Version 0.0.0.2
 
+CACHE:
 index.html
 app/shared/navbar/navbar.html
 app/components/login/loginView.html
 app/components/accounts/accountsView.html
 app/components/operation/operationView.html
-
-
 app/shared/category/categoryView.html 
 assets/libs/jquery-ui/themes/smoothness/images/ui-bg_flat_75_ffffff_40x100.png 
 assets/libs/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
 assets/libs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2
 assets/libs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
-
 assets/libs/bootstrap/dist/css/bootstrap.min.css 
 assets/libs/bootstrap/dist/css/bootstrap-theme.min.css
 assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css 
@@ -51,14 +49,14 @@ app/components/operation/operationDirective.js
 app/components/operation/period/periodService-db.js
 app/components/operation/period/periodDirectives.js
 app/components/operation/period/periodController.js
-app/components/category/categoryController.js
 app/shared/category/categoryController.js
 app/shared/category/categoryService.js
 app/shared/navbar/navbarController.js
 app/shared/filters.js
 app/shared/datePickerDirective.js
-
 app/components/offline/offline.min.js
 app/components/offline/offlineController.js
+app/components/offline/offlineService.js
 
-favicon.ico 
+NETWORK:
+*

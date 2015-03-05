@@ -2,11 +2,9 @@
 module.exports = function (app, accountModel, operationModel) {
     app.get('/api/account/', getAllAccounts)
     app.get('/api/account/:id', getAccount)
-    app.post('/api/account/', addAccount)
-    
+    app.post('/api/account/', addAccount)    
     app.put('/api/account/', updateAccount)
     app.delete('/api/account/:id', deleteAccount)
-
 
     function getAllAccounts(req, resp, next) {
         'use strict';
@@ -21,7 +19,6 @@ module.exports = function (app, accountModel, operationModel) {
             }
         });
     }
-
 
     function getAccount(req, resp, next) {
         'use strict';       

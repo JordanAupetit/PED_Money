@@ -4,47 +4,43 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', '$rootScope', 'OperationResource', 'AccountResource', 'CategoryResource', 'initService', '$state', OperationController])
+        .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'initService', '$state', OperationController])
 
-        function OperationController($scope, $rootScope, OperationResource, AccountResource, CategoryResource, initService, $state) {
+        function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, initService, $state) {
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
-            }
+            }       
 
-            var accountId = $state.params.accountId
-            $scope.categories = []
-            $scope.editable = false
-            $scope.resetOperationCreate()
-            $scope.operations = []
-
-            function saveOperationsOffline(accountId, operations){
-                localStorage.setItem("operations-"+accountId, JSON.stringify(operations))
-            }
-
-            function postOperation(accountId, operation){
-                // TODO: Add a promise HERE
-                if(Offline.state == "up"){
-                    //console.log($scope.operationCreateModel)
-                    OperationResource.add($scope.operationCreateModel)
+            function postOperation(operation){
+                if(!$rootScope.offline){
+                    OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
+                        getOperations()
+                    }, function(err){
+                        postOperation(operation)
+                    })
                 }
                 else{
-                    var wfc = eval("("+localStorage.getItem("waitingforconnection")+")")        
-                    wfc.operations.POSTs.push(operation)
-                    localStorage.setItem("waitingforconnection", JSON.stringify(wfc))
-                }
-                getAccount()
+                    StorageServices.postOperation(accountId, operation)
+                }                
             }
 
             function getAccount(){
-                AccountResource.get($state.params.accountId).$promise.then(function(account){
-                    $scope.account = account
-                })
+                if(!$rootScope.offline){
+                    AccountResource.get($state.params.accountId).$promise.then(function(account){
+                        StorageServices.setAccount(accountId, account)
+                        $scope.account = account
+                    }, function(err){
+                        getAccount()
+                    })
+                }
+                else{
+                    $scope.account = StorageServices.getAccount(accountId)
+                }
             }
-            getAccount()
 
             function getOperations() {
-                if(Offline.state == "up"){
+                if(!$rootScope.offline){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
                         for(var i = 0; i < operations.length; i++) {
                             if(operations[i].categoryId !== "") {
@@ -56,28 +52,15 @@
                                 }
                             }
                         }
+                        StorageServices.setOperations(accountId, operations)
                         $scope.operations = operations
-                        saveOperationsOffline(accountId, operations)       
+                    }, function(err){
+                        getOperations()
                     })
                 }
                 else{
-                    $scope.operations = eval("("+localStorage.getItem("operations-"+accountId)+")")
+                    $scope.operations = StorageServices.getOperations(accountId)
                 }
-            }
-
-            getOperations()
-
-            $scope.updateSolde = function() {
-                $scope.solde = 0
-
-                for(var i = 0; i < $scope.operations.length; i++) {
-                    if($scope.operations[i].value !== "" && $scope.operations[i].value !== undefined) {
-                        $scope.solde += parseFloat($scope.operations[i].value)
-                    }
-                }
-
-                // 2 decimal au maximum
-                $scope.solde = $scope.solde.toFixed(2)
             }
 
             $scope.getCategoriesOperation = function() {
@@ -131,8 +114,7 @@
                     // TODO: Add operation periodic
 
                 } else { // Add normal operation
-
-                    postOperation(accountId, $scope.operationCreateModel)
+                    postOperation($scope.operationCreateModel)
                     
                 }
 
@@ -181,6 +163,12 @@
                 $scope.operationCreateModel.advanced = true
             }
 
+            var accountId = $state.params.accountId
+            $scope.categories = []
+            $scope.editable = false
+            $scope.resetOperationCreate()
+            $scope.operations = []
+            getAccount()
+            getOperations()
         }
-
 })();

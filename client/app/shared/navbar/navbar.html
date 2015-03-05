@@ -21,8 +21,13 @@
                 <li ng-show="currentUserSignedIn"><a class="" ui-sref="operation">Operations</a></li>
                 <li ng-show="currentUserSignedIn"><a class="" ui-sref="optPeriod">Operations périodiques</a></li>
                  <li ng-show="currentUserSignedIn"><a class="" ui-sref="accounts">Accounts</a></li>
-                <li ng-controller="offlineController"><a><b ng-if="!up">HORS LIGNE</b></a></li>
             </ul>
+
+            <div ng-controller="offlineController">
+                <p ng-if="offline" class="navbar-text navbar-right">HORS LIGNE</p>
+            </div>
         </div>
+
+        
     </div>
 </nav>

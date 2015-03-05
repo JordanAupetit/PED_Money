@@ -1,0 +1,107 @@
+(function() {
+    'use strict';
+
+    angular.module('services')
+    .factory('StorageServices', ['OperationResource', 'AccountResource', function(OperationResource, AccountResource){
+        
+        function wfc(resource, fct, data){
+            this.resource = resource
+            this.fct = fct
+            this.data = data
+        }
+
+        function getWaitingForConnection(){
+            var data = eval("("+localStorage.getItem("WFC")+")")
+            if(data === null)
+                return []
+            else
+                return data
+        }
+
+        function addWaitingForConnection(wfc){
+            var data = getWaitingForConnection()
+            data.push(wfc)
+            localStorage.setItem("WFC", JSON.stringify(data))
+        }
+
+        function getLocalData(){
+            var data = eval("("+localStorage.getItem("DATA")+")")
+            if(data === null)
+                return {'user': null, 'accounts': []}
+            //TODO remettre return {} quand le lien avec la connection
+            //sera fait
+            else
+                return data
+        }
+
+        function setLocalData(data){
+            localStorage.setItem("DATA", JSON.stringify(data))
+        }
+
+        return {
+            setUser: function(user) {
+                setLocalData({'user': user, 'accounts': []})
+            },
+            getUser: function(){
+                return getLocalData().user
+            },
+            getAccount: function(accountId){
+                var data = getLocalData()
+                for(var i in data.accounts){
+                    if(data.accounts[i]._id == accountId)
+                        return data.accounts[i]
+                }
+                return {}
+            },
+            setAccount: function(accountId, account){
+                var data = getLocalData()
+                for(var i in data.accounts){
+                    if(!data.accounts[i].hasOwnProperty('operations'))
+                        data.accounts[i].operations  = []
+                    if(data.accounts[i]._id == accountId){
+                        account.operations = data.accounts[i].operations
+                        data.accounts[i] = account
+                        setLocalData(data)
+                        return
+                    }
+                }
+                data.accounts.push(account)
+                setLocalData(data)
+            },
+            getOperations: function(accountId){
+                var data = getLocalData()
+                for(var i in data.accounts){
+                    if(data.accounts[i]._id == accountId)
+                        return data.accounts[i].operations
+                }
+                return {}
+            },
+            setOperations: function(accountId, operations){
+                var data = getLocalData()
+                for(var i in data.accounts){
+                    if(data.accounts[i]._id == accountId){
+                        data.accounts[i].operations = operations
+                    }
+                }
+                setLocalData(data)
+            },            
+            postOperation: function(accountId, operation){
+                addWaitingForConnection(new wfc('OperationResource', 'add', operation))
+                var data = getLocalData()
+                for(var i in data.accounts){
+                    if(data.accounts[i]._id == accountId){
+                        if(!data.accounts[i].hasOwnProperty('operations'))
+                            data.accounts[i].operations = []
+                        data.accounts[i].operations.push(operation)
+                    }
+                }
+                setLocalData(data)
+            },
+            updateOperation: function(operation){
+            },
+            deleteOperation: function(operation){
+
+            }
+        }
+    }])
+})();

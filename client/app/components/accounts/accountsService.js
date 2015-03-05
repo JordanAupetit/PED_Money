@@ -18,7 +18,8 @@
                 return accountResource.getAll()
             },
             get: function(accountId){
-                return accountResource.get({id: accountId})
+                var account = accountResource.get({id: accountId})
+                return account
             },            
             add: function(account){
                 accountResource.add(account)
