@@ -22,15 +22,6 @@
           }
         })
 
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'app/components/signup/signupView.html',
-        controller: 'SignupController',
-        data: {
-          requireLogin: false
-        }
-      })
-
       .state('accounts', {
         url: '/accounts',
         templateUrl: 'app/components/accounts/accountsView.html',
@@ -99,7 +90,6 @@
         $state.go('login');
       }
       if ( toState.templateUrl === "app/components/login/loginView.html" && ipCookie('token')!=undefined) {
-          alert("Access denied you have to logout ");
            event.preventDefault();
           $state.go('accounts');
 

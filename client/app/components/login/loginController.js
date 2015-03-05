@@ -14,7 +14,7 @@
             username: $scope.username,
             password: $scope.password
         }
-		
+        
         var loginUser = new LoginService(formData);
         loginUser.$query(function(res) {
             if (res.type == false) {
@@ -28,6 +28,23 @@
             }
         });
     };
+
+    $scope.SignupController=function(){
+                
+                var item=$scope.User;
+                var newUser = new LoginService(item);
+                newUser.$save(function(res) {
+                    if(res.type == false) {
+                        alert(res.data);
+                    } else {
+                        //localStorageService.cookie.set('token',res.data.token);
+                        $state.go('login');
+                    }
+                });
+                
+                
+            };
         
 }]);
+    
 })();

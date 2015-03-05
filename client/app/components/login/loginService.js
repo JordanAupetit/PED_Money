@@ -1,10 +1,8 @@
 angular.module('appModule').
     factory('LoginService', function($resource) {
-        return $resource('/api/authenticate', {}, {
+        return $resource('/api/:id', {}, {
             
-            query: { method: 'POST'},
-            save : { method: 'POST'},
-            delete : {method : 'DELETE' },
-            vote   : { method: 'PUT' , params :{id  : 'vote'} ,isArray: true}
+            query: { method: 'POST',params :{id  : 'authenticate'}},
+            save : { method: 'POST',params :{id  : 'user'}}
         })
     });
