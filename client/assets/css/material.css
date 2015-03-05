@@ -1,3 +1,30 @@
+.col-centered{
+    float: none;
+    margin: 0 auto;
+}
+
+.budget-btn:active{
+/* Put your active state style code here */ 
+  color: rgb(230,0,0);
+}
+
+.budget-btn:hover{
+/* Put your active state style code here */ 
+  text-decoration: underline;
+}
+
+.budget-btn{
+  color: #23527c;
+  margin-right: 4px;
+}
+
+
+.activeYear{
+  /*background-color: rgb(230,230,0);*/
+  font-weight: bold;
+}
+
+
 a {
   text-decoration: none;
 }

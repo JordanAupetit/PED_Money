@@ -77,7 +77,8 @@
     "globals":{
         "angular": true,
         "ES6Promise" : true,
-        "moment": true
+        "moment": true,
+        "Highcharts": true
     }
 
 }

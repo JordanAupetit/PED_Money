@@ -50,7 +50,7 @@
       })
 
       .state('optPeriod', {
-        url: '/operation/period/',
+        url: '/:accountId/operation/period/',
         templateUrl: 'app/components/operation/period/periodView.html',
         controller: 'PeriodCtrl',
         data: {
@@ -58,6 +58,25 @@
         }
       })
 
+
+
+      .state('budget', {
+        url: '/budget/',
+        templateUrl: 'app/components/budget/budgetView.html',
+        controller: 'BudgetCtrl',
+        data: {
+          requireLogin: true
+        }
+      })
+
+      .state('budgetdetails', {
+        url: '/budget/details/',
+        templateUrl: 'app/components/budget/details/detailsView.html',
+        controller: 'BudgetDetailsCtrl',
+        data: {
+          requireLogin: true
+        }
+      })
 
       .state('offline', {
         url: '/offline',
@@ -76,7 +95,6 @@
       var requireLogin = toState.data.requireLogin;
       
       if (requireLogin && ipCookie('token')==undefined) {
-
         event.preventDefault();
         $state.go('login');
       }

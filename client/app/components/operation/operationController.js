@@ -4,16 +4,17 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', '$rootScope', 'OperationResource', 'CategoryResource', 'initService', '$state', OperationController])
+        .controller('OperationController', ['$scope', '$rootScope', 'OperationResource', 'CategoryResource', 'periodService', 'initService', '$state', OperationController])
 
 
-        function OperationController($scope, $rootScope, OperationResource, CategoryResource, initService, $state) {
+        function OperationController($scope, $rootScope, OperationResource, CategoryResource, periodRes, initService, $state) {
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
             }
 
             var accountId = $state.params.accountId
+            $scope.accountId = accountId
             $scope.categories = []
             $scope.editable = false
             $scope.resetOperationCreate()
@@ -21,8 +22,62 @@
             $scope.groupOfOperations = []
             $scope.operationsOfGroup = []
 
+            var intervalType = [
+                {
+                    type: 'Day',
+                    value: 1,
+                    code: 'd'
+                }, {
+                    type: 'Week',
+                    value: 7,
+                    code: 'w'
+                }, {
+                    type: 'Month',
+                    value: 30,
+                    code: 'M'
+                }, {
+                    type: 'Year',
+                    value: 365,
+                    code: 'y'
+                }
+            ]
+            $scope.intervalType = intervalType
+
+            $scope.operationCreateModel = {
+                period: {
+                    intervalType: intervalType[2]
+                }
+            }
+
+            // $scope.operationCreateModel = {
+            //     period: {
+            //         intervalType: intervalType[2],
+            //         step : 2,
+            //         occurency: 3
+            //     },
+            //     accountId: '54ec74a2b5edf01c2c3a3552',
+            //     advanced: true,
+            //     dateOperation: '05/03/2015',
+            //     datePrelevement: '05/03/2015',
+            //     description: 'ceci est un test',
+            //     periodic: true,
+            //     thirdParty: 'Steam',
+            //     type: 'CB',
+            //     value: 45
+            // }
+
             function saveOperationsOffline(accountId, operations){
                 localStorage.setItem("operations-" + accountId, JSON.stringify(operations))
+            }
+
+            function clone(obj) {
+                var target = {};
+                for (var i in obj) {
+                    if (obj.hasOwnProperty(i)) {
+                        target[i] = obj[i];
+                    }
+                }
+                return target;
             }
 
             // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
@@ -49,7 +104,7 @@
 
                         for(var i = 0; i < operations.length; i++) {
 
-                            operations[i].categoryName = "No category"
+                            operations[i].categoryName = 'No category'
 
                             if(operations[i].categoryId !== "") {
 
@@ -93,7 +148,7 @@
                 $scope.deferredBalance = 0
 
                 for(var i = 0; i < $scope.operations.length; i++) {
-                    if($scope.operations[i].value !== "" && $scope.operations[i].value !== undefined) {
+                    if($scope.operations[i].value !== '' && $scope.operations[i].value !== undefined) {
 
                         if(!$scope.operations[i].datePrelevementIsAfterToday) {
                             $scope.balance += parseFloat($scope.operations[i].value)
@@ -111,7 +166,7 @@
             $scope.getCategoriesOperation = function() {
                 var idUser = $rootScope.currentUserSignedInId
                 
-                if(idUser !== "" && idUser !== undefined) {
+                if(idUser !== '' && idUser !== undefined) {
                     CategoryResource.getAll(idUser).$promise.then(function(categories){
                         $scope.categories = []
                         for(var i = 0; i < categories.length; i++) {
@@ -135,33 +190,74 @@
             */
 
             $scope.addOperation = function() {
-                if(accountId !== "") {
+                if(accountId !== '') {
                     $scope.operationCreateModel.accountId = accountId
                 }
 
                 if($scope.operationCreateModel.hasOwnProperty("category") && $scope.operationCreateModel.category !== undefined) {
+
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
 
                 // TODO: Verifier le bon format de la date
-                if( !$scope.operationCreateModel.hasOwnProperty("dateOperation") 
-                    || $scope.operationCreateModel.dateOperation === ""
+                if( !$scope.operationCreateModel.hasOwnProperty('dateOperation') 
+                    || $scope.operationCreateModel.dateOperation === ''
                     || !moment($scope.operationCreateModel.dateOperation).isValid) {
 
                     $scope.operationCreateModel.dateOperation = moment().format('YYYY/MM/DD')
                 }
 
-                if( !$scope.operationCreateModel.hasOwnProperty("datePrelevement") 
-                    || $scope.operationCreateModel.datePrelevement === ""
+                if( !$scope.operationCreateModel.hasOwnProperty('datePrelevement') 
+                    || $scope.operationCreateModel.datePrelevement === ''
                     || !moment($scope.operationCreateModel.datePrelevement).isValid) {
 
                     $scope.operationCreateModel.datePrelevement = $scope.operationCreateModel.dateOperation
                 }
 
-                if( $scope.operationCreateModel.hasOwnProperty("periodic")
+                if( $scope.operationCreateModel.hasOwnProperty('periodic')
                     && $scope.operationCreateModel.periodic) {
 
                     // TODO: Add operation periodic
+
+                    // console.log($scope.operationCreateModel)
+
+                    
+
+                    var newOpt = clone($scope.operationCreateModel)
+
+                    var toSend = {
+                        name: newOpt.description,
+                        dateBegin: newOpt.period.dateBegin === undefined ? newOpt.dateOperation : newOpt.period.dateBegin,
+                        nbRepeat: newOpt.period.occurency,
+                        step: newOpt.period.step,
+                        intervalType: newOpt.period.intervalType.code,
+                        operation : {
+                            value: newOpt.value,
+                            thirdParty: newOpt.thirdParty,
+                            description: newOpt.description,
+                            typeOpt: newOpt.type,
+                            // checked: false,
+                            dateOperation: newOpt.dateOperation,
+                            datePrelevement: newOpt.datePrelevement,
+                            // categoryId: newOpt.,
+                            accountId: newOpt.accountId
+                        }
+                    }
+
+                    console.log(toSend)
+
+                    periodRes.add(toSend).$promise.then(function() {
+                        // refresh()
+                        // TODO popup for confirmation
+                    })
+
+                    // periodService.add(tmp).$promise.then(function() {
+                    //     // refresh()
+                    //     resetAddForm()
+                    //     $modalInstance.close();
+                    // })
+
+                    // addPeriodOpt($scope.operationCreateModel)
 
                 } else { // Add normal operation
 
@@ -170,6 +266,10 @@
 
                 $scope.resetOperationCreate()
             }
+
+            // function addPeriodOpt(data){
+
+            // }
 
             $scope.deleteOperation = function(idOperation, index) {
                 OperationResource.remove(idOperation).$promise.then(function(){

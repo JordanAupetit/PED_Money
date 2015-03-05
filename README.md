@@ -1,4 +1,4 @@
-# PED_Money [![Build Status](https://travis-ci.org/JordanAupetit/PED_Money.svg?branch=master)](https://travis-ci.org/JordanAupetit/PED_Money)
+# PED_Money [![Build Status](https://travis-ci.org/JordanAupetit/PED_Money.svg?branch=master)](https://travis-ci.org/JordanAupetit/PED_Money) [![Build Status](https://david-dm.org/JordanAupetit/PED_Money.svg)](https://david-dm.org/JordanAupetit/PED_Money)
 
 PED_Money est un clone de MS Money qui permet à un particulier de gérer ses comptes bancaires.
 
@@ -20,11 +20,27 @@ PED_Money est un clone de MS Money qui permet à un particulier de gérer ses co
 
 ####windows
 > npm run startallw
-
+ou 
+> npm run start:all:w
 
 ####linux/mac
 > npm run startalll
+ou 
+> npm run start:all:l
 
+##Tests
+
+Tous
+> npm test
+
+Client
+> npm run test:client
+
+Serveur
+> npm run test:server
+
+Serveur (en les relancant à chaque modification)
+> npm run test:server:watch
 
 ##Autre commandes
 

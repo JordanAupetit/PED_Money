@@ -33,6 +33,26 @@
         </div>
     </nav>
 
+
+<!--         <div class="collapse navbar-collapse" >
+            <ul class="nav navbar-nav" ng-hide="currentUserSignedIn">
+                <li><a ui-sref="login">login</a></li>
+                <li><a ui-sref="signup">Signup</a></li>
+            </ul>
+            <ul class="nav navbar-nav" ng-show="currentUserSignedIn">
+                <li><a style="cursor: hand;cursor: pointer;" ng-click="logout()">Logout</a></li>
+                <li><a class="" ui-sref="operation">Operations</a></li>
+                <li><a class="" ui-sref="optPeriod">Operations périodiques</a></li>
+                <li><a class="" ui-sref="accounts">Accounts</a></li>
+                <li><a class="" ui-sref="budget">Budget</a></li>
+            </ul>
+
+
+            <div  class="nav navbar-nav navbar-right" >
+                <button class="navbar-btn btn btn-warning btn-xs" ng-click="initData()">Init</button >
+            </div >
+        </div> -->
+
     <div id="sidebar-wrapper-left" class="menuSidebar">
         <form name="addOperationForm">
             <ul class="sidebar-nav">
@@ -47,6 +67,10 @@
                 </li>
 
                 <li>
+                    <a hide-sidebar-menu ui-sref="budget">Budget</a>
+                </li>
+
+                <li>
                     <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
                 </li>
 
@@ -55,5 +79,6 @@
                 </li>
             </ul>
         </form>
+
     </div>
 </div>
