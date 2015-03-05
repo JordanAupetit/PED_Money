@@ -56,7 +56,7 @@
 
             <div ng-if="op.showOps">
                 <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
-                    <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                    <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
                 </div>
             </div>
         </div>

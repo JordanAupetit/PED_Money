@@ -230,11 +230,11 @@ form.loginSignUp .signUp
     text-align: right;
 }
 
-.operationLine > div > div > .operationButtons {
+.operationLine > div > .operationButtons {
     background: white;
 }
 
-.operationLineOfGroup > div > div > .operationButtons {
+.operationLineOfGroup > div > .operationButtons {
     background: rgb(249, 255, 199);
 }
 
