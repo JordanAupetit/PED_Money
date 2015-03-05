@@ -22,28 +22,17 @@
             $scope.operationsOfGroup = []
 
             function saveOperationsOffline(accountId, operations){
-                localStorage.setItem("operations-"+accountId, JSON.stringify(operations))
+                localStorage.setItem("operations-" + accountId, JSON.stringify(operations))
             }
 
             // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
 
-
-            /*$scope.getOperations = function() {
-                OperationResource.getAll(accountId).$promise.then(function(operations){
-                    for(var i = 0; i < operations.length; i++) {
-
-                        operations[i].categoryName = "No category"
-
-                        if(operations[i].categoryId !== "") {*/
-
-
             function postOperation(accountId, operation){
-                // TODO: Add a promise HERE
                 if(Offline.state == "up"){
                     //console.log($scope.operationCreateModel)
                     //OperationResource.add($scope.operationCreateModel)
 
-                    OperationResource.add($scope.operationCreateModel).$promise.then(function(){
+                    OperationResource.add(operation).$promise.then(function(){
                         $scope.getOperations()
                     })
                 }
@@ -71,11 +60,25 @@
                                     }
                                 }
                             }
+
+                            operations[i].dateOperationIsAfterToday = false
+                            if(moment(operations[i].dateOperation).isAfter(moment())) {
+                                operations[i].dateOperationIsAfterToday = true
+                            }
+
+                            operations[i].datePrelevementIsAfterToday = false
+                            if(moment(operations[i].datePrelevement).isAfter(moment())) {
+                                operations[i].datePrelevementIsAfterToday = true
+                            }
                         }
                         
                         $scope.operations = operations
                         saveOperationsOffline(accountId, operations)       
                         $scope.updateSolde()
+
+                        // On update les groupes dans le cas où les groupes sont
+                        // affiché et qu'on ajoute une operation
+                        $scope.groupOperation()
                     })
                 }
                 else{
@@ -86,16 +89,23 @@
             $scope.getOperations()
 
             $scope.updateSolde = function() {
-                $scope.solde = 0
+                $scope.balance = 0
+                $scope.deferredBalance = 0
 
                 for(var i = 0; i < $scope.operations.length; i++) {
                     if($scope.operations[i].value !== "" && $scope.operations[i].value !== undefined) {
-                        $scope.solde += parseFloat($scope.operations[i].value)
+
+                        if(!$scope.operations[i].datePrelevementIsAfterToday) {
+                            $scope.balance += parseFloat($scope.operations[i].value)
+                        }
+
+                        $scope.deferredBalance += parseFloat($scope.operations[i].value)
                     }
                 }
 
                 // 2 decimal au maximum
-                $scope.solde = $scope.solde.toFixed(2)
+                $scope.balance = $scope.balance.toFixed(2)
+                $scope.deferredBalance = $scope.deferredBalance.toFixed(2)
             }
 
             $scope.getCategoriesOperation = function() {
@@ -119,10 +129,11 @@
 
             /*  
                 ==== TODO ====
-                - Gérer les erreurs / champs vides dans le formulaire d'ajout d'operations
                 - Lorsque l'on raffraichis la page (F5), le rootScope est vidé, et on ne
                 possède plus l'User ID, et donc plus de requêtes qui ont besoin de cet ID
+                On verra quand la gestion du compte sera terminée
             */
+
             $scope.addOperation = function() {
                 if(accountId !== "") {
                     $scope.operationCreateModel.accountId = accountId
@@ -137,7 +148,7 @@
                     || $scope.operationCreateModel.dateOperation === ""
                     || !moment($scope.operationCreateModel.dateOperation).isValid) {
 
-                    $scope.operationCreateModel.dateOperation = moment().format('DD/MM/YYYY')
+                    $scope.operationCreateModel.dateOperation = moment().format('YYYY/MM/DD')
                 }
 
                 if( !$scope.operationCreateModel.hasOwnProperty("datePrelevement") 
@@ -164,15 +175,22 @@
                 OperationResource.remove(idOperation).$promise.then(function(){
                     //$scope.getOperations()
 
-                    // On clique sur le delete d'une operation d'un group
+                    // On clique sur le delete d'une operation d'un groupe
                     if($scope.operationsOfGroup.length > 0) {
                         $scope.operationsOfGroup.splice(index, 1)
                         $scope.updateGroups();
+
+                        for(var i = 0; i < $scope.operations.length; i++) {
+                            if($scope.operations[i]._id === idOperation) {
+                                $scope.operations.splice(i, 1)
+                                break
+                            }
+                        }
                     } else {
                         $scope.operations.splice(index, 1)
-                        $scope.updateSolde();
                     }
                     
+                    $scope.updateSolde();
                 })
             }
 
@@ -192,10 +210,6 @@
                     operation.categoryId = ""
                     operation.categoryName = "No category"
                 }
-
-                /*if(operation.value == "" || operation.value == null) {
-                    operation.value = 0
-                }*/
 
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
@@ -270,6 +284,7 @@
 
             // TODO: Dans le cas de la suppression d'une operation d'un groupe 
             // ne contenant qu'une operation il faudra supprimer le groupe
+            // OU peut etre pas, comme ça on voit bien le groupe vide
 
             $scope.updateGroups = function() {
                 for(var i = 0; i < $scope.groupOfOperations.length; i++) {

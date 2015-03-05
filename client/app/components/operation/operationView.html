@@ -2,16 +2,26 @@
     <div class="container">
 
         <!-- TODO -- Rajouter le SOLDE différé (Fonctionnel) -->
+        <div ng-if="operations.length > 0">
+            <strong>Balance : </strong>
+
+            <span ng-if="balance <= 0" class="colorRed">
+                {{ balance }}€
+            </span>
+            <span ng-if="balance > 0" class="colorGreen">
+                +{{ balance }}€
+            </span>
+        </div>
+
         <div ng-if="operations.length > 0" class="mb20">
-            <strong>Solde : </strong>
+            <strong>Deferred balance : </strong>
 
-            <span ng-if="solde <= 0" class="colorRed">
-                {{ solde }}€
+            <span ng-if="deferredBalance <= 0" class="colorRed">
+                {{ deferredBalance }}€
             </span>
-            <span ng-if="solde > 0" class="colorGreen">
-                +{{ solde }}€
+            <span ng-if="deferredBalance > 0" class="colorGreen">
+                +{{ deferredBalance }}€
             </span>
-
         </div>
 
         <div>
@@ -26,7 +36,7 @@
 
         <label ng-if="groupOfOperations.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
         <div ng-repeat="op in groupOfOperations">
-            <div ng-click="showOperationsOfGroup($index)" class="operationLine">
+            <div ng-click="showOperationsOfGroup($index)" class="operationLine pointer">
                 <div  class="wid40p ftl">
                     <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
                 </div>
@@ -62,8 +72,14 @@
         <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
             <label class="mt20">Operations</label>
 
-            <div class="operationLine" ng-repeat="op in operations"> 
-                <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations">
+                <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            </div>
+
+            <div class="mt20">
+                <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations"> 
+                    <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                </div>
             </div>
         </div>   
 
