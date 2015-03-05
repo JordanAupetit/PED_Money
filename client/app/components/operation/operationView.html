@@ -14,6 +14,8 @@
 
         </div>
 
+        <a class="" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
+
         <select class="form-control wid200" ng-change="groupOperation()" ng-model="groupedBy">
             <option value="">Not grouped</option>
             <option value="date">Grouped by Date</option>
@@ -119,6 +121,8 @@
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
     </div>
 
+
+
     
 
     
@@ -143,9 +147,9 @@
 
                 <li>
                     <label>Value<span class="colorRed">*</span></label>
-                    <div class="form-group" ng-class="{ 'has-error' : addOperationForm.value.$invalid }">
+                    <div class="form-group" ng-class="{ 'has-error' : addOperationForm.value.$invalid && !addOperationForm.value.$pristine}">
                         <input type="number" name="value" ng-model="operationCreateModel.value" class="form-control" placeholder="Value" required>
-                        <span class="error help-block" ng-show="addOperationForm.value.$error.required">
+                        <span class="error help-block" ng-show="addOperationForm.value.$error.required  && !addOperationForm.value.$pristine">
                             Required!</span>
                         <span class="error help-block" ng-show="addOperationForm.value.$error.number">
                             Not valid number!</span>
@@ -184,56 +188,57 @@
                     </button>
                 </li>
 
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic">
-                    <label>Period of repetition</label>
-                    <select class="form-control " ng-model="operationCreateModel.period">
-                        <option value="day">Day</option>
-                        <option value="week">Week</option>
-                        <option value="month" selected>Month</option>
-                        <option value="year">Year</option>
-                    </select>
-                </li>
+                
 
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic">
-                    <label>Period step<span class="colorRed">*</span></label>
-                    <div class="form-group" ng-class="{ 'has-error' : addOperationForm.periodStep.$invalid }">
-                        <input type="number" name="periodStep" ng-model="operationCreateModel.periodStep" class="form-control" min="1" required>
-                        <span class="error help-block" ng-show="addOperationForm.periodStep.$error.required">
-                            Required!</span>
-                        <span class="error help-block" ng-show="addOperationForm.periodStep.$error.number">
-                            Not valid number!</span>
-                        <span class="error help-block" ng-show="addOperationForm.periodStep.$error.min">
-                            Min is 1!</span>
-                    </div>
-                </li>
+                <span ng-show="operationCreateModel.advanced && operationCreateModel.periodic">
 
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic">
-                    <label>Begin date of repetition</label>
-                    <input mydatepicker ng-model="operationCreateModel.dateBegin" class="form-control" placeholder="(Default today)">
-                </li>
 
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic">
-                    <button type="button" button-checkbox class="btn btn-default">
-                        <input ng-model="operationCreateModel.infinite" type="checkbox">
-                        Infinite
-                    </button>
-                </li>
+                    <li class="form-group">
+                        <label>Period of repetition </label>
+                        <select name="intervalType" class="form-control" ng-model="operationCreateModel.period.intervalType" ng-options="interval as interval.type for interval in intervalType" required>
+                        </select>
+                   </li>
 
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic && !operationCreateModel.infinite">
+                    <li class="form-group" ng-class="{ 'has-error' : addOperationForm.periodStep.$invalid && !addOperationForm.periodStep.$pristine }">
+                        <label>Period step<span class="colorRed">*</span></label>
+                        <input type="number" class="form-control" name="periodStep" ng-model="operationCreateModel.period.step" min="1" required>
+                        <p ng-show="addOperationForm.periodStep.$error.required && !addOperationForm.periodStep.$pristine" class="help-block">Period step is required.</p>
+                        <p class="error help-block" ng-show="addOperationForm.periodStep.$error.number">
+                         Must be a valid number.</p>
+                        <p ng-show="addOperationForm.periodStep.$error.min" class="help-block">Must be superior of 0.</p>
+                    </li>
 
-                    <!-- TODO: Verifier que la date est bien incluse dans occurency -->
+                    <li class="form-group">
+                        <label>Begin date of repetition</label>
+                        <input mydatepicker ng-model="operationCreateModel.period.dateBegin" class="form-control" placeholder="(Default today)">
+                    </li>
 
-                    <label>Occurency (begin date included) <span class="colorRed">*</span></label>
-                    <div class="form-group" ng-class="{ 'has-error' : addOperationForm.occurency.$invalid }">
-                        <input type="number" name="occurency" ng-model="operationCreateModel.occurency" class="form-control" min="2" required>
-                        <span class="error help-block" ng-show="addOperationForm.occurency.$error.required">
-                            Required!</span>
-                        <span class="error help-block" ng-show="addOperationForm.occurency.$error.number">
-                            Not valid number!</span>
-                        <span class="error help-block" ng-show="addOperationForm.occurency.$error.min">
-                            Min is 2!</span>
-                    </div>
-                </li>
+                    <li class="form-group">
+                        <button type="button" button-checkbox class="btn btn-default">
+                            <input ng-model="operationCreateModel.period.infinite" type="checkbox">
+                            Infinite
+                        </button>
+                    </li>
+
+                    <li ng-if="!operationCreateModel.period.infinite">
+
+                        <!-- TODO: Verifier que la date est bien incluse dans occurency -->
+
+                        <label>Occurency (begin date included) <span class="colorRed">*</span></label>
+                        <div class="form-group" ng-class="{ 'has-error' : addOperationForm.occurency.$invalid  && !addOperationForm.occurency.$pristine }">
+                            <input type="number" name="occurency" ng-model="operationCreateModel.period.occurency" class="form-control" min="2" required>
+                            <span class="error help-block" ng-show="addOperationForm.occurency.$error.required && !addOperationForm.occurency.$pristine">
+                                Occurency is required</span>
+                            <span class="error help-block" ng-show="addOperationForm.occurency.$error.number">
+                                Must be a valid number</span>
+                            <span class="error help-block" ng-show="addOperationForm.occurency.$error.min">
+                                Must be more than 2</span>
+                        </div>
+                    </li>
+
+                </span>
+
+
 
                 <li>
                     <button close-menu-create-operation ng-disabled="addOperationForm.$invalid" ng-click="addOperation()" class="btn btn-primary">Add</button>

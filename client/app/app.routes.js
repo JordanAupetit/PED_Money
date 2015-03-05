@@ -50,7 +50,7 @@
       })
 
       .state('optPeriod', {
-        url: '/operation/period/',
+        url: '/:accountId/operation/period/',
         templateUrl: 'app/components/operation/period/periodView.html',
         controller: 'PeriodCtrl',
         data: {

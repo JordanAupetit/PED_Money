@@ -52,6 +52,7 @@ module.exports = function (app, periodModel) {
 		var newPeriod = new periodModel(period);
 		newPeriod.save(function(e, results){
 			if (e) return next(e)
+			// console.log(results)
 			resp.send(results)
 		})
 	}

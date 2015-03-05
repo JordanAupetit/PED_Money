@@ -9,13 +9,43 @@ describe('Period::API', function() {
 
 	// describe('get', function() {
 
+	var fakeOperation = {
+		value: 300,
+		thirdParty: 'M Bougnard',
+		description: 'Loyer',
+		typeOpt: 'Virement',
+		checked: false,
+		dateOperation: '2015-01-20',
+		datePrelevement: '2015-01-25',
+		categoryId: '54684654dqs',
+		accountId: 'sddqs1123sqd'
+	}
+
 	var fakePeriod = {
-		'name': 'Loyer',
-		'dateBegin': '2015-01-15T00:00:00.000Z',
-		'nbRepeat': -1,
-		'step': 3,
-		'intervalType': 'M',
-		'amount': 300,
+		name: 'Loyer 2015',
+		dateBegin: '2015-01-15T00:00:00.000Z',
+		nbRepeat: -1,
+		step: 3,
+		intervalType: 'M',
+		isOver: false,
+		opCreat: [],
+		operation : fakeOperation
+	}
+
+	
+
+	var fakeOperation2 = {
+		_id: '2132sdq0sq',
+		value: -50,
+		thirdParty: 'Auchan',
+		description: 'Règlement des courses',
+		type: 'Chèque',
+		checked: false,
+		dateOperation: '2015-01-20',
+		datePrelevement: '2015-01-25',
+		categoryId: '54684654dqs',
+		subOperations: [],
+		accountId: 'sddqs1123sqd'
 	}
 
 	function clone(obj) {
@@ -31,6 +61,8 @@ describe('Period::API', function() {
 
 	it('should add Period', function() {
 
+		// console.log(fakePeriod)
+
 		request(url)
 			.post('')
 			.expect(200)
@@ -45,7 +77,7 @@ describe('Period::API', function() {
 				var fp = clone(fakePeriod)
 				fp.__v = 0
 				fp._id = res.body._id
-				// res.body.should.have.property('name').and.equal(fakePeriod.name)
+					// res.body.should.have.property('name').and.equal(fakePeriod.name)
 				res.body.should.be.eql(fp)
 
 				// res.body.length.should.be.above(0)
@@ -75,7 +107,7 @@ describe('Period::API', function() {
 					idPeriod = res.body._id
 
 					end()
-			})
+				})
 		})
 
 		it('should get specific Period', function() {
@@ -111,7 +143,7 @@ describe('Period::API', function() {
 
 		it('should delete specific Period', function() {
 			request(url)
-				.delete('/'+idPeriod)
+				.delete('/' + idPeriod)
 				.expect(204)
 				.end(function(err, res) {
 					if (err) {
@@ -119,7 +151,7 @@ describe('Period::API', function() {
 					}
 
 					request(url)
-						.get('/'+idPeriod)
+						.get('/' + idPeriod)
 						.expect(204)
 						.end(function(err, res) {
 							if (err) {

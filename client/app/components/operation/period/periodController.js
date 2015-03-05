@@ -6,6 +6,16 @@
 	angular.module('controllers')
 		.factory('periodHelper', function() {
 			return {
+
+				clone: function(obj) {
+					var target = {};
+					for (var i in obj) {
+						if (obj.hasOwnProperty(i)) {
+							target[i] = obj[i];
+						}
+					}
+					return target;
+				},
 				/**
 				 * @Description
 				 * Simulate the periodic operation who will be generate
@@ -13,31 +23,53 @@
 				 * @Return {Object} The projected periodic operation
 				 */
 				genProjection: function(period) {
+					function clone(obj) {
+						var target = {};
+						for (var i in obj) {
+							if (obj.hasOwnProperty(i)) {
+								target[i] = obj[i];
+							}
+						}
+						return target;
+					}
 					var projection = []
 						// console.log(period)
 
 					var date = moment(period.dateBegin)
 
 					// Set the first operation
-					projection.push({
-						date: date.clone().toDate(),
-						amount: period.amount
-					})
+					var proj = clone(period.operation)
+					proj.dateOperation = date.clone().toDate()
+					proj.datePrelevement = proj.dateOperation
+					projection.push(proj)
+					// projection.push({
+					// 	date: date.clone().toDate(),
+					// 	amount: period.operation.value
+					// })
 					if (period.nbRepeat === -1) {
 						// If the operation is infinite show the first 12 operation
 						for (var i = 0; i < 12; i++) {
-							projection.push({
-								date: date.add(1 * period.step, period.intervalType).clone().toDate(),
-								amount: period.amount
-							})
+							proj = clone(period.operation)
+							proj.dateOperation = date.add(1 * period.step, period.intervalType).clone().toDate()
+							proj.datePrelevement = proj.dateOperation
+							projection.push(proj)
+							// projection.push({
+							// 	date: date.add(1 * period.step, period.intervalType).clone().toDate(),
+							// 	amount: period.amount
+							// })
 						}
 					} else {
 						for (var i = 1; i < period.nbRepeat; i++) {
-							var proj = {
-								date: date.add(1 * period.step, period.intervalType).clone().toDate(),
-								amount: period.amount
-							}
+
+							proj = clone(period.operation)
+							proj.dateOperation = date.add(1 * period.step, period.intervalType).clone().toDate()
+							proj.datePrelevement = proj.dateOperation
 							projection.push(proj)
+							// var proj = {
+							// 	date: date.add(1 * period.step, period.intervalType).clone().toDate(),
+							// 	amount: period.operation.value
+							// }
+							// projection.push(proj)
 						}
 					}
 
@@ -56,7 +88,7 @@
 				}
 			}
 		})
-		.controller('PeriodCtrl', ['$scope', 'periodService', '$modal', '$log', 'periodHelper', PeriodCtrl])
+		.controller('PeriodCtrl', ['$scope', 'periodService', '$modal', '$log', 'periodHelper', '$state', PeriodCtrl])
 		.controller('ModalPeriodCtrl', ['$scope', '$modalInstance', '$log', 'intervalType', 'periodService', 'periodHelper', ModalPeriodCtrl])
 
 	/**
@@ -226,37 +258,40 @@
 	 * @Description
 	 * The controller of the periodic operation
 	 */
-	function PeriodCtrl($scope, periodService, $modal, $log, periodHelper) {
+	function PeriodCtrl($scope, periodService, $modal, $log, periodHelper, $state) {
+        $scope.accountId = $state.params.accountId
 
-		$scope.headers = [
-			{
-				name: 'Name',
-				field: 'Name',
-			}, {
-				name: 'Date Begin',
-				field: 'Date Begin'
-			}, {
-				name: 'Date End',
-				field: 'Date End'
-			}, {
-				name: 'Occurrency',
-				field: 'Occurrency'
-			}, {
-				name: 'Step',
-				field: 'Step'
-			}, {
-				name: 'Interval type',
-				field: 'Interval type'
-			}, {
-				name: 'Amount',
-				field: 'Amount'
-			}, {
-				name: '',
-				field: 'action'
-			}
-		];
+		$scope.headers = [{
+			name: 'Name',
+			field: 'Name',
+		}, {
+			name: 'Date Begin',
+			field: 'Date Begin'
+		}, {
+			name: 'Date End',
+			field: 'Date End'
+		}, {
+			name: 'Occurrency',
+			field: 'Occurrency'
+		}, {
+			name: 'Step',
+			field: 'Step'
+		}, {
+			name: 'Interval type',
+			field: 'Interval type'
+		}, {
+			name: 'Amount',
+			field: 'Amount'
+		}, {
+			name: '',
+			field: 'action'
+		}];
 
-		$scope.custom = {name: 'bold', description:'grey',last_modified: 'grey'};
+		$scope.custom = {
+			name: 'bold',
+			description: 'grey',
+			last_modified: 'grey'
+		};
 
 		// TODO Put in shared place
 		var intervalType = [{
@@ -315,7 +350,7 @@
 
 		$scope.makeProjection = function(period) {
 			$scope.isProjection = !$scope.isProjection
-			// period.isProjection = !period.isProjection
+				// period.isProjection = !period.isProjection
 			$scope.projection = periodHelper.genProjection(period)
 		}
 
