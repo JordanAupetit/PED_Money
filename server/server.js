@@ -70,8 +70,8 @@ oauthGoogle(app, database.getUserModel())
 apiCategory(app, database.getCategoryModel(), database.getUserModel())
 
 
-
-
+// Only for test (mandatory)
+module.exports = app
 
 // Example
 
