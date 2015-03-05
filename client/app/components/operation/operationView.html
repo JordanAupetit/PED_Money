@@ -71,13 +71,23 @@
 
         <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
             <label class="mt20">Operations</label>
-
-            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations">
+        <div>
+            Search: <input ng-model="searchText">
+            Order By :
+                <select ng-model="orderProp" >
+                            <option value="value">Price</option>
+                            <option value="dateOperation">Date</option>
+                            <option value="categoryName">category</option>
+                            <option value="type">type</option>
+                </select>
+        </div>
+            <br>
+            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
                 <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
 
             <div class="mt20">
-                <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations"> 
+                <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText"> 
                     <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
                 </div>
             </div>
