@@ -41,7 +41,7 @@
     "globalstrict"  : false,     
     "iterator"      : false,     
     "lastsemic"     : false,
-    "laxbreak"      : false, 
+    "laxbreak"      : true, 
     "laxcomma"      : false, 
     "loopfunc"      : false, 
     "multistr"      : false, 
@@ -77,6 +77,7 @@
     "globals":{
         "angular": true,
         "ES6Promise" : true,
+        "Promise" : true,
         "moment": true,
         "Highcharts": true
     }

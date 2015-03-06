@@ -94,16 +94,19 @@
     $rootScope.$on('$stateChangeStart', function (event, toState) {
       var requireLogin = toState.data.requireLogin;
       
-      if (requireLogin && ipCookie('token')==undefined) {
+      if (requireLogin 
+          && ipCookie('token') == undefined) {
         event.preventDefault();
         $state.go('login');
       }
-      if ( toState.templateUrl === "app/components/login/loginView.html" && ipCookie('token')!=undefined) {
-          alert("Access denied you have to logout ");
-           event.preventDefault();
+      if (toState.templateUrl === 'app/components/login/loginView.html'
+          && ipCookie('token') !== undefined) {
+          // alert('Access denied you have to logout');
+          console.log('Access denied you have to logout');
+          event.preventDefault();
           $state.go('accounts');
 
-        }
+      }
     });
   });
 

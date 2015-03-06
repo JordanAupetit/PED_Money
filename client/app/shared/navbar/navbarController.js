@@ -19,6 +19,7 @@
                 ipCookie.remove('user')
                 $rootScope.currentUserSignedIn = null
                 $rootScope.utlisateurCourant = null 
+                console.log('OK')
                 $state.go('login')
         }
         

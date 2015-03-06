@@ -20,11 +20,13 @@ PED_Money est un clone de MS Money qui permet à un particulier de gérer ses co
 
 ####windows
 > npm run startallw
+
 ou 
 > npm run start:all:w
 
 ####linux/mac
 > npm run startalll
+
 ou 
 > npm run start:all:l
 
