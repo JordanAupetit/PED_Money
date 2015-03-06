@@ -114,9 +114,9 @@
           <div class="form-group" ng-class="{ 'has-error' : addOperationForm.value.$invalid && !addOperationForm.value.$pristine}">
             <input type="number" name="value" ng-model="operationCreateModel.value" class="form-control" placeholder="Value" required>
             <span class="error help-block" ng-show="addOperationForm.value.$error.required  && !addOperationForm.value.$pristine">
-            Required!</span>
+            Value is required</span>
             <span class="error help-block" ng-show="addOperationForm.value.$error.number">
-            Not valid number!</span>
+            Not valid number</span>
           </div>
         </li>
 

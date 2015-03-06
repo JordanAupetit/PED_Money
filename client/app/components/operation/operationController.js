@@ -11,6 +11,10 @@
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
+
+                if($scope.addOperationForm !== undefined){
+                    $scope.addOperationForm.$setPristine();
+                }
             }
 
             var accountId = $state.params.accountId
@@ -217,12 +221,6 @@
                 if( $scope.operationCreateModel.hasOwnProperty('periodic')
                     && $scope.operationCreateModel.periodic) {
 
-                    // TODO: Add operation periodic
-
-                    // console.log($scope.operationCreateModel)
-
-                    
-
                     var newOpt = clone($scope.operationCreateModel)
 
                     var toSend = {
@@ -239,7 +237,7 @@
                             // checked: false,
                             dateOperation: newOpt.dateOperation,
                             datePrelevement: newOpt.datePrelevement,
-                            // categoryId: newOpt.,
+                            // categoryId: newOpt.category,
                             accountId: newOpt.accountId
                         }
                     }
@@ -261,7 +259,22 @@
 
                 } else { // Add normal operation
 
-                    postOperation(accountId, $scope.operationCreateModel)
+                    var newOpt = clone($scope.operationCreateModel)
+
+                    if(!newOpt.advanced){
+                        var toSend = {
+                            accountId: newOpt.accountId,
+                            value: newOpt.value,
+                            categoryId: newOpt.categoryId,
+                            dateOperation: newOpt.dateOperation,
+                            datePrelevement: newOpt.datePrelevement
+                        }
+                    }else {
+                        toSend = newOpt
+                        delete toSend.period
+                    }
+
+                    postOperation(accountId, toSend)
                 }
 
                 $scope.resetOperationCreate()
