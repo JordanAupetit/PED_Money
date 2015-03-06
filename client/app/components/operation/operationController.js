@@ -13,7 +13,7 @@
             }       
 
             function postOperation(operation){
-                if(!$rootScope.offline){
+                if(StorageServices.isOnline()){
                     OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
                         getOperations()
                     }, function(err){
@@ -26,7 +26,7 @@
             }
 
             function getAccount(){
-                if(!$rootScope.offline){
+                if(StorageServices.isOnline()){
                     AccountResource.get($state.params.accountId).$promise.then(function(account){
                         StorageServices.setAccount(accountId, account)
                         $scope.account = account
@@ -40,7 +40,7 @@
             }
 
             function getOperations() {
-                if(!$rootScope.offline){
+                if(StorageServices.isOnline()){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
                         for(var i = 0; i < operations.length; i++) {
                             if(operations[i].categoryId !== "") {

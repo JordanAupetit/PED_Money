@@ -79,7 +79,7 @@ var transporter = nodemailer.createTransport({
 *	du matin, la seconde en lance une toute les secondes
 **/
 var job = new CronJob('00 30 01 * * *', function(){
-//var job = new CronJob('* * * * * *', function(){
+// var job = new CronJob('* * * * * *', function(){
     
     console.info("CronJob starting")
 	userModel.find(function (err, users) {
@@ -94,8 +94,8 @@ var job = new CronJob('00 30 01 * * *', function(){
 	        			}else{
 	        				for(var j in accounts){
 	        					if(accounts[j].balance < accounts[j].alert){
-	        						console.log("it should send an email for " + accounts[j].name)
 	        						var account = accounts[j]
+	        						console.log("it should send an email for " + accounts[j].name + " to " + users[i].email)
 	        						var mytext = "You have " + account.balance + " " +account.currency + " in your account " 
 	        						+ accounts[j].name + ". Visite MyMoney.com to fix this issue"
 	        						var mailOptions = {

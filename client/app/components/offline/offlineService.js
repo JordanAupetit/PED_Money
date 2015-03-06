@@ -38,7 +38,25 @@
             localStorage.setItem("DATA", JSON.stringify(data))
         }
 
+        var offline = true
+        var online = true
+
+        Offline.on("down", function(){
+            console.info("connection lost")
+            // offline = true
+            online = false
+        }, null)
+        
+        Offline.on("confirmed-up", function(){
+            // offline = false
+            online = true
+        }, null)
+
         return {
+            isOnline: function(){
+                Offline.check()
+                return online
+            },
             setUser: function(user) {
                 setLocalData({'user': user, 'accounts': []})
             },

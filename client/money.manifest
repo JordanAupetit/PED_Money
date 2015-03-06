@@ -1,6 +1,6 @@
 CACHE MANIFEST
- 
-# Version 0.0.0.2
+
+#Version 0.0.0.2
 
 CACHE:
 index.html
@@ -8,24 +8,24 @@ app/shared/navbar/navbar.html
 app/components/login/loginView.html
 app/components/accounts/accountsView.html
 app/components/operation/operationView.html
-app/shared/category/categoryView.html 
-assets/libs/jquery-ui/themes/smoothness/images/ui-bg_flat_75_ffffff_40x100.png 
+app/shared/category/categoryView.html
+assets/libs/jquery-ui/themes/smoothness/images/ui-bg_flat_75_ffffff_40x100.png
 assets/libs/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf
 assets/libs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2
 assets/libs/bootstrap/dist/fonts/glyphicons-halflings-regular.woff
-assets/libs/bootstrap/dist/css/bootstrap.min.css 
+assets/libs/bootstrap/dist/css/bootstrap.min.css
 assets/libs/bootstrap/dist/css/bootstrap-theme.min.css
-assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css 
+assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css
 assets/libs/angular-material/angular-material.css
 assets/css/style.css
-assets/css/material.css 
+assets/css/material.css
 assets/libs/jquery/dist/jquery.js
-assets/libs/jquery-ui/jquery-ui.js 
+assets/libs/jquery-ui/jquery-ui.js
 assets/libs/bootstrap/dist/js/bootstrap.min.js
 assets/js/es6-promise-2.0.1.min.js
 assets/libs/angular/angular.js
 assets/libs/angular-ui-router/release/angular-ui-router.min.js
-assets/libs/angular-resource/angular-resource.js 
+assets/libs/angular-resource/angular-resource.js
 assets/libs/angular-aria/angular-aria.js
 assets/libs/angular-animate/angular-animate.js
 assets/libs/angular-material/angular-material.js

@@ -49,6 +49,7 @@
                     initWaitingForConnection()
                 }
 
+/*
                 $scope.offline = false
                 $rootScope.offline = false
 
@@ -65,5 +66,6 @@
                 }, null)
 
                 Offline.check()
+*/
         }]);
 })();
