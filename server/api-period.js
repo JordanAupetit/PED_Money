@@ -29,7 +29,7 @@ module.exports = function (app, periodModel) {
 
 		periodModel.findOne({'_id': periodId}, function (err, coll) {
 			if (!err) {
-				console.log(coll);
+				// console.log(coll);
 
 				if(coll !== null)
 					return resp.send(coll)

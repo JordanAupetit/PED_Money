@@ -2,7 +2,9 @@
     <nav class="navbar navbar-default" role="navigation" >
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="" ui-sref="account">MyMoney</a>
+                <!-- <button class="navbar-brand hamburger-button">Show navigation</button> -->
+                <button toggle-sidebar-menu class="hamburger-button">Show navigation</button>
+                <a toggle-sidebar-menu class="navbar-brand" href="" ui-sref="account">MyMoney</a>
             </div>
 
             <div class="collapse navbar-collapse">
@@ -11,9 +13,9 @@
                     <li ng-hide="currentUserSignedIn"><a ui-sref="signup">Signup</a></li>
                     <li ng-hide="currentUserSignedIn"><a href="/auth/facebook">facebook</a></li>
                     <li ng-hide="currentUserSignedIn"><a href="/auth/google">google</a></li>
-                    <li ng-show="currentUserSignedIn">
-                        <button show-sidebar-menu class="btn btn-default navbar-btn">Menu (Temporaire)</button>
-                    </li>
+<!--                     <li ng-show="currentUserSignedIn">
+                        <button class="btn btn-default navbar-btn">Menu (Temporaire)</button>
+                    </li> -->
 
                     <li ng-controller="offlineController">
                         <a>
@@ -74,9 +76,9 @@
                     <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
                 </li>
 
-                <li>
+<!--                 <li>
                     <button hide-sidebar-menu class="btn btn-default">Close</button>
-                </li>
+                </li> -->
             </ul>
         </form>
 
