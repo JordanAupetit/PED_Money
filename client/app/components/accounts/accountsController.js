@@ -2,127 +2,23 @@
 
     'use strict';
 
-    var accountTypes = [
-                {
-                    name: 'Banking',
-                    value: 1
-                },
-                {
-                    name: 'Individual Saving Account',
-                    value: 2
-                },
-                {
-                    name: 'Investment',
-                    value: 3
-                },
-                {
-                    name: 'Credit card',
-                    value: 4
-                },
-                {
-                    name: 'Other',
-                    value: 10
-                }
-            ]
-
-    var currencys = [
-                {
-                    name: 'EUR(€)',
-                    code: 'EUR',
-                    value: 'EUR'
-                },{
-                    name: 'USD($)',
-                    code: 'USD',
-                    value: 'USD'
-                },{
-                    name: 'GBP(£)',
-                    code: 'GBP',
-                    value: 'GBP'
-                }
-            ]
 
 
-    function findAccountTypeByValue(value){
-        var result
-        angular.forEach(accountTypes, function(type){
-            if(type.value == value){ // TODO value is a string
-                result = type
-            }
-        })
-        return result
-    }
-
-    function findCurrencyByValue(value){
-        var result
-        angular.forEach(currencys, function(currency){
-            if(currency.value === value){ 
-                result = currency
-            }
-        })
-        return result
-    }
 
     angular
         .module('controllers')
         .controller('AccountController', ['$scope', 'AccountResource', 'initService', AccountController])
-        .filter('accountType', function(){
-            return function(input) {
-                var result = findAccountTypeByValue(input)
-                result = result !== undefined ? result.name :'Unknown';
-                return result
-            }
-        })
-        .filter('accountCurrency', function(){
-            return function(input) {
-                var result = findCurrencyByValue(input)
-                result = result !== undefined ? result.name :'Unknown';
-                return result
-            }
-        })
+        
 
         function AccountController($scope, AccountResource, initService) {
             // initService.populateAccount()
 
             $scope.accountCreateModel = {};
 
-            $scope.currencys = [
-                {
-                    name: 'EUR(€)',
-                    code: 'EUR',
-                    value: 'EUR'
-                },{
-                    name: 'USD($)',
-                    code: 'USD',
-                    value: 'USD'
-                },{
-                    name: 'GBP(£)',
-                    code: 'GBP',
-                    value: 'GBP'
-                }
-            ]
+            $scope.currencys = CURRENCYS
 
-            $scope.accountTypes = [
-                {
-                    name: 'Banking',
-                    value: 1
-                },
-                {
-                    name: 'Individual Saving Account',
-                    value: 2
-                },
-                {
-                    name: 'Investment',
-                    value: 3
-                },
-                {
-                    name: 'Credit card',
-                    value: 4
-                },
-                {
-                    name: 'Other',
-                    value: 10
-                }
-            ]
+
+            $scope.accountTypes = ACCOUNT_TYPES
 
             // $scope.accountCreateModel = {
             //     name: 'test',
