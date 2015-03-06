@@ -2,10 +2,12 @@ var should = require('should');
 var assert = require('assert')
 var request = require('supertest');
 var mongoose = require('mongoose');
+var app  = require('../server.js');
 
 
 describe('Period::API', function() {
-	var url = 'http://localhost:8754/api/period'
+	// var url = 'http://localhost:8754/api/period'
+	var url = '/api/period'
 
 	// describe('get', function() {
 
@@ -63,8 +65,8 @@ describe('Period::API', function() {
 
 		// console.log(fakePeriod)
 
-		request(url)
-			.post('')
+		request(app)
+			.post(url)
 			.expect(200)
 			.send(fakePeriod)
 			.end(function(err, res) {
@@ -96,8 +98,8 @@ describe('Period::API', function() {
 		 * Add a period to work with
 		 */
 		beforeEach(function(end) {
-			request(url)
-				.post('')
+			request(app)
+				.post(url)
 				.expect(200)
 				.send(fakePeriod)
 				.end(function(err, res) {
@@ -112,8 +114,8 @@ describe('Period::API', function() {
 
 		it('should get specific Period', function() {
 
-			request(url)
-				.get('/' + idPeriod)
+			request(app)
+				.get(url+'/' + idPeriod)
 				.expect(200)
 				.end(function(err, res) {
 					if (err) {
@@ -130,8 +132,8 @@ describe('Period::API', function() {
 		})
 
 		it('should get all Period (at least the one added)', function() {
-			request(url)
-				.get('')
+			request(app)
+				.get(url)
 				.expect(200)
 				.end(function(err, res) {
 					if (err) {
@@ -142,8 +144,8 @@ describe('Period::API', function() {
 		})
 
 		it('should delete specific Period', function() {
-			request(url)
-				.delete('/' + idPeriod)
+			request(app)
+				.delete(url +'/' + idPeriod)
 				.expect(204)
 				.end(function(err, res) {
 					if (err) {
@@ -167,8 +169,8 @@ describe('Period::API', function() {
 
 
 	it.skip('should not be empty', function() {
-			request(url)
-				.get('')
+			request(app)
+				.get(url)
 				.expect(200)
 				.end(function(err, res) {
 					if (err) {

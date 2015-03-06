@@ -9,7 +9,7 @@ angular
             $scope.up = true
             
             function synchWithServer(){
-                var wfc = eval("("+localStorage.getItem("waitingforconnection")+")")
+                var wfc = eval('('+localStorage.getItem('waitingforconnection')+')')
                 for(var i in wfc.operations.POSTs){
                     //TODO add un promise et supprimer de la liste seulement si recu
                     OperationResource.add(wfc.operations.POSTs[i])
@@ -19,15 +19,15 @@ angular
 
             function initWaitingForConnection(){
                 wfc = {
-                    "operations": {
-                        "POSTs": []
+                    'operations': {
+                        'POSTs': []
                     }
                 }
-                localStorage.setItem("waitingforconnection", JSON.stringify(wfc))
+                localStorage.setItem('waitingforconnection', JSON.stringify(wfc))
             }
 
-            var wfc = eval("("+localStorage.getItem("waitingforconnection")+")")
-            if(wfc == null || wfc == ""){
+            var wfc = eval('('+localStorage.getItem('waitingforconnection')+')')
+            if(wfc == null || wfc == ''){
                 initWaitingForConnection()
             }
             synchWithServer()
@@ -36,13 +36,13 @@ angular
             // Offline.options.requests = false
             // Offline.options.checkOnLoad = true
 
-            Offline.on("down", function(){
-                console.info("connection lost")
+            Offline.on('down', function(){
+                console.info('connection lost')
                 $scope.up = false
             }, null)
             
-            Offline.on("up", function(){
-                console.info("connected")
+            Offline.on('up', function(){
+                console.info('connected')
                 $scope.up = true
                 synchWithServer()
             }, null)

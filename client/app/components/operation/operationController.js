@@ -11,6 +11,10 @@
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
+
+                if($scope.addOperationForm !== undefined){
+                    $scope.addOperationForm.$setPristine();
+                }
             }
 
             var accountId = $state.params.accountId
@@ -67,7 +71,7 @@
             // }
 
             function saveOperationsOffline(accountId, operations){
-                localStorage.setItem("operations-" + accountId, JSON.stringify(operations))
+                localStorage.setItem('operations-' + accountId, JSON.stringify(operations))
             }
 
             function clone(obj) {
@@ -83,7 +87,7 @@
             // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
 
             function postOperation(accountId, operation){
-                if(Offline.state == "up"){
+                if(Offline.state === 'up'){
                     //console.log($scope.operationCreateModel)
                     //OperationResource.add($scope.operationCreateModel)
 
@@ -92,21 +96,21 @@
                     })
                 }
                 else{
-                    var wfc = eval("("+localStorage.getItem("waitingforconnection")+")")        
+                    var wfc = eval('('+localStorage.getItem('waitingforconnection')+')')        
                     wfc.operations.POSTs.push(operation)
-                    localStorage.setItem("waitingforconnection", JSON.stringify(wfc))
+                    localStorage.setItem('waitingforconnection', JSON.stringify(wfc))
                 }
             }
 
             $scope.getOperations = function() {
-                if(Offline.state == "up"){
+                if(Offline.state === 'up'){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
 
                         for(var i = 0; i < operations.length; i++) {
 
                             operations[i].categoryName = 'No category'
 
-                            if(operations[i].categoryId !== "") {
+                            if(operations[i].categoryId !== '') {
 
                                 for(var j = 0; j < $scope.categories.length; j++) {
                                     if($scope.categories[j].id === operations[i].categoryId) {
@@ -137,7 +141,7 @@
                     })
                 }
                 else{
-                    $scope.operations = eval("("+localStorage.getItem("operations-"+accountId)+")")
+                    $scope.operations = eval('('+localStorage.getItem('operations-'+accountId)+')')
                 }
             }
 
@@ -194,7 +198,7 @@
                     $scope.operationCreateModel.accountId = accountId
                 }
 
-                if($scope.operationCreateModel.hasOwnProperty("category") && $scope.operationCreateModel.category !== undefined) {
+                if($scope.operationCreateModel.hasOwnProperty('category') && $scope.operationCreateModel.category !== undefined) {
 
                     $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
                 }
@@ -217,12 +221,6 @@
                 if( $scope.operationCreateModel.hasOwnProperty('periodic')
                     && $scope.operationCreateModel.periodic) {
 
-                    // TODO: Add operation periodic
-
-                    // console.log($scope.operationCreateModel)
-
-                    
-
                     var newOpt = clone($scope.operationCreateModel)
 
                     var toSend = {
@@ -239,7 +237,7 @@
                             // checked: false,
                             dateOperation: newOpt.dateOperation,
                             datePrelevement: newOpt.datePrelevement,
-                            // categoryId: newOpt.,
+                            // categoryId: newOpt.category,
                             accountId: newOpt.accountId
                         }
                     }
@@ -261,7 +259,22 @@
 
                 } else { // Add normal operation
 
-                    postOperation(accountId, $scope.operationCreateModel)
+                    var newOpt = clone($scope.operationCreateModel)
+
+                    if(!newOpt.advanced){
+                        var toSend = {
+                            accountId: newOpt.accountId,
+                            value: newOpt.value,
+                            categoryId: newOpt.categoryId,
+                            dateOperation: newOpt.dateOperation,
+                            datePrelevement: newOpt.datePrelevement
+                        }
+                    }else {
+                        toSend = newOpt
+                        delete toSend.period
+                    }
+
+                    postOperation(accountId, toSend)
                 }
 
                 $scope.resetOperationCreate()
@@ -303,12 +316,12 @@
             $scope.updateOperation = function(operation) {
                 operation.editable = false
 
-                if(operation.hasOwnProperty("category") && operation.category !== undefined) {
+                if(operation.hasOwnProperty('category') && operation.category !== undefined) {
                     operation.categoryId = operation.category.id
 
                 } else { // Plus de catégories
-                    operation.categoryId = ""
-                    operation.categoryName = "No category"
+                    operation.categoryId = ''
+                    operation.categoryName = 'No category'
                 }
 
                 OperationResource.update(operation).$promise.then(function(){
@@ -334,28 +347,28 @@
                 $scope.groupOfOperations = []
                 $scope.operationsOfGroup = []
 
-                if($scope.groupedBy !== "") {
+                if($scope.groupedBy !== '') {
 
                     for(var i = 0; i < $scope.operations.length; i++) {
                         var found = false
-                        var operationGroupedByField = ""
+                        var operationGroupedByField = ''
 
                         // TODO: Voir si on groupe aussi par date différée
-                        if($scope.groupedBy === "date") { 
+                        if($scope.groupedBy === 'date') { 
                             operationGroupedByField = $scope.operations[i].dateOperation
-                        } else if($scope.groupedBy === "category") {
+                        } else if($scope.groupedBy === 'category') {
                             operationGroupedByField = $scope.operations[i].categoryName
-                        } else if($scope.groupedBy === "type") {
+                        } else if($scope.groupedBy === 'type') {
                             operationGroupedByField = $scope.operations[i].type
-                        } else if($scope.groupedBy === "thirdParty") {
+                        } else if($scope.groupedBy === 'thirdParty') {
                             operationGroupedByField = $scope.operations[i].thirdParty
                         } else {
-                            // Il doit y avoir une erreur dans le "select"
+                            // Il doit y avoir une erreur dans le 'select'
                             break
                         }
 
-                        if(operationGroupedByField === "" || operationGroupedByField === undefined) {
-                            operationGroupedByField = "Empty field"
+                        if(operationGroupedByField === '' || operationGroupedByField === undefined) {
+                            operationGroupedByField = 'Empty field'
                         }
 
                         for(var j = 0; j < $scope.groupOfOperations.length; j++) {
