@@ -78,7 +78,7 @@ var UserSchema  = new Schema({
 
 var AccountSchema  = new Schema({
     name: String,
-    type: String,
+    type: Number,
     balance: Number,
     currency: String,
     userId: String

@@ -2,9 +2,6 @@
 (function() {
 	'use strict';
 
-
-
-
 	function findIntervalByCode(value) {
 		var result
 		$.each(INTERVAL_TYPES, function(k, type) {
@@ -18,7 +15,7 @@
 	function findAccountTypeByValue(value) {
 		var result
 		angular.forEach(ACCOUNT_TYPES, function(type) {
-			if (type.value == value) { // TODO value is a string
+			if (type.value === value) {
 				result = type
 			}
 		})

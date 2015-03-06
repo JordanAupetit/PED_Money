@@ -44,9 +44,9 @@
             $scope.addAccount = function(accountCreateModel) {
                 if($scope.accountForm.$valid){
                     accountCreateModel.currency = accountCreateModel.currency.code
-                    console.log(accountCreateModel)
+                    // console.log(accountCreateModel)
                     AccountResource.add(accountCreateModel, function(res){
-                        console.log(res)
+                        // console.log(res)
                         resetForm()
                         refresh()
                     })
