@@ -33,9 +33,11 @@
             }
 
             function resetForm(){
+                $scope.closeRightMenu()
                 $scope.accountCreateModel = {}
                 $scope.accountForm.$setPristine();
                 $scope.accountForm.$setUntouched();
+
             }
 
             refresh()

@@ -15,7 +15,6 @@ var Promise = Promise || ES6Promise.Promise;
 		.module('appModule', [
 			'ui.router',
 			'ipCookie',
-			// 'ngResource',
 			'LocalStorageModule',
 			'ui.bootstrap',
 			'controllers',

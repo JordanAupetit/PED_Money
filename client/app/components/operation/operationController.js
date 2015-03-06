@@ -7,6 +7,7 @@
         .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'initService', '$state', OperationController])
 
         function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, initService, $state) {
+
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
@@ -14,9 +15,46 @@
                 if($scope.addOperationForm !== undefined){
                     $scope.addOperationForm.$setPristine();
                 }
-            }       
+            }  
 
-            function postOperation(operation){
+            var accountId = $state.params.accountId
+            $scope.accountId = accountId
+            $scope.categories = []
+            $scope.editable = false
+            $scope.resetOperationCreate()
+            $scope.operations = []
+            $scope.groupOfOperations = []
+            $scope.operationsOfGroup = []
+
+
+            $scope.intervalType = INTERVAL_TYPES
+
+            $scope.operationCreateModel = {
+                period: {
+                    intervalType: INTERVAL_TYPES[2]
+                }
+            }
+
+            // $scope.operationCreateModel = {
+            //     period: {
+            //         intervalType: intervalType[2],
+            //         step : 2,
+            //         occurency: 3
+            //     },
+            //     accountId: '54ec74a2b5edf01c2c3a3552',
+            //     advanced: true,
+            //     dateOperation: '05/03/2015',
+            //     datePrelevement: '05/03/2015',
+            //     description: 'ceci est un test',
+            //     periodic: true,
+            //     thirdParty: 'Steam',
+            //     type: 'CB',
+            //     value: 45
+            // }
+
+                
+
+            function postOperation(operation){ // DUPLICATE
                 if(StorageServices.isOnline()){
                     OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
                         getOperations()
@@ -43,69 +81,6 @@
                 }
             }
 
-            $scope.resetOperationCreate = function () {
-                $scope.operationCreateModel = {}
-                $scope.operationCreateModel.advanced = false
-
-                if($scope.addOperationForm !== undefined){
-                    $scope.addOperationForm.$setPristine();
-                }
-            }
-
-            var accountId = $state.params.accountId
-            $scope.accountId = accountId
-            $scope.categories = []
-            $scope.editable = false
-            $scope.resetOperationCreate()
-            $scope.operations = []
-            $scope.groupOfOperations = []
-            $scope.operationsOfGroup = []
-
-
-            var intervalType = [
-                {
-                    type: 'Day',
-                    value: 1,
-                    code: 'd'
-                }, {
-                    type: 'Week',
-                    value: 7,
-                    code: 'w'
-                }, {
-                    type: 'Month',
-                    value: 30,
-                    code: 'M'
-                }, {
-                    type: 'Year',
-                    value: 365,
-                    code: 'y'
-                }
-            ]
-            $scope.intervalType = intervalType
-
-            $scope.operationCreateModel = {
-                period: {
-                    intervalType: intervalType[2]
-                }
-            }
-
-            // $scope.operationCreateModel = {
-            //     period: {
-            //         intervalType: intervalType[2],
-            //         step : 2,
-            //         occurency: 3
-            //     },
-            //     accountId: '54ec74a2b5edf01c2c3a3552',
-            //     advanced: true,
-            //     dateOperation: '05/03/2015',
-            //     datePrelevement: '05/03/2015',
-            //     description: 'ceci est un test',
-            //     periodic: true,
-            //     thirdParty: 'Steam',
-            //     type: 'CB',
-            //     value: 45
-            // }
-
             function saveOperationsOffline(accountId, operations){
                 localStorage.setItem('operations-' + accountId, JSON.stringify(operations))
             }
@@ -122,7 +97,7 @@
 
             // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
 
-            function postOperation(accountId, operation){
+            function postOperation(accountId, operation){ // DUPLICATE
                 if(Offline.state === 'up'){
                     //console.log($scope.operationCreateModel)
                     //OperationResource.add($scope.operationCreateModel)

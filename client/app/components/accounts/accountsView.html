@@ -50,10 +50,15 @@
 
   <span ng-if="accounts.length <= 0">Il n'y a encore aucun compte à afficher .</span>
 
-  <div id="account-form" class="well auth-box">
-    <form name="accountForm" novalidate>
+
+  <div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add account" data-target=".modal-operation">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </div>
+
+  <div close-right-menu id="sidebar-wrapper-right" class="menuSidebar">
+    <form name="accountForm" class="sidebar-nav" novalidate>
       <!-- Form Name -->
-      <legend>Accounts</legend>
+      <legend class="sidebar-brand">Accounts</legend>
 
       <div class="form-group" ng-class="{ 'has-error' : accountForm.name.$invalid && (accountForm.$submitted || accountForm.name.$touched) }">
         <label class="control-label" for="name">Account Name</label>
@@ -87,10 +92,54 @@
       </div>
 
       <div class="form-group">
+        <button type="submit" ng-click="addAccount(accountCreateModel)" id="button" name="button" class="btn btn-primary">Add</button>
+        <button type="button" close-menu-create-operation class="btn btn-default">Close</button>
+      </div>
+    </form>
+
+    
+  </div>
+
+ <!--  <div id="account-form" class="well auth-box">
+    <form name="accountForm" novalidate>
+      <legend>Accounts</legend>
+
+      <div class="form-group" ng-class="{ 'has-error' : accountForm.name.$invalid && (accountForm.$submitted || accountForm.name.$touched) }">
+        <label class="control-label" for="name">Account Name</label>
+        <input id="name" name="name" ng-model="accountCreateModel.name" placeholder="Account Name" class="form-control input-md" type="text" required>
+        <div ng-show="accountForm.$submitted || accountForm.name.$touched">
+          <span class="error help-block" ng-show="accountForm.name.$error.required">Name is require</span>
+        </div>
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-error' : accountForm.type.$invalid && (accountForm.$submitted || accountForm.type.$touched) }">
+        <label class="control-label" for="type">Type</label>
+        <select id="type" name="type" ng-model="accountCreateModel.type" class="form-control" ng-options="type as type.name for type in accountTypes" required >
+        </select>
+        <div ng-show="accountForm.$submitted || accountForm.type.$touched">
+          <span class="error help-block" ng-show="accountForm.type.$error.required">Type is require</span>
+        </div>
+      </div>
+
+            <div class="form-group">
+        <label class="control-label" for="balance">Account Balance</label>
+        <input id="balance" name="balance" ng-model="accountCreateModel.balance" placeholder="Account Balance" class="form-control input-md" type="text">
+      </div>
+
+      <div class="form-group" ng-class="{ 'has-error' : accountForm.currency.$invalid && (accountForm.$submitted || accountForm.currency.$touched) }">
+        <label class="control-label" for="currency">Currency</label>
+        <select id="currency" name="currency" ng-model="accountCreateModel.currency" class="form-control" ng-options="currency as currency.name for currency in currencys" required>
+        </select>
+        <div ng-show="accountForm.$submitted || accountForm.currency.$touched">
+          <span class="error help-block" ng-show="accountForm.currency.$error.required">Currency is require</span>
+        </div>
+      </div>
+
+      <div class="form-group">
         <button type="submit" ng-click="addAccount(accountCreateModel)" id="button" name="button" class="btn btn-danger">Add Account</button>
       </div>
     </form>
-  </div>
+  </div> -->
 
   <!-- <div class="clearfix"></div> -->
 </div>
