@@ -148,4 +148,8 @@ var categoryModel = mongoose.model('categoryModel', CategorySchema);
 var periodModel = mongoose.model('periodModel', PeriodSchema);
 
 
+// accountModel.collection.drop(); 
+// userModel.collection.drop(); 
+// operationModel.collection.drop(); 
+// categoryModel.collection.drop(); 
 // periodModel.collection.drop(); 

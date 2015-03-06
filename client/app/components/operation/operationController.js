@@ -10,6 +10,10 @@
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
+
+                if($scope.addOperationForm !== undefined){
+                    $scope.addOperationForm.$setPristine();
+                }
             }       
 
             function postOperation(operation){
