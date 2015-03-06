@@ -2,7 +2,10 @@
     <nav class="navbar navbar-default" role="navigation" >
         <div class="container-fluid">
             <div class="navbar-header">
-                <a class="navbar-brand" href="" ui-sref="account">MyMoney</a>
+                <a class="navbar-brand pointer" show-sidebar-menu>
+                    <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                    MyMoney
+                </a>
             </div>
 
             <div class="collapse navbar-collapse">
@@ -11,9 +14,10 @@
                     <li ng-hide="currentUserSignedIn"><a ui-sref="signup">Signup</a></li>
                     <li ng-hide="currentUserSignedIn"><a href="/auth/facebook">facebook</a></li>
                     <li ng-hide="currentUserSignedIn"><a href="/auth/google">google</a></li>
-                    <li ng-show="currentUserSignedIn">
+
+                    <!-- <li ng-show="currentUserSignedIn">
                         <button show-sidebar-menu class="btn btn-default navbar-btn">Menu (Temporaire)</button>
-                    </li>
+                    </li> -->
 
                     <li ng-controller="offlineController">
                         <a>
@@ -29,6 +33,11 @@
                     <li ng-show="currentUserSignedIn"><a ui-sref="optPeriod">Operations périodiques</a></li>
                      <li ng-show="currentUserSignedIn"><a ui-sref="accounts">Accounts</a></li> -->
                 </ul>
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <button ng-click="logout()" type="button" class="btn btn-default navbar-btn">Logout</button>
+                </ul>
             </div>
         </div>
     </nav>
@@ -43,12 +52,18 @@
                 <!-- TODO: A styliser -->
 
                 <li>
-                    <a hide-sidebar-menu ui-sref="accounts">Accounts</a>
+                    <button hide-sidebar-menu ui-sref="accounts" class="btn btn-default">Accounts</button>
                 </li>
 
-                <li>
-                    <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
+                <li ng-repeat="acc in accounts">
+                    <button  hide-sidebar-menu ui-sref="operation({accountId : acc._id})" class="btn btn-info">
+                        {{ acc.name }} - {{ acc.currency }}
+                    </button>
                 </li>
+
+                <!-- <li>
+                    <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
+                </li> -->
 
                 <li>
                     <button hide-sidebar-menu class="btn btn-default">Close</button>
