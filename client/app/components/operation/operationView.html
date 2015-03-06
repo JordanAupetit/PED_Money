@@ -1,217 +1,230 @@
-<div class="blocOperation">    
-    <div class="container">
+<div class="blocOperation">
 
-        <!-- TODO -- Rajouter le SOLDE différé (Fonctionnel) -->
-        <div ng-if="operations.length > 0" class="mb20">
-            <strong>Solde : </strong>
+  <div class="container">
+    <!-- TODO -- Rajouter le SOLDE différé (Fonctionnel) -->
+    
+    <div ng-if="operations.length > 0">
+      <strong>Balance : </strong>
+      <span ng-if="balance <= 0" class="colorRed">
+        {{ balance }}€
+      </span>
+      <span ng-if="balance > 0" class="colorGreen">
+        +{{ balance }}€
+      </span>
+    </div>
 
-            <span ng-if="account.balance <= 0" class="colorRed">
-                {{ account.balance }}€
-            </span>
-            <span ng-if="account.balance > 0" class="colorGreen">
-                +{{ account.balance }}€
-            </span>
+    <div ng-if="operations.length > 0" class="mb20">
+      <strong>Deferred balance : </strong>
+      <span ng-if="deferredBalance <= 0" class="colorRed">
+        {{ deferredBalance }}€
+      </span>
+      <span ng-if="deferredBalance > 0" class="colorGreen">
+        +{{ deferredBalance }}€
+      </span>
+    </div>
 
+    <a class="" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
+
+    <div>
+      <select class="form-control wid200" ng-change="groupOperation()" ng-model="groupedBy">
+        <option value="">Not grouped</option>
+        <option value="date">Grouped by Date</option>
+        <option value="category">Grouped by Category</option>
+        <option value="type">Grouped by Type</option>
+        <option value="thirdParty">Grouped by Third Party</option>
+      </select>
+    </div>
+
+    <label ng-if="groupOfOperations.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
+    <div ng-repeat="op in groupOfOperations">
+      <div ng-click="showOperationsOfGroup($index)" class="operationLine pointer">
+        <div class="wid40p ftl">
+          <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
+        </div>
+        <div class="wid50p ftl">
+          <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
         </div>
 
-        <div hover-operation class="operationLine" ng-repeat="op in operations"> 
-            
-            <div ng-show="op.editable" class="wid100p operationLineEditable">
-                <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.dateOperation">
-                <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.datePrelevement">
+        <!-- <div ng-if="operationsOfGroup.length > 0">
+               <label class="mt20">Operations of the selected group</label>
+           
+               <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
+                   <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+               </div>
+           </div> -->   
 
-                <div class="input-group wid200 ftl mr10">
-                    <select class="form-control " id="inputNewCategorySubCategory" ng-model="op.category" ng-options="categorie.name for categorie in categories track by categorie.id">
-                        <option value="">No category</option>
-                    </select>
-                    <div class="input-group-btn">
-                        <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
-                    </div>
-                </div>
-
-                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.description">
-                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.thirdParty">
-                <input type="text" class="form-control wid100 ftl mr10" ng-model="op.type">
-                <input type="number" class="form-control wid100 ftl mr10" ng-model="op.value">
-            </div>
-
-            <div ng-show="!op.editable">
-                <div  class="wid30p ftl">
-                    <span ng-hide="op.editable">{{ op.dateOperation | date2:'dd/MM/yyyy' }}</span>
-                    <span class="datePrelevement">({{ op.datePrelevement | date2:'dd/MM/yyyy' }})</span>
-                </div>
-
-                <div class="wid60p ftl">
-                    <span class="label label-default">{{ op.categoryName }}</span>
-                    <span ng-if="op.description !== undefined"> – </span>
-                    <span ng-if="op.description !== undefined">{{ op.description }}</span>
-                    <span ng-if="op.description !== undefined && op.thirdParty !== undefined"> – </span>
-                    <span ng-if="op.thirdParty !== undefined">{{ op.thirdParty }}</span>  
-                    <span ng-if="op.thirdParty !== undefined && op.type !== undefined"> – </span>
-                    <span ng-if="op.type !== undefined">{{ op.type }}</span>
-                </div>
-                <div class="wid10p ftl algright">
-                    <span ng-if="op.value <= 0" class="colorRed">
-                        {{ op.value }}
-                    </span>
-                    <span ng-if="op.value > 0" class="colorGreen">
-                        +{{ op.value }}
-                    </span>
-                </div>
-            </div>
-
-            <div class="operationButtons">
-                <button ng-hide="!op.editable" ng-click="updateOperation(op)" class="doUpdateOperation btn btn-primary btn-xs">
-                    Save
-                </button>
-                <button ng-hide="op.editable" ng-click="showUpdateOperation(op)" class="showUpdateOperation btn btn-warning btn-xs">
-                    Edit
-                </button>
-                <button ng-hide="op.editable" ng-click="deleteOperation(op._id, $index)" class="btn btn-danger btn-xs">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                </button>
-                <button class="btn btn-default btn-xs">
-                    <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
-                </button>
-            </div>
+        <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
+            <label class="mt20">Operations</label>
+        <div>
+            Search: <input ng-model="searchText">
+            Order By :
+                <select ng-model="orderProp" >
+                            <option value="value">Price</option>
+                            <option value="dateOperation">Date</option>
+                            <option value="categoryName">category</option>
+                            <option value="type">type</option>
+                </select>
         </div>
+            <br>
+            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
+                <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            </div>
 
-        <span ng-if="operations.length <= 0">Il n'y a encore aucunes opérations sur ce compte.</span>
+            <div class="mt20">
+                <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText"> 
+                    <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                </div>
+            </div>
+        </div>   
 
+        <div ng-if="operations.length <= 0 && groupOfOperations.length <= 0" class="mt20">
+            Il n'y a encore aucunes opérations sur ce compte.
+        </div>
+      </div>
+      <div ng-if="op.showOps">
+        <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup">
+          <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+        </div>
+      </div>
     </div>
 
-    <div ng-include src="'/app/shared/category/categoryView.html'"/>
+    <!-- <div ng-if="operationsOfGroup.length > 0">
+      <label class="mt20">Operations of the selected group</label>
+      
+      <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup">
+        <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+      </div>
+    </div> -->
 
-    <div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add operation" data-target=".modal-operation">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+    <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
+      <label class="mt20">Operations</label>
+      <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations">
+        <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+      </div>
+      <div class="mt20">
+        <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations">
+          <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+        </div>
+      </div>
     </div>
 
-    
-
-    
-    <div id="sidebar-wrapper" class="menuCreateOperation">
-        <form name="addOperationForm">
-            <ul class="sidebar-nav">
-                <li class="sidebar-brand">
-                    Add operation
-                </li>
-
-                <li>
-                    <label>Category</label>
-                    <div class="input-group">
-                        <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie.name for categorie in categories track by categorie.id">
-                            <option value="" selected>No category</option>
-                        </select>
-                        <div class="input-group-btn">
-                            <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
-                        </div>
-                    </div>
-                </li>
-
-                <li>
-                    <label>Value<span class="colorRed">*</span></label>
-                    <div class="form-group" ng-class="{ 'has-error' : addOperationForm.value.$invalid }">
-                        <input type="number" name="value" ng-model="operationCreateModel.value" class="form-control" placeholder="Value" required>
-                        <span class="error help-block" ng-show="addOperationForm.value.$error.required">
-                            Required!</span>
-                        <span class="error help-block" ng-show="addOperationForm.value.$error.number">
-                            Not valid number!</span>
-                    </div>
-                </li>
-
-                <li ng-if="operationCreateModel.advanced">
-                    <label>Operation date</label>
-                    <input mydatepicker ng-model="operationCreateModel.dateOperation" class="form-control" placeholder="(Default today)">
-                </li>
-                
-                <li ng-if="operationCreateModel.advanced">
-                    <label>Levy date</label>
-                    <input mydatepicker ng-model="operationCreateModel.datePrelevement" class="form-control" placeholder="(Default operation date)">
-                </li>
-
-                <li ng-if="operationCreateModel.advanced">
-                    <label>Description</label>
-                    <input type="text" ng-model="operationCreateModel.description" class="form-control" placeholder="Description">
-                </li>
-
-                <li ng-if="operationCreateModel.advanced">
-                    <label>Third party</label>
-                    <input type="text" ng-model="operationCreateModel.thirdParty" class="form-control" placeholder="Third party">
-                </li>
-
-                <li ng-if="operationCreateModel.advanced">
-                    <label>Type</label>
-                    <input type="text" ng-model="operationCreateModel.type" class="form-control" placeholder="Type">
-                </li>
-
-                <li ng-if="operationCreateModel.advanced">
-                    <button type="button" button-checkbox class="btn btn-default">
-                        <input ng-model="operationCreateModel.periodic" type="checkbox">
-                        Periodic
-                    </button>
-                </li>
-
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic">
-                    <label>Period of repetition</label>
-                    <select class="form-control " ng-model="operationCreateModel.period">
-                        <option value="day">Day</option>
-                        <option value="week">Week</option>
-                        <option value="month" selected>Month</option>
-                        <option value="year">Year</option>
-                    </select>
-                </li>
-
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic">
-                    <label>Period step<span class="colorRed">*</span></label>
-                    <div class="form-group" ng-class="{ 'has-error' : addOperationForm.periodStep.$invalid }">
-                        <input type="number" name="periodStep" ng-model="operationCreateModel.periodStep" class="form-control" min="1" required>
-                        <span class="error help-block" ng-show="addOperationForm.periodStep.$error.required">
-                            Required!</span>
-                        <span class="error help-block" ng-show="addOperationForm.periodStep.$error.number">
-                            Not valid number!</span>
-                        <span class="error help-block" ng-show="addOperationForm.periodStep.$error.min">
-                            Min is 1!</span>
-                    </div>
-                </li>
-
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic">
-                    <label>Begin date of repetition</label>
-                    <input mydatepicker ng-model="operationCreateModel.dateBegin" class="form-control" placeholder="(Default today)">
-                </li>
-
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic">
-                    <button type="button" button-checkbox class="btn btn-default">
-                        <input ng-model="operationCreateModel.infinite" type="checkbox">
-                        Infinite
-                    </button>
-                </li>
-
-                <li ng-if="operationCreateModel.advanced && operationCreateModel.periodic && !operationCreateModel.infinite">
-
-                    <!-- TODO: Verifier que la date est bien incluse dans occurency -->
-
-                    <label>Occurency (begin date included) <span class="colorRed">*</span></label>
-                    <div class="form-group" ng-class="{ 'has-error' : addOperationForm.occurency.$invalid }">
-                        <input type="number" name="occurency" ng-model="operationCreateModel.occurency" class="form-control" min="2" required>
-                        <span class="error help-block" ng-show="addOperationForm.occurency.$error.required">
-                            Required!</span>
-                        <span class="error help-block" ng-show="addOperationForm.occurency.$error.number">
-                            Not valid number!</span>
-                        <span class="error help-block" ng-show="addOperationForm.occurency.$error.min">
-                            Min is 2!</span>
-                    </div>
-                </li>
-
-                <li>
-                    <button close-menu-create-operation ng-disabled="addOperationForm.$invalid" ng-click="addOperation()" class="btn btn-primary">Add</button>
-                    <button type="button" ng-if="!operationCreateModel.advanced" ng-click="createOperationAdvanced()" class="btn btn-default">Advanced</button>
-
-                    <!-- TODO: Ameliorer en mettant une croix en haut -->
-
-                    <button type="button" close-menu-create-operation class="btn btn-default">Close</button>
-                </li>
-            </ul>
-        </form>
+    <div ng-if="operations.length <= 0 && groupOfOperations.length <= 0" class="mt20">
+      Il n'y a encore aucunes opérations sur ce compte.
     </div>
 
-</div>
+  </div> <!-- END container -->
+
+  <div ng-include src="'/app/shared/category/categoryView.html'"></div>
+  <div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add operation" data-target=".modal-operation">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </div>
+
+  <div id="sidebar-wrapper-right" class="menuSidebar">
+    <form name="addOperationForm">
+      <ul class="sidebar-nav">
+        <li class="sidebar-brand">
+          Add operation
+        </li>
+        <li>
+          <label>Category</label>
+          <div class="input-group">
+            <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie.name for categorie in categories track by categorie.id">
+              <option value="" selected>No category</option>
+            </select>
+            <div class="input-group-btn">
+              <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span>
+              </button>
+            </div>
+          </div>
+        </li>
+        <li>
+          <label>Value<span class="colorRed">*</span></label>
+          <div class="form-group" ng-class="{ 'has-error' : addOperationForm.value.$invalid && !addOperationForm.value.$pristine}">
+            <input type="number" name="value" ng-model="operationCreateModel.value" class="form-control" placeholder="Value" required>
+            <span class="error help-block" ng-show="addOperationForm.value.$error.required  && !addOperationForm.value.$pristine">
+            Value is required</span>
+            <span class="error help-block" ng-show="addOperationForm.value.$error.number">
+            Not valid number</span>
+          </div>
+        </li>
+
+        <span ng-if="operationCreateModel.advanced">
+          <li>
+            <label>Operation date</label>
+            <input mydatepicker ng-model="operationCreateModel.dateOperation" class="form-control" placeholder="(Default today)">
+          </li>
+          
+          <li>
+            <label>Levy date</label>
+            <input mydatepicker ng-model="operationCreateModel.datePrelevement" class="form-control" placeholder="(Default operation date)">
+          </li>
+          <li>
+            <label>Description</label>
+            <input type="text" ng-model="operationCreateModel.description" class="form-control" placeholder="Description">
+          </li>
+          <li>
+            <label>Third party</label>
+            <input type="text" ng-model="operationCreateModel.thirdParty" class="form-control" placeholder="Third party">
+          </li>
+          <li>
+            <label>Type</label>
+            <input type="text" ng-model="operationCreateModel.type" class="form-control" placeholder="Type">
+          </li>
+          <li>
+            <button type="button" button-checkbox class="btn btn-default">
+            <input ng-model="operationCreateModel.periodic" type="checkbox">
+            Periodic
+            </button>
+          </li>
+
+          <span ng-if="operationCreateModel.periodic">
+            <li class="form-group">
+              <label>Period of repetition </label>
+              <select name="intervalType" class="form-control" ng-model="operationCreateModel.period.intervalType" ng-options="interval as interval.type for interval in intervalType" required>
+              </select>
+            </li>
+            <li class="form-group" ng-class="{ 'has-error' : addOperationForm.periodStep.$invalid && !addOperationForm.periodStep.$pristine }">
+              <label>Period step<span class="colorRed">*</span></label>
+              <input type="number" class="form-control" name="periodStep" ng-model="operationCreateModel.period.step" min="1" required>
+              <p ng-show="addOperationForm.periodStep.$error.required && !addOperationForm.periodStep.$pristine" class="help-block">Period step is required.</p>
+              <p class="error help-block" ng-show="addOperationForm.periodStep.$error.number">
+              Must be a valid number.</p>
+              <p ng-show="addOperationForm.periodStep.$error.min" class="help-block">Must be superior of 0.</p>
+            </li>
+            <li class="form-group">
+              <label>Begin date of repetition</label>
+              <input mydatepicker ng-model="operationCreateModel.period.dateBegin" class="form-control" placeholder="(Default today)">
+            </li>
+            <li class="form-group">
+              <button type="button" button-checkbox class="btn btn-default">
+              <input ng-model="operationCreateModel.period.infinite" type="checkbox"> Infinite
+              </button>
+            </li>
+            <li ng-if="!operationCreateModel.period.infinite">
+              <!-- TODO: Verifier que la date est bien incluse dans occurency -->
+              <label>Occurency (begin date included) <span class="colorRed">*</span></label>
+              <div class="form-group" ng-class="{ 'has-error' : addOperationForm.occurency.$invalid  && !addOperationForm.occurency.$pristine }">
+                <input type="number" name="occurency" ng-model="operationCreateModel.period.occurency" class="form-control" min="2" required>
+                <span class="error help-block" ng-show="addOperationForm.occurency.$error.required && !addOperationForm.occurency.$pristine">
+                Occurency is required</span>
+                <span class="error help-block" ng-show="addOperationForm.occurency.$error.number">
+                Must be a valid number</span>
+                <span class="error help-block" ng-show="addOperationForm.occurency.$error.min">
+                Must be more than 2</span>
+              </div>
+            </li>
+          </span> <!-- END operationCreateModel.periodic -->
+
+        </span> <!-- END operationCreateModel.advanced -->
+        <li>
+          <button close-menu-create-operation ng-disabled="addOperationForm.$invalid" ng-click="addOperation()" class="btn btn-primary">Add</button>
+          <button type="button" ng-if="!operationCreateModel.advanced" ng-click="showOperationAdvanced()" class="btn btn-default">Advanced</button>
+          <button type="button" ng-if="operationCreateModel.advanced" ng-click="hideOperationAdvanced()" class="btn btn-default">Simple</button>
+          <!-- TODO: Ameliorer en mettant une croix en haut -->
+          <button type="button" close-menu-create-operation class="btn btn-default">Close</button>
+        </li>
+      </ul>
+    </form>
+  </div> <!-- END sidebar-wrapper-right -->
+
+</div> <!-- END blocOperation -->

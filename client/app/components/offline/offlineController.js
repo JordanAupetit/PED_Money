@@ -5,7 +5,10 @@
         .module('controllers')
         .controller('offlineController', ['$scope', '$rootScope', '$state', 'localStorageService', 'OperationResource',
             function($scope, $rootScope, $state, localStorageService, OperationResource) {
+
             
+            
+
                 /*
                 function synchWithServer(){
                     var wfc = eval("("+localStorage.getItem("waitingforconnection")+")")
@@ -34,25 +37,21 @@
                 // ne pas stocker les requetes
                 // Offline.options.requests = false
                 // Offline.options.checkOnLoad = false
-               
+               /*
                 function initWaitingForConnection(){
                     wfc = {
                         "OperationResource": {
                             "add": []
                         }
-                    }
-                    localStorage.setItem("waitingforconnection", JSON.stringify(wfc))
                 }
+                */
 
-                var wfc = eval("("+localStorage.getItem("waitingforconnection")+")")
-                if(wfc == null || wfc == ""){
-                    initWaitingForConnection()
-                }
 
 /*
                 $scope.offline = false
                 $rootScope.offline = false
 
+<<<<<<< HEAD
                 Offline.on("down", function(){
                     console.info("connection lost")
                     $scope.offline = true
@@ -67,5 +66,21 @@
 
                 Offline.check()
 */
+/*
+            Offline.on('down', function(){
+                console.info('connection lost')
+                $scope.up = false
+            }, null)
+            
+            Offline.on('up', function(){
+                console.info('connected')
+                $scope.up = true
+                synchWithServer()
+            }, null)
+            Offline.check()
+*/
+/*
         }]);
 })();
+*/
+}])})();

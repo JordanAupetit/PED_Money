@@ -22,15 +22,6 @@
           }
         })
 
-      .state('signup', {
-        url: '/signup',
-        templateUrl: 'app/components/signup/signupView.html',
-        controller: 'SignupController',
-        data: {
-          requireLogin: false
-        }
-      })
-
       .state('accounts', {
         url: '/accounts',
         templateUrl: 'app/components/accounts/accountsView.html',
@@ -50,9 +41,29 @@
       })
 
       .state('optPeriod', {
-        url: '/operation/period/',
+        url: '/:accountId/operation/period/',
         templateUrl: 'app/components/operation/period/periodView.html',
         controller: 'PeriodCtrl',
+        data: {
+          requireLogin: true
+        }
+      })
+
+
+
+      .state('budget', {
+        url: '/budget/',
+        templateUrl: 'app/components/budget/budgetView.html',
+        controller: 'BudgetCtrl',
+        data: {
+          requireLogin: true
+        }
+      })
+
+      .state('budgetdetails', {
+        url: '/budget/details/',
+        templateUrl: 'app/components/budget/details/detailsView.html',
+        controller: 'BudgetDetailsCtrl',
         data: {
           requireLogin: true
         }
@@ -69,13 +80,21 @@
 	   	
   }])
 
-  .run(function($rootScope, $state, localStorageService) {
+  .run(function ($rootScope,$state,localStorageService,ipCookie) {
 
-    $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+    $rootScope.$on('$stateChangeStart', function (event, toState) {
       var requireLogin = toState.data.requireLogin;
-      if (requireLogin && localStorageService.cookie.get('token') == null) {
+      
+      if (requireLogin 
+          && ipCookie('token') == undefined) {
         event.preventDefault();
         $state.go('login');
+      }
+
+      if (toState.templateUrl === 'app/components/login/loginView.html'
+          && ipCookie('token') !== undefined) {
+          $state.go('accounts');
+
       }
     });
   });

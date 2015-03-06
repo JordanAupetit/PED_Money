@@ -3,7 +3,9 @@ var application_root = __dirname,
 	express = require('express'), //Web framework
 	path = require('path'), //Utilities for dealing with file paths
 	jwt  = require("jsonwebtoken"),
-	bodyParser  = require('body-parser');
+	bodyParser  = require('body-parser')
+	
+
 
 var database = require('./database')
 var apiAccount = require('./api-account')
@@ -18,6 +20,8 @@ var apiPeriod = require('./api-period')
 // var apiTools = require('./api-tools')
 // var apiOther = require('./api-other')
 // var api = require('./api')
+var oauthFacebook = require('./oauthFacebook')
+var oauthGoogle = require('./oauthGoogle')
 
 	
 
@@ -126,3 +130,34 @@ var job = new CronJob('00 30 01 * * *', function(){
   true /* Start the job right now */,
   "Europe/Paris" /* Time zone of this job. */
 );
+
+
+
+// Only for test (mandatory)
+module.exports = app
+
+// Example
+
+// module.exports = function (app, expenseModel) {
+// 	app.get('/api/expense/', getAllExpenses)
+// 	app.post('/api/expense/', addExpense)
+// 	app.get('/api/expense/:id', getExpense)
+// 	app.put('/api/expense/', getExpenseByTag)
+// 	app.delete('/api/expense/:id', deleteExpense)
+// 	app.post('/api/expense/:id', editExpense)
+
+
+// 	function getAllExpenses(req, resp , next) {
+// 		'use strict';
+// 		var userId = req.get('X-User-Id');
+
+// 		expenseModel.find({user: userId}, function (err, coll) {
+// 			if (!err) {
+// 				return resp.send(coll);
+// 			} else {
+// 				console.log(err);
+// 				next(err);
+// 			}
+// 		});
+// 	}
+// }

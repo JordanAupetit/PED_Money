@@ -4,41 +4,47 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'localStorageService', 
+        .controller('LoginController', ['$scope','$rootScope','LoginService','$state','ipCookie', function($scope,$rootScope,LoginService,$state,ipCookie) {
 
-            function($scope, $rootScope, LoginService, $state, localStorageService) {
 
-                $scope.signin = function() {
-                    var formData = {
-                        username: $scope.username,
-                        password: $scope.password
+
+    $scope.signin = function() {
+
+        var formData = {
+            username: $scope.username,
+            password: $scope.password
+        }
+        
+        var loginUser = new LoginService(formData);
+        loginUser.$query(function(res) {
+            if (res.type == false) {
+                alert(res.data);   
+            } else {
+                ipCookie('token', res.data.token);
+                ipCookie('user', res.data.username);
+                $rootScope.currentUserSignedIn = res.data.token;
+                $rootScope.utlisateurCourant = res.data.username;
+                $state.go('accounts');    
+            }
+        });
+    };
+
+    $scope.SignupController=function(){
+                
+                var item=$scope.User;
+                var newUser = new LoginService(item);
+                newUser.$save(function(res) {
+                    if(res.type == false) {
+                        alert(res.data);
+                    } else {
+                        //localStorageService.cookie.set('token',res.data.token);
+                        $state.go('login');
                     }
-                    
-                    var loginUser = new LoginService(formData);
-                    loginUser.$query(function(res) {
-                        if (res.type == false) {
-                            alert(res.data);   
-                        } else {
-                            //$.jStorage.set("account", res.data)
-                            $scope.login = res.data.username
-
-                            localStorageService.cookie.set('token',res.data.token);
-
-                            $rootScope.currentUserSignedIn = res.data.token
-
-                            // (jordan) Peut être temporaire, j'ai besoin de l'ID pour les catégories
-                            $rootScope.currentUserSignedInId = res.data._id
-                            $state.go('accounts');    
-
-                        }
-                    });
-                };
-
-/*
-                var account = $.jStorage.get("account")
-
-                if(account)
-                    $scope.login = account.username
-*/
-            }]);
+                });
+                
+                
+            };
+        
+}]);
+    
 })();

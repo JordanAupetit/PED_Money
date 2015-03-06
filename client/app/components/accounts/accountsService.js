@@ -20,10 +20,15 @@
             get: function(accountId){
                 var account = accountResource.get({id: accountId})
                 return account
-            },            
+            },
+            /*            
             add: function(account){
                 accountResource.add(account)
-            },            
+            },
+            */            
+            add: function(account, callback){
+                accountResource.add(account, callback)
+            },
             remove: function(accountId){
                 return accountResource.delete({id : accountId})
             },

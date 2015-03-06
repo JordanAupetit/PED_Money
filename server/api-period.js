@@ -27,9 +27,14 @@ module.exports = function (app, periodModel) {
 		// var userId = req.get('X-User-Id');
 		var periodId = req.params.id;
 
-		periodModel.findOne({_id: periodId}, function (err, coll) {
+		periodModel.findOne({'_id': periodId}, function (err, coll) {
 			if (!err) {
-				return resp.send(coll)
+				// console.log(coll);
+
+				if(coll !== null)
+					return resp.send(coll)
+				else
+					resp.sendStatus(204)
 			} else {
 				console.log(err)
 				next(err)
@@ -38,7 +43,7 @@ module.exports = function (app, periodModel) {
 
 	}
 
-	function addPeriod(req, res, next) {
+	function addPeriod(req, resp, next) {
 		'use strict';
 		// var userId = req.get('X-User-Id');
 		var period = req.body
@@ -47,18 +52,19 @@ module.exports = function (app, periodModel) {
 		var newPeriod = new periodModel(period);
 		newPeriod.save(function(e, results){
 			if (e) return next(e)
-			res.send(results)
+			// console.log(results)
+			resp.send(results)
 		})
 	}
 
-	function deletePeriod(req, res, next) {
+	function deletePeriod(req, resp, next) {
 		'use strict';
 		// var userId = req.get('X-User-Id');
 		var periodId = req.params.id;
 
 		periodModel.remove({_id: periodId},function (err, results) {
 			if (err) return next(err)
-			res.sendStatus(204)
+			resp.sendStatus(204)
 		})
 	}
 

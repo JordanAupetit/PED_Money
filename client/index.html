@@ -9,15 +9,22 @@
         <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap-theme.min.css">
 
+
+        <!-- My CSSs -->
+        <link rel="stylesheet"  href="assets/css/main.css">
+        <link rel="stylesheet"  href="assets/css/font-awesome.css">
+    
         <link rel="stylesheet" href="assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/libs/angular-material/angular-material.css">
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/material.css">
+
+        <link rel="stylesheet" href="assets/libs/angular-chart.js/dist/angular-chart.css">
     </head>
 
 
     <body ng-app="appModule" role="document">
-        <div ng-include src="'./app/shared/navbar/navbar.html'"></div>
+        <div ng-show="currentUserSignedIn" ng-include src="'./app/shared/navbar/navbar.html'"></div>
         <div ui-view class="body"></div>
     </body>
 
@@ -30,6 +37,7 @@
 
     <!-- Angular & Plugins -->
     <script src="assets/libs/angular/angular.js"></script>
+    <script src="assets/libs/angular-cookie/angular-cookie.js"></script>
     <script src="assets/libs/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="assets/libs/angular-resource/angular-resource.js"></script>
 
@@ -41,10 +49,18 @@
     <script src="assets/libs/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
+    <!-- <script src="assets/js/highcharts/highcharts.js"></script> -->
+    <script src="http://code.highcharts.com/highcharts.src.js"></script>
+    <script src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <script src="assets/libs/highcharts-ng/dist/highcharts-ng.min.js"></script>
+    <script src="assets/libs/Chart.js/Chart.min.js"></script>
+    <script src="assets/libs/angular-chart.js/dist/angular-chart.js"></script>
+
     <!-- Data plugins -->
     <script src="assets/js/angular-local-storage.min.js"></script>
     <script src="assets/libs/angular-currency-filter/src/currency-filter.js"></script>
     <script src="assets/libs/moment/min/moment.min.js"></script>
+    <script src="assets/js/offline.min.js"></script>
 
     <!-- Application files -->
     <script src="app/app.modules.js"></script>
@@ -68,11 +84,18 @@
     <script src="app/components/operation/period/periodService-db.js"></script>
     <script src="app/components/operation/period/periodDirectives.js"></script>
     <script src="app/components/operation/period/periodController.js"></script>
+
+    <script src="app/components/budget/budgetController.js"></script>
+    <script src="app/components/budget/budgetService.js"></script>
+    <script src="app/components/budget/budgetDirective.js"></script>
+
+    <script src="app/components/budget/details/detailsController.js"></script>
     
     <script src="app/shared/category/categoryController.js"></script>
     <script src="app/shared/category/categoryService.js"></script>
     
     <script src="app/shared/navbar/navbarController.js"></script>
+    <script src="app/shared/navbar/navbarDirective.js"></script>
     
     <script src="app/shared/filters.js"></script>
     
@@ -84,6 +107,5 @@
     <script src="app/components/offline/offlineController.js"></script>
     <script src="app/components/offline/offlineService.js"></script>
     <!--<script src="app/components/offline/jstorage.js"></script>-->
-    <script src="app/components/offline/offline.min.js"></script>
 
 </html>

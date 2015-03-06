@@ -2,11 +2,6 @@ module.exports = function (app, userModel, jwt) {
     app.post('/api/user', addUser)
     app.post('/api/authenticate', authenticate)
 
-    /*app.get('/api/compte',compte)
-    app.put('/api/expense/', getExpenseByTag)
-    app.delete('/api/expense/:id', deleteExpense)
-    app.post('/api/expense/:id', editExpense)*/
-
     function addUser(req, res , next) {
         'use strict';
     	userModel.findOne({ username: req.body.name}, function(err, user) {

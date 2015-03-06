@@ -2,7 +2,8 @@
     'use strict';
 
     angular.module('services')
-    .factory('StorageServices', ['OperationResource', 'AccountResource', function(OperationResource, AccountResource){
+    .factory('StorageServices', ['$rootScope', 'OperationResource', 'AccountResource', 
+    function($rootScope, OperationResource, AccountResource){
         
         function wfc(resource, fct, data){
             this.resource = resource
@@ -38,17 +39,16 @@
             localStorage.setItem("DATA", JSON.stringify(data))
         }
 
-        var offline = true
         var online = true
 
         Offline.on("down", function(){
             console.info("connection lost")
-            // offline = true
+            $rootScope.offline = true
             online = false
         }, null)
         
-        Offline.on("confirmed-up", function(){
-            // offline = false
+        Offline.on("up", function(){
+            $rootScope.offline = false
             online = true
         }, null)
 

@@ -113,9 +113,10 @@
     <md-card-content>
 
 	<h2>Periodic operation 
-		<a type="button" ng-click="addData()" class="btn btn-warning btn-xs" role="button">Add data</a> 
-		<a type="button" ng-click="refresh()" class="btn btn-warning btn-xs" role="button">Refresh</a>
+		<!-- <a type="button" ng-click="addData()" class="btn btn-warning btn-xs" role="button">Add data</a>  -->
+		<!-- <a type="button" ng-click="refresh()" class="btn btn-warning btn-xs" role="button">Refresh</a> -->
 	</h2>
+	<a class="" ui-sref="operation({accountId : accountId})"><- Back to operations</a>
 	<table class="table">
 		<thead>
 			<tr>
@@ -127,7 +128,7 @@
 				<th data-field="intervalType">Interval type</th>
 				<th data-field="amount">Amount</th>
 				<th data-field="action">   
-					<a type="button" ng-click="openAdd()" class="btn btn-primary" role="button">Add</a>
+					<!-- <a type="button" ng-click="openAdd()" class="btn btn-primary" role="button">Add</a> -->
 				<!--<a ng-show="!isAdding" type="button" ng-click="add()" class="btn btn-primary" role="button">Add</a>
 				<a ng-show="isAdding" type="button" ng-click="addCancel()" class="btn btn-warning" role="button">Cancel</a></th> -->
 			</tr>
@@ -171,7 +172,7 @@
 			<td>{{period.nbRepeat | repeat}}</td>
 			<td>{{period.step}}</td>
 			<td>{{period.intervalType | period}}</td>
-			<td>{{period.amount | currency:'€':0:true}}</td>
+			<td>{{period.operation.value | currency:'€':0:true}}</td>
 			<td> <a type="button" ng-click="remove(period)" class="btn btn-danger btn-xs" role="button">X</a>
 				<a type="button" ng-click="makeProjection(period)" class="btn btn-info btn-xs" role="button">P</a>
 			</td>
@@ -190,12 +191,16 @@
 				<!-- <th data-field="name">Name</th> -->
 				<th data-field="date">Date</th>
 				<th data-field="amount">Amount</th>
+				<th data-field="amount">thirdParty</th>
+				<th data-field="amount">type</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="operation in projection">
-				<td>{{operation.date | date2:'dd/MM/yyyy'}}</td>
-				<td>{{operation.amount | currency:'€':0:true}}</td>
+				<td>{{operation.dateOperation | date2:'dd/MM/yyyy'}}</td>
+				<td>{{operation.value | currency:'€':0:true}}</td>
+				<td>{{operation.thirdParty }}</td>
+				<td>{{ operation.type }}</td>
 			</tr>
 		</tbody>
 	</table>

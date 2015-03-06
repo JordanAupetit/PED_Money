@@ -1,24 +1,34 @@
 (function(){
 
-'use strict';
+    'use strict';
 
     angular
+
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state','localStorageService', function($scope,$rootScope,$state,localStorageService) {
-                $rootScope.currentUserSignedIn = localStorageService.cookie.get('token');
-                //alert($localStorage.token);
-           $scope.logout = function() {
-                localStorageService.cookie.remove('token');
-                $rootScope.currentUserSignedIn = null;
-                //$.jStorage.flush()
-                $state.go('login');
+        .controller('NavbarController', ['$scope','$rootScope','$state','ipCookie', 'initService', NavbarController])
 
 
-            }, function() {
-                alert("Failed to logout!");
-            
-        };
+
+
+    function NavbarController($scope, $rootScope, $state, ipCookie, initService) {
+        $rootScope.currentUserSignedIn = ipCookie('token')
+        $rootScope.utlisateurCourant = ipCookie('user')
+
+        $scope.logout = function() {
+                ipCookie.remove('token')
+                ipCookie.remove('user')
+                $rootScope.currentUserSignedIn = null
+                $rootScope.utlisateurCourant = null 
+                console.log('OK')
+                $state.go('login')
+        }
         
-}]);
+        $scope.initData = function(){
+            initService.loadDataset1()
+            .then(function(){
+                console.log('Db init OK')
+            })
+        }
+    }
 	
 })();
