@@ -44,6 +44,7 @@
             $scope.addAccount = function(accountCreateModel) {
                 if($scope.accountForm.$valid){
                     accountCreateModel.currency = accountCreateModel.currency.code
+                    accountCreateModel.type = accountCreateModel.type.value
                     // console.log(accountCreateModel)
                     AccountResource.add(accountCreateModel, function(res){
                         // console.log(res)
@@ -62,6 +63,7 @@
             $scope.updateAccount = function(account) {
                 account.editable = false
                 account.currency = account.currency.code
+                account.type = account.type.value
                 AccountResource.update(account)
             }
 
@@ -70,11 +72,19 @@
 
                 var curPos
                 angular.forEach($scope.currencys, function(cur, pos){
-                    if(cur.code == account.currency){
+                    if(cur.code === account.currency){
                         curPos = pos
                     }
                 })
                 account.currency = $scope.currencys[curPos]
+
+                var typePos
+                angular.forEach(ACCOUNT_TYPES, function(type, pos){
+                    if(type.value === account.type){
+                        typePos = pos
+                    }
+                })
+                account.type = ACCOUNT_TYPES[typePos]
             }
         }
 
