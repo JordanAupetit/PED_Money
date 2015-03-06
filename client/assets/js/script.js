@@ -5,7 +5,7 @@ $(".signup").click(function(){
 })
 
 $(".x,#back-signup").click(function(){
-	$("#signup").animate({top: "-100%"});
+	$("#signup").animate({top: "-200%"});
 	$("#back-signup").fadeOut();
 })
 
@@ -25,7 +25,7 @@ $("#sign").click(function(){
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		}	
-	else if((psw.length)<5)
+	else if((psw.length)<1) // TODO set at 8
 		{
 		  $("#contenu").html("Mot de passe doit au moins contenir 8 caractères de longueur");
 		  $('html, body').animate({scrollTop : 0},400);
