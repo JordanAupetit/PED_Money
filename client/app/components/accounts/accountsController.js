@@ -42,6 +42,8 @@
 
             refresh()
 
+            $scope.resetForm = resetForm
+
 
             $scope.addAccount = function(accountCreateModel) {
                 if($scope.accountForm.$valid){

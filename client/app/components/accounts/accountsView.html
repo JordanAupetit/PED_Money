@@ -92,8 +92,8 @@
       </div>
 
       <div class="form-group">
-        <button type="submit" ng-click="addAccount(accountCreateModel)" id="button" name="button" class="btn btn-primary">Add</button>
-        <button type="button" close-menu-create-operation class="btn btn-default">Close</button>
+        <button type="submit"  ng-disabled="accountForm.$invalid && accountForm.$submitted" ng-click="addAccount(accountCreateModel)" id="button" name="button" class="btn btn-primary">Add</button>
+        <button type="button" close-menu-create-operation class="btn btn-default" ng-click="resetForm()">Close</button>
       </div>
     </form>
 
