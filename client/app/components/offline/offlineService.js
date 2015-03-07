@@ -57,8 +57,13 @@
                 Offline.check()
                 return online
             },
-            setUser: function(user) {
+            login: function(user) {
                 setLocalData({'user': user, 'accounts': []})
+                $rootScope.login = true
+            },
+            logout: function() {
+                setLocalData({'user': null, 'accounts': []})
+                $rootScope.login = false
             },
             getUser: function(){
                 return getLocalData().user

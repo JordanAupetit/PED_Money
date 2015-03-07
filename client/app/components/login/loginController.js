@@ -4,10 +4,8 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'ipCookie', 'userInfos', 'initService', 
-            function($scope, $rootScope, LoginService, $state, ipCookie, userInfos, initService) {
-
-
+        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'ipCookie', 'userInfos', 'initService', 'StorageServices', 
+            function($scope, $rootScope, LoginService, $state, ipCookie, userInfos, initService, StorageServices) {
 
             $scope.signin = function() {
 
@@ -30,6 +28,7 @@
                             user: res.data.username
                         })
                         initService.initRessources(ipCookie('token'))
+                        StorageServices.login(res.data)
                         $state.go('accounts');
                     }
                 });

@@ -1,17 +1,20 @@
 (function(){
-
     'use strict';
 
     angular
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state','ipCookie', 'initService', 'userInfos', NavbarController])
+        .controller('NavbarController', ['$scope','$rootScope','$state','ipCookie', 'initService', 'userInfos', 'StorageServices', NavbarController])
 
-
-
-
-    function NavbarController($scope, $rootScope, $state, ipCookie, initService, userInfos) {
+    function NavbarController($scope, $rootScope, $state, ipCookie, initService, userInfos, StorageServices) {
         $rootScope.currentUserSignedIn = ipCookie('token')
         $rootScope.utlisateurCourant = ipCookie('user')
+
+        var user = StorageServices.getUser()
+        if(user != null)
+            $rootScope.login = true
+        else
+            $rootScope.login = false
+        
         userInfos.set({
             token: ipCookie('token'),
             user: ipCookie('user')
@@ -24,7 +27,7 @@
                 $rootScope.currentUserSignedIn = null
                 $rootScope.utlisateurCourant = null 
                 userInfos.set(undefined)
-                console.log('OK')
+                StorageServices.logout()
                 $state.go('login')
         }
         
@@ -34,6 +37,5 @@
                 console.log('Db init OK')
             })
         }
-    }
-	
+    }	
 })();
