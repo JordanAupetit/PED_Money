@@ -3,7 +3,8 @@ var application_root = __dirname,
 	express = require('express'), //Web framework
 	path = require('path'), //Utilities for dealing with file paths
 	jwt  = require("jsonwebtoken"),
-	bodyParser  = require('body-parser')
+	bodyParser  = require('body-parser'),
+	methodOverride = require('method-override')
 	
 
 
@@ -37,7 +38,6 @@ app.use(express.static(path.join(application_root ,'../client')));
 
 
 
-
 var db = database.getDB()
 
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -58,11 +58,119 @@ var userModel = database.getUserModel()
 var accountModel = database.getAccountModel()
 var operationModel = database.getOperationModel()
 
-apiAccount(app, accountModel, operationModel)
+function getUserId(req, next, callback) {
+    userModel.findOne({
+        token: req.get('X-User-Token')
+    }, function(err, user) {
+        if (err) {
+        	next(new tool.ApiError('AUTH : Internal Error', 1));
+        } else {
+            if (user) {
+                 callback(user._id)
+            } else {
+            	next(new tool.ApiError('AUTH : Invalid token', 1));
+                callback()
+            }
+        }
+    })
+}
+
+function getUserIdFromToken(token, callback) {
+    userModel.findOne({
+        token: token
+    }, function(err, user) {
+        if (err) {
+            callback()
+        } else {
+            if (user) {
+                 callback(user._id)
+            } else {
+                 callback()
+            }
+        }
+    })
+}
+
+/**
+ * Custom error
+ */
+function ApiError(message, number) {
+    var tmp = Error.apply(this, arguments);
+    tmp.name = this.name = 'ApiError'
+
+    this.number = number | 'Not set'
+    this.stack = tmp.stack
+    this.message = tmp.message
+}
+ApiError.prototype = new Error()
+
+
+/**
+ * Shared function
+ * Required due to isolation of modules
+ * TODO find better way ?
+ */
+var tool = {
+	getUserId : getUserId,
+	ApiError: ApiError
+}
+
+
 apiUser(app, userModel, jwt)
+apiCategory(app, database.getCategoryModel(), userModel)
+apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, database.getPeriodModel())
-apiCategory(app, database.getCategoryModel(), userModel)
+
+
+
+/**
+ * START Error manager block
+ */
+app.use(logErrors);
+app.use(clientErrorHandler);
+// app.use(errorHandler);
+
+function logErrors(err, req, res, next) {
+	console.error(err.stack);
+	next(err);
+}
+
+function clientErrorHandler(err, req, res, next) {
+	if (req.xhr) {
+		res.status(500).send({
+			error: 'Something blew up!'
+		});
+	} else {
+		if(err.hasOwnProperty('number')){
+			// console.log(err)
+			res.status(500).send({
+				error: err.message
+			});
+		}else{
+			res.status(500).send({
+				error: 'Unknown error'
+			});
+		}
+		// next(err);
+		
+	}
+}
+
+// function errorHandler(err, req, res, next) {
+// 	console.log('test')
+// 	res.status(500);
+// 	res.render('error', {
+// 		error: err
+// 	});
+// }
+
+/**
+ * END Error manager block
+ */
+
+
+
 
 //CRON TASK
 

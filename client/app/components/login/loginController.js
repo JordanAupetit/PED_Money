@@ -4,7 +4,8 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'ipCookie', function($scope, $rootScope, LoginService, $state, ipCookie) {
+        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'ipCookie', 'userInfos', 'initService', 
+            function($scope, $rootScope, LoginService, $state, ipCookie, userInfos, initService) {
 
 
 
@@ -24,6 +25,11 @@
                         ipCookie('user', res.data.username);
                         $rootScope.currentUserSignedIn = res.data.token;
                         $rootScope.utlisateurCourant = res.data.username;
+                        userInfos.set({
+                            token: res.data.token,
+                            user: res.data.username
+                        })
+                        initService.initRessources(ipCookie('token'))
                         $state.go('accounts');
                     }
                 });
