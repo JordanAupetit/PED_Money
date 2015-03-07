@@ -4,9 +4,8 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'ipCookie', function($scope, $rootScope, LoginService, $state, ipCookie) {
-
-
+        .controller('LoginController', ['$scope', '$rootScope', 'StorageServices', 'LoginService', '$state', 'ipCookie', 
+            function($scope, $rootScope, StorageServices, LoginService, $state, ipCookie) {
 
             $scope.signin = function() {
 
@@ -19,11 +18,8 @@
                 loginUser.$query(function(res) {
                     if (res.type == false) {
                         alert(res.data);
-                    } else {
-                        ipCookie('token', res.data.token);
-                        ipCookie('user', res.data.username);
-                        $rootScope.currentUserSignedIn = res.data.token;
-                        $rootScope.utlisateurCourant = res.data.username;
+                    }else{
+                        StorageServices.login(res.data)
                         $state.go('accounts');
                     }
                 });
