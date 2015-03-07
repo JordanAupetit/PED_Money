@@ -30,6 +30,14 @@
           requireLogin: true
         }
       })
+      .state('accountSettings',{
+        url: '/:accountId/settings',
+        templateUrl: 'app/components/accounts/settingsView.html',
+        controller: 'AccountSettingsController',
+        data: {
+          requireLogin: true
+        }
+      })
 
       .state('operation', {
         url: '/:accountId/operation/',

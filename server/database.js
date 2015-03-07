@@ -81,7 +81,11 @@ var AccountSchema  = new Schema({
     type: String,
     balance: Number,
     currency: String,
-    userId: String
+    userId: String,
+    alerts: [{
+        level: Number,
+        message: String
+    }]
 })
 
 var OperationSchema = new Schema({
@@ -92,7 +96,7 @@ var OperationSchema = new Schema({
     checked: Boolean,
     /*dateOperation: Date,
     datePrelevement: Date,*/
-    dateOperation: String,
+    dateOperation: String, /*{ type: Date, default: Date.now }*/
     datePrelevement: String,
     categoryId: String/*,
     subOperations: []*/,
