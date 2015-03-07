@@ -7,41 +7,6 @@
         .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'initService', '$state', OperationController])
 
         function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, initService, $state) {
-            $scope.resetOperationCreate = function () {
-                $scope.operationCreateModel = {}
-                $scope.operationCreateModel.advanced = false
-
-                if($scope.addOperationForm !== undefined){
-                    $scope.addOperationForm.$setPristine();
-                }
-            }       
-
-            function postOperation(operation){
-                if(StorageServices.isOnline()){
-                    OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
-                        getOperations()
-                    }, function(err){
-                        postOperation(operation)
-                    })
-                }
-                else{
-                    StorageServices.postOperation(accountId, operation)
-                }                
-            }
-
-            function getAccount(){
-                if(StorageServices.isOnline()){
-                    AccountResource.get($state.params.accountId).$promise.then(function(account){
-                        StorageServices.setAccount(accountId, account)
-                        $scope.account = account
-                    }, function(err){
-                        getAccount()
-                    })
-                }
-                else{
-                    $scope.account = StorageServices.getAccount(accountId)
-                }
-            }
 
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
@@ -50,7 +15,7 @@
                 if($scope.addOperationForm !== undefined){
                     $scope.addOperationForm.$setPristine();
                 }
-            }
+            }  
 
             var accountId = $state.params.accountId
             $scope.accountId = accountId
@@ -62,30 +27,11 @@
             $scope.operationsOfGroup = []
 
 
-            var intervalType = [
-                {
-                    type: 'Day',
-                    value: 1,
-                    code: 'd'
-                }, {
-                    type: 'Week',
-                    value: 7,
-                    code: 'w'
-                }, {
-                    type: 'Month',
-                    value: 30,
-                    code: 'M'
-                }, {
-                    type: 'Year',
-                    value: 365,
-                    code: 'y'
-                }
-            ]
-            $scope.intervalType = intervalType
+            $scope.intervalType = INTERVAL_TYPES
 
             $scope.operationCreateModel = {
                 period: {
-                    intervalType: intervalType[2]
+                    intervalType: INTERVAL_TYPES[2]
                 }
             }
 
@@ -106,6 +52,35 @@
             //     value: 45
             // }
 
+                
+
+            function postOperation(operation){ // DUPLICATE
+                // if(StorageServices.isOnline()){ // TMP COMMENT TO MAKE IT WORKS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                    OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
+                        getOperations()
+                    }, function(err){
+                        postOperation(operation)
+                    })
+                // }
+                // else{
+                //     StorageServices.postOperation(accountId, operation)
+                // }                
+            }
+
+            function getAccount(){
+                if(StorageServices.isOnline()){
+                    AccountResource.get($state.params.accountId).$promise.then(function(account){
+                        StorageServices.setAccount(accountId, account)
+                        $scope.account = account
+                    }, function(err){
+                        getAccount()
+                    })
+                }
+                else{
+                    $scope.account = StorageServices.getAccount(accountId)
+                }
+            }
+
             function saveOperationsOffline(accountId, operations){
                 localStorage.setItem('operations-' + accountId, JSON.stringify(operations))
             }
@@ -122,21 +97,21 @@
 
             // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
 
-            function postOperation(accountId, operation){
-                if(Offline.state === 'up'){
-                    //console.log($scope.operationCreateModel)
-                    //OperationResource.add($scope.operationCreateModel)
+            // function postOperation(accountId, operation){ // DUPLICATE
+            //     if(Offline.state === 'up'){
+            //         //console.log($scope.operationCreateModel)
+            //         //OperationResource.add($scope.operationCreateModel)
 
-                    OperationResource.add(operation).$promise.then(function(){
-                        getOperations()
-                    })
-                }
-                else{
-                    var wfc = eval('('+localStorage.getItem('waitingforconnection')+')')        
-                    wfc.operations.POSTs.push(operation)
-                    localStorage.setItem('waitingforconnection', JSON.stringify(wfc))
-                }
-            }
+            //         OperationResource.add(operation).$promise.then(function(){
+            //             getOperations()
+            //         })
+            //     }
+            //     else{
+            //         var wfc = eval('('+localStorage.getItem('waitingforconnection')+')')        
+            //         wfc.operations.POSTs.push(operation)
+            //         localStorage.setItem('waitingforconnection', JSON.stringify(wfc))
+            //     }
+            // }
 
             function getOperations() {
                 if(StorageServices.isOnline()){
@@ -305,6 +280,7 @@
                         toSend = newOpt
                         delete toSend.period
                     }
+
 
                     postOperation(toSend)                    
                 }

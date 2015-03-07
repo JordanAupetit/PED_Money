@@ -8,6 +8,9 @@
 	function initService($log, periodService, accountRes, operationRes, signupRes, loginRes) {
 
 		return {
+			initRessources: function(token){
+				accountRes.init(token)
+			},
 			populatePeriod: function() {
 				periodService.init()
 			},
