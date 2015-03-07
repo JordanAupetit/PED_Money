@@ -8,6 +8,12 @@
 
     function NavbarController($scope, $rootScope, StorageServices, $state, ipCookie, initService) {
         
+        var user = StorageServices.getUser()
+        if(user != null)
+            $rootScope.login = true
+        else
+            $rootScope.login = false
+
         $scope.logout = function() {
             StorageServices.logout()
             $state.go('login')
