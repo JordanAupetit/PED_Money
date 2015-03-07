@@ -55,16 +55,16 @@
                 
 
             function postOperation(operation){ // DUPLICATE
-                // if(StorageServices.isOnline()){ // TMP COMMENT TO MAKE IT WORKS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                if(StorageServices.isOnline()){
                     OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
                         getOperations()
                     }, function(err){
                         postOperation(operation)
                     })
-                // }
-                // else{
-                //     StorageServices.postOperation(accountId, operation)
-                // }                
+                }   
+                else{
+                    StorageServices.postOperation(accountId, operation)
+                }                
             }
 
             function getAccount(){
