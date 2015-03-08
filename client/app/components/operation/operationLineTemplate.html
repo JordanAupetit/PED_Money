@@ -31,26 +31,41 @@
             <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement | date2:'yyyy/MM/dd' }})</span>
         </div>
 
-        <div class="wid60p ftl">
+        <div class="wid50p ftl">
             <span class="label label-default">{{ op.categoryName }}</span>
             <span ng-if="op.description !== undefined"> – </span>
             <span ng-if="op.description !== undefined">{{ op.description }}</span>
-            <span ng-if="op.description !== undefined && op.thirdParty !== undefined"> – </span>
+            <span ng-if="op.thirdParty !== undefined"> – </span>
             <span ng-if="op.thirdParty !== undefined">{{ op.thirdParty }}</span>  
-            <span ng-if="op.thirdParty !== undefined && op.type !== undefined"> – </span>
+            <span ng-if="op.type !== undefined"> – </span>
             <span ng-if="op.type !== undefined">{{ op.type }}</span>
         </div>
-        <div class="wid10p ftl algright">
-            <span ng-if="op.value <= 0" class="colorRed">
+        <div class="wid20p ftl algright">
+            <span ng-if="op.value <= 0" class="valueSpan colorRed ftl wid100p">
                 {{ op.value }}
             </span>
-            <span ng-if="op.value > 0" class="colorGreen">
+            <span ng-if="op.value > 0" class="valueSpan colorGreen ftl wid100p">
                 +{{ op.value }}
             </span>
+        
+            <div class="operationButtons">
+                <button ng-hide="!op.editable" ng-click="updateOperation(op)" class="doUpdateOperation btn btn-primary btn-xs">
+                    Save
+                </button>
+                <button ng-hide="op.editable" ng-click="showUpdateOperation(op)" class="showUpdateOperation btn btn-warning btn-xs">
+                    Edit
+                </button>
+                <button ng-hide="op.editable" ng-click="deleteOperation(op._id, $index)" class="btn btn-danger btn-xs">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                </button>
+                <!-- <button class="btn btn-default btn-xs"> -->
+                    <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
+                <!-- </button> -->
+            </div>
         </div>
     </div>
 
-    <div class="operationButtons">
+    <!-- <div class="operationButtons">
         <button ng-hide="!op.editable" ng-click="updateOperation(op)" class="doUpdateOperation btn btn-primary btn-xs">
             Save
         </button>
@@ -63,5 +78,5 @@
         <button class="btn btn-default btn-xs">
             <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
         </button>
-    </div>
+    </div> -->
 </div>

@@ -103,6 +103,7 @@
 
         <div ng-if="countOfOperationsAfterToday > 0 && showDeferredOps">
             <label class="mt20">Deferred operations</label>
+            <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
             <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
                 <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
@@ -110,6 +111,7 @@
         
         <div class="mt20">
             <label>Operations</label>
+            <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
             <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
                 <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
@@ -176,13 +178,21 @@
           </li>
           <li>
             <label>Type</label>
-            <input type="text" ng-model="operationCreateModel.type" class="form-control" placeholder="Type">
+            <!-- <input type="text" ng-model="operationCreateModel.type" class="form-control" placeholder="Type"> -->
+            <select class="form-control" ng-model="operationCreateModel.type">
+                <option value="" selected disabled>Select a type</option>
+                <option value="credit card">Credit card</option>
+                <option value="transfer">Transfer</option>
+                <option value="check">Check</option>
+                <option value="cash">Cash</option>
+                <option value="other type">Other type</option>
+            </select>
           </li>
           <li>
-            <button type="button" button-checkbox class="btn btn-default">
+            <!-- <button type="button" button-checkbox class="btn btn-default"> -->
             <input ng-model="operationCreateModel.periodic" type="checkbox">
             Periodic
-            </button>
+            <!-- </button> -->
           </li>
 
           <span ng-if="operationCreateModel.periodic">

@@ -101,9 +101,13 @@
                     btns.hide()
 
                     $(element).hover(function() {
+                        $(btns).parent().find("span.valueSpan").removeClass("wid100p")
+                        $(btns).parent().find("span.valueSpan").addClass("wid50p")
                         btns.show()
                     },
                     function(){
+                        $(btns).parent().find("span.valueSpan").addClass("wid100p")
+                        $(btns).parent().find("span.valueSpan").removeClass("wid50p")
                         btns.hide()
                     })
                 }

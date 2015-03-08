@@ -230,12 +230,16 @@ form.loginSignUp .signUp
     color: rgb(163, 163, 163);
 }
 
-.operationButtons {
+.blocOperation {
+    padding-bottom: 100px;
+}
+
+/* .operationButtons {
     position: absolute;
     right: 10px;
     color: #999;
-    /* height: 100%; */
-    /* background: white; */
+    height: 100%;
+    background: white;
     width: 20%;
     text-align: right;
 }
@@ -246,11 +250,25 @@ form.loginSignUp .signUp
 
 .operationLineOfGroup > div > .operationButtons {
     background: rgb(249, 255, 199);
+} */
+
+.operationsButtons {
+    width:50%;
+    float:left;
 }
 
+.operationDescription {
+    height: 20px;
+    width: 100%;
+    font-size: 12px;
+    color: #999999;
+}
 
-
-
+.navbarApp {
+    position:fixed;
+    width:100%;
+    top:0;
+}
 
 
 
@@ -371,10 +389,24 @@ form.loginSignUp .signUp
 .mr40 {margin-right:40px;}
 
 .pt0  {padding-top:0px;}
+.pt10 {padding-top:10px;}
+.pt20 {padding-top:20px;}
+.pt30 {padding-top:30px;}
+.pt40 {padding-top:40px;}
 .pt55 {padding-top:55px;}
+.pt50 {padding-top:50px;}
+.pt60 {padding-top:60px;}
+.pt70 {padding-top:70px;}
 
 .pb0 {padding-bottom:0px;}
 .pb55 {padding-bottom: 55px;}
+
+.pr5  {padding-right:5px;}
+.pr10 {padding-right:10px;}
+.pr20 {padding-right:20px;}
+.pr30 {padding-right:30px;}
+.pr40 {padding-right:40px;}
+
 
 .pad10 {padding:10px;}
 
