@@ -13,14 +13,23 @@
 	  // Now set up the states
 
       $stateProvider
-        .state('login', {
-          url: '/login',
-          templateUrl: 'app/components/login/loginView.html',
-          controller: 'LoginController',
-          data: {
-            requireLogin: false
-          }
-        })
+      .state('login', {
+        url: '/login',
+        templateUrl: 'app/components/login/loginView.html',
+        controller: 'LoginController',
+        data: {
+          requireLogin: false
+        }
+      })
+
+      .state('settings', {
+        url: '/settings',
+        templateUrl: 'app/components/settings/settingsView.html',
+        controller: 'SettingsController',
+        data: {
+          requireLogin: true
+        }
+      })
 
       .state('accounts', {
         url: '/accounts',
@@ -30,6 +39,7 @@
           requireLogin: true
         }
       })
+
       .state('accountSettings',{
         url: '/:accountId/settings',
         templateUrl: 'app/components/accounts/settingsView.html',
@@ -101,6 +111,7 @@
 
       if (toState.templateUrl === 'app/components/login/loginView.html'
           && ipCookie('token') !== undefined) {
+         event.preventDefault();
           $state.go('accounts');
 
       }

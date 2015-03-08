@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular.module('services')
-		.factory('initService', ['$log', 'periodService', 'AccountResource', 'OperationResource', 'signupService', 'LoginService', initService])
+		.factory('initService', ['$log', 'periodService', 'AccountResource', 'OperationResource',  'LoginService', initService])
 
 	function initService($log, periodService, accountRes, operationRes, signupRes, loginRes) {
 

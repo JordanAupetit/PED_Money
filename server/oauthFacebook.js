@@ -14,7 +14,7 @@ app.get('/auth/facebook/callback',
 passport.authenticate('facebook', { failureRedirect: '/' }),
 function(req, res) {
     var cookies = new Cookies( req, res);
-    cookies.set('token', req.user.token,{ httpOnly: false } );
+  cookies.set('token', req.user.token,{ httpOnly: false } );
   cookies.set('user', req.user.username,{ httpOnly: false } );
  res.redirect('/#/accounts');
 });
