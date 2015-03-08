@@ -21,6 +21,8 @@
       <span ng-if="deferredBalance > 0" class="colorGreen">
         +{{ deferredBalance }}€
       </span>
+      <button ng-show="showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Hide</button>
+      <button ng-show="!showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Show</button>
     </div>
 
     <a class="" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
@@ -99,7 +101,7 @@
 
     <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
 
-        <div ng-if="countOfOperationsAfterToday > 0">
+        <div ng-if="countOfOperationsAfterToday > 0 && showDeferredOps">
             <label class="mt20">Deferred operations</label>
             <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
                 <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>

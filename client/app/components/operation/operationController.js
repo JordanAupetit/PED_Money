@@ -26,6 +26,7 @@
             $scope.groupOfOperations = []
             $scope.operationsOfGroup = []
             $scope.orderProp = "dateOperation"
+            $scope.showDeferredOps = true
 
 
             $scope.intervalType = INTERVAL_TYPES
@@ -53,7 +54,6 @@
             //     value: 45
             // }
                 
-
             function postOperation(operation){ // DUPLICATE
                 if(StorageServices.isOnline()){
                     OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
@@ -435,6 +435,10 @@
 
                 $scope.groupOfOperations[index].showOps = true
                 $scope.operationsOfGroup = $scope.groupOfOperations[index].subOperations
+            }
+
+            $scope.toggleDeferredOps = function() {
+                $scope.showDeferredOps = !$scope.showDeferredOps
             }
         }
 })();
