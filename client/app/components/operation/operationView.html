@@ -3,7 +3,7 @@
   <div class="container">
     <!-- TODO -- Rajouter le SOLDE différé (Fonctionnel) -->
     
-    <div ng-if="operations.length > 0">
+    <div ng-if="operations.length > 0" class="fs20">
       <strong>Balance : </strong>
       <span ng-if="balance <= 0" class="colorRed">
         {{ balance }}€
@@ -13,7 +13,7 @@
       </span>
     </div>
 
-    <div ng-if="operations.length > 0" class="mb20">
+    <div ng-if="operations.length > 0" class="mb20 fs12">
       <strong>Deferred balance : </strong>
       <span ng-if="deferredBalance <= 0" class="colorRed">
         {{ deferredBalance }}€
@@ -61,7 +61,7 @@
 
     <label ng-if="groupOfOperations.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
     <div ng-repeat="op in groupOfOperations">
-        <div ng-click="showOperationsOfGroup($index)" class="operationLine pointer">
+        <div ng-click="toggleOperationsOfGroup($index, op.showOps)" class="operationLine pointer">
             <div class="wid40p ftl">
                 <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
             </div>

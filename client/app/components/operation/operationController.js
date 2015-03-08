@@ -176,8 +176,6 @@
                         $scope.countOfOperationsAfterToday++
                     }
                 }
-
-                console.log($scope.countOfOperationsAfterToday)
             }
 
             getOperations()
@@ -427,13 +425,13 @@
                 }
             }
 
-            $scope.showOperationsOfGroup = function(index) {
+            $scope.toggleOperationsOfGroup = function(index, currentState) {
 
                 for(var i = 0; i < $scope.groupOfOperations.length; i++) {
                     $scope.groupOfOperations[i].showOps = false
                 }
 
-                $scope.groupOfOperations[index].showOps = true
+                $scope.groupOfOperations[index].showOps = !currentState
                 $scope.operationsOfGroup = $scope.groupOfOperations[index].subOperations
             }
 
