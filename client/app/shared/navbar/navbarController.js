@@ -3,31 +3,35 @@
 
     angular
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state','ipCookie', 'initService', 'userInfos', 'StorageServices', NavbarController])
+        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', NavbarController])
 
-    function NavbarController($scope, $rootScope, $state, ipCookie, initService, userInfos, StorageServices) {
-        $rootScope.currentUserSignedIn = ipCookie('token')
-        $rootScope.utlisateurCourant = ipCookie('user')
+    function NavbarController($scope, $rootScope, $state, initService, StorageServices) {
 
-        var user = StorageServices.getUser()
-        if(user != null)
-            $rootScope.login = true
-        else
-            $rootScope.login = false
+        $scope.user = StorageServices.getUser()
+
+        /**
+         * Init ressources on page reload
+         */
+        if($scope.user !== undefined){
+            initService.initRessources($scope.user.token)
+        }
         
-        userInfos.set({
-            token: ipCookie('token'),
-            user: ipCookie('user')
+
+        
+        /**
+         * Trigger on login
+         * Init ressources o n login
+         */
+        $rootScope.$on('login', function(event) {
+            // console.log('login evt'); 
+            $scope.user = StorageServices.getUser()
+            initService.initRessources($scope.user.token)
         })
-        initService.initRessources(ipCookie('token'))
 
         $scope.logout = function() {
-                ipCookie.remove('token')
-                ipCookie.remove('user')
-                $rootScope.currentUserSignedIn = null
-                $rootScope.utlisateurCourant = null 
-                userInfos.set(undefined)
                 StorageServices.logout()
+                initService.initRessources(undefined)
+                $scope.user = undefined
                 $state.go('login')
         }
         

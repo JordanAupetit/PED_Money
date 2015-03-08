@@ -59,11 +59,9 @@
             },
             login: function(user) {
                 setLocalData({'user': user, 'accounts': []})
-                $rootScope.login = true
             },
             logout: function() {
-                setLocalData({'user': null, 'accounts': []})
-                $rootScope.login = false
+                setLocalData({'user': undefined, 'accounts': []})
             },
             getUser: function(){
                 return getLocalData().user

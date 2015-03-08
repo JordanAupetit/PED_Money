@@ -9,6 +9,7 @@
 
 		return {
 			initRessources: function(token){
+				// console.log('initRessources')
 				accountRes.init(token)
 			},
 			populatePeriod: function() {

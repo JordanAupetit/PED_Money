@@ -88,23 +88,4 @@
 	   	
   }])
 
-  .run(function ($rootScope,$state,localStorageService,ipCookie) {
-
-    $rootScope.$on('$stateChangeStart', function (event, toState) {
-      var requireLogin = toState.data.requireLogin;
-      
-      if (requireLogin 
-          && ipCookie('token') == undefined) {
-        event.preventDefault();
-        $state.go('login');
-      }
-
-      if (toState.templateUrl === 'app/components/login/loginView.html'
-          && ipCookie('token') !== undefined) {
-          $state.go('accounts');
-
-      }
-    });
-  });
-
 })();

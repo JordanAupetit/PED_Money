@@ -96,23 +96,6 @@
             }
 
             // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
-
-            // function postOperation(accountId, operation){ // DUPLICATE
-            //     if(Offline.state === 'up'){
-            //         //console.log($scope.operationCreateModel)
-            //         //OperationResource.add($scope.operationCreateModel)
-
-            //         OperationResource.add(operation).$promise.then(function(){
-            //             getOperations()
-            //         })
-            //     }
-            //     else{
-            //         var wfc = eval('('+localStorage.getItem('waitingforconnection')+')')        
-            //         wfc.operations.POSTs.push(operation)
-            //         localStorage.setItem('waitingforconnection', JSON.stringify(wfc))
-            //     }
-            // }
-
             function getOperations() {
                 if(StorageServices.isOnline()){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
