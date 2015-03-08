@@ -179,7 +179,7 @@
             }
 
             getOperations()
-            getAccount()
+            //getAccount()
 
 
             $scope.getCategoriesOperation = function() {
@@ -293,8 +293,8 @@
                 }
 
                 $scope.resetOperationCreate()
-                getAccount()
-                getOperations()
+                //getAccount()
+                //getOperations()
             }
 
             $scope.deleteOperation = function(idOperation, index) {
@@ -317,8 +317,8 @@
                     }
                     
                     $scope.updateSolde();
-                    getAccount()
-                    getOperations()
+                    //getAccount()
+                    //getOperations()
                 })
             }
 
@@ -342,7 +342,7 @@
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
                     getOperations()
-                    getAccount()
+                    //getAccount()
                 })
             }
 
