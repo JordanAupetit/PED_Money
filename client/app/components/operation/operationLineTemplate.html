@@ -1,65 +1,67 @@
-<form ng-show="op.editable" class="wid100p operationLineEditable">
-    <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.dateOperation">
-    <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.datePrelevement">
+<div>  
+    <form ng-show="op.editable" class="wid100p operationLineEditable">
+        <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.dateOperation">
+        <input mydatepicker type="text" class="form-control wid100 ftl mr10" ng-model="op.datePrelevement">
 
-    <div class="input-group wid200 ftl mr10">
-        <select class="form-control " id="inputNewCategorySubCategory" ng-model="op.category" ng-options="categorie.name for categorie in categories track by categorie.id">
-            <option value="">No category</option>
-        </select>
-        <div class="input-group-btn">
-            <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
+        <div class="input-group wid200 ftl mr10">
+            <select class="form-control " id="inputNewCategorySubCategory" ng-model="op.category" ng-options="categorie.name for categorie in categories track by categorie.id">
+                <option value="">No category</option>
+            </select>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span></button>
+            </div>
+        </div>
+
+        <input type="text" class="form-control wid100 ftl mr10" ng-model="op.description">
+        <input type="text" class="form-control wid100 ftl mr10" ng-model="op.thirdParty">
+        <input type="text" class="form-control wid100 ftl mr10" ng-model="op.type">
+
+        <!-- TODO: Il faut afficher l'input en rouge s'il y a une erreur, ça ne marche pas -->
+
+        <div class="form-group" ng-class="{ 'has-error' : op.value.$invalid }">
+            <input type="number" class="form-control wid100 ftl mr10" ng-model="op.value" placeholder="Value" required>
+        </div>
+    </form>
+
+    <div ng-show="!op.editable">
+        <div  class="wid30p ftl">
+            <span title="The operation date is after today" ng-if="op.dateOperationIsAfterToday" class="label label-warning pointer">!</span>
+            <span ng-hide="op.editable">{{ op.dateOperation | date2:'yyyy/MM/dd' }}</span>
+            <span title="The levy date is after today" ng-if="op.datePrelevementIsAfterToday && op.datePrelevement !== op.dateOperation" class="label label-warning pointer">!</span>
+            <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement | date2:'yyyy/MM/dd' }})</span>
+        </div>
+
+        <div class="wid60p ftl">
+            <span class="label label-default">{{ op.categoryName }}</span>
+            <span ng-if="op.description !== undefined"> – </span>
+            <span ng-if="op.description !== undefined">{{ op.description }}</span>
+            <span ng-if="op.description !== undefined && op.thirdParty !== undefined"> – </span>
+            <span ng-if="op.thirdParty !== undefined">{{ op.thirdParty }}</span>  
+            <span ng-if="op.thirdParty !== undefined && op.type !== undefined"> – </span>
+            <span ng-if="op.type !== undefined">{{ op.type }}</span>
+        </div>
+        <div class="wid10p ftl algright">
+            <span ng-if="op.value <= 0" class="colorRed">
+                {{ op.value }}
+            </span>
+            <span ng-if="op.value > 0" class="colorGreen">
+                +{{ op.value }}
+            </span>
         </div>
     </div>
 
-    <input type="text" class="form-control wid100 ftl mr10" ng-model="op.description">
-    <input type="text" class="form-control wid100 ftl mr10" ng-model="op.thirdParty">
-    <input type="text" class="form-control wid100 ftl mr10" ng-model="op.type">
-
-    <!-- TODO: Il faut afficher l'input en rouge s'il y a une erreur, ça ne marche pas -->
-
-    <div class="form-group" ng-class="{ 'has-error' : op.value.$invalid }">
-        <input type="number" class="form-control wid100 ftl mr10" ng-model="op.value" placeholder="Value" required>
+    <div class="operationButtons">
+        <button ng-hide="!op.editable" ng-click="updateOperation(op)" class="doUpdateOperation btn btn-primary btn-xs">
+            Save
+        </button>
+        <button ng-hide="op.editable" ng-click="showUpdateOperation(op)" class="showUpdateOperation btn btn-warning btn-xs">
+            Edit
+        </button>
+        <button ng-hide="op.editable" ng-click="deleteOperation(op._id, $index)" class="btn btn-danger btn-xs">
+            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        </button>
+        <button class="btn btn-default btn-xs">
+            <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
+        </button>
     </div>
-</form>
-
-<div ng-show="!op.editable">
-    <div  class="wid30p ftl">
-        <span title="The operation date is after today" ng-if="op.dateOperationIsAfterToday" class="label label-warning pointer">!</span>
-        <span ng-hide="op.editable">{{ op.dateOperation | date2:'yyyy/MM/dd' }}</span>
-        <span title="The levy date is after today" ng-if="op.datePrelevementIsAfterToday && op.datePrelevement !== op.dateOperation" class="label label-warning pointer">!</span>
-        <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement | date2:'yyyy/MM/dd' }})</span>
-    </div>
-
-    <div class="wid60p ftl">
-        <span class="label label-default">{{ op.categoryName }}</span>
-        <span ng-if="op.description !== undefined"> – </span>
-        <span ng-if="op.description !== undefined">{{ op.description }}</span>
-        <span ng-if="op.description !== undefined && op.thirdParty !== undefined"> – </span>
-        <span ng-if="op.thirdParty !== undefined">{{ op.thirdParty }}</span>  
-        <span ng-if="op.thirdParty !== undefined && op.type !== undefined"> – </span>
-        <span ng-if="op.type !== undefined">{{ op.type }}</span>
-    </div>
-    <div class="wid10p ftl algright">
-        <span ng-if="op.value <= 0" class="colorRed">
-            {{ op.value }}
-        </span>
-        <span ng-if="op.value > 0" class="colorGreen">
-            +{{ op.value }}
-        </span>
-    </div>
-</div>
-
-<div class="operationButtons">
-    <button ng-hide="!op.editable" ng-click="updateOperation(op)" class="doUpdateOperation btn btn-primary btn-xs">
-        Save
-    </button>
-    <button ng-hide="op.editable" ng-click="showUpdateOperation(op)" class="showUpdateOperation btn btn-warning btn-xs">
-        Edit
-    </button>
-    <button ng-hide="op.editable" ng-click="deleteOperation(op._id, $index)" class="btn btn-danger btn-xs">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-    </button>
-    <button class="btn btn-default btn-xs">
-        <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
-    </button>
 </div>

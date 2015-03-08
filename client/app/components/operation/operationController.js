@@ -25,6 +25,7 @@
             $scope.operations = []
             $scope.groupOfOperations = []
             $scope.operationsOfGroup = []
+            $scope.orderProp = "dateOperation"
 
 
             $scope.intervalType = INTERVAL_TYPES
@@ -51,7 +52,6 @@
             //     type: 'CB',
             //     value: 45
             // }
-
                 
 
             function postOperation(operation){ // DUPLICATE
@@ -95,49 +95,6 @@
                 return target;
             }
 
-            // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
-            function getOperations() {
-                if(StorageServices.isOnline()){
-                    OperationResource.getAll(accountId).$promise.then(function(operations){
-
-                        for(var i = 0; i < operations.length; i++) {
-
-                            operations[i].categoryName = 'No category'
-
-                            if(operations[i].categoryId !== '') {
-
-                                for(var j = 0; j < $scope.categories.length; j++) {
-                                    if($scope.categories[j].id === operations[i].categoryId) {
-                                        operations[i].categoryName = $scope.categories[j].name
-                                        operations[i].category = $scope.categories[j]
-                                    }
-                                }
-                            }
-
-                            operations[i].dateOperationIsAfterToday = false
-                            if(moment(operations[i].dateOperation).isAfter(moment())) {
-                                operations[i].dateOperationIsAfterToday = true
-                            }
-
-                            operations[i].datePrelevementIsAfterToday = false
-                            if(moment(operations[i].datePrelevement).isAfter(moment())) {
-                                operations[i].datePrelevementIsAfterToday = true
-                            }
-                        }
-                        StorageServices.setOperations(accountId, operations)
-                        $scope.operations = operations
-                    }, function(err){
-                        getOperations()
-                    })
-                }
-                else{
-                    $scope.operations = StorageServices.getOperations(accountId)
-                }
-            }
-
-            getOperations()
-            getAccount()
-
             $scope.updateSolde = function() {
                 $scope.balance = 0
                 $scope.deferredBalance = 0
@@ -157,6 +114,75 @@
                 $scope.balance = $scope.balance.toFixed(2)
                 $scope.deferredBalance = $scope.deferredBalance.toFixed(2)
             }
+            
+            // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
+            function getOperations() {
+                if(StorageServices.isOnline()){
+                    OperationResource.getAll(accountId).$promise.then(function(operations){
+
+                        $scope.operations = operations
+                        StorageServices.setOperations(accountId, operations)
+                        fixOperations()
+                        $scope.updateSolde()
+
+                        // Dans le cas où l'on ajoute une operation lors d'un regroupement
+                        // Il ne faut pas le faire si on est sans groupe sinon cela fait
+                        // une boucle infinie
+                        if($scope.groupedBy !== '') {
+                            $scope.groupOperation();
+                        }
+
+                    }, function(err){
+                        getOperations()
+                    })
+                }
+                else{
+                    $scope.operations = StorageServices.getOperations(accountId)
+
+                    fixOperations()
+                    $scope.updateSolde()
+                    if($scope.groupedBy !== '') {
+                        $scope.groupOperation();
+                    }
+                }
+            }
+
+            function fixOperations() {
+
+                $scope.countOfOperationsAfterToday = 0;
+
+                for(var i = 0; i < $scope.operations.length; i++) {
+                    $scope.operations[i].categoryName = 'No category'
+
+                    if($scope.operations[i].categoryId !== '') {
+
+                        for(var j = 0; j < $scope.categories.length; j++) {
+                            if($scope.categories[j].id === $scope.operations[i].categoryId) {
+                                $scope.operations[i].categoryName = $scope.categories[j].name
+                                $scope.operations[i].category = $scope.categories[j]
+                            }
+                        }
+                    }
+
+                    $scope.operations[i].dateOperationIsAfterToday = false
+                    if(moment($scope.operations[i].dateOperation).isAfter(moment())) {
+                        $scope.operations[i].dateOperationIsAfterToday = true
+                        $scope.countOfOperationsAfterToday++
+                    }
+
+                    $scope.operations[i].datePrelevementIsAfterToday = false
+                    if(moment($scope.operations[i].datePrelevement).isAfter(moment())) {
+                        $scope.operations[i].datePrelevementIsAfterToday = true
+                        $scope.countOfOperationsAfterToday++
+                    }
+                }
+
+                console.log($scope.countOfOperationsAfterToday)
+            }
+
+            getOperations()
+            getAccount()
+
 
             $scope.getCategoriesOperation = function() {
                 var idUser = $rootScope.currentUserSignedInId

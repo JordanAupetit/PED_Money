@@ -29,10 +29,10 @@
         })
 
         $scope.logout = function() {
-                StorageServices.logout()
-                initService.initRessources(undefined)
-                $scope.user = undefined
-                $state.go('login')
+            StorageServices.logout()
+            initService.initRessources(undefined)
+            $scope.user = undefined
+            $state.go('login')
         }
         
         $scope.initData = function(){
@@ -42,12 +42,12 @@
             })
         }
 
-        var getAccounts = function() {
+        /*var getAccounts = function() {
             AccountResource.getAll().$promise.then(function(accounts){
                 $scope.accounts = accounts
             })
         }
 
-        getAccounts();
+        getAccounts();*/
     }	
 })();
