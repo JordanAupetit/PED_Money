@@ -2,7 +2,17 @@
 
 
 
+.hamburger-button {
+    border: 0; 
+    text-indent: -9999px;
+    margin-left: -30px;
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
 
+    background: transparent center center no-repeat;
+    background-image: url("http://material-design.storage.googleapis.com/images/hamburger.svg");
+}
 
 
 .auth .radio label,
@@ -41,7 +51,7 @@
     -webkit-font-smoothing: antialiased;
     position: relative;
     height: 100%;
-} */
+} 
 
 body, .body {
     font-family: Helvetica;
@@ -49,8 +59,8 @@ body, .body {
     -webkit-font-smoothing: antialiased;
     position: relative;
     /* Permet au cercle de ne pas gener si l'écran est petit */
-    padding-bottom: 100px;
-}
+   /* padding-bottom: 100px;
+}*/
 
 
 

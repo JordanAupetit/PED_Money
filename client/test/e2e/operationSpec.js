@@ -39,18 +39,18 @@ describe('tests PED MONEY => operation', function() {
     });
 
     
-    it('doit creer une operation periodique', function() {
-        /*
-            L'utilisateur doit cliquer sur le "cercle rouge" en bas à droite de l'écran afin de 
-            faire apparaitre le formulaire d'ajout d'opération.
-            L'utilisateur doit remplir un montant dans le champ associé.
-            L'utilisateur clique sur "Advanced" pour faire apparaitre tous les champs supplémentaires.
-            L'utilisateur saisit les informations restantes de l'opération.
-            L'utilisateur clique sur "Periodic" pour faire apparaitre les champs supplémentaires.
-            L'utilisateur saisit les informations relatives à l'opération périodique.
-            L'utilisateur clique sur "Add" et constate l'ajout de son opération dans la liste des opérations périodiques.
-        */
-    });
+    // it('doit creer une operation periodique', function() {
+        
+    //         L'utilisateur doit cliquer sur le "cercle rouge" en bas à droite de l'écran afin de 
+    //         faire apparaitre le formulaire d'ajout d'opération.
+    //         L'utilisateur doit remplir un montant dans le champ associé.
+    //         L'utilisateur clique sur "Advanced" pour faire apparaitre tous les champs supplémentaires.
+    //         L'utilisateur saisit les informations restantes de l'opération.
+    //         L'utilisateur clique sur "Periodic" pour faire apparaitre les champs supplémentaires.
+    //         L'utilisateur saisit les informations relatives à l'opération périodique.
+    //         L'utilisateur clique sur "Add" et constate l'ajout de son opération dans la liste des opérations périodiques.
+        
+    // });
 
 
     it('doit supprimer une opération', function() {

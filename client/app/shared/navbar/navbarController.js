@@ -1,35 +1,53 @@
 (function(){
-
-'use strict';
+    'use strict';
 
     angular
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state','ipCookie', 'AccountResource', function($scope, $rootScope, $state, ipCookie, AccountResource) {
-            
+        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', NavbarController])
 
-            $rootScope.currentUserSignedIn = ipCookie('token');
-            $rootScope.utlisateurCourant = ipCookie('user');
-           
-            $scope.logout = function() {
-                ipCookie.remove('token');
-                ipCookie.remove('user');
-                $rootScope.currentUserSignedIn = null;
-                $rootScope.utlisateurCourant = null ;
-                $state.go('login');
+    function NavbarController($scope, $rootScope, $state, initService, StorageServices) {
 
-            }, function() {
-                alert("Failed to logout!");
-            
-            };
+        $scope.user = StorageServices.getUser()
 
-            var getAccounts = function() {
-                AccountResource.getAll().$promise.then(function(accounts){
-                    $scope.accounts = accounts
-                })
-            }
-
-            getAccounts();
+        /**
+         * Init ressources on page reload
+         */
+        if($scope.user !== undefined){
+            initService.initRessources($scope.user.token)
+        }
         
-        }]);
-	
+
+        
+        /**
+         * Trigger on login
+         * Init ressources o n login
+         */
+        $rootScope.$on('login', function(event) {
+            // console.log('login evt'); 
+            $scope.user = StorageServices.getUser()
+            initService.initRessources($scope.user.token)
+        })
+
+        $scope.logout = function() {
+                StorageServices.logout()
+                initService.initRessources(undefined)
+                $scope.user = undefined
+                $state.go('login')
+        }
+        
+        $scope.initData = function(){
+            initService.loadDataset1()
+            .then(function(){
+                console.log('Db init OK')
+            })
+        }
+
+        var getAccounts = function() {
+            AccountResource.getAll().$promise.then(function(accounts){
+                $scope.accounts = accounts
+            })
+        }
+
+        getAccounts();
+    }	
 })();

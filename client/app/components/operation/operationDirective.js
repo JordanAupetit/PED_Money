@@ -32,7 +32,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     $(element).click(function() {
-                        $("#sidebar-wrapper-right").animate({ "right": "0" }, "slow" );
+                        $('#sidebar-wrapper-right').animate({ 'right': '0' }, 'slow' );
                     });
                 }
             };
@@ -45,7 +45,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     $(element).click(function() {
-                        $("#sidebar-wrapper-right").animate({ "right": "-350px" }, "slow" );
+                        $('#sidebar-wrapper-right').animate({ 'right': '-350px' }, 'slow' );
                     });
                 }
             };
@@ -58,7 +58,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     $(element).click(function() {
-                        $("#sidebar-wrapper-left").animate({ "left": "0" }, "slow" );
+                        $('#sidebar-wrapper-left').animate({ 'left': '0' }, 'slow' );
                     });
                 }
             };
@@ -71,7 +71,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     $(element).click(function() {
-                        $("#sidebar-wrapper-left").animate({ "left": "-300px" }, "slow" );
+                        $('#sidebar-wrapper-left').animate({ 'left': '-300px' }, 'slow' );
                     });
                 }
             };
@@ -84,7 +84,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     $(element).click(function() {
-                        $(this).find("input").click();
+                        $(this).find('input').click();
                     });
                 }
             };
@@ -97,7 +97,7 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
 
-                    var btns = $(element).find(".operationButtons")
+                    var btns = $(element).find('.operationButtons')
                     btns.hide()
 
                     $(element).hover(function() {

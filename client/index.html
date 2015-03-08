@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--<html lang="en" manifest="/money.manifest" type="text/cache-manifest">-->
+<!-- <html lang="en" manifest="/money.manifest" type="text/cache-manifest"> -->
 <html lang="en" type="text/cache-manifest">
     <head>
         <meta charset="UTF-8">
@@ -9,10 +9,17 @@
         <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="assets/libs/bootstrap/dist/css/bootstrap-theme.min.css">
 
+
+        <!-- My CSSs -->
+        <link rel="stylesheet"  href="assets/css/main.css">
+        <link rel="stylesheet"  href="assets/css/font-awesome.css">
+    
         <link rel="stylesheet" href="assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css">
         <link rel="stylesheet" href="assets/libs/angular-material/angular-material.css">
         <link rel="stylesheet" href="assets/css/style.css">
         <link rel="stylesheet" href="assets/css/material.css">
+
+        <link rel="stylesheet" href="assets/libs/angular-chart.js/dist/angular-chart.css">
     </head>
 
 
@@ -42,16 +49,27 @@
     <script src="assets/libs/angular-bootstrap/ui-bootstrap.min.js"></script>
     <script src="assets/libs/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 
+    <!-- <script src="assets/js/highcharts/highcharts.js"></script> -->
+    <script src="http://code.highcharts.com/highcharts.src.js"></script>
+    <script src="http://code.highcharts.com/modules/no-data-to-display.js"></script>
+    <script src="assets/libs/highcharts-ng/dist/highcharts-ng.min.js"></script>
+    <script src="assets/libs/Chart.js/Chart.min.js"></script>
+    <script src="assets/libs/angular-chart.js/dist/angular-chart.js"></script>
+
     <!-- Data plugins -->
     <script src="assets/js/angular-local-storage.min.js"></script>
     <script src="assets/libs/angular-currency-filter/src/currency-filter.js"></script>
     <script src="assets/libs/moment/min/moment.min.js"></script>
+    <script src="assets/js/offline.min.js"></script>
 
     <!-- Application files -->
     <script src="app/app.modules.js"></script>
     <script src="app/app.routes.js"></script>
 
     <script src="app/shared/initService.js"></script>
+    <script src="app/shared/constants.js"></script>
+    <script src="app/shared/directives.js"></script>
+    
 
     <script src="app/components/accounts/accountsController.js"></script>
     <script src="app/components/accounts/accountsService.js"></script>
@@ -69,11 +87,18 @@
     <script src="app/components/operation/period/periodService-db.js"></script>
     <script src="app/components/operation/period/periodDirectives.js"></script>
     <script src="app/components/operation/period/periodController.js"></script>
+
+    <script src="app/components/budget/budgetController.js"></script>
+    <script src="app/components/budget/budgetService.js"></script>
+    <script src="app/components/budget/budgetDirective.js"></script>
+
+    <script src="app/components/budget/details/detailsController.js"></script>
     
     <script src="app/shared/category/categoryController.js"></script>
     <script src="app/shared/category/categoryService.js"></script>
     
     <script src="app/shared/navbar/navbarController.js"></script>
+    <script src="app/shared/navbar/navbarDirective.js"></script>
     
     <script src="app/shared/filters.js"></script>
     
@@ -83,7 +108,8 @@
 
     <!-- DIIIIIIIM -->
     <script src="app/components/offline/offlineController.js"></script>
+    <script src="app/components/offline/offlineService.js"></script>
+    <script src="app/components/accounts/settingsController.js"></script>
     <!--<script src="app/components/offline/jstorage.js"></script>-->
-    <script src="app/components/offline/offline.min.js"></script>
 
 </html>

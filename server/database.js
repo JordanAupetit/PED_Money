@@ -33,24 +33,6 @@ var db = mongoose.connection;
 //Schemas
 var Schema = mongoose.Schema;
 
-var PeriodSchema = new Schema({
-	name: String,
-	amount: Number,
-	dateBegin: Date,
-	nbRepeat: Number,
-	step: Number,
-	accountId: String,
-	intervalType: String
-})
-
-var AccountSchema  = new Schema({
-	name: String,
-	type: String,
-	balance: Number,
-	currency: String,
-    userId: String
-})
-
 var defaultCategories = [
     {
         name: "Shooping",
@@ -76,6 +58,12 @@ var defaultCategories = [
     }
 ]
 
+var CategorySchema = new Schema({
+    id: String,
+    name: String,
+    subCategories:[]
+})
+
 var UserSchema  = new Schema({
 	clientID: Number,
 	username: String,
@@ -83,30 +71,72 @@ var UserSchema  = new Schema({
 	firstName: String,
 	email: String,
 	password: String, // TODO Add salt ??
+    allowAlert: {type: Boolean, default: true},
 	token: String,
     categories: {type: [CategorySchema], default: defaultCategories}
+})
+
+var AccountSchema  = new Schema({
+    name: String,
+    type: Number,
+    balance: Number,
+    currency: String,
+    userId: String,
+    alerts: [{
+        level: Number,
+        message: String
+    }]
 })
 
 var OperationSchema = new Schema({
     value: Number,
     thirdParty: String,
     description: String,
-    type: String,
+    type: String, // TODO rename in typeOpt due to {type: Boolean, default: false},
     checked: Boolean,
     /*dateOperation: Date,
     datePrelevement: Date,*/
-    dateOperation: String,
+    dateOperation: String, /*{ type: Date, default: Date.now }*/
     datePrelevement: String,
     categoryId: String/*,
     subOperations: []*/,
     accountId: String
 })
 
-var CategorySchema = new Schema({
-    id: String,
+// var PeriodSchema = new Schema({
+//     name: String,
+//     amount: Number,
+//     dateBegin: Date,
+//     nbRepeat: Number,
+//     step: Number,
+//     accountId: String,
+//     intervalType: String
+// })
+
+var PeriodSchema = new Schema({
     name: String,
-    subCategories:[]
+    dateBegin: String,
+    nbRepeat: Number,
+    step: Number,
+    intervalType: String,
+    accountId: String,
+    // operation: [OperationSchema],
+    operation: {
+        value: Number,
+        thirdParty: String,
+        description: String,
+        typeOpt: String,
+        checked: {type: Boolean, default: false},
+        dateOperation: String,
+        datePrelevement: String,
+        categoryId: String,
+        accountId: String
+    },
+    opCreat: [], // list id of created operation
+    isOver: {type: Boolean, default: false}
 })
+
+
 
 // ExpenseSchema.index( { user: 1 } )
 
@@ -121,3 +151,9 @@ var categoryModel = mongoose.model('categoryModel', CategorySchema);
 // var expenseModel = mongoose.model('expenseModel', ExpenseSchema);
 var periodModel = mongoose.model('periodModel', PeriodSchema);
 
+
+// accountModel.collection.drop(); 
+// userModel.collection.drop(); 
+// operationModel.collection.drop(); 
+// categoryModel.collection.drop(); 
+// periodModel.collection.drop(); 

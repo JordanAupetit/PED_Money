@@ -1,33 +1,61 @@
-(function(){
+(function() {
 
-'use strict';
+    'use strict';
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope','$rootScope','LoginService','$state','ipCookie', function($scope,$rootScope,LoginService,$state,ipCookie) {
+        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'StorageServices', 
+            function($scope, $rootScope, LoginService, $state, StorageServices) {
 
 
-
-    $scope.signin = function() {
-
-        var formData = {
-            username: $scope.username,
-            password: $scope.password
-        }
-		
-        var loginUser = new LoginService(formData);
-        loginUser.$query(function(res) {
-            if (res.type == false) {
-                alert(res.data);   
-            } else {
-                ipCookie('token', res.data.token);
-                ipCookie('user', res.data.username);
-                $rootScope.currentUserSignedIn = res.data.token;
-                $rootScope.utlisateurCourant = res.data.username;
-                $state.go('accounts');    
+            /**
+             * Redirect user if already login
+             */
+            if(StorageServices.getUser() !== undefined){
+                $state.go('accounts');
             }
-        });
-    };
-        
-}]);
+
+            /**
+             * Login fct
+             */
+            $scope.signin = function() {
+
+                var formData = {
+                    username: $scope.username,
+                    password: $scope.password
+                }
+
+                var loginUser = new LoginService(formData);
+                loginUser.$query(function(res) {
+                    if (res.type == false) {
+                        alert(res.data);
+                    } else {
+                        StorageServices.login(res.data)
+                        $rootScope.$emit('login');
+                        $state.go('accounts');
+                    }
+                });
+            };
+
+            /**
+             * Signup fct
+             */
+            $scope.SignupController = function() {
+
+                var item = $scope.User;
+                var newUser = new LoginService(item);
+                newUser.$save(function(res) {
+                    if (res.type == false) {
+                        alert(res.data);
+                    } else {
+                        //localStorageService.cookie.set('token',res.data.token);
+                        $state.go('login');
+                    }
+                });
+
+
+            };
+
+        }]);
+
 })();
