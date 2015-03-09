@@ -1,4 +1,4 @@
-<div class="blocOperation">
+<div class="blocOperation pt70">
 
   <div class="container">
     <!-- TODO -- Rajouter le SOLDE différé (Fonctionnel) -->
@@ -31,23 +31,29 @@
       <a class="" href="#/{{account._id}}/settings">Account settings</a>
     </div>
     
-    <div>
-        <select class="form-control wid200 ftl mr10" ng-change="groupOperation()" ng-model="groupedBy">
-            <option value="">Not grouped</option>
-            <option value="date">Grouped by Date</option>
-            <option value="category">Grouped by Category</option>
-            <option value="type">Grouped by Type</option>
-            <option value="thirdParty">Grouped by Third Party</option>
-        </select>
+    <div class="row">
+        <div class="col-md-4 col-xs-12 mt10">
+            <select class="form-control " ng-change="groupOperation()" ng-model="groupedBy">
+                <option value="">Not grouped</option>
+                <option value="date">Grouped by Date</option>
+                <option value="category">Grouped by Category</option>
+                <option value="type">Grouped by Type</option>
+                <option value="thirdParty">Grouped by Third Party</option>
+            </select>
+        </div>
+        
+        <div class="col-md-4 col-xs-12 mt10">
+          <input ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="searchText" class="form-control" placeholder="Search">
+        </div>
 
-        <input ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="searchText" class="form-control wid150 ftl mr10" placeholder="Search">
-
-        <select ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="orderProp" class="form-control wid200" ng-change="test()">
-            <option value="value">Order by Price</option>
-            <option value="dateOperation">Order by Date</option>
-            <option value="categoryName">Order by Category</option>
-            <option value="type">Order by Type</option>
-        </select>
+        <div class="col-md-4 col-xs-12 mt10">
+          <select ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="orderProp" class="form-control" ng-change="test()">
+              <option value="value">Order by Price</option>
+              <option value="dateOperation">Order by Date</option>
+              <option value="categoryName">Order by Category</option>
+              <option value="type">Order by Type</option>
+          </select>
+        </div>
     </div>
 
     <div class="clear"></div>
@@ -55,13 +61,13 @@
 
             <!-- <div ng-if="op.showOps">
                 <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
-                    <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                    <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
                 </div>
             </div> -->
 
     <label ng-if="groupOfOperations.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
     <div ng-repeat="op in groupOfOperations">
-        <div ng-click="toggleOperationsOfGroup($index, op.showOps)" class="operationLine pointer">
+        <div ng-click="toggleOperationsOfGroup($index, op.showOps)" class="operationLine pointer backWhite">
             <div class="wid40p ftl">
                 <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
             </div>
@@ -73,8 +79,8 @@
         </div>
 
         <div ng-if="op.showOps">
-            <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup">
-                <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            <div class="operationLine operationLineOfGroup" ng-repeat="op in operationsOfGroup">
+                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
         </div>
     </div>
@@ -83,7 +89,7 @@
       <label class="mt20">Operations of the selected group</label>
       
       <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup">
-        <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+        <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
       </div>
     </div> -->
 
@@ -104,16 +110,16 @@
         <div ng-if="countOfOperationsAfterToday > 0 && showDeferredOps">
             <label class="mt20">Deferred operations</label>
             <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
-            <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
-                <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            <div ng-if="op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
+                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
         </div>
         
         <div class="mt20">
             <label>Operations</label>
             <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
-            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
-                <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
+                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
         </div>
     </div>
