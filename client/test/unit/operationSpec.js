@@ -1,4 +1,3 @@
-
 describe('OperationTest', function() {
     beforeEach(module('appModule'));
     beforeEach(module('services'));
