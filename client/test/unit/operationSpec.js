@@ -1,4 +1,3 @@
-
 describe('OperationTest', function() {
     beforeEach(module('appModule'));
     beforeEach(module('services'));
@@ -18,57 +17,9 @@ describe('OperationTest', function() {
         beforeEach(inject(function(_$httpBackend_, $rootScope, $controller) {
             $httpBackend = _$httpBackend_;
             scope = $rootScope.$new();
-            controller = $controller('OperationController', {$scope: scope, $stateParams: {accountId: "2132sdq0sq"}});
-
-            var operations = 
-            [{
-                _id: "2132sdq0sq",
-                value: -50,
-                thirdParty: "Auchan",
-                description: "Règlement des courses",
-                type: "Chèque",
-                checked: false,
-                dateOperation: "2015-01-20",
-                datePrelevement: "2015-01-25",
-                categoryId: "54684654dqs",
-                subOperations: [],
-                accountId: "sddqs1123sqd"
-            }]
-
-            $httpBackend.whenGET('/api/account/operation')
-                .respond(operations);
-
-            $httpBackend.whenGET('/api/account')
-                .respond(
-                    {
-                        _id: "sddqs1123sqd",
-                        name:"Compte courrant",
-                        type: 1,
-                        currency: "EUR",
-                        balance: 0
-                    }
-                );
-
-            $httpBackend.whenPOST('/api/account/operation').respond(function(method, url, data, headers){
-                operations.push(angular.fromJson(data));
-                return [200, {}, {}];
-            })
-
-            $httpBackend.whenDELETE('/api/operation/2132sdq0sq').respond(function(method, url, data, headers){
-                for(var i in operations)
-                    if(operations[i]._id === '2132sdq0sq')
-                        operations.splice(i, 1);
-                return [200, {}, {}];
-            })            
-
-            $httpBackend.whenGET('favicon.ico')
-                .respond([200, {}, {}]);
+            controller = $controller('OperationController', {$scope: scope});
 
 
-            $httpBackend.expectGET('/api/account/operation')
-            $httpBackend.expectGET('/api/account')
-
-/*
             // Initialisation des tests avec une Operation en mémoire
             $httpBackend.expectGET('/api/account/operation').respond(200, 
                 [{
@@ -84,40 +35,26 @@ describe('OperationTest', function() {
                     subOperations: [],
                     accountId: "sddqs1123sqd"
                 }]
-            )
+            );
 
-            $httpBackend.expectGET('/api/account').respond(200, 
-                {
-                    _id: "sddqs1123sqd",
-                    name:"Compte courrant",
-                    type: 1,
-                    currency: "EUR",
-                    balance: 0
-                }
-            )
-*/
-            $httpBackend.whenGET('app/components/login/loginView.html').respond(200, '');
+            $httpBackend.expectGET('app/components/login/loginView.html').respond(200, '');
             $httpBackend.flush();
         }));
 
         it('test initialisation of controller' , function() {
-            //$httpBackend.flush();
+
             expect(scope.operations.length).toBe(1);
         });
 
         it('test delete operation' , function() {
-
-            expect(scope.operations.length).toBe(1);
+            
+            $httpBackend.expect('DELETE', '/api/operation/' + '2132sdq0sq').respond(200, '');
 
             scope.deleteOperation("2132sdq0sq", 0);
-
-            $httpBackend.expect('DELETE', '/api/operation')
-            $httpBackend.flush()
-            $httpBackend.expectGET('/api/account/operation')
-            $httpBackend.expectGET('/api/account')
+            
+            expect(scope.operations.length).toBe(1);
             $httpBackend.flush();
             expect(scope.operations.length).toBe(0);
-            
         });
 
         it('test validate & update operation' , function() {
@@ -148,7 +85,7 @@ describe('OperationTest', function() {
 
         it('test add operation' , function() {
             
-            //$httpBackend.expect('POST', '/api/operation').respond(200, '');
+            $httpBackend.expect('POST', '/api/operation').respond(200, '');
 
             scope.operationCreateModel = 
                 {
@@ -166,8 +103,6 @@ describe('OperationTest', function() {
                 }
 
             scope.addOperation()
-            $httpBackend.expectPOST('/api/operation')
-            $httpBackend.flush()
 
             $httpBackend.expectGET('/api/account/operation').respond(200, 
                 [{
