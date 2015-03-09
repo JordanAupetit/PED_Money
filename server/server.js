@@ -58,21 +58,39 @@ var userModel = database.getUserModel()
 var accountModel = database.getAccountModel()
 var operationModel = database.getOperationModel()
 
-function getUserId(req, next, callback) {
-    userModel.findOne({
-        token: req.get('X-User-Token')
-    }, function(err, user) {
-        if (err) {
-        	next(new tool.ApiError('AUTH : Internal Error', 1));
-        } else {
-            if (user) {
-                 callback(user._id)
-            } else {
-            	next(new tool.ApiError('AUTH : Invalid token', 1));
-                callback()
-            }
-        }
-    })
+
+function getUserId(req, next, callback, callbackError) {
+	try {
+		var decoded = jwt.verify(req.get('X-User-Token'), this.secretKey)
+		// console.log(decoded)
+		if (callback !== undefined) {
+			callback(user._id)
+		}
+	} catch (error) {
+		next(new tool.ApiError('AUTH : Invalid token', 450));
+		if(callbackError !== undefined){
+			callbackError()
+		}
+	}
+
+		// userModel.findOne({
+    //     token: req.get('X-User-Token')
+    // }, function(err, user) {
+    //     if (err) {
+    //     	next(new tool.ApiError('AUTH : Internal Error', 1));
+    //     } else {
+    //         if (user) {
+    //         	if(callback !== undefined){
+    //         		callback(user._id)
+    //         	}
+    //         } else {
+    //         	next(new tool.ApiError('AUTH : Invalid token', 450));
+    //         	if(callbackError !== undefined){
+    //         		callbackError()
+    //         	}
+    //         }
+    //     }
+    // })
 }
 
 function getUserIdFromToken(token, callback) {
@@ -112,12 +130,14 @@ ApiError.prototype = new Error()
  */
 var tool = {
 	getUserId : getUserId,
-	ApiError: ApiError
+	ApiError: ApiError,
+	secretKey: 'm8hHb0Xr8UyhZZH1oxGLOQ7bfRxVh1VCohbfemzF34KRlalpUpFhCVoFqbQPVCS1pjM26bdPLoKyOiCi5dhFt46Day5VEYR8Curq5yJHqYsS5DH60RjDOpUlTZBeG7aryQCkF1hpFNsN5qIPhZyK07AJksfqjUVhkxlyEB7hJQnuhmCojRsCLWRrGZELmhJBqbAHebnv2UEX7v9hBe5HsciyYZ3h0V9gKjdOn1ZZGFdyaLim'
+
 }
 
 
-apiUser(app, userModel, jwt)
-apiCategory(app, database.getCategoryModel(), userModel)
+apiUser(app, tool, userModel, jwt)
+apiCategory(app, tool, database.getCategoryModel(), userModel)
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, database.getPeriodModel())
@@ -132,7 +152,12 @@ app.use(clientErrorHandler);
 // app.use(errorHandler);
 
 function logErrors(err, req, res, next) {
-	console.error(err.stack);
+	if(err.hasOwnProperty('number')){
+		// Nothing
+		console.log("UserError::"+err.message)
+	}else{
+		console.error(err.stack);
+	}
 	next(err);
 }
 

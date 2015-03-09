@@ -33,22 +33,18 @@
         $scope.categories = []
 
         var getCategories = function() {
-            var idUser = $rootScope.currentUserSignedInId
-
-            if (idUser !== "" && idUser !== undefined) {
-                CategoryResource.getAll(idUser).$promise.then(function(categories) {
-                    $scope.categories = []
-                    for (var i = 0; i < categories.length; i++) {
-                        if (categories[i] !== null) {
-                            $scope.categories.push(categories[i])
-                        }
+            CategoryResource.getAll().$promise.then(function(categories) {
+                $scope.categories = []
+                for (var i = 0; i < categories.length; i++) {
+                    if (categories[i] !== null) {
+                        $scope.categories.push(categories[i])
                     }
-                    $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
+                }
+                $scope.newCategory = new CategorieUnderConstruction($scope.categories[0])
 
-                    // TODO: /!\ voir si ça fonctionne tous le temps
-                    $scope.$parent.$parent.getCategoriesOperation()
-                })
-            }
+                // TODO: /!\ voir si ça fonctionne tous le temps
+                // $scope.$parent.$parent.getCategoriesOperation()
+            })
         }
 
         getCategories()

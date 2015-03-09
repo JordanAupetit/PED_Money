@@ -54,10 +54,10 @@
             //     value: 45
             // }
                 
-            function postOperation(operation){ // DUPLICATE
+            function postOperation(operation){
                 if(StorageServices.isOnline()){
                     OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
-                        getOperations()
+                        refresh()
                     }, function(err){
                         postOperation(operation)
                     })
@@ -117,13 +117,54 @@
             
             // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
             function getOperations() {
+                console.log('call getOperations !!! Need to call refresh instead')
+            }
+
+
+            /**
+             * Get categories, save in scope and then format them to the select
+             */
+            function genCategories() {
+                CategoryResource.getAll().$promise.then(function(categories){
+                    $scope.categories = []
+                    angular.forEach(categories, function(categorie){
+                        $scope.categories.push(categorie)
+                    })
+
+
+                    $scope.categoriesSelect = []
+                    angular.forEach(categories, function(categorie){
+                        $scope.categoriesSelect.push({
+                            id: categorie.id,
+                            name: categorie.name
+                        })
+                        angular.forEach(categorie.subCategories, function(subCategorie){
+                            $scope.categoriesSelect.push({
+                                id: subCategorie.id,
+                                name: '---- '+subCategorie.name
+                            })
+                        })
+                    })
+
+                    // console.log($scope.categories)
+                    // console.log($scope.categoriesSelect)
+                    fixOperations()
+                })
+            }
+
+            /**
+             * Refresh operation page
+             */
+            function refresh() {
                 if(StorageServices.isOnline()){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
 
                         $scope.operations = operations
                         StorageServices.setOperations(accountId, operations)
-                        fixOperations()
+                        genCategories()
+                        // fixOperations()
                         $scope.updateSolde()
+                        
 
                         // Dans le cas où l'on ajoute une operation lors d'un regroupement
                         // Il ne faut pas le faire si on est sans groupe sinon cela fait
@@ -133,10 +174,9 @@
                         }
 
                     }, function(err){
-                        getOperations()
+                        //getOperations()
                     })
-                }
-                else{
+                }else{
                     $scope.operations = StorageServices.getOperations(accountId)
 
                     fixOperations()
@@ -154,14 +194,22 @@
                 for(var i = 0; i < $scope.operations.length; i++) {
                     $scope.operations[i].categoryName = 'No category'
 
-                    if($scope.operations[i].categoryId !== '') {
+                    var catToFind = $scope.operations[i].categoryId
 
-                        for(var j = 0; j < $scope.categories.length; j++) {
-                            if($scope.categories[j].id === $scope.operations[i].categoryId) {
-                                $scope.operations[i].categoryName = $scope.categories[j].name
-                                $scope.operations[i].category = $scope.categories[j]
+                    if(catToFind !== '') {
+                        angular.forEach($scope.categories, function(categorie){
+                            if(categorie.id === catToFind) {
+                                $scope.operations[i].categoryName = categorie.name
+                                $scope.operations[i].category = categorie
+                            }else if(catToFind % categorie.id < 100) {
+                                angular.forEach(categorie.subCategories, function(subCategorie) {
+                                    if(subCategorie.id === catToFind) {
+                                        $scope.operations[i].categoryName = subCategorie.name
+                                        $scope.operations[i].category = categorie
+                                    }
+                                })
                             }
-                        }
+                        })
                     }
 
                     $scope.operations[i].dateOperationIsAfterToday = false
@@ -178,14 +226,16 @@
                 }
             }
 
-            getOperations()
-            //getAccount()
+            refresh()
+
+            
 
 
-            $scope.getCategoriesOperation = function() {
-                var idUser = $rootScope.currentUserSignedInId
+            $scope.getCategoriesOperation = function() { // TODO DELETE
+                console.log('call getCategoriesOperation !!! Need to call non scop fct instead')
+                // var idUser = $rootScope.currentUserSignedInId
                 
-                if(idUser !== '' && idUser !== undefined) {
+                // if(idUser !== '' && idUser !== undefined) {
                     CategoryResource.getAll(idUser).$promise.then(function(categories){
                         $scope.categories = []
                         for(var i = 0; i < categories.length; i++) {
@@ -198,7 +248,7 @@
                         // catégories auraient été supprimées
                         getOperations()
                     })
-                }
+                // }
             }
 
             /*  

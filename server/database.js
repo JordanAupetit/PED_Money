@@ -36,30 +36,67 @@ var Schema = mongoose.Schema;
 var defaultCategories = [
     {
         name: "Shooping",
+        id: 100,
         subCategories:[
-            "Food",
-            "Clothes",
-            "Gifts"
+            {
+                name: "Food",
+                id: 101
+            },
+            {
+                name: "Clothes",
+                id: 102
+            },
+            {
+                name: "Gifts",
+                id: 103
+            // },
+            // {
+            //     name: "Shooping",
+            //     id: 101
+            }
+
         ]
     },
     {
         name: "Loisir",
+        id: 200,
         subCategories:[
-            "Football",
-            "Cinema",
-            "Others"
+            {
+                name: "Football",
+                id: 201
+            },
+            {
+                name: "Cinema",
+                id: 202
+            },
+            {
+                name: "Others",
+                id: 299
+            }
         ]
     },
     {   
         name: "Others",
+        id: 300,
         subCategories:[
-            "Pets"
+            {
+                name: "Pets",
+                id: 301
+            // },
+            // {
+            //     name: "Clothes",
+            //     id: 202
+            // },
+            // {
+            //     name: "Gifts",
+            //     id: 203
+            }   
         ]
     }
 ]
 
 var CategorySchema = new Schema({
-    id: String,
+    id: Number,
     name: String,
     subCategories:[]
 })
@@ -98,7 +135,7 @@ var OperationSchema = new Schema({
     datePrelevement: Date,*/
     dateOperation: String, /*{ type: Date, default: Date.now }*/
     datePrelevement: String,
-    categoryId: String/*,
+    categoryId: Number/*,
     subOperations: []*/,
     accountId: String
 })

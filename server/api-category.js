@@ -1,6 +1,7 @@
 
-module.exports = function (app, categoryModel, userModel) {
-    app.get('/api/category/:userid', getCategories)
+module.exports = function (app, tool, categoryModel, userModel) {
+    app.get('/api/category', getCategories)
+    app.get('/api/category/:userid', getCategoriesOld)
     app.put('/api/category/:userid', updateCategories)
 
     /*
@@ -16,7 +17,21 @@ module.exports = function (app, categoryModel, userModel) {
     app.delete('/api/category/:id', deleteCategory)
     // app.post('/api/category/:id', editCategroy)
 
+
     function getCategories(req, res, next) {
+        'use strict';
+        tool.getUserId(req, next, function(userId){
+            userModel.findOne({_id: userId}, function (err, coll) {
+                if (!err) {
+                    return res.send(coll.categories);
+                } else {
+                    next(err);
+                }
+            })
+        })
+    }
+
+    function getCategoriesOld(req, res, next) {
         'use strict';
         var userid = req.params.userid;
         userModel.findOne({_id: userid}, function (err, coll) {
