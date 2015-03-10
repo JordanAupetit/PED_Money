@@ -21,8 +21,15 @@ var apiPeriod = require('./api-period')
 // var apiTools = require('./api-tools')
 // var apiOther = require('./api-other')
 // var api = require('./api')
+
+var Cookies = require('cookies')
+var passport = require('passport')
+var FacebookStrategy = require('passport-facebook').Strategy
+var config = require('./oauth.js')
+
 var oauthFacebook = require('./oauthFacebook')
-var oauthGoogle = require('./oauthGoogle')
+
+//var oauthGoogle = require('./oauthGoogle')
 
 	
 

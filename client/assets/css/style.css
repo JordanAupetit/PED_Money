@@ -197,21 +197,31 @@ form.loginSignUp .signUp
 }
 
 .operationLine {
-    background: white;
-    padding: 15px;
     box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
     /* cursor: pointer; */
     height: 50px;
     position:relative;
 }
 
-.operationLineOfGroup {
-    background: rgb(249, 255, 199);
-    padding: 15px;
-    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
-    cursor: pointer;
+.firstLineOperation:hover {
+    background: whitesmoke;
+}
+
+/* .clickableOperation {
     height: 50px;
-    position:relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+} */
+
+.operationLineOfGroup {
+    background: rgb(249, 255, 199); /* jaune clair */
+}
+
+.firstLineOperation {
+    height:50px;
+    padding:15px;
+    cursor:pointer;
 }
 
 .operationLine > div > span {
@@ -252,9 +262,16 @@ form.loginSignUp .signUp
     background: rgb(249, 255, 199);
 } */
 
-.operationsButtons {
+/* .operationsButtons {
     width:50%;
     float:left;
+    z-index: 100;
+} */
+
+.operationsButtons {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
 }
 
 .operationDescription {
@@ -388,27 +405,46 @@ form.loginSignUp .signUp
 .mr30 {margin-right:30px;}
 .mr40 {margin-right:40px;}
 
+.pl5  {padding-left:5px;}
+.pl10 {padding-left:10px;}
+.pl15 {padding-left:15px;}
+.pl20 {padding-left:20px;}
+.pl30 {padding-left:30px;}
+.pl40 {padding-left:40px;}
+
 .pt0  {padding-top:0px;}
 .pt10 {padding-top:10px;}
 .pt20 {padding-top:20px;}
 .pt30 {padding-top:30px;}
 .pt40 {padding-top:40px;}
-.pt55 {padding-top:55px;}
 .pt50 {padding-top:50px;}
+.pt55 {padding-top:55px;}
 .pt60 {padding-top:60px;}
 .pt70 {padding-top:70px;}
 
-.pb0 {padding-bottom:0px;}
-.pb55 {padding-bottom: 55px;}
+.pb0  {padding-bottom:0px;}
+.pb10 {padding-bottom:10px;}
+.pb15 {padding-bottom:15px;}
+.pb20 {padding-bottom:20px;}
+.pb30 {padding-bottom:30px;}
+.pb40 {padding-bottom:40px;}
+.pb50 {padding-bottom:50px;}
+.pb55 {padding-bottom:55px;}
+.pb60 {padding-bottom:60px;}
+.pb70 {padding-bottom:70px;}
 
 .pr5  {padding-right:5px;}
 .pr10 {padding-right:10px;}
+.pr15 {padding-right:15px;}
 .pr20 {padding-right:20px;}
 .pr30 {padding-right:30px;}
 .pr40 {padding-right:40px;}
 
-
 .pad10 {padding:10px;}
+.pad15 {padding:15px;}
+.pad20 {padding:20px;}
+.pad25 {padding:25px;}
+.pad30 {padding:30px;}
 
 .ftl {float:left;}
 .ftr {float:right;}
@@ -428,6 +464,7 @@ form.loginSignUp .signUp
 .wid15p {width:15%;}
 .wid20p {width:20%;}
 .wid30p {width:30%;}
+.wid35p {width:35%;}
 .wid40p {width:40%;}
 .wid45p {width:45%;}
 .wid50p {width:50%;}
@@ -475,3 +512,5 @@ form.loginSignUp .signUp
 
 .colorRed {color: red;}
 .colorGreen {color: green;}
+
+.backWhite {background: white;}

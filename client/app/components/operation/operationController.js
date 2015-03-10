@@ -396,6 +396,11 @@
                 })
             }
 
+            $scope.closeUpdateOperation = function(operation) {
+                operation.editable = false
+                getOperations()
+            }
+
             $scope.showUpdateOperation = function(operation) {
                 operation.editable = true
             }
