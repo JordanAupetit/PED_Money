@@ -128,9 +128,8 @@
              * Finaly launch fixOperations to bind category
              */
             function genCategories() {
-                console.log('genCategories')
+                // console.log('genCategories')
                 CategoryResource.getAll().$promise.then(function(categories){
-                    console.log(' each')
                     $scope.categories = []
                     angular.forEach(categories, function(categorie){
                         $scope.categories.push(categorie)
@@ -151,8 +150,8 @@
                         })
                     })
 
-                    console.log($scope.categories)
-                    console.log($scope.categoriesSelect)
+                    // console.log($scope.categories)
+                    // console.log($scope.categoriesSelect)
                     fixOperations()
                 })
             }
