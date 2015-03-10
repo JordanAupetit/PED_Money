@@ -4,9 +4,11 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'initService', '$state', OperationController])
+        .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'periodRessource', 'initService', '$state', OperationController])
 
-        function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, initService, $state) {
+        function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, periodRes, initService, $state) {
+
+
 
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
@@ -27,6 +29,7 @@
             $scope.operationsOfGroup = []
             $scope.orderProp = "dateOperation"
             $scope.showDeferredOps = true
+            var dateFormat = 'YYYY/MM/DD'
 
 
             $scope.intervalType = INTERVAL_TYPES
@@ -39,14 +42,14 @@
 
             // $scope.operationCreateModel = {
             //     period: {
-            //         intervalType: intervalType[2],
+            //         intervalType: INTERVAL_TYPES[2],
             //         step : 2,
             //         occurency: 3
             //     },
             //     accountId: '54ec74a2b5edf01c2c3a3552',
             //     advanced: true,
-            //     dateOperation: '05/03/2015',
-            //     datePrelevement: '05/03/2015',
+            //     dateOperation: '2015/03/05',
+            //     datePrelevement: '2015/03/05',
             //     description: 'ceci est un test',
             //     periodic: true,
             //     thirdParty: 'Steam',
@@ -54,9 +57,9 @@
             //     value: 45
             // }
                 
-            function postOperation(operation){
+            function postOperation(operationToSend){
                 if(StorageServices.isOnline()){
-                    OperationResource.add($scope.operationCreateModel).$promise.then(function(operation){
+                    OperationResource.add(operationToSend).$promise.then(function(operation){
                         refresh()
                     }, function(err){
                         postOperation(operation)
@@ -125,7 +128,9 @@
              * Get categories, save in scope and then format them to the select
              */
             function genCategories() {
+                console.log('genCategories')
                 CategoryResource.getAll().$promise.then(function(categories){
+                    console.log(' each')
                     $scope.categories = []
                     angular.forEach(categories, function(categorie){
                         $scope.categories.push(categorie)
@@ -146,8 +151,8 @@
                         })
                     })
 
-                    // console.log($scope.categories)
-                    // console.log($scope.categoriesSelect)
+                    console.log($scope.categories)
+                    console.log($scope.categoriesSelect)
                     fixOperations()
                 })
             }
@@ -259,92 +264,110 @@
             */
 
             $scope.addOperation = function() {
+
+                var newOperation = $scope.operationCreateModel
                 if(accountId !== '') {
-                    $scope.operationCreateModel.accountId = accountId
+                    newOperation.accountId = accountId
                 }
 
-                if($scope.operationCreateModel.hasOwnProperty('category') && $scope.operationCreateModel.category !== undefined) {
+                if(newOperation.hasOwnProperty('category') && newOperation.category !== undefined) {
 
-                    $scope.operationCreateModel.categoryId = $scope.operationCreateModel.category.id
+                    newOperation.categoryId = newOperation.category.id
                 }
 
-                // TODO: Verifier le bon format de la date
-                if( !$scope.operationCreateModel.hasOwnProperty('dateOperation') 
-                    || $scope.operationCreateModel.dateOperation === ''
-                    || !moment($scope.operationCreateModel.dateOperation).isValid) {
 
-                    $scope.operationCreateModel.dateOperation = moment().format('YYYY/MM/DD')
-                }
-
-                if( !$scope.operationCreateModel.hasOwnProperty('datePrelevement') 
-                    || $scope.operationCreateModel.datePrelevement === ''
-                    || !moment($scope.operationCreateModel.datePrelevement).isValid) {
-
-                    $scope.operationCreateModel.datePrelevement = $scope.operationCreateModel.dateOperation
-                }
-
-                if( $scope.operationCreateModel.hasOwnProperty('periodic')
-                    && $scope.operationCreateModel.periodic) {
-
-                    var newOpt = clone($scope.operationCreateModel)
-
+                if(!newOperation.advanced){ // Simple operation
                     var toSend = {
-                        name: newOpt.description,
-                        dateBegin: newOpt.period.dateBegin === undefined ? newOpt.dateOperation : newOpt.period.dateBegin,
-                        nbRepeat: newOpt.period.occurency,
-                        step: newOpt.period.step,
-                        intervalType: newOpt.period.intervalType.code,
-                        operation : {
-                            value: newOpt.value,
-                            thirdParty: newOpt.thirdParty,
-                            description: newOpt.description,
-                            typeOpt: newOpt.type,
-                            // checked: false,
-                            dateOperation: newOpt.dateOperation,
-                            datePrelevement: newOpt.datePrelevement,
-                            // categoryId: newOpt.category,
-                            accountId: newOpt.accountId
+                            accountId: newOperation.accountId,
+                            value: newOperation.value,
+                            categoryId: newOperation.categoryId,
+                            dateOperation: moment().format('YYYY-MM-DD'),
+                            datePrelevement: moment().format('YYYY-MM-DD')
                         }
-                    }
 
                     console.log(toSend)
+                    postOperation(toSend) 
+                }else{ // Advanced or periodic operation
 
-                    periodRes.add(toSend).$promise.then(function() {
-                        // refresh()
-                        // TODO popup for confirmation
-                    })
+                    // Clean date
+                    // TODO: Verifier le bon format de la date
+                    if( !newOperation.hasOwnProperty('dateOperation') 
+                        || newOperation.dateOperation === ''
+                        || !moment(newOperation.dateOperation, dateFormat).isValid) {
+                        console.log('No dateOperation')
 
-                    // periodService.add(tmp).$promise.then(function() {
-                    //     // refresh()
-                    //     resetAddForm()
-                    //     $modalInstance.close();
-                    // })
-
-                    // addPeriodOpt($scope.operationCreateModel)
-
-                } else { // Add normal operation
-                    var newOpt = clone($scope.operationCreateModel)
-
-                    if(!newOpt.advanced){
-                        var toSend = {
-                            accountId: newOpt.accountId,
-                            value: newOpt.value,
-                            categoryId: newOpt.categoryId,
-                            dateOperation: newOpt.dateOperation,
-                            datePrelevement: newOpt.datePrelevement
-                        }
-                    }else {
-                        toSend = newOpt
-                        delete toSend.period
+                        newOperation.dateOperation = moment().format('YYYY-MM-DD')
+                    }else{
+                        console.log('Have dateOperation')
+                        console.log(newOperation.dateOperation)
+                        console.log(dateFormat)
+                         newOperation.dateOperation = moment(newOperation.dateOperation, dateFormat).format('YYYY-MM-DD')
                     }
 
 
-                    postOperation(toSend)                    
+                    if( !newOperation.hasOwnProperty('datePrelevement') 
+                        || newOperation.datePrelevement === ''
+                        || !moment(newOperation.datePrelevement, dateFormat).isValid) {
+
+                        newOperation.datePrelevement = newOperation.dateOperation
+                    }else{
+                        newOperation.datePrelevement = moment(newOperation.datePrelevement, dateFormat).format('YYYY-MM-DD')
+                    }
+
+                    if (newOperation.hasOwnProperty('periodic') 
+                        && newOperation.periodic) { // Periodic operation
+
+                        // Clean dateBegin
+                        if (!newOperation.period.hasOwnProperty('dateBegin') 
+                            || newOperation.period.dateBegin === '' 
+                            || !moment(newOperation.period.dateBegin, dateFormat).isValid) {
+
+                            newOperation.period.dateBegin = newOperation.dateOperation
+                        } else {
+                            newOperation.period.dateBegin = moment(newOperation.period.dateBegin, dateFormat).format('YYYY-MM-DD')
+                        }
+
+                        // var newOpt = clone($scope.operationCreateModel)
+                        var newOpt = newOperation
+
+                        var toSend = {
+                            name: newOpt.description,
+                            dateBegin: newOpt.period.dateBegin,
+                            nbRepeat: newOpt.period.occurency,
+                            step: newOpt.period.step,
+                            intervalType: newOpt.period.intervalType.code,
+                            operation: {
+                                value: newOpt.value,
+                                thirdParty: newOpt.thirdParty,
+                                description: newOpt.description,
+                                typeOpt: newOpt.type,
+                                // checked: false,
+                                dateOperation: newOpt.dateOperation,
+                                datePrelevement: newOpt.datePrelevement,
+                                categoryId: newOpt.category,
+                                accountId: newOpt.accountId
+                            }
+                        }
+
+                        console.log(toSend)
+
+                        periodRes.add(toSend).$promise.then(function() {
+                            // refresh()
+                            // TODO popup for confirmation
+                        })
+
+                    }else{ // Advanced operation
+                        var toSend = newOperation
+                        delete toSend.period
+                        delete toSend.periodic
+                        delete toSend.advanced
+
+                        console.log(toSend)
+                        postOperation(toSend) 
+                    }
                 }
 
                 $scope.resetOperationCreate()
-                //getAccount()
-                //getOperations()
             }
 
             $scope.deleteOperation = function(idOperation, index) {

@@ -71,9 +71,10 @@ function getUserId(req, next, callback, callbackError) {
 		var decoded = jwt.verify(req.get('X-User-Token'), this.secretKey)
 		// console.log(decoded)
 		if (callback !== undefined) {
-			callback(user._id)
+			callback(decoded.id)
 		}
 	} catch (error) {
+		// console.log(error)
 		next(new tool.ApiError('AUTH : Invalid token', 450));
 		if(callbackError !== undefined){
 			callbackError()
