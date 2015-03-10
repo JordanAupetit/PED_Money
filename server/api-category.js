@@ -1,7 +1,6 @@
 
 module.exports = function (app, tool, categoryModel, userModel) {
     app.get('/api/category', getCategories)
-    app.get('/api/category/:userid', getCategoriesOld)
     app.put('/api/category/:userid', updateCategories)
 
     /*
@@ -31,19 +30,6 @@ module.exports = function (app, tool, categoryModel, userModel) {
         })
     }
 
-    function getCategoriesOld(req, res, next) {
-        'use strict';
-        var userid = req.params.userid;
-        userModel.findOne({_id: userid}, function (err, coll) {
-            if (!err) {
-                return res.send(coll.categories);
-            } else {
-                console.log(err);
-                next(err);
-            }
-        });
-    }
-
     function updateCategories(req, res, next) {
         'use strict';
         var userid = req.params.userid;
@@ -56,28 +42,16 @@ module.exports = function (app, tool, categoryModel, userModel) {
                 next(err);
             }
         }) 
-        /*
-        var category = req.body
-        delete category._id // Security
-        // console.log(category)
-        var newCategory = new categoryModel(category);
-        newCategory.save(function(e, results){
-            if (e) return next(e);
-            res.send(results);
-        })
-        */
     }
 
     function getCategory(req, res, next) {
         'use strict';
-        // var userid = req.get('X-User-Id');
         var categoryId = req.params.id;
 
         categoryModel.findOne({_id: categoryId}, function (err, coll) {
             if (!err) {
                 return res.send(coll);
             } else {
-                console.log(err);
                 next(err);
             }
         });
@@ -86,7 +60,6 @@ module.exports = function (app, tool, categoryModel, userModel) {
 
     function addCategory(req, res, next) {
         'use strict';
-        // var userid = req.get('X-User-Id');
         var category = req.body
         delete category._id // Security
         // console.log(category)
@@ -99,7 +72,6 @@ module.exports = function (app, tool, categoryModel, userModel) {
 
     function deleteCategory(req, res, next) {
         'use strict';
-        // var userid = req.get('X-User-Id');
         var categoryId = req.params.id;
 
         categoryModel.remove({_id: categoryId},function (err, results) {

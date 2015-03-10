@@ -13,7 +13,6 @@ module.exports = function (app, tool, accountModel, operationModel) {
             if (!err) {
                 return resp.send(coll);
             } else {
-                console.log(err);
                 next(err);
             }
         });
