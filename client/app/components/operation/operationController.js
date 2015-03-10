@@ -4,9 +4,9 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'initService', '$state', OperationController])
+        .controller('OperationController', ['$scope', '$rootScope', '$http', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'initService', '$state', OperationController])
 
-        function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, initService, $state) {
+        function OperationController($scope, $rootScope, $http, StorageServices, OperationResource, AccountResource, CategoryResource, initService, $state) {
 
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}

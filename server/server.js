@@ -124,7 +124,7 @@ var tool = {
 
 
 apiUser(app, userModel, jwt)
-apiCategory(app, database.getCategoryModel(), userModel)
+apiCategory(app, database.getCategoryModel(), userModel, accountModel, operationModel)
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, database.getPeriodModel())
@@ -134,8 +134,8 @@ apiPeriod(app, database.getPeriodModel())
 /**
  * START Error manager block
  */
-app.use(logErrors);
-app.use(clientErrorHandler);
+// app.use(logErrors);
+// app.use(clientErrorHandler);
 // app.use(errorHandler);
 
 function logErrors(err, req, res, next) {

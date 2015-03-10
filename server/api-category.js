@@ -1,5 +1,5 @@
 
-module.exports = function (app, categoryModel, userModel) {
+module.exports = function (app, categoryModel, userModel, accountModel, operationModel) {
     app.get('/api/category/:userid', getCategories)
     app.put('/api/category/:userid', updateCategories)
 
@@ -94,4 +94,51 @@ module.exports = function (app, categoryModel, userModel) {
     }
 
     // TODO: UPDATE OPERATION
+    //var phantom = require('phantom');
+    var handlebars = require('handlebars');
+    var fs = require('fs')
+    var pdf = require('html-pdf')
+
+    app.get('/api/account/:accountId/pdf', getPdf)
+
+    function getPdf(req, res, next){
+        var accountId = req.params.accountId
+        var superdata = {owner: 'à rajouter aux DATA', date: "today"}
+        accountModel.findOne({_id: accountId}, '_id name currency', function(err, account){
+            superdata.account = account
+            operationModel.find({accountId: account._id}, function(err, operations){
+                var balance = 0
+                for(var i in operations){
+                    var value = operations[i].value
+                    balance = value + balance
+                    if(value>=0)
+                        operations[i].credit = value
+                    else
+                        operations[i].debit = value*-1
+                }
+                superdata.account.balance = balance
+                superdata.account.operations = operations
+
+                var config = {
+                    "directory": "./tmp",
+                    "format": "A4",
+                    "orientation": "portrait", 
+                    "border": "1cm",
+                    "type": "pdf",     
+                    "timeout": 30000
+                }
+                fs.readFile('./server/template-pdf.hbs', function(err, data){
+                    if (!err) {
+                        var template = handlebars.compile(data.toString())
+                        pdf.create(template(superdata), config).toBuffer(
+                            function(err, file){
+                                res.header("Content-Type", "application/pdf");
+                                res.send(file)
+                            }
+                        );
+                    }
+                })
+            })
+        })
+    }
 }

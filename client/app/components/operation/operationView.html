@@ -28,9 +28,13 @@
     <a class="" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
 
     <div>
-      <a class="" href="#/{{account._id}}/settings">Account settings</a>
+      <a class="" href="#/{{accountId}}/settings">Account settings</a>
     </div>
     
+    <div>
+      <a class="" href="/api/account/{{accountId}}/pdf" target="_blank">Get the pdf</a>
+    </div>
+
     <div class="row">
         <div class="col-md-4 col-xs-12 mt10">
             <select class="form-control " ng-change="groupOperation()" ng-model="groupedBy">

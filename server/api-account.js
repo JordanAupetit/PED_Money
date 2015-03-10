@@ -108,7 +108,4 @@ module.exports = function (app, tool, accountModel, operationModel) {
             });
         })
     }
-
-
-
 }
