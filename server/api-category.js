@@ -1,6 +1,7 @@
 
-module.exports = function (app, categoryModel, userModel, accountModel, operationModel) {
+module.exports = function (app, tool, categoryModel, userModel, accountModel, operationModel) {
     app.get('/api/category/:userid', getCategories)
+    app.get('/api/category', getCategories)
     app.put('/api/category/:userid', updateCategories)
 
     /*
@@ -16,17 +17,18 @@ module.exports = function (app, categoryModel, userModel, accountModel, operatio
     app.delete('/api/category/:id', deleteCategory)
     // app.post('/api/category/:id', editCategroy)
 
+
     function getCategories(req, res, next) {
         'use strict';
-        var userid = req.params.userid;
-        userModel.findOne({_id: userid}, function (err, coll) {
-            if (!err) {
-                return res.send(coll.categories);
-            } else {
-                console.log(err);
-                next(err);
-            }
-        });
+        tool.getUserId(req, next, function(userId){
+            userModel.findOne({_id: userId}, function (err, coll) {
+                if (!err) {
+                    return res.send(coll.categories);
+                } else {
+                    next(err);
+                }
+            })
+        })
     }
 
     function updateCategories(req, res, next) {
@@ -41,28 +43,16 @@ module.exports = function (app, categoryModel, userModel, accountModel, operatio
                 next(err);
             }
         }) 
-        /*
-        var category = req.body
-        delete category._id // Security
-        // console.log(category)
-        var newCategory = new categoryModel(category);
-        newCategory.save(function(e, results){
-            if (e) return next(e);
-            res.send(results);
-        })
-        */
     }
 
     function getCategory(req, res, next) {
         'use strict';
-        // var userid = req.get('X-User-Id');
         var categoryId = req.params.id;
 
         categoryModel.findOne({_id: categoryId}, function (err, coll) {
             if (!err) {
                 return res.send(coll);
             } else {
-                console.log(err);
                 next(err);
             }
         });
@@ -71,7 +61,6 @@ module.exports = function (app, categoryModel, userModel, accountModel, operatio
 
     function addCategory(req, res, next) {
         'use strict';
-        // var userid = req.get('X-User-Id');
         var category = req.body
         delete category._id // Security
         // console.log(category)
@@ -84,7 +73,6 @@ module.exports = function (app, categoryModel, userModel, accountModel, operatio
 
     function deleteCategory(req, res, next) {
         'use strict';
-        // var userid = req.get('X-User-Id');
         var categoryId = req.params.id;
 
         categoryModel.remove({_id: categoryId},function (err, results) {

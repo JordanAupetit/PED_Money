@@ -3,17 +3,18 @@
 	'use strict';
 
 	angular.module('services')
-		.factory('initService', ['$log', 'periodService', 'AccountResource', 'OperationResource', 'signupService', 'LoginService', initService])
+		.factory('initService', ['$log', 'periodRessource', 'AccountResource', 'OperationResource', 'signupService', 'LoginService', 'CategoryResource', initService])
 
-	function initService($log, periodService, accountRes, operationRes, signupRes, loginRes) {
+	function initService($log, periodRes, accountRes, operationRes, signupRes, loginRes, categoryRes) {
 
 		return {
 			initRessources: function(token){
 				// console.log('initRessources')
 				accountRes.init(token)
+				categoryRes.init(token)
 			},
 			populatePeriod: function() {
-				periodService.init()
+				periodRes.init()
 			},
 			populateAccount: function() {
 				var acc1 = {

@@ -147,15 +147,15 @@
         </li>
         <li>
           <label>Category</label>
-          <div class="input-group">
-            <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie.name for categorie in categories track by categorie.id">
+          <!-- <div class="input-group"> -->
+            <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie.name for categorie in categoriesSelect track by categorie.id">
               <option value="" selected>No category</option>
             </select>
-            <div class="input-group-btn">
+            <!--             <div class="input-group-btn">
               <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span>
               </button>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div> -->
         </li>
         <li>
           <label>Value<span class="colorRed">*</span></label>
