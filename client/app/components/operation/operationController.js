@@ -8,8 +8,6 @@
 
         function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, periodRes, initService, $state) {
 
-
-
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
@@ -72,7 +70,7 @@
 
             function getAccount(){
                 if(StorageServices.isOnline()){
-                    AccountResource.get($state.params.accountId).$promise.then(function(account){
+                    AccountResource.get(accountId).$promise.then(function(account){
                         StorageServices.setAccount(accountId, account)
                         $scope.account = account
                     }, function(err){
@@ -125,7 +123,9 @@
 
 
             /**
-             * Get categories, save in scope and then format them to the select
+             * Get categories, save in scope 
+             * and then format them to the select
+             * Finaly launch fixOperations to bind category
              */
             function genCategories() {
                 console.log('genCategories')
@@ -167,7 +167,6 @@
                         $scope.operations = operations
                         StorageServices.setOperations(accountId, operations)
                         genCategories()
-                        // fixOperations()
                         $scope.updateSolde()
                         
 
