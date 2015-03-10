@@ -141,7 +141,7 @@
             </div>
         </div>
         
-        <div class="mt20">
+        <div ng-if="countOfOperationsNotAfterToday > 0" class="mt20">
             <label>Operations</label>
             <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
             <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">

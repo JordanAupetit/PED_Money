@@ -120,6 +120,7 @@
                 if(StorageServices.isOnline()){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
 
+                        console.log(operations)
                         $scope.operations = operations
                         StorageServices.setOperations(accountId, operations)
                         fixOperations()
@@ -150,6 +151,7 @@
             function fixOperations() {
 
                 $scope.countOfOperationsAfterToday = 0;
+                $scope.countOfOperationsNotAfterToday = 0;
 
                 for(var i = 0; i < $scope.operations.length; i++) {
                     $scope.operations[i].categoryName = 'No category'
@@ -167,13 +169,17 @@
                     $scope.operations[i].dateOperationIsAfterToday = false
                     if(moment($scope.operations[i].dateOperation).isAfter(moment())) {
                         $scope.operations[i].dateOperationIsAfterToday = true
-                        $scope.countOfOperationsAfterToday++
                     }
 
                     $scope.operations[i].datePrelevementIsAfterToday = false
                     if(moment($scope.operations[i].datePrelevement).isAfter(moment())) {
                         $scope.operations[i].datePrelevementIsAfterToday = true
+                    }
+
+                    if($scope.operations[i].dateOperationIsAfterToday || $scope.operations[i].datePrelevementIsAfterToday) {
                         $scope.countOfOperationsAfterToday++
+                    } else {
+                        $scope.countOfOperationsNotAfterToday++
                     }
                 }
             }
@@ -316,7 +322,8 @@
                         $scope.operations.splice(index, 1)
                     }
                     
-                    $scope.updateSolde();
+                    $scope.updateSolde()
+                    fixOperations()
                     //getAccount()
                     //getOperations()
                 })
