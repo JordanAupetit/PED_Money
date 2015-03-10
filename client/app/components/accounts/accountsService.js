@@ -4,9 +4,6 @@
 
     angular.module('services')
     .factory('AccountResource', ['$resource', function($resource){
-        // var userToken
-
-        var userToken = ''
         var accountResource
 
         return {
@@ -23,9 +20,9 @@
             getAll: function(){
                 return accountResource.getAll()
             },
-            get: function(accountId){
-                return accountResource.get({id: accountId})
-            },          
+            // get: function(accountId){
+            //     return accountResource.get({id: accountId})
+            // },          
             add: function(account, callback){
                 return accountResource.add(account, callback)
             },

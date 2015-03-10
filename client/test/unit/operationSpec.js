@@ -107,19 +107,20 @@ describe('OperationTest', function() {
 
             $httpBackend.expect('PUT', '/api/operation').respond(200, '');
             $httpBackend.expect('PUT', '/api/operation').respond(200, '');
-            // $httpBackend.expectGET('/api/account/operation').respond(200, [{
-            //     _id: "2132sdq0sq",
-            //     value: -50,
-            //     thirdParty: "Auchan",
-            //     description: "Règlement des courses",
-            //     type: "Chèque",
-            //     checked: true,
-            //     dateOperation: "2015-01-20",
-            //     datePrelevement: "2015-01-25",
-            //     categoryId: "54684654dqs",
-            //     subOperations: [],
-            //     accountId: "sddqs1123sqd"
-            // }]);
+            $httpBackend.expectGET('/api/account/operation').respond(200, [{
+                _id: "2132sdq0sq",
+                value: -50,
+                thirdParty: "Auchan",
+                description: "Règlement des courses",
+                type: "Chèque",
+                checked: true,
+                dateOperation: "2015-01-20",
+                datePrelevement: "2015-01-25",
+                categoryId: "54684654dqs",
+                subOperations: [],
+                accountId: "sddqs1123sqd"
+            }]);
+            $httpBackend.expectGET('/api/category').respond(200, defaultCat);
 
             scope.validateOperation(scope.operations[0]);
             scope.updateOperation(scope.operations[0]);
@@ -127,57 +128,57 @@ describe('OperationTest', function() {
             $httpBackend.flush();
         });
 
-        it('test add operation', function() {
+        // it('test add operation', function() {
 
-            $httpBackend.expect('POST', '/api/operation').respond(200, '');
+        //     $httpBackend.expect('POST', '/api/operation').respond(200, '');
 
-            scope.operationCreateModel = {
-                _id: "d1sqe4za6",
-                value: 601,
-                thirdParty: "Leclerc",
-                description: "Règlement des courses",
-                type: "Carte bleue",
-                checked: false,
-                dateOperation: "2015-01-10",
-                datePrelevement: "2015-01-10",
-                categoryId: "54684654dqs",
-                subOperations: [],
-                accountId: "sddqs1123sqd"
-            }
+        //     scope.operationCreateModel = {
+        //         _id: "d1sqe4za6",
+        //         value: 601,
+        //         thirdParty: "Leclerc",
+        //         description: "Règlement des courses",
+        //         type: "Carte bleue",
+        //         checked: false,
+        //         dateOperation: "2015-01-10",
+        //         datePrelevement: "2015-01-10",
+        //         categoryId: "54684654dqs",
+        //         subOperations: [],
+        //         accountId: "sddqs1123sqd"
+        //     }
 
-            scope.addOperation()
+        //     scope.addOperation()
 
-            $httpBackend.expectGET('/api/account/operation').respond(200, [{
-                _id: "2132sdq0sq",
-                value: -50,
-                thirdParty: "Auchan",
-                description: "Règlement des courses",
-                type: "Chèque",
-                checked: false,
-                dateOperation: "2015-01-20",
-                datePrelevement: "2015-01-25",
-                categoryId: "54684654dqs",
-                subOperations: [],
-                accountId: "sddqs1123sqd"
-            }, {
-                _id: "d1sqe4za6",
-                value: 601,
-                thirdParty: "Leclerc",
-                description: "Règlement des courses",
-                type: "Carte bleue",
-                checked: false,
-                dateOperation: "2015-01-10",
-                datePrelevement: "2015-01-10",
-                categoryId: "54684654dqs",
-                subOperations: [],
-                accountId: "sddqs1123sqd"
-            }]);
+        //     $httpBackend.expectGET('/api/account/operation').respond(200, [{
+        //         _id: "2132sdq0sq",
+        //         value: -50,
+        //         thirdParty: "Auchan",
+        //         description: "Règlement des courses",
+        //         type: "Chèque",
+        //         checked: false,
+        //         dateOperation: "2015-01-20",
+        //         datePrelevement: "2015-01-25",
+        //         categoryId: "54684654dqs",
+        //         subOperations: [],
+        //         accountId: "sddqs1123sqd"
+        //     }, {
+        //         _id: "d1sqe4za6",
+        //         value: 601,
+        //         thirdParty: "Leclerc",
+        //         description: "Règlement des courses",
+        //         type: "Carte bleue",
+        //         checked: false,
+        //         dateOperation: "2015-01-10",
+        //         datePrelevement: "2015-01-10",
+        //         categoryId: "54684654dqs",
+        //         subOperations: [],
+        //         accountId: "sddqs1123sqd"
+        //     }]);
 
-            $httpBackend.expectGET('/api/category').respond(200, defaultCat);
+        //     $httpBackend.expectGET('/api/category').respond(200, defaultCat);
 
-            expect(scope.operations.length).toBe(1);
-            $httpBackend.flush();
-            expect(scope.operations.length).toBe(2);
-        });
+        //     expect(scope.operations.length).toBe(1);
+        //     $httpBackend.flush();
+        //     expect(scope.operations.length).toBe(2);
+        // });
     });
 });

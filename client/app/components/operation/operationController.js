@@ -116,11 +116,6 @@
                 $scope.deferredBalance = $scope.deferredBalance.toFixed(2)
             }
             
-            // TODO: Il ne faut pas afficher qu'il n'y a pas d'opérations avant d'avoir fait le premier getOperations
-            function getOperations() {
-                console.log('call getOperations !!! Need to call refresh instead')
-            }
-
 
             /**
              * Get categories, save in scope 
@@ -230,29 +225,6 @@
             }
 
             refresh()
-
-            
-
-
-            $scope.getCategoriesOperation = function() { // TODO DELETE
-                console.log('call getCategoriesOperation !!! Need to call non scop fct instead')
-                // var idUser = $rootScope.currentUserSignedInId
-                
-                // if(idUser !== '' && idUser !== undefined) {
-                    CategoryResource.getAll(idUser).$promise.then(function(categories){
-                        $scope.categories = []
-                        for(var i = 0; i < categories.length; i++) {
-                            if(categories[i] !== null) {
-                                $scope.categories.push(categories[i])
-                            }
-                        }
-
-                        // On réactualise les opérations dans le cas où des
-                        // catégories auraient été supprimées
-                        getOperations()
-                    })
-                // }
-            }
 
             /*  
                 ==== TODO ====
@@ -412,17 +384,18 @@
 
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
-                    getOperations()
+                    refresh()
                     //getAccount()
                 })
             }
 
             $scope.closeUpdateOperation = function(operation) {
                 operation.editable = false
-                getOperations()
+                refresh()
             }
 
             $scope.showUpdateOperation = function(operation) {
+                //TODO Gérer le select pour les catégories
                 operation.editable = true
             }
 
