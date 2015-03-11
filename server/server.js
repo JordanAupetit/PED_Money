@@ -144,7 +144,7 @@ var tool = {
 }
 
 
-apiUser(app, userModel, jwt)
+apiUser(app, tool, userModel, jwt)
 apiCategory(app, tool, database.getCategoryModel(), userModel, accountModel, operationModel)
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
