@@ -203,7 +203,7 @@ form.loginSignUp .signUp
     position:relative;
 }
 
-.firstLineOperation:hover {
+.operationGroupOfLine:hover, .firstLineOperation:hover {
     background: whitesmoke;
 }
 
