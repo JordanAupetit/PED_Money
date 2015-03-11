@@ -12,7 +12,7 @@
         /**
          * Init ressources on page reload
          */
-        if($scope.user !== undefined){
+        if($scope.user !== undefined && $scope.user !== null){
             initService.initRessources($scope.user.token)
         }
         

@@ -27,7 +27,7 @@
 
         function getLocalData(){
             var data = eval("("+localStorage.getItem("DATA")+")")
-            if(data === null)
+            if(data === undefined)
                 return {'user': undefined, 'accounts': []}
             //TODO remettre return {} quand le lien avec la connection
             //sera fait
