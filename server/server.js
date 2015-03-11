@@ -2,9 +2,12 @@
 var application_root = __dirname,
 	express = require('express'), //Web framework
 	path = require('path'), //Utilities for dealing with file paths
-	jwt  = require("jsonwebtoken"),
+	jwt  = require('jsonwebtoken'),
 	bodyParser  = require('body-parser'),
-	methodOverride = require('method-override')
+	methodOverride = require('method-override'),
+	CronJob = require('cron').CronJob,
+	nodemailer = require('nodemailer'),
+	compress = require('compression');
 	
 
 
@@ -38,6 +41,7 @@ var app = express();
 var oneDay = 86400000;
 
 // Configure server
+app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(application_root ,'../client'), { maxAge: oneDay }));
@@ -81,25 +85,6 @@ function getUserId(req, next, callback, callbackError) {
 			callbackError()
 		}
 	}
-
-		// userModel.findOne({
-    //     token: req.get('X-User-Token')
-    // }, function(err, user) {
-    //     if (err) {
-    //     	next(new tool.ApiError('AUTH : Internal Error', 1));
-    //     } else {
-    //         if (user) {
-    //         	if(callback !== undefined){
-    //         		callback(user._id)
-    //         	}
-    //         } else {
-    //         	next(new tool.ApiError('AUTH : Invalid token', 450));
-    //         	if(callbackError !== undefined){
-    //         		callbackError()
-    //         	}
-    //         }
-    //     }
-    // })
 }
 
 function getUserIdFromToken(token, callback) {
@@ -149,7 +134,7 @@ apiUser(app, tool, userModel, jwt)
 apiCategory(app, tool, database.getCategoryModel(), userModel, accountModel, operationModel)
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
-apiPeriod(app, database.getPeriodModel())
+apiPeriod(app, tool, database.getPeriodModel())
 
 
 
@@ -163,7 +148,7 @@ app.use(clientErrorHandler);
 function logErrors(err, req, res, next) {
 	if(err.hasOwnProperty('number')){
 		// Nothing
-		console.log("UserError::"+err.message)
+		console.log('UserError::'+err.message)
 	}else{
 		console.error(err.stack);
 	}
@@ -207,10 +192,36 @@ function clientErrorHandler(err, req, res, next) {
 
 
 //CRON TASK
+var jobPeriod = new CronJob('00 00 01 * * *', function(){
+// var jobPeriod = new CronJob('*/5 * * * * *', function(){
+	console.info('CronJob Period starting')
 
-var CronJob = require('cron').CronJob;
+	userModel.find(function (err, users) { 
+	    if(err){
+	        console.log(err)
+	    }else{
+	    	var periodModel = database.getPeriodModel()
 
-var nodemailer = require('nodemailer');
+	    	for (var i in users) { // For each user
+	    		console.log('UserId: '+users[i])
+	    		periodModel.find({user: users[i]._id}, function (err, coll) {
+					if (!err) {
+						// console.log(coll)
+					} else {
+						next(err)
+					}
+				})
+	    	}
+	    }
+	})
+}, function () {
+    // This function is executed when the job stops
+  },
+  true /* Start the job right now */,
+  'Europe/Paris' /* Time zone of this job. */
+)
+
+
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -227,7 +238,7 @@ var transporter = nodemailer.createTransport({
 var job = new CronJob('00 30 01 * * *', function(){
 // var job = new CronJob('* * * * * *', function(){
     
-    console.info("CronJob starting")
+    console.info('CronJob starting')
 	userModel.find(function (err, users) {
 	    if(err){
 	        console.log(err)
@@ -241,15 +252,15 @@ var job = new CronJob('00 30 01 * * *', function(){
 	        				for(var j in accounts){
 	        					if(accounts[j].balance < accounts[j].alert){
 	        						var account = accounts[j]
-	        						console.log("it should send an email for " + accounts[j].name + " to " + users[i].email)
-	        						var mytext = "You have " + account.balance + " " +account.currency + " in your account " 
-	        						+ accounts[j].name + ". Visite MyMoney.com to fix this issue"
+	        						console.log('it should send an email for ' + accounts[j].name + ' to ' + users[i].email)
+	        						var mytext = 'You have ' + account.balance + ' ' +account.currency + ' in your account ' 
+	        						+ accounts[j].name + '. Visite MyMoney.com to fix this issue'
 	        						var mailOptions = {
 									    from: 'MyMoney <do.not.respond.money@gmail.com>',
 									    to: users[i].email, // list of receivers
 									    subject: 'Account balance below your alert level', // Subject line
 									    text: mytext, // plaintext body
-									    html: "<b>"+ mytext + "</b>" // html body
+									    html: '<b>'+ mytext + '</b>' // html body
 									};
 									
 									transporter.sendMail(mailOptions, function(error, info){
@@ -270,7 +281,7 @@ var job = new CronJob('00 30 01 * * *', function(){
     // This function is executed when the job stops
   },
   true /* Start the job right now */,
-  "Europe/Paris" /* Time zone of this job. */
+  'Europe/Paris' /* Time zone of this job. */
 );
 
 
