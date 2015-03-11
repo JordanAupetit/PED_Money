@@ -13,7 +13,6 @@ module.exports = function (app, tool, accountModel, operationModel) {
             if (!err) {
                 return resp.send(coll);
             } else {
-                console.log(err);
                 next(err);
             }
         });
@@ -103,12 +102,9 @@ module.exports = function (app, tool, accountModel, operationModel) {
             delete account._id
 
             accountModel.findByIdAndUpdate(accountId, {$set: account}, function (err, qcm) {
-                if (err) return handleError(err);
+                if (err) return next(err);
                 res.send(qcm);
             });
         })
     }
-
-
-
 }

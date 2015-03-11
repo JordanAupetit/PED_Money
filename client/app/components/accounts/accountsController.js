@@ -1,8 +1,5 @@
 (function() {
-
     'use strict';
-
-
 
     angular
         .module('controllers')
@@ -10,8 +7,6 @@
 
 
     function AccountController($scope, AccountResource, initService) {
-        // initService.populateAccount()
-
         $scope.currencys = CURRENCYS
         $scope.accountTypes = ACCOUNT_TYPES
         $scope.accountCreateModel = {};
@@ -32,22 +27,20 @@
             })
         }
 
+        refresh()
+
         /**
          * @Description
          * Reset the form
          * Close it and reset values to default
          */
-        function resetForm() {
+        $scope.resetForm = function(){
             $scope.closeRightMenu()
             $scope.accountCreateModel = {}
             $scope.accountForm.$setPristine();
             $scope.accountForm.$setUntouched();
 
         }
-
-        refresh()
-
-        $scope.resetForm = resetForm
 
         /**
          * @Description
@@ -59,21 +52,29 @@
             if ($scope.accountForm.$valid) {
                 accountModel.currency = accountModel.currency.code
                 accountModel.type = accountModel.type.value
-                    // console.log(accountModel)
                 AccountResource.add(accountModel, function(res) {
-                    // console.log(res)
-                    resetForm()
+                    $scope.resetForm()
                     refresh()
                 })
             }
         }
 
-        $scope.deleteAccount = function(idAccount) {
-            AccountResource.remove(idAccount).$promise.then(function() {
+        /**
+         * @Description
+         * Delete account
+         * @Param {Object} accountId The id of the account to delete
+         */
+        $scope.deleteAccount = function(accountId) {
+            AccountResource.remove(accountId).$promise.then(function() {
                 refresh()
             })
         }
 
+        /**
+         * @Description
+         * Switch account line to view mode and save it
+         * @Param {Object} account The model of the account to save
+         */
         $scope.updateAccount = function(account) {
             account.editable = false
             account.currency = account.currency.code
@@ -81,6 +82,12 @@
             AccountResource.update(account)
         }
 
+
+        /**
+         * @Description
+         * Switch account line to edit mode
+         * @Param {Object} account The model of the account to edit
+         */
         $scope.showUpdateAccount = function(account) {
             account.editable = true
 

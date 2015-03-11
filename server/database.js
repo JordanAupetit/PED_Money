@@ -11,13 +11,6 @@ module.exports = {
     getCategoryModel: function(){
         return categoryModel
     },
-    // getUserModel: function(){
-    //  return userModel
-    // },
-    // getExpenseModel: function(){
-    //  return expenseModel
-    // }
-
     getPeriodModel: function(){
         return periodModel
     },
@@ -36,30 +29,67 @@ var Schema = mongoose.Schema;
 var defaultCategories = [
     {
         name: "Shooping",
+        id: 100,
         subCategories:[
-            "Food",
-            "Clothes",
-            "Gifts"
+            {
+                name: "Food",
+                id: 101
+            },
+            {
+                name: "Clothes",
+                id: 102
+            },
+            {
+                name: "Gifts",
+                id: 103
+            // },
+            // {
+            //     name: "Shooping",
+            //     id: 101
+            }
+
         ]
     },
     {
         name: "Loisir",
+        id: 200,
         subCategories:[
-            "Football",
-            "Cinema",
-            "Others"
+            {
+                name: "Football",
+                id: 201
+            },
+            {
+                name: "Cinema",
+                id: 202
+            },
+            {
+                name: "Others",
+                id: 299
+            }
         ]
     },
     {   
         name: "Others",
+        id: 300,
         subCategories:[
-            "Pets"
+            {
+                name: "Pets",
+                id: 301
+            // },
+            // {
+            //     name: "Clothes",
+            //     id: 202
+            // },
+            // {
+            //     name: "Gifts",
+            //     id: 203
+            }   
         ]
     }
 ]
 
 var CategorySchema = new Schema({
-    id: String,
+    id: Number,
     name: String,
     subCategories:[]
 })
@@ -94,24 +124,12 @@ var OperationSchema = new Schema({
     description: String,
     type: String, // TODO rename in typeOpt due to {type: Boolean, default: false},
     checked: Boolean,
-    /*dateOperation: Date,
-    datePrelevement: Date,*/
     dateOperation: String, /*{ type: Date, default: Date.now }*/
     datePrelevement: String,
-    categoryId: String/*,
+    categoryId: Number/*,
     subOperations: []*/,
     accountId: String
 })
-
-// var PeriodSchema = new Schema({
-//     name: String,
-//     amount: Number,
-//     dateBegin: Date,
-//     nbRepeat: Number,
-//     step: Number,
-//     accountId: String,
-//     intervalType: String
-// })
 
 var PeriodSchema = new Schema({
     name: String,
@@ -120,7 +138,6 @@ var PeriodSchema = new Schema({
     step: Number,
     intervalType: String,
     accountId: String,
-    // operation: [OperationSchema],
     operation: {
         value: Number,
         thirdParty: String,
@@ -147,8 +164,6 @@ var accountModel = mongoose.model('accountModel', AccountSchema);
 var userModel = mongoose.model('userModel', UserSchema);
 var operationModel = mongoose.model('operationModel', OperationSchema);
 var categoryModel = mongoose.model('categoryModel', CategorySchema);
-// var userModel = mongoose.model('userModel', UserSchema);
-// var expenseModel = mongoose.model('expenseModel', ExpenseSchema);
 var periodModel = mongoose.model('periodModel', PeriodSchema);
 
 

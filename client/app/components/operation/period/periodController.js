@@ -88,14 +88,14 @@
 				}
 			}
 		})
-		.controller('PeriodCtrl', ['$scope', 'periodService', '$modal', '$log', 'periodHelper', '$state', PeriodCtrl])
-		.controller('ModalPeriodCtrl', ['$scope', '$modalInstance', '$log', 'intervalType', 'periodService', 'periodHelper', ModalPeriodCtrl])
+		.controller('PeriodCtrl', ['$scope', 'periodRessource', '$modal', '$log', 'periodHelper', '$state', PeriodCtrl])
+		.controller('ModalPeriodCtrl', ['$scope', '$modalInstance', '$log', 'intervalType', 'periodRessource', 'periodHelper', ModalPeriodCtrl])
 
 	/**
 	 * @Description
 	 * The controller of the modal for adding periodic operation
 	 */
-	function ModalPeriodCtrl($scope, $modalInstance, $log, intervalType, periodService, periodHelper) {
+	function ModalPeriodCtrl($scope, $modalInstance, $log, intervalType, periodRes, periodHelper) {
 		$scope.intervalType = intervalType
 
 		/**
@@ -197,7 +197,7 @@
 
 				var tmp = getCleanForm()
 
-				periodService.add(tmp).$promise.then(function() {
+				periodRes.add(tmp).$promise.then(function() {
 					// refresh()
 					resetAddForm()
 					$modalInstance.close();
@@ -258,7 +258,7 @@
 	 * @Description
 	 * The controller of the periodic operation
 	 */
-	function PeriodCtrl($scope, periodService, $modal, $log, periodHelper, $state) {
+	function PeriodCtrl($scope, periodRes, $modal, $log, periodHelper, $state) {
         $scope.accountId = $state.params.accountId
 
 		$scope.headers = [{
@@ -362,13 +362,13 @@
 		 * @Param {Object} The period operation to remove
 		 */
 		$scope.remove = function(period) {
-			periodService.remove(period._id)
+			periodRes.remove(period._id)
 			refresh()
 		}
 
 
 		$scope.addData = function() {
-			periodService.init().then(function() {
+			periodRes.init().then(function() {
 				refresh()
 			})
 
@@ -380,7 +380,7 @@
 		 */
 		function refresh() {
 			// console.log(periodService.getAll())
-			periodService.getAll().$promise.then(function(periods) {
+			periodRes.getAll().$promise.then(function(periods) {
 				// console.log(periods)
 				$.each(periods, function(k, period) {
 					if (period.nbRepeat !== -1) {

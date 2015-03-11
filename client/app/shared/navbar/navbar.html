@@ -1,13 +1,15 @@
-<div ng-controller="NavbarController">
-    <nav ng-show="$root.login" class="navbar navbar-default" role="navigation" >
+<div ng-controller="NavbarController" class="navbarApp">
+    <!-- <nav ng-show="login" class="navbar navbar-default" role="navigation" > -->
+    <nav class="navbar navbar-default" role="navigation" >
+    <!-- <nav ng-show="user" class="navbar navbar-default" role="navigation" > -->
         <div class="container-fluid">
             <div class="navbar-header">
-                <!-- <button class="navbar-brand hamburger-button">Show navigation</button> -->
-                <button toggle-sidebar-menu class="hamburger-button">Show navigation</button>
+                <button class="navbar-brand hamburger-button">Show navigation</button>
                 <a toggle-sidebar-menu class="navbar-brand" href="">MyMoney</a>
             </div>
 
             <div class="collapse navbar-collapse">
+
 
 
                 <ul class="nav navbar-nav pull-right">
@@ -20,17 +22,16 @@
                       </ul>
                    </li>
                 </ul>
+
                 <div ng-controller="offlineController">
-                    <p ng-if="$root.offline" class="navbar-text navbar-right">HORS LIGNE</p>
+                    <p ng-if="$root.offline" class="navbar-text navbar-left">HORS LIGNE</p>
                 </div>
+
+                
             </div>
             
         </div>
     </nav>
-
-        
-
-        
 
 <!--         <div class="collapse navbar-collapse" >
             <ul class="nav navbar-nav" ng-hide="currentUserSignedIn">
@@ -61,18 +62,28 @@
                 <!-- TODO: A styliser -->
 
                 <li>
-                    <a hide-sidebar-menu ui-sref="accounts">Accounts</a>
+                    <button hide-sidebar-menu ui-sref="accounts" class="btn btn-default">Accounts</button>
+                </li>
+
+                <li ng-repeat="acc in accounts">
+                    <button  hide-sidebar-menu ui-sref="operation({accountId : acc._id})" class="btn btn-info">
+                        {{ acc.name }} - {{ acc.currency }}
+                    </button>
                 </li>
 
                 <li>
                     <a hide-sidebar-menu ui-sref="budget">Budget</a>
                 </li>
 
+                <!-- <li>
+                    <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
+                </li> -->
+
                 <li>
                     <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
                 </li>
 
-<!--                 <li>
+                <!--                 <li>
                     <button hide-sidebar-menu class="btn btn-default">Close</button>
                 </li> -->
             </ul>

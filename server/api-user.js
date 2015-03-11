@@ -1,4 +1,4 @@
-module.exports = function(app, userModel, jwt) {
+module.exports = function(app, tool, userModel, jwt) {
     app.get('/api/user', getAllUsers) // TEST ONLY
     app.put('/api/user', editUser)
     app.post('/api/user', addUser)
@@ -43,7 +43,21 @@ module.exports = function(app, userModel, jwt) {
 
                     var nouveauUser = new userModel(User);
                     nouveauUser.save(function(err, user) {
-                        user.token = jwt.sign(user, user.email);
+                        // console.log(user)
+                        var tokenInfo = {
+                            id: user._id,
+                            username: user.username,
+                            lastName: user.lastName,
+                            firstName: user.firstName,
+                            email: user.email
+                        }
+
+                        // console.log(tokenInfo)
+
+                        user.token = jwt.sign(tokenInfo, tool.secretKey);
+                        
+
+                        // user.token = jwt.sign(user, user.email);
                         user.save(function(err, user1) {
                             res.json({
                                 type: true,

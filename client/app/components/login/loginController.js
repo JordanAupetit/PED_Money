@@ -4,9 +4,20 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'ipCookie', 'userInfos', 'initService', 'StorageServices', 
-            function($scope, $rootScope, LoginService, $state, ipCookie, userInfos, initService, StorageServices) {
+        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'StorageServices', 
+            function($scope, $rootScope, LoginService, $state, StorageServices) {
 
+
+            /**
+             * Redirect user if already login
+             */
+            if(StorageServices.getUser() !== undefined){
+                $state.go('accounts');
+            }
+
+            /**
+             * Login fct
+             */
             $scope.signin = function() {
 
                 var formData = {
@@ -19,21 +30,16 @@
                     if (res.type == false) {
                         alert(res.data);
                     } else {
-                        ipCookie('token', res.data.token);
-                        ipCookie('user', res.data.username);
-                        $rootScope.currentUserSignedIn = res.data.token;
-                        $rootScope.utlisateurCourant = res.data.username;
-                        userInfos.set({
-                            token: res.data.token,
-                            user: res.data.username
-                        })
-                        initService.initRessources(ipCookie('token'))
                         StorageServices.login(res.data)
+                        $rootScope.$emit('login');
                         $state.go('accounts');
                     }
                 });
             };
 
+            /**
+             * Signup fct
+             */
             $scope.SignupController = function() {
 
                 var item = $scope.User;

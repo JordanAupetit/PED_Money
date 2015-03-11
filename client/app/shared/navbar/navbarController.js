@@ -3,32 +3,26 @@
 
     angular
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state','ipCookie', 'initService', 'userInfos', 'StorageServices', NavbarController])
+        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', NavbarController])
 
-    function NavbarController($scope, $rootScope, $state, ipCookie, initService, userInfos, StorageServices) {
-        $rootScope.currentUserSignedIn = ipCookie('token')
-        $rootScope.utlisateurCourant = ipCookie('user')
+    function NavbarController($scope, $rootScope, $state, initService, StorageServices) {
 
-        var user = StorageServices.getUser()
-        if(user != null)
-            $rootScope.login = true
-        else
-            $rootScope.login = false
-        
-        userInfos.set({
-            token: ipCookie('token'),
-            user: ipCookie('user')
+        $scope.user = StorageServices.getUser()
+
+        /**
+         * Trigger on login
+         * Refresh $scope.user value
+         */
+        $rootScope.$on('login', function(event) {
+            // console.log('login evt'); 
+            $scope.user = StorageServices.getUser()
         })
-        initService.initRessources(ipCookie('token'))
 
         $scope.logout = function() {
-                ipCookie.remove('token')
-                ipCookie.remove('user')
-                $rootScope.currentUserSignedIn = null
-                $rootScope.utlisateurCourant = null 
-                userInfos.set(undefined)
-                StorageServices.logout()
-                $state.go('login')
+            StorageServices.logout()
+            initService.initRessources(undefined)
+            $scope.user = undefined
+            $state.go('login')
         }
         
         $scope.initData = function(){
@@ -37,5 +31,13 @@
                 console.log('Db init OK')
             })
         }
+
+        /*var getAccounts = function() {
+            AccountResource.getAll().$promise.then(function(accounts){
+                $scope.accounts = accounts
+            })
+        }
+
+        getAccounts();*/
     }	
 })();

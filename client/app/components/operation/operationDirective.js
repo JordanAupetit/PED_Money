@@ -97,15 +97,46 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
 
-                    var btns = $(element).find('.operationButtons')
+                    /*var btns = $(element).find('.operationButtons')
                     btns.hide()
 
                     $(element).hover(function() {
+                        $(btns).parent().find("span.valueSpan").removeClass("wid100p")
+                        $(btns).parent().find("span.valueSpan").addClass("wid50p")
                         btns.show()
                     },
                     function(){
+                        $(btns).parent().find("span.valueSpan").addClass("wid100p")
+                        $(btns).parent().find("span.valueSpan").removeClass("wid50p")
                         btns.hide()
-                    })
+                    })*/
+                }
+            };
+        })
+
+        .directive('clickOperation', function () {
+            return {
+                restrict: 'AE',
+                replace: false,
+                transclude: false,
+                link: function (scope, element, attrs) {
+
+                    var infos = $(element).find(".otherLineOperation")
+                    var thisLine = $(element).parent()
+                    
+                    $(element).find(".firstLineOperation").click(function() {
+                        var height = thisLine.css("height")
+
+                        if(height === "50px") {
+                            infos.show()
+                            thisLine.css("height", "100%")
+                        } else {
+                            infos.hide()
+                            thisLine.css("height", "50px")
+                        }
+                    });
+
+                    infos.hide()
                 }
             };
         })

@@ -1,9 +1,9 @@
-<div class="blocOperation">
+<div class="blocOperation pt70">
 
   <div class="container">
     <!-- TODO -- Rajouter le SOLDE différé (Fonctionnel) -->
     
-    <div ng-if="operations.length > 0">
+    <div ng-if="operations.length > 0" class="fs20">
       <strong>Balance : </strong>
       <span ng-if="balance <= 0" class="colorRed">
         {{ balance }}€
@@ -13,7 +13,7 @@
       </span>
     </div>
 
-    <div ng-if="operations.length > 0" class="mb20">
+    <div ng-if="operations.length > 0" class="mb20 fs12">
       <strong>Deferred balance : </strong>
       <span ng-if="deferredBalance <= 0" class="colorRed">
         {{ deferredBalance }}€
@@ -21,75 +21,94 @@
       <span ng-if="deferredBalance > 0" class="colorGreen">
         +{{ deferredBalance }}€
       </span>
+      <button ng-show="showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Hide</button>
+      <button ng-show="!showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Show</button>
     </div>
 
     <a class="" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
 
     <div>
-      <a class="" href="#/{{account._id}}/settings">Account settings</a>
+      <a class="" href="#/{{accountId}}/settings">Account settings</a>
     </div>
     
     <div>
-      <select class="form-control wid200" ng-change="groupOperation()" ng-model="groupedBy">
-        <option value="">Not grouped</option>
-        <option value="date">Grouped by Date</option>
-        <option value="category">Grouped by Category</option>
-        <option value="type">Grouped by Type</option>
-        <option value="thirdParty">Grouped by Third Party</option>
-      </select>
+      <a class="" href="/api/account/{{accountId}}/pdf" target="_blank">Get the pdf</a>
     </div>
+
+    <div class="row">
+        <div class="col-md-4 col-xs-12 mt10">
+            <select class="form-control " ng-change="groupOperation()" ng-model="groupedBy">
+                <option value="">Not grouped</option>
+                <option value="date">Grouped by Date</option>
+                <option value="category">Grouped by Category</option>
+                <option value="type">Grouped by Type</option>
+                <option value="thirdParty">Grouped by Third Party</option>
+            </select>
+        </div>
+        
+        <div class="col-md-4 col-xs-12 mt10">
+          <input ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="searchText" class="form-control" placeholder="Search">
+        </div>
+
+        <div class="col-md-4 col-xs-12 mt10">
+          <select ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="orderProp" class="form-control" ng-change="test()">
+              <option value="value">Order by Price</option>
+              <option value="dateOperation">Order by Date</option>
+              <option value="categoryName">Order by Category</option>
+              <option value="type">Order by Type</option>
+          </select>
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+
+            <!-- <div ng-if="op.showOps">
+                <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
+                    <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                </div>
+            </div> -->
 
     <label ng-if="groupOfOperations.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
     <div ng-repeat="op in groupOfOperations">
-      <div ng-click="showOperationsOfGroup($index)" class="operationLine pointer">
-        <div class="wid40p ftl">
-          <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
+        <div ng-click="toggleOperationsOfGroup($index, op.showOps)" class="operationLine pointer backWhite">
+            <div class="wid40p ftl">
+                <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
+            </div>
+
+            <div class="wid50p ftl">
+                <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
+            </div>
+
         </div>
-        <div class="wid50p ftl">
-          <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
+
+        <div ng-if="op.showOps">
+            <div class="operationLine operationLineOfGroup" ng-repeat="op in operationsOfGroup">
+                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            </div>
+
         </div>
-      </div>
-      <div ng-if="op.showOps">
-        <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup">
-          <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
-        </div>
-      </div>
     </div>
 
-    <!-- <div ng-if="operationsOfGroup.length > 0">
-      <label class="mt20">Operations of the selected group</label>
-      
-      <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup">
-        <div ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
-      </div>
-    </div> -->
 
     <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
-      <label class="mt20">Operations</label>
-      <div class="row">
-        <div class="col-lg-6">
-            <label>Search:</label><input class="form-control"  ng-model="searchText">
+
+        <div ng-if="countOfOperationsAfterToday > 0 && showDeferredOps">
+            <label class="mt20">Deferred operations</label>
+            <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
+            <div ng-if="op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
+                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            </div>
         </div>
-        <div class="col-lg-6">
-              <label>Order By :</label>
-            <select class="form-control"  ng-model="orderProp" >
-              <option value=""></option>
-              <option value="value">Value</option>
-              <option value="dateOperation">Date</option>
-              <option value="categoryName">category</option>
-              <option value="type">type</option>
-            </select>
+        
+        <div class="mt20">
+            <label>Operations</label>
+            <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
+            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
+                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+            </div>
+
         </div>
-      </div>
-            <br>
-      <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy : orderProp ">
-        <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
-      </div>
-      <div class="mt20">
-        <div ng-if="op.datePrelevementIsAfterToday" class="operationLine" ng-repeat="op in operations | filter:searchText | orderBy : orderProp ">
-          <div hover-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
-        </div>
-      </div>
     </div>
 
     <div ng-if="operations.length <= 0 && groupOfOperations.length <= 0" class="mt20">
@@ -111,15 +130,15 @@
         </li>
         <li>
           <label>Category</label>
-          <div class="input-group">
-            <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie.name for categorie in categories track by categorie.id">
+          <!-- <div class="input-group"> -->
+            <select class="form-control " id="inputNewCategorySubCategory" ng-model="operationCreateModel.category" ng-options="categorie.name for categorie in categoriesSelect track by categorie.id">
               <option value="" selected>No category</option>
             </select>
-            <div class="input-group-btn">
+            <!--             <div class="input-group-btn">
               <button type="button" class="btn btn-default dropdown-toggle" aria-expanded="false" data-toggle="modal" data-backdrop="static" data-target="#modalManageCategories"><span class="glyphicon glyphicon-wrench"></span>
               </button>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div> -->
         </li>
         <li>
           <label>Value<span class="colorRed">*</span></label>
@@ -152,13 +171,21 @@
           </li>
           <li>
             <label>Type</label>
-            <input type="text" ng-model="operationCreateModel.type" class="form-control" placeholder="Type">
+            <!-- <input type="text" ng-model="operationCreateModel.type" class="form-control" placeholder="Type"> -->
+            <select class="form-control" ng-model="operationCreateModel.type">
+                <option value="" selected disabled>Select a type</option>
+                <option value="credit card">Credit card</option>
+                <option value="transfer">Transfer</option>
+                <option value="check">Check</option>
+                <option value="cash">Cash</option>
+                <option value="other type">Other type</option>
+            </select>
           </li>
           <li>
-            <button type="button" button-checkbox class="btn btn-default">
+            <!-- <button type="button" button-checkbox class="btn btn-default"> -->
             <input ng-model="operationCreateModel.periodic" type="checkbox">
             Periodic
-            </button>
+            <!-- </button> -->
           </li>
 
           <span ng-if="operationCreateModel.periodic">

@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular.module('services')
-		.factory('periodService', ['$resource', function($resource) {
+		.factory('periodRessource', ['$resource', function($resource) {
 
 
 			var periodsRes = $resource('/api/period/:id', {}, {

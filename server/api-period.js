@@ -9,13 +9,10 @@ module.exports = function (app, periodModel) {
 
 	function getAllPeriods(req, resp , next) {
 		'use strict';
-		// var userId = req.get('X-User-Id');
-
 		periodModel.find(/*{user: userId},*/ function (err, coll) {
 			if (!err) {
 				return resp.send(coll)
 			} else {
-				console.log(err)
 				next(err)
 			}
 		});
@@ -24,7 +21,6 @@ module.exports = function (app, periodModel) {
 
 	function getPeriod(req, resp , next) {
 		'use strict';
-		// var userId = req.get('X-User-Id');
 		var periodId = req.params.id;
 
 		periodModel.findOne({'_id': periodId}, function (err, coll) {
@@ -36,7 +32,6 @@ module.exports = function (app, periodModel) {
 				else
 					resp.sendStatus(204)
 			} else {
-				console.log(err)
 				next(err)
 			}
 		});
@@ -45,7 +40,6 @@ module.exports = function (app, periodModel) {
 
 	function addPeriod(req, resp, next) {
 		'use strict';
-		// var userId = req.get('X-User-Id');
 		var period = req.body
 		delete period._id // Security
 		// console.log(period)
@@ -59,7 +53,6 @@ module.exports = function (app, periodModel) {
 
 	function deletePeriod(req, resp, next) {
 		'use strict';
-		// var userId = req.get('X-User-Id');
 		var periodId = req.params.id;
 
 		periodModel.remove({_id: periodId},function (err, results) {
