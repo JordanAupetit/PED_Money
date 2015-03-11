@@ -33,7 +33,7 @@
       <a class="" href="/api/account/{{accountId}}/pdf" target="_blank">Get the pdf</a>
     </div>
 
-    <div class="row">
+    <div ng-show="operations.length > 0" class="row">
         <div class="col-md-4 col-xs-12 mt10">
             <select class="form-control " ng-change="groupOperation()" ng-model="groupedBy">
                 <option value="">Not grouped</option>
@@ -63,7 +63,7 @@
 
             <!-- <div ng-if="op.showOps">
                 <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
-                    <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                    <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
                 </div>
             </div> -->
 
@@ -110,7 +110,7 @@
 
         <div ng-if="op.showOps">
             <div class="operationLine operationLineOfGroup" ng-repeat="op in operationsOfGroup">
-                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
         </div>
     </div>
@@ -119,7 +119,7 @@
       <label class="mt20">Operations of the selected group</label>
       
       <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup">
-        <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+        <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
       </div>
     </div> -->
 
@@ -141,7 +141,7 @@
             <label class="mt20">Deferred operations</label>
             <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
             <div ng-if="op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
-                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
         </div>
         
@@ -149,7 +149,7 @@
             <label>Operations</label>
             <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
             <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
-                <div hover-operation click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
         </div>
     </div>

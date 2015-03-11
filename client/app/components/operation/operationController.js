@@ -174,7 +174,7 @@
                         }
 
                     }, function(err){
-                        //getOperations()
+                        //refresh()
                     })
                 }else{
                     $scope.operations = StorageServices.getOperations(accountId)
@@ -349,7 +349,7 @@
 
             $scope.deleteOperation = function(idOperation, index) {
                 OperationResource.remove(idOperation).$promise.then(function(){
-                    //getOperations()
+                    //refresh()
 
                     // On clique sur le delete d'une operation d'un groupe
                     if($scope.operationsOfGroup.length > 0) {
@@ -369,7 +369,7 @@
                     $scope.updateSolde()
                     fixOperations()
                     //getAccount()
-                    //getOperations()
+                    //refresh()
                 })
             }
 
@@ -464,7 +464,7 @@
                     }
 
                 } else {
-                    getOperations()
+                    refresh()
                 }
             }
 
@@ -486,6 +486,11 @@
 
                 for(var i = 0; i < $scope.groupOfOperations.length; i++) {
                     $scope.groupOfOperations[i].showOps = false
+                }
+
+                // Not Editable
+                for(var i = 0; i < $scope.groupOfOperations[index].subOperations.length; i++) {
+                    $scope.groupOfOperations[index].subOperations[i].editable = false
                 }
 
                 $scope.groupOfOperations[index].showOps = !currentState
