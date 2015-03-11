@@ -4,11 +4,20 @@
 
     angular
         .module('appModule')
-        .controller('SettingsController', ['$scope', '$rootScope', '$state', 'ipCookie', 'SettingsService' , 'userInfos', 'initService', 'StorageServices', 
-            function($scope, $rootScope, $state, ipCookie, SettingsService, userInfos, initService, StorageServices) {
+        .controller('SettingsController', ['$scope', '$rootScope', '$state','SettingsService' , 'initService', 'StorageServices', 
+            function($scope, $rootScope, $state, SettingsService, initService, StorageServices) {
                 var info = StorageServices.getUser();
-                $scope.info = info; 
+                //console.log(StorageServices.getUser())
 
+                /*
+                 Get user info 
+                    */ 
+                $scope.info = StorageServices.getUser(); 
+
+
+                /*
+                save changes and change the localstorage
+                    */
                 $scope.EditController = function() {
 
                 var item = $scope.info;
@@ -19,16 +28,9 @@
 
                         alert(res.data);
                     } else {
-                        ipCookie('token', res.data.token);
-                        ipCookie('user', res.data.username);
-                        $rootScope.currentUserSignedIn = res.data.token;
-                        $rootScope.utlisateurCourant = res.data.username;
-                        userInfos.set({
-                            token: res.data.token,
-                            user: res.data.username
-                        })
-                        initService.initRessources(ipCookie('token'))
+                        //initService.initRessources(ipCookie('token'))
                         StorageServices.login(res.data)
+                        $rootScope.$emit('login');
                         $state.go('accounts');
                     }
                 });

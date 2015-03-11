@@ -113,8 +113,8 @@ module.exports = function(app, tool, userModel, jwt) {
                 });
             } else {
                 userModel.findOne({username: req.body.username},function(err , exists)
-                    {  console.log(user1.username
-                        )
+                    {  //console.log(user1.username)
+                        
                         if(exists && user1.username !== req.body.username){
                             res.json({
                                 type: false,

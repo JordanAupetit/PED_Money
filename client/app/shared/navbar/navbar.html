@@ -1,4 +1,4 @@
-<div ng-controller="NavbarController" class="navbarApp">
+<div ng-show="user" ng-controller="NavbarController" class="navbarApp">
     <!-- <nav ng-show="login" class="navbar navbar-default" role="navigation" > -->
     <nav class="navbar navbar-default" role="navigation" >
     <!-- <nav ng-show="user" class="navbar navbar-default" role="navigation" > -->
@@ -24,7 +24,7 @@
                 </ul>
 
                 <div ng-controller="offlineController">
-                    <p ng-if="$root.offline" class="navbar-text navbar-left">HORS LIGNE</p>
+                    <p ng-if="$root.offline" class="navbar-text navbar-right">HORS LIGNE</p>
                 </div>
 
                 
