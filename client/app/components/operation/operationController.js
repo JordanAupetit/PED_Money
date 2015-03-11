@@ -159,7 +159,6 @@
                 if(StorageServices.isOnline()){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
 
-                        console.log(operations)
                         $scope.operations = operations
                         StorageServices.setOperations(accountId, operations)
                         genCategories()
