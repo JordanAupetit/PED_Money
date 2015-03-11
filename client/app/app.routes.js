@@ -1,91 +1,117 @@
 (function() {
-  'use strict';
+    'use strict';
 
-  /* App Module */
+    /* App Module */
 
-  angular
-    .module('appModule')
-    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    angular
+        .module('appModule')
+        .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
 
 
-    $urlRouterProvider.otherwise('/login');
-	  // Now set up the states
+            $urlRouterProvider.otherwise('/login');
+            // Now set up the states
 
-      $stateProvider
-        .state('login', {
-          url: '/login',
-          templateUrl: 'app/components/login/loginView.html',
-          controller: 'LoginController',
-          data: {
-            requireLogin: false
-          }
-        })
+            $stateProvider
+                .state('login', {
+                    url: '/login',
+                    templateUrl: 'app/components/login/loginView.html',
+                    controller: 'LoginController',
+                    data: {
+                        requireLogin: false
+                    }
+                })
 
-      .state('accounts', {
-        url: '/accounts',
-        templateUrl: 'app/components/accounts/accountsView.html',
-        controller: 'AccountController',
-        data: {
-          requireLogin: true
+            .state('accounts', {
+                    url: '/accounts',
+                    templateUrl: 'app/components/accounts/accountsView.html',
+                    controller: 'AccountController',
+                    data: {
+                        requireLogin: true
+                    }
+                })
+                .state('accountSettings', {
+                    url: '/:accountId/settings',
+                    templateUrl: 'app/components/accounts/settingsView.html',
+                    controller: 'AccountSettingsController',
+                    data: {
+                        requireLogin: true
+                    }
+                })
+
+            .state('operation', {
+                url: '/:accountId/operation/',
+                templateUrl: 'app/components/operation/operationView.html',
+                controller: 'OperationController',
+                data: {
+                    requireLogin: true
+                }
+            })
+
+            .state('optPeriod', {
+                url: '/:accountId/operation/period/',
+                templateUrl: 'app/components/operation/period/periodView.html',
+                controller: 'PeriodCtrl',
+                data: {
+                    requireLogin: true
+                }
+            })
+
+
+
+            .state('budget', {
+                url: '/budget/',
+                templateUrl: 'app/components/budget/budgetView.html',
+                controller: 'BudgetCtrl',
+                data: {
+                    requireLogin: true
+                }
+            })
+
+            .state('budgetdetails', {
+                url: '/budget/details/',
+                templateUrl: 'app/components/budget/details/detailsView.html',
+                controller: 'BudgetDetailsCtrl',
+                data: {
+                    requireLogin: true
+                }
+            })
+
+            .state('offline', {
+                url: '/offline',
+                templateUrl: 'app/components/offline/offlineView.html',
+                controller: 'offlineController',
+                data: {
+                    requireLogin: true
+                }
+            })
+
+        }])
+        .run(['$rootScope', 'StorageServices', 'initService', startup])
+
+
+        function startup($rootScope, StorageServices, initService){
+            // console.log('Startup or Refresh')
+
+            /**
+             * Init ressources on page reload
+             */
+            var user = StorageServices.getUser()
+            if(user !== undefined){
+                initService.initRessources(user.token)
+            }
+
+            /**
+             * Trigger on login
+             * Init ressources o n login
+             */
+            $rootScope.$on('login', function(event) {
+                // console.log('login evt'); 
+                var user = StorageServices.getUser()
+                if(user !== undefined){
+                    initService.initRessources(user.token)
+                }
+            })
         }
-      })
-      .state('accountSettings',{
-        url: '/:accountId/settings',
-        templateUrl: 'app/components/accounts/settingsView.html',
-        controller: 'AccountSettingsController',
-        data: {
-          requireLogin: true
-        }
-      })
-
-      .state('operation', {
-        url: '/:accountId/operation/',
-        templateUrl: 'app/components/operation/operationView.html',
-        controller: 'OperationController',
-        data: {
-          requireLogin: true
-        }
-      })
-
-      .state('optPeriod', {
-        url: '/:accountId/operation/period/',
-        templateUrl: 'app/components/operation/period/periodView.html',
-        controller: 'PeriodCtrl',
-        data: {
-          requireLogin: true
-        }
-      })
-
-
-
-      .state('budget', {
-        url: '/budget/',
-        templateUrl: 'app/components/budget/budgetView.html',
-        controller: 'BudgetCtrl',
-        data: {
-          requireLogin: true
-        }
-      })
-
-      .state('budgetdetails', {
-        url: '/budget/details/',
-        templateUrl: 'app/components/budget/details/detailsView.html',
-        controller: 'BudgetDetailsCtrl',
-        data: {
-          requireLogin: true
-        }
-      })
-
-      .state('offline', {
-        url: '/offline',
-        templateUrl: 'app/components/offline/offlineView.html',
-        controller: 'offlineController',
-        data: {
-          requireLogin: true
-        }
-      })
-	   	
-  }])
 
 })();

@@ -2,8 +2,8 @@
     'use strict';
 
     angular.module('services')
-    .factory('StorageServices', ['$rootScope', 'OperationResource', 'AccountResource', 
-    function($rootScope, OperationResource, AccountResource){
+    .factory('StorageServices', ['$rootScope', 'OperationResource', 'AccountResource', 'localStorageService', 
+    function($rootScope, OperationResource, AccountResource, localStorageService){
         
         function wfc(resource, fct, data){
             this.resource = resource
@@ -12,7 +12,7 @@
         }
 
         function getWaitingForConnection(){
-            var data = eval("("+localStorage.getItem("WFC")+")")
+            var data = localStorageService.get("WFC")
             if(data === null)
                 return []
             else
@@ -22,12 +22,12 @@
         function addWaitingForConnection(wfc){
             var data = getWaitingForConnection()
             data.push(wfc)
-            localStorage.setItem("WFC", JSON.stringify(data))
+            localStorageService.set("WFC", JSON.stringify(data))
         }
 
         function getLocalData(){
-            var data = eval("("+localStorage.getItem("DATA")+")")
-            if(data === undefined)
+            var data = localStorageService.get("DATA")
+            if(data === null) // If DATA is not define
                 return {'user': undefined, 'accounts': []}
             //TODO remettre return {} quand le lien avec la connection
             //sera fait
@@ -36,7 +36,7 @@
         }
 
         function setLocalData(data){
-            localStorage.setItem("DATA", JSON.stringify(data))
+            localStorageService.set("DATA", JSON.stringify(data))
         }
 
         var online = true

@@ -10,22 +10,12 @@
         $scope.user = StorageServices.getUser()
 
         /**
-         * Init ressources on page reload
-         */
-        if($scope.user !== undefined && $scope.user !== null){
-            initService.initRessources($scope.user.token)
-        }
-        
-
-        
-        /**
          * Trigger on login
-         * Init ressources o n login
+         * Refresh $scope.user value
          */
         $rootScope.$on('login', function(event) {
             // console.log('login evt'); 
             $scope.user = StorageServices.getUser()
-            initService.initRessources($scope.user.token)
         })
 
         $scope.logout = function() {
