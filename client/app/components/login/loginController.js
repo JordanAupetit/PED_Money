@@ -32,6 +32,7 @@
                     } else {
                         StorageServices.login(res.data)
                         $rootScope.$emit('login');
+                        //console.log($rootScope.$emit('login'))
                         $state.go('accounts');
                     }
                 });

@@ -4,6 +4,7 @@ module.exports = function (app, userModel) {
 
   app.use(passport.initialize())
 
+
   console.log("go ni facebook")
 
 

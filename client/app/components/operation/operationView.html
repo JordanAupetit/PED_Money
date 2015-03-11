@@ -112,28 +112,10 @@
             <div class="operationLine operationLineOfGroup" ng-repeat="op in operationsOfGroup">
                 <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
+
         </div>
     </div>
 
-    <!-- <div ng-if="operationsOfGroup.length > 0">
-      <label class="mt20">Operations of the selected group</label>
-      
-      <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup">
-        <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
-      </div>
-    </div> -->
-
-    <!-- <div ng-if="operations.length > 0 && groupOfOperations.length <= 0" class="mt20">
-        <input ng-model="searchText" class="form-control wid150" placeholder="Search">
-    
-        <select ng-model="orderProp" class="form-control wid150">
-          <option value="" disabled>Orber by</option>
-          <option value="value">Price</option>
-          <option value="dateOperation">Date</option>
-          <option value="categoryName">category</option>
-          <option value="type">type</option>
-        </select>
-    </div> -->
 
     <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
 
@@ -151,6 +133,7 @@
             <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
                 <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
+
         </div>
     </div>
 
