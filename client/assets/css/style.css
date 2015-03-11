@@ -299,7 +299,9 @@ form.loginSignUp .signUp
     top: 52px;
     right: -350px;
     bottom: 0px;
-    width: 350px;
+    /* width: 350px; */
+    width:100%;
+    max-width: 350px;
     overflow-y: auto;
     overflow-x: hidden;
     background: white;
@@ -310,7 +312,9 @@ form.loginSignUp .signUp
     top: 52px;
     left: -300px;
     bottom: 0px;
-    width: 250px;
+    /* width: 300px; */
+    width:100%;
+    max-width: 300px;
     overflow-y: auto;
     overflow-x: hidden;
     background: white;

@@ -162,6 +162,9 @@
                         $scope.operations = operations
                         StorageServices.setOperations(accountId, operations)
                         genCategories()
+
+                        // Le fix doit se faire avant l'update
+                        fixOperations()
                         $scope.updateSolde()
 
 
