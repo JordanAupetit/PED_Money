@@ -1,4 +1,4 @@
-<div ng-controller="NavbarController" class="navbarApp">
+<div ng-show="user !== undefined" ng-controller="NavbarController" class="navbarApp">
     <!-- <nav ng-show="login" class="navbar navbar-default" role="navigation" > -->
     <nav class="navbar navbar-default" role="navigation" >
     <!-- <nav ng-show="user" class="navbar navbar-default" role="navigation" > -->
@@ -58,27 +58,19 @@
                     <button hide-sidebar-menu ui-sref="accounts" class="btn btn-default">Accounts</button>
                 </li>
 
-                <li ng-repeat="acc in accounts">
+                <!-- <li ng-repeat="acc in accounts">
                     <button  hide-sidebar-menu ui-sref="operation({accountId : acc._id})" class="btn btn-info">
                         {{ acc.name }} - {{ acc.currency }}
                     </button>
-                </li>
+                </li> -->
 
                 <li>
                     <a hide-sidebar-menu ui-sref="budget">Budget</a>
                 </li>
 
-                <!-- <li>
-                    <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
-                </li> -->
-
                 <li>
                     <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
                 </li>
-
-                <!--                 <li>
-                    <button hide-sidebar-menu class="btn btn-default">Close</button>
-                </li> -->
             </ul>
         </form>
     </div>
