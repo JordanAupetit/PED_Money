@@ -55,7 +55,6 @@ module.exports = function (app, operationModel, accountModel) {
         var idOp = updateOperation._id
         delete updateOperation._id
         updateOperation._id = undefined
-        // console.log(updateOperation)
 
         operationModel.findByIdAndUpdate(idOp, {$set: updateOperation}, function (err, res) {
             if (err) return next(err);

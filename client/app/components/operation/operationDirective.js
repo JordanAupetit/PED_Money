@@ -9,7 +9,7 @@
                 replace: false,
                 transclude: false,
                 link: function (scope, element, attrs) {
-                    $(element).datepicker({dateFormat:'yy/mm/dd'})
+                    $(element).datepicker({dateFormat:'yy-mm-dd'})
                 }
             };
         })

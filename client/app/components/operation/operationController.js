@@ -28,7 +28,7 @@
             $scope.operationsOfGroup = []
             $scope.orderProp = "dateOperation"
             $scope.showDeferredOps = true
-            var dateFormat = 'YYYY/MM/DD'
+            var dateFormat = 'YYYY-MM-DD'
 
 
             $scope.intervalType = INTERVAL_TYPES
@@ -163,7 +163,7 @@
                         StorageServices.setOperations(accountId, operations)
                         genCategories()
                         $scope.updateSolde()
-                        
+
 
                         // Dans le cas où l'on ajoute une operation lors d'un regroupement
                         // Il ne faut pas le faire si on est sans groupe sinon cela fait
@@ -174,8 +174,9 @@
 
                     }, function(err){
                         //refresh()
+                        console.log("Erreur refresh")
                     })
-                }else{
+                } else {
                     $scope.operations = StorageServices.getOperations(accountId)
 
                     fixOperations()
@@ -213,12 +214,12 @@
                     }
 
                     $scope.operations[i].dateOperationIsAfterToday = false
-                    if(moment($scope.operations[i].dateOperation).isAfter(moment())) {
+                    if(moment($scope.operations[i].dateOperation, dateFormat).isAfter(moment())) {
                         $scope.operations[i].dateOperationIsAfterToday = true
                     }
 
                     $scope.operations[i].datePrelevementIsAfterToday = false
-                    if(moment($scope.operations[i].datePrelevement).isAfter(moment())) {
+                    if(moment($scope.operations[i].datePrelevement, dateFormat).isAfter(moment())) {
                         $scope.operations[i].datePrelevementIsAfterToday = true
                     }
 
@@ -231,6 +232,43 @@
             }
 
             refresh()
+
+            function correctDateOfOperation(operation) {
+
+                // Clean date
+                // TODO: Verifier le bon format de la date
+                if( !operation.hasOwnProperty('dateOperation') 
+                    || operation.dateOperation === ''
+                    || !moment(operation.dateOperation, dateFormat).isValid) {
+                    //console.log('No dateOperation')
+
+                    operation.dateOperation = moment().format('YYYY-MM-DD')
+                } else {
+                    //console.log('Have dateOperation')
+                    //console.log(operation.dateOperation)
+                    //console.log(dateFormat)
+                    operation.dateOperation = moment(operation.dateOperation, dateFormat).format('YYYY-MM-DD')
+                }
+
+
+                if( !operation.hasOwnProperty('datePrelevement') 
+                    || operation.datePrelevement === ''
+                    || !moment(operation.datePrelevement, dateFormat).isValid) {
+
+                    operation.datePrelevement = operation.dateOperation
+                } else {
+
+                    // Si la date différée est inférieur à la date de l'opération
+                    // mettre à la date de l'opération
+                    if(moment(operation.datePrelevement, dateFormat).isBefore(moment(operation.dateOperation, dateFormat))) {
+                        operation.datePrelevement = operation.dateOperation
+                    } else {
+                        operation.datePrelevement = moment(operation.datePrelevement, dateFormat).format('YYYY-MM-DD')
+                    }
+                }
+
+                return operation
+            }
 
             /*  
                 ==== TODO ====
@@ -247,7 +285,6 @@
                 }
 
                 if(newOperation.hasOwnProperty('category') && newOperation.category !== undefined) {
-
                     newOperation.categoryId = newOperation.category.id
                 }
 
@@ -263,32 +300,9 @@
 
                     console.log(toSend)
                     postOperation(toSend) 
-                }else{ // Advanced or periodic operation
+                } else { // Advanced or periodic operation
 
-                    // Clean date
-                    // TODO: Verifier le bon format de la date
-                    if( !newOperation.hasOwnProperty('dateOperation') 
-                        || newOperation.dateOperation === ''
-                        || !moment(newOperation.dateOperation, dateFormat).isValid) {
-                        console.log('No dateOperation')
-
-                        newOperation.dateOperation = moment().format('YYYY-MM-DD')
-                    }else{
-                        console.log('Have dateOperation')
-                        console.log(newOperation.dateOperation)
-                        console.log(dateFormat)
-                         newOperation.dateOperation = moment(newOperation.dateOperation, dateFormat).format('YYYY-MM-DD')
-                    }
-
-
-                    if( !newOperation.hasOwnProperty('datePrelevement') 
-                        || newOperation.datePrelevement === ''
-                        || !moment(newOperation.datePrelevement, dateFormat).isValid) {
-
-                        newOperation.datePrelevement = newOperation.dateOperation
-                    }else{
-                        newOperation.datePrelevement = moment(newOperation.datePrelevement, dateFormat).format('YYYY-MM-DD')
-                    }
+                    newOperation = correctDateOfOperation(newOperation)
 
                     if (newOperation.hasOwnProperty('periodic') 
                         && newOperation.periodic) { // Periodic operation
@@ -332,7 +346,7 @@
                             // TODO popup for confirmation
                         })
 
-                    }else{ // Advanced operation
+                    } else { // Advanced operation
                         var toSend = newOperation
                         delete toSend.period
                         delete toSend.periodic
@@ -354,15 +368,13 @@
                     if($scope.operationsOfGroup.length > 0) {
                         $scope.operationsOfGroup.splice(index, 1)
                         $scope.updateGroups();
+                    }
 
-                        for(var i = 0; i < $scope.operations.length; i++) {
-                            if($scope.operations[i]._id === idOperation) {
-                                $scope.operations.splice(i, 1)
-                                break
-                            }
+                    for(var i = 0; i < $scope.operations.length; i++) {
+                        if($scope.operations[i]._id === idOperation) {
+                            $scope.operations.splice(i, 1)
+                            break
                         }
-                    } else {
-                        $scope.operations.splice(index, 1)
                     }
                     
                     $scope.updateSolde()
@@ -381,13 +393,15 @@
             $scope.updateOperation = function(operation) {
                 operation.editable = false
 
-                if(operation.hasOwnProperty('category') && operation.category !== undefined) {
+                operation = correctDateOfOperation(operation)
+
+                /*if(operation.hasOwnProperty('category') && operation.category !== undefined) {
                     operation.categoryId = operation.category.id
 
                 } else { // Plus de catégories
                     operation.categoryId = ''
                     operation.categoryName = 'No category'
-                }
+                }*/
 
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
