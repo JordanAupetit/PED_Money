@@ -54,10 +54,11 @@ module.exports = function (app, operationModel, accountModel) {
         var updateOperation = new operationModel(req.body)
         var idOp = updateOperation._id
         delete updateOperation._id
+        updateOperation._id = undefined
         // console.log(updateOperation)
 
         operationModel.findByIdAndUpdate(idOp, {$set: updateOperation}, function (err, res) {
-            if (err) return handleError(err);
+            if (err) return next(err);
             resp.send(res);
         });
     }

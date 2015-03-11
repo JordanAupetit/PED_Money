@@ -155,8 +155,8 @@ apiPeriod(app, database.getPeriodModel())
 /**
  * START Error manager block
  */
-// app.use(logErrors);
-// app.use(clientErrorHandler);
+app.use(logErrors);
+app.use(clientErrorHandler);
 // app.use(errorHandler);
 
 function logErrors(err, req, res, next) {
