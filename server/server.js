@@ -35,11 +35,12 @@ var oauthFacebook = require('./oauthFacebook')
 
 //Create server
 var app = express();
+var oneDay = 86400000;
 
 // Configure server
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(path.join(application_root ,'../client')));
+app.use(express.static(path.join(application_root ,'../client'), { maxAge: oneDay }));
 //Show all errors in development
 //app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));*
 
@@ -220,9 +221,9 @@ var transporter = nodemailer.createTransport({
 
 
 /**
-*	choisir la ligne a commenter, la permiere lance un tache une fois par jour à 1h30 
-*	du matin, la seconde en lance une toute les secondes
-**/
+ * Choisir la ligne a commenter, la permiere lance un tache une fois par jour à 1h30 
+ * du matin, la seconde en lance une toute les secondes
+ **/
 var job = new CronJob('00 30 01 * * *', function(){
 // var job = new CronJob('* * * * * *', function(){
     
