@@ -147,6 +147,54 @@
             };
         })
 
+        .directive('onReadFile', function ($parse) {
+            return {
+                restrict: 'A',
+                scope: false,
+                link: function(scope, element, attrs) {
+                    var fn = $parse(attrs.onReadFile);
+
+                    // Style input file
+                    $(".importCsv > div > input[type=file]").filestyle(
+                        {
+                            buttonText: "Choose a CSV file",
+                            icon: false
+                        }
+                    )
+         
+                    element.on('change', function(onChangeEvent) {
+                        var reader = new FileReader();
+             
+                        reader.onload = function(onLoadEvent) {
+                            scope.$apply(function() {
+                                fn(scope, {$fileContent:onLoadEvent.target.result});
+                            });
+                        };
+             
+                        reader.readAsText((onChangeEvent.srcElement || onChangeEvent.target).files[0]);
+
+                        // Reset l'input file
+                        //element.closest('form').get(0).reset()
+                    });
+                }
+            };
+        })
+
+        .directive('buttonImportCsvToApp', function () {
+            return {
+                restrict: 'AE',
+                replace: false,
+                transclude: false,
+                link: function (scope, element, attrs) {
+
+                    $(element).click(function(){
+                        // Reset l'input file
+                        element.closest('form').get(0).reset()
+                    })
+                }
+            };
+        })
+
 })();
 
 

@@ -37,6 +37,16 @@
             <a download="operations.csv" ng-href="{{ urlCsv }}" class="btn btn-default">Export to CSV</a>
         </div>
 
+        <div ng-show="operations.length > 0" class="mt10">
+            <form class="importCsv">
+                <div class="wid300 ftl">
+                    <input type="file" on-read-file="importCsv($fileContent)" class="filestyle">
+                </div>
+                <button ng-click="addOperationsFromCsv()" button-import-csv-to-app ng-disabled="importButtonTitle === 'No operations to import'" type="button" class="btn btn-default ml10">{{ importButtonTitle }}</button>
+                <div class="clear"></div>
+            </form>
+        </div>
+
         <div ng-show="operations.length > 0" class="row">
             <div class="col-md-4 col-xs-12 mt10">
                 <select class="form-control " ng-change="groupOperation()" ng-model="groupedBy">

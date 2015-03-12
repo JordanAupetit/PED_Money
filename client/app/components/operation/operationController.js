@@ -28,7 +28,11 @@
             $scope.operationsOfGroup = []
             $scope.orderProp = "dateOperation"
             $scope.showDeferredOps = true
+            $scope.csvFileImported = ""
+            $scope.importButtonTitle = "No operations to import"
             var dateFormat = 'YYYY-MM-DD'
+
+
 
 
             $scope.intervalType = INTERVAL_TYPES
@@ -537,13 +541,64 @@
                     delete operations[i].__propo__
                 }
 
-                console.log(operations)
+                //console.log(operations)
                 var csv = Papa.unparse(operations)
-                console.log(csv)
+                //console.log(csv)
 
                 var blob = new Blob([ csv ], { type : 'text/plain' })
                 $scope.urlCsv = (window.URL || window.webkitURL).createObjectURL( blob )
-                console.log("Url generated")
+                //console.log("Url generated")
+            }
+
+            $scope.importCsv = function($fileContent){
+                //console.log($fileContent);
+                //console.log(Papa.parse($fileContent))
+
+                var ops = []
+                var csvToJson = Papa.parse($fileContent)
+                csvToJson = csvToJson.data
+
+                if(csvToJson.length < 2) {
+                    console.log("Le fichier csv n'est pas correct ou est vide.")
+                } else {
+
+                    // On commence après la première ligne de Header
+                    for(var i = 1; i < csvToJson.length; i++) {
+                        var newOp = {}
+                        for(var j = 0; j < csvToJson[i].length; j++) {
+                            newOp[csvToJson[0][j]] = csvToJson[i][j]
+
+                            if(accountId !== "") {
+                                newOp.accountId = accountId
+                            }
+                        }
+                        ops.push(newOp)
+                    }
+
+                    //console.log("Import was a success")
+                    //console.log(ops)
+                }
+
+                $scope.operationsToAdd = ops
+
+                if(ops.length > 0) {
+                    $scope.importButtonTitle = "Import " + ops.length + " operations"
+                } else {
+                    $scope.importButtonTitle = "No operations to import"
+                }
+            };
+
+            $scope.addOperationsFromCsv = function() {
+                console.log("Add Ops")
+                console.log($scope.operationsToAdd)
+
+                if($scope.operationsToAdd.length > 0) {
+                    OperationResource.add($scope.operationsToAdd).$promise.then(function(){
+                        console.log("add with success")
+                    })
+                }
+
+                $scope.importButtonTitle = "No operations to import"
             }
         }
 })();

@@ -67,11 +67,24 @@ module.exports = function (app, operationModel, accountModel) {
         var operation = req.body
         delete operation._id
 
-        var newOperation = new operationModel(operation);
-        newOperation.save(function(e, results){
-            if(e){
-                return next(e)
-            }else{
+        // var newOperation = new operationModel(operation);
+        // newOperation.save(function(e, results){
+        //     if(e){
+        //         return next(e)
+        //     }else{
+        //         res.send(results);   
+        //     }
+        // })
+
+        console.log(operation)
+
+        operationModel.create(operation, function(err, results){
+            if(err){
+                console.log("error")
+                console.log(error)
+                return next(err)
+            } else {
+                console.log(results)
                 res.send(results);   
             }
         })
