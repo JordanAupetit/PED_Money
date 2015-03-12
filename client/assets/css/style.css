@@ -193,7 +193,6 @@ form.loginSignUp .signUp
     background: #fff;
     box-shadow: 0 0 4px rgba(0,0,0,.14),2px 4px 8px rgba(0,0,0,.28);
     color: #757575;
-    z-index: 10;
 }
 
 .operationLine {
@@ -203,7 +202,7 @@ form.loginSignUp .signUp
     position:relative;
 }
 
-.firstLineOperation:hover {
+.operationGroupOfLine:hover, .firstLineOperation:hover {
     background: whitesmoke;
 }
 
@@ -285,6 +284,7 @@ form.loginSignUp .signUp
     position:fixed;
     width:100%;
     top:0;
+    z-index:20;
 }
 
 
@@ -299,7 +299,9 @@ form.loginSignUp .signUp
     top: 52px;
     right: -350px;
     bottom: 0px;
-    width: 350px;
+    /* width: 350px; */
+    width:100%;
+    max-width: 350px;
     overflow-y: auto;
     overflow-x: hidden;
     background: white;
@@ -310,7 +312,9 @@ form.loginSignUp .signUp
     top: 52px;
     left: -300px;
     bottom: 0px;
-    width: 250px;
+    /* width: 300px; */
+    width:100%;
+    max-width: 300px;
     overflow-y: auto;
     overflow-x: hidden;
     background: white;

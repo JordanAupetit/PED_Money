@@ -57,8 +57,6 @@
                 }
             })
 
-
-
             .state('budget', {
                 url: '/budget/',
                 templateUrl: 'app/components/budget/budgetView.html',
@@ -86,11 +84,20 @@
                 }
             })
 
+            .state('settings', {
+                url: '/settings',
+                templateUrl: 'app/components/settings/settingsView.html',
+                controller: 'SettingsController',
+                data: {
+                    requireLogin: true
+                }
+            })
+
         }])
-        .run(['$rootScope', 'StorageServices', 'initService', startup])
+        .run(['$rootScope', 'StorageServices', 'initService', '$location', startup])
 
 
-        function startup($rootScope, StorageServices, initService){
+        function startup($rootScope, StorageServices, initService, $location){
             // console.log('Startup or Refresh')
 
             /**
@@ -99,6 +106,9 @@
             var user = StorageServices.getUser()
             if(user !== undefined){
                 initService.initRessources(user.token)
+            } else {
+                //console.log("*Redirect* User doesn't exist")
+                $location.path("/")
             }
 
             /**
@@ -112,6 +122,8 @@
                     initService.initRessources(user.token)
                 }
             })
+
         }
+
 
 })();
