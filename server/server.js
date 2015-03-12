@@ -224,8 +224,8 @@ var transporter = nodemailer.createTransport({
  * Choisir la ligne a commenter, la permiere lance un tache une fois par jour à 1h30 
  * du matin, la seconde en lance une toute les secondes
  **/
-var job = new CronJob('00 30 01 * * *', function(){
-// var job = new CronJob('* * * * * *', function(){
+//var job = new CronJob('00 30 01 * * *', function(){
+var job = new CronJob('* * * * * *', function(){
     
     console.info("CronJob starting")
 	userModel.find(function (err, users) {
@@ -235,32 +235,30 @@ var job = new CronJob('00 30 01 * * *', function(){
 	        for(var i in users){
 	        	if(users[i].allowAlert === true){
 	        		accountModel.find(function(err, accounts){
-	        			if(err){
-	        				console.log(err)
-	        			}else{
-	        				for(var j in accounts){
-	        					if(accounts[j].balance < accounts[j].alert){
-	        						var account = accounts[j]
-	        						console.log("it should send an email for " + accounts[j].name + " to " + users[i].email)
-	        						var mytext = "You have " + account.balance + " " +account.currency + " in your account " 
-	        						+ accounts[j].name + ". Visite MyMoney.com to fix this issue"
-	        						var mailOptions = {
-									    from: 'MyMoney <do.not.respond.money@gmail.com>',
-									    to: users[i].email, // list of receivers
-									    subject: 'Account balance below your alert level', // Subject line
-									    text: mytext, // plaintext body
-									    html: "<b>"+ mytext + "</b>" // html body
-									};
+
+        				for(var j in accounts){
+        					console.log(accounts[i])
+        					if(accounts[j].balance < accounts[j].alert){
+        						var account = accounts[j]
+        						console.log("it should send an email for " + accounts[j].name + " to " + users[i].email)
+        						var mytext = "You have " + account.balance + " " +account.currency + " in your account " 
+        						+ accounts[j].name + ". Visite MyMoney.com to fix this issue"
+        						var mailOptions = {
+								    from: 'MyMoney <do.not.respond.money@gmail.com>',
+								    to: users[i].email, // list of receivers
+								    subject: 'Account balance below your alert level', // Subject line
+								    text: mytext, // plaintext body
+								    html: "<b>"+ mytext + "</b>" // html body
+								};
+								
+								transporter.sendMail(mailOptions, function(error, info){
+								    if(error){
+								        console.log(error);
+								    }
+								})
 									
-									transporter.sendMail(mailOptions, function(error, info){
-									    if(error){
-									        console.log(error);
-									    }
-									})
-										
-	        					}
-	        				}
-	        			}
+        					}
+        				}
 	        		})
 	        	}
 	        }
