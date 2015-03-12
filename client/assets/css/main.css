@@ -3,7 +3,7 @@
 
 .space-30{margin-top: 30px;}
 
-#menu{padding: 20px 0 15px; background-color: #fbdb65; color: #d18f0f;}
+#menu{padding: 20px 0 15px; background-color: #fbdb65; color: #d18f0f;border-bottom: 3px solid #f7b330;}
 
 #login-form div {padding: 0;}
 
