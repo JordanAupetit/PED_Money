@@ -88,10 +88,22 @@ var defaultCategories = [
     }
 ]
 
+var defaultAlerts = [
+    {
+        level: 0,
+        message : "Your balance is under 0 !"
+    }
+]
+
 var CategorySchema = new Schema({
     id: Number,
     name: String,
     subCategories:[]
+})
+
+var AlertSchema = new Schema({
+    level: Number,
+    message: String
 })
 
 var UserSchema  = new Schema({
@@ -112,10 +124,7 @@ var AccountSchema  = new Schema({
     balance: Number,
     currency: String,
     userId: String,
-    alerts: [{
-        level: Number,
-        message: String
-    }]
+    alerts: {type :[AlertSchema], default: defaultAlerts}
 })
 
 var OperationSchema = new Schema({
