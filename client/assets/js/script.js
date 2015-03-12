@@ -4,8 +4,8 @@ $(".signup").click(function(){
 
 })
 
-$(".x,#back-signup").click(function(){
-	$("#signup").animate({top: "-200%"});
+$(".x, #back-signup").click(function(){
+	$("#signup").animate({top: "-100%"});
 	$("#back-signup").fadeOut();
 })
 
@@ -24,23 +24,37 @@ $("#sign").click(function(){
 		  $("#contenu").html("Veulliez remplir tous les champs");
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
-		}	
-	else if((psw.length)<1) // TODO set at 8
+		}
+	else if(validateEmail(email) == false)
 		{
-		  $("#contenu").html("Mot de passe doit au moins contenir 8 caractères de longueur");
+		  $("#contenu").html("Votre email est incorrect");
+		  $('html, body').animate({scrollTop : 0},400);
+		  return false;
+		}
+	else if((psw.length)<5)
+		{
+		  $("#contenu").html("Mot de passe doit au moins contenir 8 caracteres de longueur");
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		}
 		
 	else if(!(psw).match(repsw))
 		{
-		  $("#contenu").html("Vos mots de passe ne correspondent pas. Essayer à nouveau?");
+		  $("#contenu").html("Vos mots de passe ne concorde pas. Essayer a nouveau");
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		} 
 	else 
 	   {
-	      $("#signup").animate({top: "-100%"});
+	      $("#signup").animate({top: "-200%"});
 		  $("#back-signup").fadeOut();
+		  $('#signup-form').reset();
+		  return false;
 	   }
 });
+
+
+function validateEmail(email) { 
+    var re = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+    return re.test(email);
+} 
