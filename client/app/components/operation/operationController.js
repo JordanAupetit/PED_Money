@@ -297,7 +297,6 @@
                     newOperation.categoryId = newOperation.category.id
                 }
 
-
                 if(!newOperation.advanced){ // Simple operation
                     var toSend = {
                             accountId: newOperation.accountId,
@@ -576,7 +575,11 @@
                                 newOp.accountId = accountId
                             }
                         }
-                        ops.push(newOp)
+
+                        if(newOp.hasOwnProperty("value")) {
+                            newOp = correctDateOfOperation(newOp)
+                            ops.push(newOp)
+                        }
                     }
 
                     //console.log("Import was a success")
@@ -593,13 +596,11 @@
             };
 
             $scope.addOperationsFromCsv = function() {
-                console.log("Add Ops")
-                console.log($scope.operationsToAdd)
+                //console.log($scope.operationsToAdd)
 
                 if($scope.operationsToAdd.length > 0) {
-                    OperationResource.add($scope.operationsToAdd).$promise.then(function(){
-                        console.log("add with success")
-                    })
+                    // On ajoute une liste d'opérations
+                    postOperation($scope.operationsToAdd) 
                 }
 
                 $scope.importButtonTitle = "No operations to import"
