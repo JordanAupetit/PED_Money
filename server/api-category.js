@@ -91,8 +91,9 @@ module.exports = function (app, tool, categoryModel, userModel, accountModel, op
 
     function getPdf(req, res, next){
         var accountId = req.params.accountId
-        var superdata = {owner: 'à rajouter aux DATA', date: "today"}
-        accountModel.findOne({_id: accountId}, '_id name currency', function(err, account){
+        var superdata = {}
+        accountModel.findOne({_id: accountId}, '_id name currency userId', function(err, account){
+            superdata.date = new Date()
             superdata.account = account
             operationModel.find({accountId: account._id}, function(err, operations){
                 var balance = 0
@@ -107,24 +108,29 @@ module.exports = function (app, tool, categoryModel, userModel, accountModel, op
                 superdata.account.balance = balance
                 superdata.account.operations = operations
 
-                var config = {
-                    "directory": "./tmp",
-                    "format": "A4",
-                    "orientation": "portrait", 
-                    "border": "1cm",
-                    "type": "pdf",     
-                    "timeout": 30000
-                }
-                fs.readFile('./server/template-pdf.hbs', function(err, data){
-                    if (!err) {
-                        var template = handlebars.compile(data.toString())
-                        pdf.create(template(superdata), config).toBuffer(
-                            function(err, file){
-                                res.header("Content-Type", "application/pdf");
-                                res.send(file)
-                            }
-                        );
+                userModel.findOne({_id: account.userId}, 'username lastName firstName', function(err, user){
+                    superdata.owner = user.lastName + ' ' + user.firstName
+                    superdata.username = user.username
+
+                    var config = {
+                        "directory": "./tmp",
+                        "format": "A4",
+                        "orientation": "portrait", 
+                        "border": "1cm",
+                        "type": "pdf",     
+                        "timeout": 30000
                     }
+                    fs.readFile('./server/template-pdf.hbs', function(err, data){
+                        if (!err) {
+                            var template = handlebars.compile(data.toString())
+                            pdf.create(template(superdata), config).toBuffer(
+                                function(err, file){
+                                    res.header("Content-Type", "application/pdf");
+                                    res.send(file)
+                                }
+                            );
+                        }
+                    })
                 })
             })
         })

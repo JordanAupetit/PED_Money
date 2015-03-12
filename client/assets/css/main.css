@@ -3,7 +3,7 @@
 
 .space-30{margin-top: 30px;}
 
-#menu{padding: 20px 0 15px; background-color: #fbdb65; color: #d18f0f;}
+#menu{padding: 20px 0 15px; background-color: #fbdb65; color: #d18f0f;border-bottom: 3px solid #f7b330;}
 
 #login-form div {padding: 0;}
 
@@ -27,7 +27,7 @@ form.formInLoginPage input[type="submit"], form.formInLoginPage input[type="butt
 #menu .signup{width: 100%; padding: 7px 30px; border-radius: 1px; color: white; border: 2px solid #d18f0f; transition: all .2s linear;}
 #menu .signup:hover{background-color: #d18f0f; border-color: #f7b330; text-decoration: none;}
 
-#signup{background-color: #fbdb65; padding: 15px 15px 30px; position: absolute; z-index: 10000; color: #d18f0f; top: -200%;}
+#signup{background-color: #ffe766; padding: 15px 15px 30px; position: absolute; z-index: 10000; color: #d18f0f; top: -200%; border-radius: 7px;}
 
 #signup h3{text-transform: uppercase; margin-bottom: 30px;}
 #signup .x{position: absolute; top: 0; right: 15px;}
@@ -41,7 +41,7 @@ form.formInLoginPage input[type="submit"], form.formInLoginPage input[type="butt
 
 #Home{padding: 80px 15px 0px 0px ; height: 85%; color: white; background-color: #353536 !important;}
 
-#contenu{color: #a10000;}
+#contenu{color: #a10000;text-align: center;}
 .body{
 	height: 100%;
 }

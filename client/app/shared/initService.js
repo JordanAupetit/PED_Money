@@ -11,11 +11,50 @@
 		return {
 			initRessources: function(token){
 				// console.log('initRessources')
+				periodRes.init(token)
 				accountRes.init(token)
 				categoryRes.init(token)
 			},
 			populatePeriod: function() {
-				periodRes.init()
+				var p1 = {
+					_id: 2,
+					name: 'Loyer',
+					dateBegin: '2015-01-15',
+					nbRepeat: -1,
+					step: 3,
+					intervalType: 'M',
+					amount: 300
+				}
+
+				var p2 = {
+					_id: 1,
+					name: 'Zebulon',
+					dateBegin: new Date(2015, 1, 13),
+					nbRepeat: 4,
+					step: 1,
+					intervalType: 'M',
+					amount: 52
+				}
+
+				var p3 = {
+					_id: 3,
+					name: 'Essence',
+					dateBegin: new Date(2015, 1, 2),
+					nbRepeat: -1,
+					step: 1,
+					intervalType: 'w',
+					amount: 20
+				}
+				
+				return new Promise(function(resolve, reject) {
+					periodsRes.add(p1).$promise.then(function(){
+						periodsRes.add(p2).$promise.then(function(){
+							periodsRes.add(p3).$promise.then(function(){
+								resolve()
+							})
+						})
+					})
+				})
 			},
 			populateAccount: function() {
 				var acc1 = {
