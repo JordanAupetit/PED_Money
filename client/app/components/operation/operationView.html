@@ -1,147 +1,151 @@
 <div class="blocOperation pt70">
 
-  <div class="container">
-    <div ng-if="operations.length > 0" class="fs20">
-      <strong>Balance : </strong>
-      <span ng-if="balance <= 0" class="colorRed">
-        {{ balance }}€
-      </span>
-      <span ng-if="balance > 0" class="colorGreen">
-        +{{ balance }}€
-      </span>
-    </div>
+    <div class="container">
+        <div ng-if="operations.length > 0" class="fs20">
+            <strong>Balance : </strong>
+            <span ng-if="balance <= 0" class="colorRed">
+                {{ balance }}€
+            </span>
+            <span ng-if="balance > 0" class="colorGreen">
+                +{{ balance }}€
+            </span>
+        </div>
 
-    <div ng-if="operations.length > 0" class="mb20 fs12">
-      <strong>Deferred balance : </strong>
-      <span ng-if="deferredBalance <= 0" class="colorRed">
-        {{ deferredBalance }}€
-      </span>
-      <span ng-if="deferredBalance > 0" class="colorGreen">
-        +{{ deferredBalance }}€
-      </span>
-      <button ng-show="showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Hide</button>
-      <button ng-show="!showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Show</button>
-    </div>
+        <div ng-if="operations.length > 0" class="mb20 fs12">
+            <strong>Deferred balance : </strong>
+            <span ng-if="deferredBalance <= 0" class="colorRed">
+                {{ deferredBalance }}€
+            </span>
+            <span ng-if="deferredBalance > 0" class="colorGreen">
+                +{{ deferredBalance }}€
+            </span>
+            <button ng-show="showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Hide</button>
+            <button ng-show="!showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Show</button>
+        </div>
 
-    <a class="" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
+        <a class="" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
 
-    <div>
-      <a class="" href="#/{{accountId}}/settings">Account settings</a>
-    </div>
-    
-    <div>
-      <a class="" href="/api/account/{{accountId}}/pdf" target="_blank">Get the pdf</a>
-    </div>
-
-    <div ng-show="operations.length > 0" class="row">
-        <div class="col-md-4 col-xs-12 mt10">
-            <select class="form-control " ng-change="groupOperation()" ng-model="groupedBy">
-                <option value="">Not grouped</option>
-                <option value="date">Grouped by Date</option>
-                <option value="category">Grouped by Category</option>
-                <option value="type">Grouped by Type</option>
-                <option value="thirdParty">Grouped by Third Party</option>
-            </select>
+        <div>
+            <a class="" href="#/{{accountId}}/settings">Account settings</a>
         </div>
         
-        <div class="col-md-4 col-xs-12 mt10">
-          <input ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="searchText" class="form-control" placeholder="Search">
+        <div ng-show="operations.length > 0" class="mt10">
+            <a class="btn btn-default" href="/api/account/{{accountId}}/pdf" target="_blank">Export to PDF</a>
         </div>
 
-        <div class="col-md-4 col-xs-12 mt10">
-          <select ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="orderProp" class="form-control" ng-change="test()">
-              <option value="value">Order by Price</option>
-              <option value="dateOperation">Order by Date</option>
-              <option value="categoryName">Order by Category</option>
-              <option value="type">Order by Type</option>
-          </select>
+        <div ng-show="operations.length > 0" class="mt10">
+            <a download="operations.csv" ng-href="{{ urlCsv }}" class="btn btn-default">Export to CSV</a>
         </div>
-    </div>
 
-    <div class="clear"></div>
+        <div ng-show="operations.length > 0" class="row">
+            <div class="col-md-4 col-xs-12 mt10">
+                <select class="form-control " ng-change="groupOperation()" ng-model="groupedBy">
+                    <option value="">Not grouped</option>
+                    <option value="date">Grouped by Date</option>
+                    <option value="category">Grouped by Category</option>
+                    <option value="type">Grouped by Type</option>
+                    <option value="thirdParty">Grouped by Third Party</option>
+                </select>
+            </div>
+            
+            <div class="col-md-4 col-xs-12 mt10">
+              <input ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="searchText" class="form-control" placeholder="Search">
+            </div>
+
+            <div class="col-md-4 col-xs-12 mt10">
+              <select ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="orderProp" class="form-control" ng-change="test()">
+                  <option value="value">Order by Price</option>
+                  <option value="dateOperation">Order by Date</option>
+                  <option value="categoryName">Order by Category</option>
+                  <option value="type">Order by Type</option>
+              </select>
+            </div>
+        </div>
+
+        <div class="clear"></div>
 
 
-            <!-- <div ng-if="op.showOps">
-                <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
+                <!-- <div ng-if="op.showOps">
+                    <div class="operationLineOfGroup" ng-repeat="op in operationsOfGroup"> 
+                        <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                    </div>
+                </div> -->
+
+        <label ng-if="groupOfOperations.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
+        <div ng-repeat="op in groupOfOperations">
+            <div ng-click="toggleOperationsOfGroup($index, op.showOps)" class="operationGroupOfLine operationLine pointer backWhite pad15">
+
+              <!-- Plus grand qu'un Mobile -->
+              <div class="hidden-xs">
+                <div class="wid40p ftl">
+                    <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
+                </div>
+
+                <div class="wid50p ftl">
+                    <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
+                </div>
+
+                <div class="wid10p ftl algright">
+                    <span ng-if="op.value <= 0" class="colorRed">
+                        {{ op.value }}
+                    </span>
+                    <span ng-if="op.value > 0" class="colorGreen">
+                        +{{ op.value }}
+                    </span>
+                </div>
+              </div>
+
+              <!-- Taille d'un Mobile -->
+              <div class="visible-xs-block">
+                <div class="wid70p ftl">
+                    <span>'{{ op.groupedByField }}'</span>
+                </div>
+
+                <div class="wid30p ftl algright">
+                    <span ng-if="op.value <= 0" class="colorRed">
+                        {{ op.value }}
+                    </span>
+                    <span ng-if="op.value > 0" class="colorGreen">
+                        +{{ op.value }}
+                    </span>
+                </div>
+              </div>
+            </div>
+
+            <div ng-if="op.showOps">
+                <div class="operationLine operationLineOfGroup" ng-repeat="op in operationsOfGroup">
                     <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
                 </div>
-            </div> -->
 
-    <label ng-if="groupOfOperations.length > 0" class="mt20">Operations grouped by {{ groupedBy }}</label>
-    <div ng-repeat="op in groupOfOperations">
-        <div ng-click="toggleOperationsOfGroup($index, op.showOps)" class="operationGroupOfLine operationLine pointer backWhite pad15">
-
-          <!-- Plus grand qu'un Mobile -->
-          <div class="hidden-xs">
-            <div class="wid40p ftl">
-                <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
-            </div>
-
-            <div class="wid50p ftl">
-                <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
-            </div>
-
-            <div class="wid10p ftl algright">
-                <span ng-if="op.value <= 0" class="colorRed">
-                    {{ op.value }}
-                </span>
-                <span ng-if="op.value > 0" class="colorGreen">
-                    +{{ op.value }}
-                </span>
-            </div>
-          </div>
-
-          <!-- Taille d'un Mobile -->
-          <div class="visible-xs-block">
-            <div class="wid70p ftl">
-                <span>'{{ op.groupedByField }}'</span>
-            </div>
-
-            <div class="wid30p ftl algright">
-                <span ng-if="op.value <= 0" class="colorRed">
-                    {{ op.value }}
-                </span>
-                <span ng-if="op.value > 0" class="colorGreen">
-                    +{{ op.value }}
-                </span>
-            </div>
-          </div>
-        </div>
-
-        <div ng-if="op.showOps">
-            <div class="operationLine operationLineOfGroup" ng-repeat="op in operationsOfGroup">
-                <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
-
-        <div ng-if="countOfOperationsAfterToday > 0 && showDeferredOps">
-            <label class="mt20">Deferred operations</label>
-            <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
-            <div ng-if="op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
-                <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
             </div>
         </div>
-        
-        <div ng-if="countOfOperationsNotAfterToday > 0" class="mt20">
-            <label>Operations</label>
-            <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
-            <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
-                <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+
+
+        <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
+
+            <div ng-if="countOfOperationsAfterToday > 0 && showDeferredOps">
+                <label class="mt20">Deferred operations</label>
+                <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
+                <div ng-if="op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
+                    <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                </div>
             </div>
+            
+            <div ng-if="countOfOperationsNotAfterToday > 0" class="mt20">
+                <label>Operations</label>
+                <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
+                <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
+                    <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
+                </div>
 
+            </div>
         </div>
-    </div>
 
-    <div ng-if="operations.length <= 0 && groupOfOperations.length <= 0" class="mt20">
-      Il n'y a encore aucunes opérations sur ce compte.
-    </div>
+        <div ng-if="operations.length <= 0 && groupOfOperations.length <= 0" class="mt20">
+          Il n'y a encore aucunes opérations sur ce compte.
+        </div>
 
-  </div> <!-- END container -->
+    </div> <!-- END container -->
 
   <div ng-include src="'/app/shared/category/categoryView.html'"></div>
   <div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add operation" data-target=".modal-operation">

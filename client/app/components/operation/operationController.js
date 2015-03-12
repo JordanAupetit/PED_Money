@@ -166,7 +166,7 @@
                         // Le fix doit se faire avant l'update
                         fixOperations()
                         $scope.updateSolde()
-
+                        generateCsv()
 
                         // Dans le cas où l'on ajoute une operation lors d'un regroupement
                         // Il ne faut pas le faire si on est sans groupe sinon cela fait
@@ -184,6 +184,8 @@
 
                     fixOperations()
                     $scope.updateSolde()
+                    generateCsv()
+
                     if($scope.groupedBy !== '') {
                         $scope.groupOperation();
                     }
@@ -382,6 +384,7 @@
                     
                     $scope.updateSolde()
                     fixOperations()
+                    generateCsv()
                     //getAccount()
                     //refresh()
                 })
@@ -515,6 +518,32 @@
 
             $scope.toggleDeferredOps = function() {
                 $scope.showDeferredOps = !$scope.showDeferredOps
+            }
+
+            function generateCsv() {
+                $scope.urlCsv = ""
+                //var content = "test 666 48 48"
+
+                var operations = []
+
+                for(var i = 0; i < $scope.operations.length; i++) {
+                    operations.push(clone($scope.operations[i]))
+
+                    delete operations[i].__v
+                    delete operations[i]._id
+                    delete operations[i].accountId
+                    delete operations[i].dateOperationIsAfterToday
+                    delete operations[i].datePrelevementIsAfterToday
+                    delete operations[i].__propo__
+                }
+
+                console.log(operations)
+                var csv = Papa.unparse(operations)
+                console.log(csv)
+
+                var blob = new Blob([ csv ], { type : 'text/plain' })
+                $scope.urlCsv = (window.URL || window.webkitURL).createObjectURL( blob )
+                console.log("Url generated")
             }
         }
 })();
