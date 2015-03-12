@@ -323,6 +323,10 @@
                         // var newOpt = clone($scope.operationCreateModel)
                         var newOpt = newOperation
 
+                        if (newOpt.period.isInfinite) {
+                            newOpt.period.nbRepeat = -1
+                        }
+
                         var toSend = {
                             name: newOpt.description,
                             dateBegin: newOpt.period.dateBegin,
@@ -337,7 +341,7 @@
                                 // checked: false,
                                 dateOperation: newOpt.dateOperation,
                                 datePrelevement: newOpt.datePrelevement,
-                                categoryId: newOpt.category,
+                                categoryId: newOpt.categoryId,
                                 accountId: newOpt.accountId
                             }
                         }

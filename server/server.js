@@ -7,7 +7,8 @@ var application_root = __dirname,
 	methodOverride = require('method-override'),
 	CronJob = require('cron').CronJob,
 	nodemailer = require('nodemailer'),
-	compress = require('compression');
+	compress = require('compression'),
+	moment = require('moment');;
 	
 
 
@@ -192,34 +193,150 @@ function clientErrorHandler(err, req, res, next) {
 
 
 //CRON TASK
-var jobPeriod = new CronJob('00 00 01 * * *', function(){
-// var jobPeriod = new CronJob('*/5 * * * * *', function(){
-	console.info('CronJob Period starting')
 
-	userModel.find(function (err, users) { 
+var periodParam ={
+	dateFormat: 'YYYY-MM-DD',
+	dateNow: undefined,
+	dateNowPlusOne: undefined,
+	setDate: function(){
+		this.dateNow = moment().millisecond(0).second(0).minute(0).hour(0);
+		this.dateNowPlusOne = this.dateNow.clone().add(1, 'days');
+	}
+}
+
+function getProjection(periodParam, period){
+	var projection = undefined
+
+	var date = moment(period.dateBegin, periodParam.dateFormat)
+	var dateNow = periodParam.dateNow
+	var dateNowPlusOne = periodParam.dateNowPlusOne
+
+	// Set the first operation
+	var proj = {
+		 accountId: period.operation.accountId,
+		 value: period.operation.value,
+		 thirdParty: period.operation.thirdParty,
+		 description: period.operation.description,
+		 typeOpt: period.operation.typeOpt,
+		 checked: period.operation.checked,
+		 dateOperation: period.operation.dateOperation,
+		 datePrelevement: period.operation.datePrelevement,
+		 categoryId: period.operation.categoryId,
+		}
+	proj.dateOperation = date.clone().format(periodParam.dateFormat)
+	proj.datePrelevement = proj.dateOperation
+	if(date.isSame(dateNow) || date.isBetween(dateNow, dateNowPlusOne)){
+		projection = proj
+	}else{
+		if (period.nbRepeat === -1) {
+			// If the operation is infinite show the first 12 operation
+			while(projection === undefined 
+				&& date.isBefore(dateNowPlusOne) ) {
+				proj = period.operation
+				proj.dateOperation = date.add(1 * period.step, period.intervalType).clone().format(periodParam.dateFormat)
+				proj.datePrelevement = proj.dateOperation
+				if(date.isSame(dateNow) || date.isBetween(dateNow, dateNowPlusOne)){
+					projection = proj
+				}
+			}
+		} else {
+			for (var i = 1; 
+				i < period.nbRepeat 
+				&& projection === undefined 
+				&& date.isBefore(dateNowPlusOne); 
+				i++) {
+				proj = period.operation
+				proj.dateOperation = date.add(1 * period.step, period.intervalType).clone().format(periodParam.dateFormat)
+				proj.datePrelevement = proj.dateOperation
+				if(date.isSame(dateNow) || date.isBetween(dateNow, dateNowPlusOne)){
+					projection = proj
+				}
+			}
+		}
+	}
+	
+	return projection
+}
+
+function addOperation(operation){
+	console.log(operation)
+	var newOperation = new operationModel(operation);
+    newOperation.save(function(err, results){
+        if(err){
+            console.log(err)
+            return false 
+        }else{
+            return true 
+        }
+    })
+}
+
+var Timer = (function(){
+	var times = {}
+	return {
+		start: function(name){
+			times[name] = new Date().getTime();
+		},
+		stop: function(name){
+			if(name in times){
+				times[name] = new Date().getTime() - times[name]
+				console.log('Execution time "'+name+'": ' + times[name]+'ms');
+			}
+		}
+	}
+})()
+
+console.log(Timer)
+
+
+var jobPeriod = new CronJob('00 00 00 * * *', function(){ // Each day at midnight
+// var jobPeriod = new CronJob('*/10 * * * * *', function(){
+	console.info('CronJob Period starting')
+	periodParam.setDate()
+
+	userModel.find({},'_id', function (err, users) { 
 	    if(err){
 	        console.log(err)
 	    }else{
 	    	var periodModel = database.getPeriodModel()
 
 	    	for (var i in users) { // For each user
-	    		console.log('UserId: '+users[i])
-	    		periodModel.find({user: users[i]._id}, function (err, coll) {
+	    		console.log('UserId: '+users[i]._id)
+	    		accountModel.find({userId: users[i]._id}, '_id', function (err, accounts) {
 					if (!err) {
-						// console.log(coll)
+						for (var accountPos in accounts) { // For each account
+							periodModel.find({'operation.accountId': accounts[accountPos]._id}, function (err, periods) {
+								if (!err) {
+									for (var periodPos in periods) {
+										// Timer.start('One period')
+										var operation = getProjection(periodParam, periods[periodPos])
+										console.log(operation)
+										if(operation !== undefined){
+											// addOperation(operation)
+										}
+										// Timer.stop('One period')
+									}
+								} else {
+									console.log(err)
+								}
+							})
+						}
 					} else {
-						next(err)
+						console.log(err)
 					}
 				})
 	    	}
 	    }
 	})
-}, function () {
+	}, function () {
     // This function is executed when the job stops
+    console.log('CronJob Period End')
   },
-  true /* Start the job right now */,
+  false /* Start the job right now */,
   'Europe/Paris' /* Time zone of this job. */
 )
+
+jobPeriod.start();
 
 
 var transporter = nodemailer.createTransport({

@@ -380,7 +380,7 @@
 		 */
 		function refresh() {
 			// console.log(periodService.getAll())
-			periodRes.getAll().$promise.then(function(periods) {
+			periodRes.getAll($scope.accountId).$promise.then(function(periods) {
 				// console.log(periods)
 				$.each(periods, function(k, period) {
 					if (period.nbRepeat !== -1) {
