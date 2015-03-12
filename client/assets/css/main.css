@@ -6,10 +6,12 @@
 #menu{padding: 20px 0 15px; background-color: #fbdb65; color: #d18f0f;}
 
 #login-form div {padding: 0;}
+
 form.formInLoginPage input{width: 100%; margin: 0; padding: 7px 15px; border-radius: 1px; outline: none; border:none; border-left: 2px solid #d18f0f; border-bottom: 2px solid transparent; transition: all .2s linear;}
 form.formInLoginPage input:hover{border-left-color: #f7b330;}
 form.formInLoginPage input:focus{border-left-color: #f7b330; border-bottom-color: #d18f0f;}
 form.formInLoginPage input[type="submit"], form.formInLoginPage input[type="button"]{background-color: #f1c40f; color: white;}
+
 
 #menu ul{margin: 0; padding: 0;}
 #menu ul li{display: inline-block; list-style: none; margin-top: 3px;}

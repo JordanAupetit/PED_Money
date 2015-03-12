@@ -9,7 +9,7 @@
                 replace: false,
                 transclude: false,
                 link: function (scope, element, attrs) {
-                    $(element).datepicker({dateFormat:'yy/mm/dd'})
+                    $(element).datepicker({dateFormat:'yy-mm-dd'})
                 }
             };
         })
@@ -120,12 +120,17 @@
                 replace: false,
                 transclude: false,
                 link: function (scope, element, attrs) {
-
-                    var infos = $(element).find(".otherLineOperation")
-                    var thisLine = $(element).parent()
+                    
+                    var allOps = $(".operationLine")
+                    var allInfos = $(".otherLineOperation")
                     
                     $(element).find(".firstLineOperation").click(function() {
+                        var infos = $(element).find(".otherLineOperation")
+                        var thisLine = $(element).parent()
                         var height = thisLine.css("height")
+
+                        allInfos.hide()
+                        allOps.css("height", "50px")
 
                         if(height === "50px") {
                             infos.show()
@@ -136,9 +141,16 @@
                         }
                     });
 
-                    infos.hide()
+                    // On cache toutes les infos sup des operations
+                    $(element).find(".otherLineOperation").hide()
                 }
             };
         })
 
 })();
+
+
+
+
+
+

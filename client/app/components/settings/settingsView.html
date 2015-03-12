@@ -1,0 +1,59 @@
+<div class="container">
+    <h1>Edit Profile</h1>
+    <hr>
+    <div class="row row-centered">
+      
+      <!-- edit form column -->
+      <div class="col-md col-centered personal-info">
+        <h3>Personal info</h3>
+        
+        <form class="form-horizontal" role="form" ng-submit='EditController()'>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Username:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" ng-model='info.username' >
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">First name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="info.firstName" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Last name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="info.lastName" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" ng-model="info.email" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Password:</label>
+            <div class="col-md-8">
+              <input id="mdp" class="form-control" type="password" ng-model="info.password" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Confirm password:</label>
+            <div class="col-md-8">
+              <input id="mdp" class="form-control" type="password" value="">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="submit" class="btn btn-primary" value="Save Changes">
+              <span></span>
+              <input type="reset" class="btn btn-default" value="Cancel">
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+<hr>
