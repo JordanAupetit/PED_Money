@@ -286,8 +286,6 @@ var Timer = (function(){
 	}
 })()
 
-console.log(Timer)
-
 
 var jobPeriod = new CronJob('00 00 00 * * *', function(){ // Each day at midnight
 // var jobPeriod = new CronJob('*/10 * * * * *', function(){

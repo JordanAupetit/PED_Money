@@ -62,7 +62,7 @@ module.exports = function (app, tool, periodModel) {
 		tool.getUserId(req, next, function(userId){
 			var period = req.body
 			delete period._id // Security
-			console.log(period)
+			// console.log(period)
 
 			var newPeriod = new periodModel(period);
 			newPeriod.save(function(e, results){
