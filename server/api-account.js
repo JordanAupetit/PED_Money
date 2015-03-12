@@ -58,7 +58,7 @@ module.exports = function (app, tool, accountModel, operationModel) {
             var accountId = req.params.id;
 
             updateBalance(accountId, userId, next, function(){
-                accountModel.findOne({_id: accountId}, '_id name type currency balance', function (err, account) {
+                accountModel.findOne({_id: accountId}, function (err, account) {
                     if (!err) {
                         return resp.send(account);
                     } else {

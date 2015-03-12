@@ -66,7 +66,7 @@
         /**
         *   @Description
         *   Update the account. Send it to the server and refresh the scope. It's the variable
-        *   accoutBeforeChange that is send, not the scope one.
+        *   accountBeforeChange that is send, not the scope one.
         */
         function updateAccount(){
             AccountResource.update(accountBeforeChange).$promise.then(function (account){
