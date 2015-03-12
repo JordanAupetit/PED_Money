@@ -8,7 +8,9 @@ var application_root = __dirname,
 	CronJob = require('cron').CronJob,
 	nodemailer = require('nodemailer'),
 	compress = require('compression'),
-	moment = require('moment');;
+	moment = require('moment'),
+	fs = require('fs')
+	handlebars = require('handlebars');
 	
 
 
@@ -337,6 +339,14 @@ var jobPeriod = new CronJob('00 00 00 * * *', function(){ // Each day at midnigh
 jobPeriod.start();
 
 
+
+
+
+
+
+
+
+
 var transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -352,80 +362,83 @@ var transporter = nodemailer.createTransport({
  **/
 var job = new CronJob('00 30 01 * * *', function(){
 // var job = new CronJob('* * * * * *', function(){
-    
-    console.info('CronJob starting')
-	userModel.find(function (err, users) {
-	    if(err){
-	        console.log(err)
-	    }else{
-	        for(var i in users){
-	        	if(users[i].allowAlert === true){
-	        		accountModel.find(function(err, accounts){
-	        			if(err){
-	        				console.log(err)
-	        			}else{
-	        				for(var j in accounts){
-	        					if(accounts[j].balance < accounts[j].alert){
-	        						var account = accounts[j]
-	        						console.log('it should send an email for ' + accounts[j].name + ' to ' + users[i].email)
-	        						var mytext = 'You have ' + account.balance + ' ' +account.currency + ' in your account ' 
-	        						+ accounts[j].name + '. Visite MyMoney.com to fix this issue'
-	        						var mailOptions = {
-									    from: 'MyMoney <do.not.respond.money@gmail.com>',
-									    to: users[i].email, // list of receivers
-									    subject: 'Account balance below your alert level', // Subject line
-									    text: mytext, // plaintext body
-									    html: '<b>'+ mytext + '</b>' // html body
-									};
-									
+	console.info("starting cron task")
+	fs.readFile('./server/template-alert.hbs', function(err, data){
+		var template = handlebars.compile(data.toString())
+		userModel.find(function (err, users) {
+			/**
+			*	Pour tous les users
+			*/
+			for(var i in users){
+				var user = users[i]
+				if(user.allowAlert === true){
+					accountModel.find({userId: user._id}, '_id alerts name', function(err, accounts){
+						/**
+						* Pour tous les account du user
+						*/
+						for(var j in accounts){
+							var account = accounts[j]
+							operationModel.find({accountId: account._id}, 'value', function (err, operations) {
+								var balance = 0
+								/**
+								*	On calcule la balance actuelle de l'account
+								*/
+								for(var k in operations){
+									var operation = operations[k]
+									balance = operation.value + balance
+								}
+
+								var alertsRaised = []
+
+								/**
+								*	Pour chaque seuil d'alert
+								*/
+								for(var l in account.alerts){
+									var alert = account.alerts[l]
+									/**
+									*	Si la balance est plus petite que le seuil on stocke le message
+									*/
+									if(balance < alert.level){
+										alertsRaised.push(alert)
+									}
+								}
+
+								/**
+								*	Si au moins une alerte a été levée, on envoie un mail
+								*/
+								if(alertsRaised.length>0){
+									var superdata = {
+										owner: user.firstName + ' ' + user.lastName, 
+										username: user.username, 
+										account: account,
+										alertsRaised: alertsRaised
+									}
+									superdata.date = new Date()
+									var mailOptions = {
+										from: 'MyMoney <do.not.respond.money@gmail.com>',
+										to: user.email, // list of receivers
+										subject: 'MyMoney ALERT', // Subject line
+										//text: mytext, // plaintext body
+										html: template(superdata) // html body
+									}
+									console.info("sending email")
 									transporter.sendMail(mailOptions, function(error, info){
-									    if(error){
-									        console.log(error);
-									    }
+										if(error){
+											console.log(error)
+										}
 									})
-										
-	        					}
-	        				}
-	        			}
-	        		})
-	        	}
-	        }
-	    }
-	});
-  }, function () {
-    // This function is executed when the job stops
-  },
-  true /* Start the job right now */,
-  'Europe/Paris' /* Time zone of this job. */
-);
+								}
+							}) // end operationModel find
+						} // end for accounts
+					}) // end accountModel find
+				} // end if allow alert
+			} // end for users
+		}) // end userModel Find
+	}) // end fs read
+}, function () {}, true /* Start the job right now */, "Europe/Paris");
 
 
 
 // Only for test (mandatory)
 module.exports = app
 
-// Example
-
-// module.exports = function (app, expenseModel) {
-// 	app.get('/api/expense/', getAllExpenses)
-// 	app.post('/api/expense/', addExpense)
-// 	app.get('/api/expense/:id', getExpense)
-// 	app.put('/api/expense/', getExpenseByTag)
-// 	app.delete('/api/expense/:id', deleteExpense)
-// 	app.post('/api/expense/:id', editExpense)
-
-
-// 	function getAllExpenses(req, resp , next) {
-// 		'use strict';
-// 		var userId = req.get('X-User-Id');
-
-// 		expenseModel.find({user: userId}, function (err, coll) {
-// 			if (!err) {
-// 				return resp.send(coll);
-// 			} else {
-// 				console.log(err);
-// 				next(err);
-// 			}
-// 		});
-// 	}
-// }

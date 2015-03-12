@@ -1,0 +1,25 @@
+<body>
+	<div class="container">
+		<div class="row">
+			<h1>MyMoney</h1>
+		</div>
+		<div class="row">
+			<p>
+				<h2>Alerts raised <small>{{date}}</small></h2>
+				<h3>{{account.name}}</h3>
+				<h3><b>OWNER :</b> {{owner}} <small>{{username}}</small></h3>
+			</p>
+		</div>
+		<h1>Your current balance is {{account.balance}}</h1>
+		<h2>Here is the list of all alerts that has been raised</h2>
+		
+		<ul class="list-group">
+			{{#each alertsRaised}}
+				<li class="list-group-item">{{message}}</li>
+			{{/each}}
+		</ul>
+		<p>
+			To manage your alerts, visit <a href"http://localhost:8754/#/account/{{account._id}}/settings">MyMoney</a>. To stop receiving email change it in your <a href="http://localhost:8754/">account setting page</a>.
+		</p>
+	</div>
+</body>

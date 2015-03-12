@@ -426,72 +426,23 @@ var defaultCategories = [
     }
 ]
 
-// var defaultCategories = [
-//     {
-//         name: "Shopping",
-//         id: 100,
-//         subCategories:[
-//             {
-//                 name: "Food",
-//                 id: 101
-//             },
-//             {
-//                 name: "Clothes",
-//                 id: 102
-//             },
-//             {
-//                 name: "Gifts",
-//                 id: 103
-//             // },
-//             // {
-//             //     name: "Shooping",
-//             //     id: 101
-//             }
+var defaultAlerts = [
+    {
+        level: 0,
+        message : "Your balance is under 0 !"
+    }
+]
 
-//         ]
-//     },
-//     {
-//         name: "Loisir",
-//         id: 200,
-//         subCategories:[
-//             {
-//                 name: "Football",
-//                 id: 201
-//             },
-//             {
-//                 name: "Cinema",
-//                 id: 202
-//             },
-//             {
-//                 name: "Others",
-//                 id: 299
-//             }
-//         ]
-//     },
-//     {   
-//         name: "Others",
-//         id: 300,
-//         subCategories:[
-//             {
-//                 name: "Pets",
-//                 id: 301
-//             // },
-//             // {
-//             //     name: "Clothes",
-//             //     id: 202
-//             // },
-//             // {
-//             //     name: "Gifts",
-//             //     id: 203
-//             }   
-//         ]
-//     }
-// ]
 
 var CategorySchema = new Schema({
     id: Number,
     name: String,
     subCategories:[]
+})
+
+var AlertSchema = new Schema({
+    level: Number,
+    message: String
 })
 
 var UserSchema  = new Schema({
@@ -512,10 +463,7 @@ var AccountSchema  = new Schema({
     balance: Number,
     currency: String,
     userId: String,
-    alerts: [{
-        level: Number,
-        message: String
-    }]
+    alerts: {type :[AlertSchema], default: defaultAlerts}
 })
 
 var OperationSchema = new Schema({

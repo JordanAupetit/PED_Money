@@ -20,9 +20,9 @@
             getAll: function(){
                 return accountResource.getAll()
             },
-            // get: function(accountId){
-            //     return accountResource.get({id: accountId})
-            // },          
+            get: function(accountId){
+                return accountResource.get({id: accountId})
+            },          
             add: function(account, callback){
                 return accountResource.add(account, callback)
             },
@@ -30,7 +30,7 @@
                 return accountResource.delete({id : accountId})
             },
             update: function(account){
-                accountResource.update(account)
+                return accountResource.update(account)
             }
         }
     }])

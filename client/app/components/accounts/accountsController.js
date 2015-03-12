@@ -5,7 +5,6 @@
         .module('controllers')
         .controller('AccountController', ['$scope', 'AccountResource', 'initService', AccountController])
 
-
     function AccountController($scope, AccountResource, initService) {
         $scope.currencys = CURRENCYS
         $scope.accountTypes = ACCOUNT_TYPES

@@ -1,145 +1,165 @@
 (function() {
-
     'use strict';
-
-    var accountTypes = [
-                {
-                    name: 'Banking',
-                    value: 1
-                },
-                {
-                    name: 'Individual Saving Account',
-                    value: 2
-                },
-                {
-                    name: 'Investment',
-                    value: 3
-                },
-                {
-                    name: 'Credit card',
-                    value: 4
-                },
-                {
-                    name: 'Other',
-                    value: 10
-                }
-            ]
-
-    var currencies = [
-                {
-                    name: 'EUR(€)',
-                    code: 'EUR',
-                    value: 'EUR'
-                },{
-                    name: 'USD($)',
-                    code: 'USD',
-                    value: 'USD'
-                },{
-                    name: 'GBP(£)',
-                    code: 'GBP',
-                    value: 'GBP'
-                }
-            ]
-
-
-    function findAccountTypeByValue(value){
-        var result
-        angular.forEach(accountTypes, function(type){
-            if(type.value == value){ // TODO value is a string
-                result = type
-            }
-        })
-        return result
-    }
-
-    function findCurrencyByValue(value){
-        var result
-        angular.forEach(currencys, function(currency){
-            if(currency.value === value){ 
-                result = currency
-            }
-        })
-        return result
-    }
 
     angular
         .module('controllers')
         .controller('AccountSettingsController', ['$scope', '$state', 'StorageServices', 'AccountResource', 'OperationResource', 'initService', AccountSettingsController])
 
-        function AccountSettingsController($scope, $state, StorageServices, AccountResource, OperationResource, initService) {
+    function AccountSettingsController($scope, $state, StorageServices, AccountResource, OperationResource, initService) {
 
-            function getAccount(){    
-                if(StorageServices.isOnline()){
-                    AccountResource.get(accountId).$promise.then(function(account){
-                        StorageServices.setAccount(accountId, account)
-                        $scope.account = account
-                        $scope.account.rebalance = account.balance
-                    }, function(err){
-                        getAccount()
-                    })
-                }
-                else{
-                    $scope.account = StorageServices.getAccount(accountId)
-                }
-            }
+        /**
+        *   We store the account out of the scope, so the user can change the alerts
+        *   and keep the samename of the account if he want to
+        */
+        var accountBeforeChange
 
-            $scope.addAlert = function(){
-                /*
-                console.log($scope.newalert)
-                $scope.account.alerts.push($scope.newalert)
-                $scope.newalert.level = 0
-                $scope.newalert.message = ''
-                */
-            }
-
-            $scope.deleteAccount = function(){
-                if (confirm('Are you sure you want to delete this account')) {
-                    AccountResource.remove(accountId).$promise.then(function() {
-                    
-                    })
-                }
-            }
-
-            $scope.updateAccount = function(){
-                AccountResource.update(account).$promise.then(function (account){
-                    $scope.account = account
-                    $scope.account.rebalance = account.balance
-                }, function(err){
-                    //DO SOMETHING OR NOT ?
-                })
-            }
-
-            $scope.rebalanceAccount = function(){
-                if( $scope.account.rebalance != $scope.account.balance){
-                    var target = event.target
-                    target.textContent = "loading ..."
-                    target.disabled = true
-
-                    var operation = {
-                        "value": $scope.account.rebalance-$scope.account.balance,
-                        "accountId":accountId,
-                        "description": 
-                        "Rebalance from " + 
-                        $scope.account.balance + " " + $scope.account.currency 
-                        + " to " + 
-                        $scope.account.rebalance + " " + $scope.account.currency,
-                    }
-
-                    OperationResource.add(operation).$promise.then(function(operation){
-                        target.textContent = "Save"
-                        target.disabled = false
-                        getAccount()
-                    }, function(err){
-                        //TODO ???
-                    })
-
-                }
-            }
-
-            var accountId = $state.params.accountId
-            $scope.newalert= {"level": 0, "message": ''}
-            $scope.accountTypes = accountTypes
-            $scope.currencies = currencies
+        /**
+        *   @Description
+        *   Refresh the scope. It's used when the controller is loaded and each time
+        *   the account is changed
+        */
+        function refreshScope(){
+            $scope.newalert = {"level": 0, "message": ''}
+            $scope.currencies = CURRENCYS
+            $scope.accountTypes = ACCOUNT_TYPES
             getAccount()
         }
+
+        /**
+        *   @Description
+        *   Get the account, called the webservice to get the account information
+        */
+        function getAccount(){    
+            if(StorageServices.isOnline()){
+                AccountResource.get($state.params.accountId).$promise.then(function(account){
+                    accountBeforeChange = account
+
+                    var curPos
+                    angular.forEach($scope.currencies, function(cur, pos) {
+                        if (cur.code === account.currency) {
+                            curPos = pos
+                        }
+                    })
+                    account.currency = $scope.currencies[curPos]
+
+                    var typePos
+                    angular.forEach(ACCOUNT_TYPES, function(type, pos) {
+                        if (type.value === account.type) {
+                            typePos = pos
+                        }
+                    })
+                    account.type = ACCOUNT_TYPES[typePos]
+
+                    $scope.account = account
+                    $scope.rebalance = account.balance
+
+                    StorageServices.setAccount($state.params.accountId, account)
+                }, function(err){
+                    getAccount()
+                })
+            }
+            else{
+                $scope.account = StorageServices.getAccount($state.params.accountId)
+            }
+        }
+
+        /**
+        *   @Description
+        *   Update the account. Send it to the server and refresh the scope. It's the variable
+        *   accountBeforeChange that is send, not the scope one.
+        */
+        function updateAccount(){
+            AccountResource.update(accountBeforeChange).$promise.then(function (account){
+                refreshScope()
+            }, function(err){
+                console.log("Something went wrong ... " + err)
+            })
+        }
+
+        /**
+        *   @Description
+        *   Add an operation to the account in order to rebalance the amount
+        *   of this account, in fact the account is not changed
+        */
+        $scope.rebalanceAccount = function(){
+            if($scope.rebalance != $scope.account.balance){
+                var target = event.target
+                target.textContent = "loading ..."
+                target.disabled = true
+
+                var operation = {
+                    "value": $scope.rebalance-$scope.account.balance,
+                    "accountId":$scope.account._id,
+                    "description": 
+                    "Rebalance from " + 
+                    $scope.account.balance + " " + $scope.account.currency 
+                    + " to " + 
+                    $scope.rebalance + " " + $scope.account.currency,
+                }
+
+                OperationResource.add(operation).$promise.then(function(operation){
+                    refreshScope()
+
+                    target.textContent = "Save"
+                    target.disabled = false                    
+                }, function(err){
+                    console.log("Something went wrong ... " + err)
+                })
+            }
+        }
+
+        /**
+        *   @Description
+        *   Update the account (the name, the currency ...)
+        */
+        $scope.updateAccount = function(){
+            accountBeforeChange.name = $scope.account.name
+            accountBeforeChange.currency = $scope.account.currency.code
+            accountBeforeChange.type = $scope.account.type.value
+
+            updateAccount()
+        }
+
+        /**
+        *   @Description
+        *   Delete an alert and update the account
+        *   @Param {Number} The index of the alert to delete
+        */
+        $scope.deleteAlert = function(index){
+            accountBeforeChange.alerts.splice(index, 1)
+            accountBeforeChange.currency = accountBeforeChange.currency.code
+            accountBeforeChange.type = accountBeforeChange.type.value
+
+            updateAccount()
+        }
+
+        /**
+        *   @Description
+        *   Add an alert and update the account
+        */
+        $scope.addAlert = function(){
+            accountBeforeChange.alerts.push($scope.newalert)
+            accountBeforeChange.currency = accountBeforeChange.currency.code
+            accountBeforeChange.type = accountBeforeChange.type.value
+
+            updateAccount()
+        }
+
+        /**
+        *   @Description
+        *   Ask the user if he is sure, delete the account and go to the accounts page
+        */
+        $scope.deleteAccount = function(){
+            if (confirm('Are you sure you want to delete this account')) {
+                AccountResource.remove($scope.account._id).$promise.then(function() {
+                    $state.go('accounts')
+                })
+            }
+        }
+
+        /**
+        *   When the Controller is loaded, the scope must be refreshed
+        */
+        refreshScope()
+    }
 })();
