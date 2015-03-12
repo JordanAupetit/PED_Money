@@ -18,12 +18,9 @@
             /**
              * Login fct
              */
-            $scope.signin = function() {
+            $scope.signin = function(data) {
 
-                var formData = {
-                    username: $scope.username,
-                    password: $scope.password
-                }
+                var formData = data;
 
                 var loginUser = new LoginService(formData);
                 loginUser.$query(function(res) {
@@ -41,9 +38,9 @@
             /**
              * Signup fct
              */
-            $scope.SignupController = function() {
+            $scope.SignupController = function(User) {
 
-                var item = $scope.User;
+                var item = User;
                 var newUser = new LoginService(item);
                 newUser.$save(function(res) {
                     if (res.type == false) {
