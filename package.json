@@ -38,6 +38,7 @@
     "sendmail": "^0.2.1"
   },
   "devDependencies": {
+    "blanket": "^1.1.6",
     "bower": "^1.3.12",
     "jasmine-core": "^2.2.0",
     "jshint": "^2.6.3",
@@ -47,13 +48,18 @@
     "karma-firefox-launcher": "^0.1.4",
     "karma-jasmine": "^0.3.5",
     "mocha": "^2.1.0",
+    "mocha-spec-cov-alt": "^0.2.3",
     "should": "^5.0.1",
-    "supertest": "^0.15.0"
+    "supertest": "^0.15.0",
+    "travis-cov": "^0.2.5"
   },
   "scripts": {
-    "test": "npm run test:client && npm run test:server",
+    "test": "npm run test:client && npm run test:server:alt",
     "test:client": "node node_modules/karma/bin/karma start ./client/karma.conf.js --single-run",
     "test:server": "node_modules/.bin/mocha server/test",
+    "test:server:alt": "node_modules/.bin/mocha server/test -R mocha-spec-cov-alt",
+    "test:server:trav": "node_modules/.bin/mocha server/test -R travis-cov",
+    "test:server:html": "node_modules/.bin/mocha server/test -R html-cov > coverage.html",
     "test:server:watch": "node_modules/.bin/mocha server/test -w",
     "db": "mongod --dbpath ./server/db",
     "start": "node ./server/server.js",
@@ -65,5 +71,20 @@
     "jshint": "jshint client/app",
     "jshints": "jshint server/*.js",
     "install": "bower install"
+  },
+  "config": {
+    "blanket": {
+      "data-cover-never": [
+        "node_modules",
+        "test"
+      ],
+      "pattern": "server",
+      "spec-cov" : {
+        "threshold" :40
+      }
+    },
+    "travis-cov": { 
+      "threshold": 70 
+    }
   }
 }

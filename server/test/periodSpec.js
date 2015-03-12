@@ -1,3 +1,8 @@
+var blanket = require("blanket")({
+   /* options are passed as an argument object to the require statement */
+   "pattern": "server"
+   });
+
 var should = require('should');
 var assert = require('assert')
 var request = require('supertest');
