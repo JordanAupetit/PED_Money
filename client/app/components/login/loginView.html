@@ -1,13 +1,13 @@
 <section id="menu">
   <div class="container center">
     <class class="row">
-      <form id="login-form" class="formInLoginPage col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-submit='signin()'>
+      <form id="login-form" class="formInLoginPage col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-submit='signin(data)'>
         <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-          <input type="text" placeholder="Username" ng-model='username'>
+          <input type="text" placeholder="Username" ng-model='data.username'>
         </div>
 
         <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
-          <input type="password" placeholder="Password" ng-model='password'>
+          <input type="password" placeholder="Password" ng-model='data.password'>
         </div>
 
         <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -45,7 +45,7 @@
 <div id="back-signup"></div>
 
 <section id="signup" class="col-lg-4 col-md-4 col-lg-offset-4 col-md-offset-4 col-sm-10 col-xs-10 col-sm-offset-1 col-xs-offset-1">
-  <form id="signup-form" class="formInLoginPage" ng-submit="SignupController()">
+  <form id="signup-form" class="formInLoginPage" ng-submit="SignupController(User)">
     <h3 class="center">Signup</h3>
     <h3 class="x pointer"><a >X</a></h3>
     <h4 id="contenu"></h4>
