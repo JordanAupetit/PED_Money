@@ -83,9 +83,11 @@
         */
         $scope.rebalanceAccount = function(){
             if($scope.rebalance != $scope.account.balance){
-                var target = event.target
-                target.textContent = "loading ..."
-                target.disabled = true
+                if(event !== undefined){
+                    var target = event.target
+                    target.textContent = "loading ..."
+                    target.disabled = true
+                }
 
                 var operation = {
                     "value": $scope.rebalance-$scope.account.balance,
@@ -99,9 +101,10 @@
 
                 OperationResource.add(operation).$promise.then(function(operation){
                     refreshScope()
-
-                    target.textContent = "Save"
-                    target.disabled = false                    
+                    if(target !== undefined){
+                        target.textContent = "Save"
+                        target.disabled = false
+                    }
                 }, function(err){
                     console.log("Something went wrong ... " + err)
                 })
