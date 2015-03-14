@@ -38,8 +38,9 @@ describe('Server::API', function() {
 				if (err) {
 					throw err;
 				}
-				fakeUser._id = res.body._id
-				fakeUser.token = res.body.token
+
+				fakeUser._id = res.body.data._id
+				fakeUser.token = res.body.data.token
 
 				request(app)
 					.post(urlAccount)
@@ -228,15 +229,15 @@ describe('Server::API', function() {
 
 			it('should delete specific Period', function() {
 				request(app)
-					.delete(url +'/' + idPeriod)
+					.delete(url + '/' + idPeriod)
 					.expect(204)
 					.end(function(err, res) {
 						if (err) {
 							throw err;
 						}
 
-						request(url)
-							.get('/' + idPeriod)
+						request(app)
+							.get(url + '/' + idPeriod)
 							.expect(204)
 							.end(function(err, res) {
 								if (err) {

@@ -47,11 +47,11 @@ module.exports = function(app, tool, userModel, jwt) {
                     });
                 } else {
                     var User = {
-                        username: req.body.name,
-                        lastName: req.body.last,
-                        firstName: req.body.first,
-                        email: req.body.mail,
-                        password: req.body.pass
+                        username: req.body.username,
+                        lastName: req.body.lastName,
+                        firstName: req.body.firstName,
+                        email: req.body.email,
+                        password: req.body.password
                     }
 
                     var nouveauUser = new userModel(User);
