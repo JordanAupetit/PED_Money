@@ -176,12 +176,19 @@
 					// })
 
 				})
-				
+			},
+			loadDataset : function(dataset, accountId){
+				return new Promise(function(resolve, reject) {
 
-
+					// Add operations
+					angular.forEach(dataset.operations, function(operation){
+						operation.accountId = accountId
+						// console.log(operation)
+						operationRes.add(operation)
+					})
+					resolve()
+				})
 			}
-
-
 		}
 	}
 })()

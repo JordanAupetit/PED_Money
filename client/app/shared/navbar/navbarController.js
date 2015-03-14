@@ -3,11 +3,12 @@
 
     angular
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', NavbarController])
+        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', '$http', NavbarController])
 
-    function NavbarController($scope, $rootScope, $state, initService, StorageServices) {
+    function NavbarController($scope, $rootScope, $state, initService, StorageServices, $http) {
 
         $scope.user = StorageServices.getUser()
+        $scope.initSelector = 'dataset_etienne.json'
 
         /**
          * Trigger on login
@@ -26,10 +27,28 @@
         }
         
         $scope.initData = function(){
-            initService.loadDataset1()
-            .then(function(){
-                console.log('Db init OK')
-            })
+            var accountId = $state.params.accountId
+
+            if(accountId === undefined){
+                console.log('Got to an account to init data')
+            }else{
+                // console.log(accountId)
+                $http.get('datasets/'+$scope.initSelector).success(function(data){
+                    initService.loadDataset(data, accountId).then(function(){
+                        console.log('Db init OK')
+                    })
+                }).error(function(data, status, headers, config){
+                    console.log(data)
+                    console.log(status)
+                    console.log(headers)
+                    console.log(config)
+                })
+                // initService.loadDataset1()
+                // .then(function(){
+                //     console.log('Db init OK')
+                // })
+            }
+            
         }
 
         /*var getAccounts = function() {

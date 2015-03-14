@@ -1,0 +1,92 @@
+{
+   "user":{
+      "username":"Boby",
+      "lastName":"Marley",
+      "firstName":"Bob",
+      "email":"splif@ganja.beu",
+      "password":"buffalosoldier"
+   },
+   "accounts":[
+      {
+         "name":"Pour les voitures",
+         "type":1,
+         "currency":"EUR"
+      }
+   ],
+   "operations":[
+      {
+         "categoryId":101,
+         "dateOperation":"2015/03/10",
+         "datePrelevement":"2015/03/10",
+         "value":0
+      },
+      {
+         "categoryId":202,
+         "dateOperation":"2015/03/10",
+         "datePrelevement":"2015/03/10",
+         "value":-123456789
+      },
+      {
+         "categoryId":202,
+         "dateOperation":"2015/03/18",
+         "datePrelevement":"2017/03/18",
+         "description":"Je suis une operation qui va se terminer dans tres tres longtemps",
+         "thirdParty":"La banque postale",
+         "type":"credit card",
+         "value":542
+      },
+      {
+         "categoryId":202,
+         "categoryName":"No category",
+         "dateOperation":"2015/03/27",
+         "datePrelevement":"2015/03/27",
+         "description":"Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi. Je suis pas une couille, je suis un Kiwi.",
+         "thirdParty":"Auchan Auchan Auchan Auchan Auchan Auchan Auchan Auchan Auchan Auchan Auchan Auchan",
+         "value":-525.12
+      },
+      {
+         "categoryId":202,
+         "dateOperation":"2014/02/17",
+         "datePrelevement":"2014/12/07",
+         "description":"pastttttttt",
+         "value":1111111
+      },
+      {
+         "categoryId":202,
+         "dateOperation":"2013/11/03",
+         "datePrelevement":"2013/11/03",
+         "description":"21354",
+         "thirdParty":"54321",
+         "type":"other type",
+         "value":11.11
+      },
+      {
+         "categoryId":202,
+         "dateOperation":"2015/03/10",
+         "datePrelevement":"2015/03/10",
+         "type":"transfer",
+         "value":35412
+      },
+      {
+         "dateOperation":"2015/03/10",
+         "datePrelevement":"2015/03/10",
+         "value":321
+      },
+      {
+         "categoryId":202,
+         "dateOperation":"2015/03/19",
+         "datePrelevement":"2015/03/02",
+         "thirdParty":"321",
+         "value":54321
+      },
+      {
+         "categoryId":202,
+         "dateOperation":"2015/03/10",
+         "datePrelevement":"2015/03/10",
+         "description":"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+         "thirdParty":"111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+         "type":"transfer",
+         "value":111111111111
+      }
+   ]
+}

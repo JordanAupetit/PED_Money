@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <button toggle-sidebar-menu class="navbar-brand hamburger-button">Show navigation</button>
-                <a class="navbar-brand" href="">MyMoney</a>
+                <a toggle-sidebar-menu class="navbar-brand" href="">MyMoney</a>
             </div>
 
             <div class="collapse navbar-collapse">
@@ -15,6 +15,16 @@
 
 
                 <ul class="nav navbar-nav pull-right">
+                    <li>
+                        <select ng-model="initSelector" name="" id="">
+                            <option value="dataset_etienne.json">dataset_etienne.json</option>
+                            <option value="dataset_jordan.json">dataset_jordan.json</option>
+                            <option value="dataset_youssef.json">dataset_youssef.json</option>
+                            <!-- <option value="dataset_etienne.json">dataset_etienne.json</option> -->
+                            <!-- <option value="dataset_etienne.json">dataset_etienne.json</option> -->
+                        </select>
+                        <button class="navbar-btn btn btn-warning btn-xs" ng-click="initData()">Init</button >
+                    </li>
                     <li class="dropdown ">
                       <a class="dropdown-toggle navbar-brand" style ="cursor: pointer;"data-toggle="dropdown">My Account <b class="caret"></b></a>
                       <ul class="dropdown-menu dropdown-menu-right">
