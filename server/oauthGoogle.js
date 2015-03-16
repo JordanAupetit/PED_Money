@@ -6,7 +6,7 @@ module.exports = function (app, tool, userModel, jwt) {
   app.use(passport.initialize());
 
   app.get('/auth/google',
-  passport.authenticate('google',  { scope : ['email'] }),
+  passport.authenticate('google',  { scope : 'profile email' }),
     function(req, res){}
   )
 
