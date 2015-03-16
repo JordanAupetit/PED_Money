@@ -24,9 +24,13 @@
                 <button ng-show="!showDeferredOps" ng-click="toggleDeferredOps()" class="btn btn-default btn-xs">Show</button>
             </div>
 
-            <a class="btn btn-default" ui-sref="optPeriod({accountId : accountId})">Operations périodiques</a>
+            <div class="mt10">
+                <a class="btn btn-default" ui-sref="optPeriod({accountId : accountId})">Periodics operations</a>
+            </div>
 
-            <a class="btn btn-default" href="#/{{accountId}}/settings">Account settings</a>
+            <div class="mt10">
+                <a class="btn btn-default" href="#/{{accountId}}/settings">Account settings</a>
+            </div>
             
             <div ng-show="operations.length > 0" class="mt10">
                 <a class="btn btn-default" href="/api/account/{{accountId}}/pdf" target="_blank">Export to PDF</a>
