@@ -1,8 +1,9 @@
 <div ng-show="!account" class="container">
 	<h3 class="center">Loading ...</h3>
 </div>
+
 <div ng-show="account" class="container">
-	<div class="row">
+	<div class="row pl15 pr15">
 		<h1>Rebalance</h1>
 		<p>You forgot to add a bill? You get extra money this mounth? You forgot to save it in your account? Your real account balance is not the same as the one here? Don't worry ! Just give us your current balance and we will fix it for you.</p>
 		<form class="form-inline">
@@ -13,39 +14,55 @@
 			<button ng-click="rebalanceAccount()" type="submit" class="btn btn-default">Save</button>
 		</form>
 	</div>
+
 	<div class="row">
-		<h1>Edit</h1>
-		<form class="form-inline">
+		<h1 class="pl15">Edit</h1>
+		<div class="col-md-4 col-xs-12 mt10">
 			<div class="form-group">
 				<label for="name">Name</label>
 				<input type="text" class="form-control" id="name" placeholder="Name" ng-model="account.name">
 			</div>
+		</div>
+
+		<div class="col-md-4 col-xs-12 mt10">
 			<div class="form-group">
 				<label for="type">Type</label>
 				<select class="form-control " id="type" ng-model="account.type" ng-options="type as type.name for type in accountTypes"></select>
 			</div>
+		</div>
+
+		<div class="col-md-4 col-xs-12 mt10">
 			<div class="form-group">
 				<label for="currency">Currency</label>
 				<select class="form-control " id="currency" ng-model="account.currency" ng-options="currency as currency.name for currency in currencies"></select>
 			</div>
-			<button ng-click="updateAccount()" type="submit" class="btn btn-default">Save</button>
-		</form>
+
+		</div>
+
+		<div class="col-md-12 col-xs-12 mt10">
+			<button ng-click="updateAccount()" type="button" class="btn btn-primary">Update account informations</button>
+		</div>
 	</div>
-	<div class="row">
+
+	<div class="row pl15 pr15">
 		<h1>Alerts</h1>
 		<table class="table table-bordered table-striped">
 			<thead>
 				<tr>
 					<th class="algcenter col-md-1">Level</th>
 					<th class="algcenter">Message</th>
-					<th class="col-md-2"></th>
+					<th class="wid50"></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr ng-repeat="alert in account.alerts">
 					<td>{{alert.level}}</td>
 					<td>{{alert.message}}</td>
-					<td><small><a href="" ng-click="deleteAlert($index)">delete</a></small></td>
+					<td>	
+						<button ng-click="deleteAlert($index)" class="btn btn-danger">
+	                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+	                    </button>
+					</td>
 				</tr>
 				<tr>
 					<form>
@@ -63,9 +80,12 @@
 			</tbody>
 		</table>
 	</div>
-	<div class="row">
+
+	<div class="row pl15 pr15">
 		<h1>Delete</h1>
-		<p>If you decide to delete your account, all your operations in this account will be deleted to. <strong>This can't be undone</strong> <button ng-click="deleteAccount()" type="submit" class="btn btn-danger">Delete this account</button></p>
+		<p>If you decide to delete your account, all your operations in this account will be deleted to. <strong>This can't be undone.</strong> <br>
+		<button ng-click="deleteAccount()" type="submit" class="btn btn-danger">Delete this account</button></p>
 	</div>
-	<a href="#/{{account._id}}/operation/"><- Back</a>
+
+	<a class="btn btn-default mb20" href="#/{{account._id}}/operation/">Back</a>
 </div>

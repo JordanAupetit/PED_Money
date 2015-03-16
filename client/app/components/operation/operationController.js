@@ -93,7 +93,6 @@
                     AccountResource.get(accountId).$promise.then(function(account){
                         StorageServices.setAccount(accountId, account)
                         $scope.account = account
-                        console.log(account)
                         generateCsv()
                     }, function(err){
                         getAccountAndGenerateCsv()
@@ -207,8 +206,6 @@
                         $scope.updateSolde()
                         getAccountAndGenerateCsv()
                         //generateCsv()
-
-                        console.log(operations)
 
                         // Dans le cas où l'on ajoute une operation lors d'un regroupement
                         // Il ne faut pas le faire si on est sans groupe sinon cela fait
@@ -518,7 +515,6 @@
              * @Param {Object} operation Operation to ventilate
              */
             $scope.showVentilation = function(operation) {
-                console.log(operation)
                 $scope.ventilateOperation = clone(operation)
                 $scope.balanceToAssign = $scope.ventilateOperation.value
 
@@ -732,9 +728,9 @@
 
                 var csvAccount = Papa.unparse(account)
 
-                console.log(operations)
+                //console.log(operations)
                 var csv = Papa.unparse(operations)
-                console.log(csv)
+                //console.log(csv)
 
                 var blob = new Blob([ csvAccount + "\r\n\r\n" + csv ], { type : 'text/plain' })
                 $scope.urlCsv = (window.URL || window.webkitURL).createObjectURL( blob )
@@ -753,7 +749,6 @@
                 var ops = []
                 var csvToJson = Papa.parse($fileContent)
                 csvToJson = csvToJson.data
-                console.log(csvToJson)
 
                 if(csvToJson.length < 5) {
                     console.log("Le fichier csv n'est pas correct ou est vide.")
@@ -770,16 +765,14 @@
                             }
                         }
 
-                        console.log(newOp)
-
                         if(newOp.hasOwnProperty("value")) {
                             newOp = correctDateOfOperation(newOp)
                             ops.push(newOp)
                         }
                     }
 
-                    console.log("Import was a success")
-                    console.log(ops)
+                    //console.log("Import was a success")
+                    //console.log(ops)
                 }
 
                 $scope.operationsToAdd = ops
