@@ -50,7 +50,7 @@ describe('OperationTest', function() {
         initService = _initService_;
     }));
 
-    describe('test 1', function() {
+    describe('should success any functions', function() {
         var $scope, controller;
 
         beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, initService) {
@@ -82,13 +82,12 @@ describe('OperationTest', function() {
             // $httpBackend.expectGET('/api/category').respond(200, '');
 
             $httpBackend.expectGET('/api/category').respond(200, defaultCat);
-
+            $httpBackend.expect('GET', '/api/account').respond(200, '');
 
             $httpBackend.flush();
         }));
 
         it('test initialisation of controller', function() {
-
             expect(scope.operations.length).toBe(1);
         });
 
@@ -121,6 +120,7 @@ describe('OperationTest', function() {
                 accountId: "sddqs1123sqd"
             }]);
             $httpBackend.expectGET('/api/category').respond(200, defaultCat);
+            $httpBackend.expect('GET', '/api/account').respond(200, '');
 
             scope.validateOperation(scope.operations[0]);
             scope.updateOperation(scope.operations[0]);
@@ -175,6 +175,7 @@ describe('OperationTest', function() {
             }]);
 
             $httpBackend.expectGET('/api/category').respond(200, defaultCat);
+            $httpBackend.expect('GET', '/api/account').respond(200, '');
 
             expect(scope.operations.length).toBe(1);
             $httpBackend.flush();

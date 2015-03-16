@@ -88,17 +88,20 @@
              * @Description
              * Get all accounts (offline or online)
              */  
-            function getAccount(){
+            function getAccountAndGenerateCsv(){
                 if(StorageServices.isOnline()){
                     AccountResource.get(accountId).$promise.then(function(account){
                         StorageServices.setAccount(accountId, account)
                         $scope.account = account
+                        console.log(account)
+                        generateCsv()
                     }, function(err){
-                        getAccount()
+                        getAccountAndGenerateCsv()
                     })
                 }
                 else{
                     $scope.account = StorageServices.getAccount(accountId)
+                    generateCsv()
                 }
             }
 
@@ -202,7 +205,8 @@
                         // Le fix doit se faire avant l'update
                         fixOperations()
                         $scope.updateSolde()
-                        generateCsv()
+                        getAccountAndGenerateCsv()
+                        //generateCsv()
 
                         console.log(operations)
 
@@ -222,7 +226,8 @@
 
                     fixOperations()
                     $scope.updateSolde()
-                    generateCsv()
+                    getAccountAndGenerateCsv()
+                    //generateCsv()
 
                     if($scope.groupedBy !== '') {
                         $scope.groupOperation();
@@ -278,6 +283,9 @@
                 }
             }
 
+
+
+            // Initiatilisation
             refresh()
 
             /**
@@ -445,7 +453,7 @@
                     $scope.updateSolde()
                     fixOperations()
                     generateCsv()
-                    //getAccount()
+                    //getAccountAndGenerateCsv()
                     //refresh()
                 })
             }
@@ -480,7 +488,7 @@
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
                     refresh()
-                    //getAccount()
+                    //getAccountAndGenerateCsv()
                 })
             }
 
@@ -694,9 +702,20 @@
              */
             function generateCsv() {
                 $scope.urlCsv = ""
-                //var content = "test 666 48 48"
 
                 var operations = []
+                var account = [clone($scope.account)]
+
+                // On enlève tous les champs inutiles
+                delete account[0].$promise
+                delete account[0].$resolved
+                delete account[0].__v
+                delete account[0]._id
+                delete account[0].alerts
+                delete account[0].balance
+                delete account[0].operations
+                delete account[0].type
+                delete account[0].userId
 
                 for(var i = 0; i < $scope.operations.length; i++) {
                     operations.push(clone($scope.operations[i]))
@@ -707,13 +726,17 @@
                     delete operations[i].dateOperationIsAfterToday
                     delete operations[i].datePrelevementIsAfterToday
                     delete operations[i].__propo__
+                    delete operations[i].subOperations
+                    delete operations[i].$$hashKey
                 }
 
-                //console.log(operations)
-                var csv = Papa.unparse(operations)
-                //console.log(csv)
+                var csvAccount = Papa.unparse(account)
 
-                var blob = new Blob([ csv ], { type : 'text/plain' })
+                console.log(operations)
+                var csv = Papa.unparse(operations)
+                console.log(csv)
+
+                var blob = new Blob([ csvAccount + "\r\n\r\n" + csv ], { type : 'text/plain' })
                 $scope.urlCsv = (window.URL || window.webkitURL).createObjectURL( blob )
                 //console.log("Url generated")
             }
@@ -730,21 +753,24 @@
                 var ops = []
                 var csvToJson = Papa.parse($fileContent)
                 csvToJson = csvToJson.data
+                console.log(csvToJson)
 
-                if(csvToJson.length < 2) {
+                if(csvToJson.length < 5) {
                     console.log("Le fichier csv n'est pas correct ou est vide.")
                 } else {
-
-                    // On commence après la première ligne de Header
-                    for(var i = 1; i < csvToJson.length; i++) {
+                    var headerLine = 3
+                    // On commence après les 3 premières lignes
+                    for(var i = (headerLine + 1); i < csvToJson.length; i++) {
                         var newOp = {}
                         for(var j = 0; j < csvToJson[i].length; j++) {
-                            newOp[csvToJson[0][j]] = csvToJson[i][j]
+                            newOp[csvToJson[headerLine][j]] = csvToJson[i][j]
 
                             if(accountId !== "") {
                                 newOp.accountId = accountId
                             }
                         }
+
+                        console.log(newOp)
 
                         if(newOp.hasOwnProperty("value")) {
                             newOp = correctDateOfOperation(newOp)
@@ -752,8 +778,8 @@
                         }
                     }
 
-                    //console.log("Import was a success")
-                    //console.log(ops)
+                    console.log("Import was a success")
+                    console.log(ops)
                 }
 
                 $scope.operationsToAdd = ops
