@@ -33,6 +33,8 @@
             $scope.showDeferredOps = true
             $scope.csvFileImported = ""
             $scope.importButtonTitle = "No operations to import"
+            $scope.ventilateOperation = null
+            $scope.subOperationModel = {}
             var dateFormat = 'YYYY-MM-DD'
 
 
@@ -201,6 +203,8 @@
                         fixOperations()
                         $scope.updateSolde()
                         generateCsv()
+
+                        console.log(operations)
 
                         // Dans le cas où l'on ajoute une operation lors d'un regroupement
                         // Il ne faut pas le faire si on est sans groupe sinon cela fait
@@ -498,6 +502,70 @@
             $scope.showUpdateOperation = function(operation) {
                 //TODO Gérer le select pour les catégories
                 operation.editable = true
+            }
+
+            /**
+             * @Description
+             * Show the page to modifify the ventilation of an operation
+             * @Param {Object} operation Operation to ventilate
+             */
+            $scope.showVentilation = function(operation) {
+                console.log(operation)
+                $scope.ventilateOperation = clone(operation)
+                $scope.balanceToAssign = $scope.ventilateOperation.value
+
+                if(!$scope.ventilateOperation.hasOwnProperty('subOperations')) {
+                    $scope.ventilateOperation.subOperations = []
+                } else {
+                    for(var i = 0; i < $scope.ventilateOperation.subOperations.length; i++) {
+                        $scope.balanceToAssign -= $scope.ventilateOperation.subOperations[i].value
+                    }
+                }
+            }
+
+            /**
+             * @Description
+             * Hide ventilation of an operation
+             */
+            $scope.hideVentilation = function() {
+                $scope.ventilateOperation = null
+                refresh()
+            }
+
+            /**
+             * @Description
+             * Add a subOperation in local variable
+             */
+            $scope.addSubOperation = function() {
+                $scope.ventilateOperation.subOperations.push({
+                    description: $scope.subOperationModel.description,
+                    value: $scope.subOperationModel.value
+                })
+
+                $scope.balanceToAssign -= $scope.subOperationModel.value
+
+                $scope.subOperationModel = {}
+            }
+
+            /**
+             * @Description
+             * Delete a suboperation in local variable
+             * @Param {Object} operation Operation to delete
+             * @Param {number} index Index of the operation in the list
+             */
+            $scope.deleteSubOperation = function(operation, index) {
+                $scope.balanceToAssign += operation.value
+                $scope.ventilateOperation.subOperations.splice(index, 1)
+            }
+
+            /**
+             * @Description
+             * Save the ventilation in BDD
+             */
+            $scope.saveVentilation = function() {
+                if($scope.balanceToAssign === 0) {
+                    OperationResource.update($scope.ventilateOperation)
+                }
             }
 
             /**
