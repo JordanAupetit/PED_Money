@@ -45,7 +45,7 @@ userModel.findOne({ clientID: profile.id }, function(err, user) {
       username: profile.displayName,
       firstName: profile.name.givenName,
       lastName: profile.name.familyName,
-      token : accessToken,
+      tokentiers : accessToken,
       email : profile.emails[0].value
      // created: Date.now()
     });

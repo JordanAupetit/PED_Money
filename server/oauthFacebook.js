@@ -15,7 +15,7 @@ module.exports = function (app, userModel) {
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req, res) {
-      res.redirect('/#/login?username='+req.user.username+'&token='+req.user.token)
+      res.redirect('/#/login?username='+req.user.username+'&token='+req.user.tokentiers)
     }
   )
 
@@ -49,7 +49,7 @@ module.exports = function (app, userModel) {
           username: profile.displayName,
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
-          token : accessToken,
+          tokentiers : accessToken,
           email : profile.emails[0].value
           // created: Date.now()
         })

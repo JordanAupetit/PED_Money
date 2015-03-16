@@ -85,7 +85,7 @@ module.exports = function(app, tool, userModel, jwt) {
         var data = {}
         data.username = req.body.username
         if(req.body.token !== undefined){
-            data.token = req.body.token
+            data.tokentiers = req.body.token
         }
         else{
             data.password = req.body.password
