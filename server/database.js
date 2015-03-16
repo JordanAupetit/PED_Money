@@ -474,8 +474,8 @@ var OperationSchema = new Schema({
     checked: Boolean,
     dateOperation: String, /*{ type: Date, default: Date.now }*/
     datePrelevement: String,
-    categoryId: Number/*,
-    subOperations: []*/,
+    categoryId: Number,
+    subOperations: [],
     accountId: String
 })
 

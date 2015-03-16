@@ -129,6 +129,9 @@
         <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
 
         <div class="operationsButtons">
+            <button ng-hide="op.editable" ng-click="showVentilation(op)" class="btn btn-default btn-xs">
+                Ventilate
+            </button>
             <button ng-hide="!op.editable" ng-click="closeUpdateOperation(op)" class="btn btn-default btn-xs">
                 Cancel
             </button>

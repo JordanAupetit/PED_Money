@@ -208,6 +208,18 @@ form.loginSignUp .signUp
     margin: 5px;
 }
 
+.ventilationLine {
+    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    height: 100%;
+    position:relative;
+}
+
+.ventilationRightZone {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
 .operationGroupOfLine:hover, .firstLineOperation:hover {
     background: whitesmoke;
 }

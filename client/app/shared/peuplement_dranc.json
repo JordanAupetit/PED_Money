@@ -1,0 +1,47 @@
+{
+"_id":"54ff3e618c0b69000f1a96e0",
+"value":166.5,
+"dateOperation":"2015-02-10",
+"description":"VIR DRFIP D'AQUITAINE ET GIR",
+"type":"transfer",
+"accountId":"54ff3aed8c0b69000f1a96dd",
+"categoryId":300,
+"datePrelevement":"2015-02-10",
+"__v":0
+},
+{
+"_id":"54ff3ecb8c0b69000f1a96e1",
+"value":1037.99,
+"dateOperation":"2015-01-29",
+"description":"Salaire Janvier 2015",
+"thirdParty":"Cetelem",
+"type":"transfer",
+"accountId":"54ff3aed8c0b69000f1a96dd",
+"categoryId":300,
+"datePrelevement":"2015-01-29",
+"__v":0
+},
+{
+"_id":"54ff3f0d8c0b69000f1a96e2",
+"value":-13.2,
+"dateOperation":"2015-02-11",
+"description":"Course Géant",
+"thirdParty":"Géant Casino",
+"type":"credit card",
+"accountId":"54ff3aed8c0b69000f1a96dd",
+"categoryId":101,
+"datePrelevement":"2015-02-11",
+"__v":0
+},
+{
+"_id":"54ff3f508c0b69000f1a96e3",
+"value":-6.5,
+"dateOperation":"2015-02-13",
+"description":"BirdMan",
+"thirdParty":"UGC Bordeaux",
+"type":"cash",
+"accountId":"54ff3aed8c0b69000f1a96dd",
+"categoryId":202,
+"datePrelevement":"2015-02-13",
+"__v":0
+}
