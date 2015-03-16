@@ -81,10 +81,17 @@ module.exports = function(app, tool, userModel, jwt) {
     }
 
     function authenticate(req, res, next) {
-        userModel.findOne({
-            username: req.body.username,
-            password: req.body.password
-        }, function(err, user) {
+        //console.log(req)
+        var data = {}
+        data.username = req.body.username
+        if(req.body.token !== undefined){
+            data.token = req.body.token
+        }
+        else{
+            data.password = req.body.password
+        }
+
+        userModel.findOne(data, function(err, user) {
             if (err) {
                 res.json({
                     type: false,

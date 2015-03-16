@@ -3,6 +3,7 @@ var passport = require('passport')
 var FacebookStrategy = require('passport-facebook').Strategy
 var config = require('./oauth.js')
 
+
 module.exports = function (app, userModel) {
   app.use(passport.initialize())
 
@@ -14,11 +15,7 @@ module.exports = function (app, userModel) {
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req, res) {
-      console.log("test")
-      var cookies = new Cookies( req, res)
-      cookies.set('token', req.user.token,{ httpOnly: false } )
-      cookies.set('user', req.user.username,{ httpOnly: false } )
-      res.redirect('/#/accounts')
+      res.redirect('/#/login?username='+req.user.username+'&token='+req.user.token)
     }
   )
 

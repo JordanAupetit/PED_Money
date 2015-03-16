@@ -29,8 +29,7 @@ var apiPeriod = require('./api-period')
 // var api = require('./api')
 
 var oauthFacebook = require('./oauthFacebook')
-
-//var oauthGoogle = require('./oauthGoogle')
+var oauthGoogle = require('./oauthGoogle')
 
 	
 
@@ -136,6 +135,7 @@ apiOperation(app, operationModel, accountModel)
 apiPeriod(app, tool, database.getPeriodModel())
 
 oauthFacebook(app, userModel)
+oauthGoogle(app, userModel)
 
 
 /**
