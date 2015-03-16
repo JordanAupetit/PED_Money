@@ -101,7 +101,13 @@
 
 
 <div class="container pt70 pb50">
-	<h2>
+	
+	<div ng-show="periods.length <= 0">
+		There isn't any periodic operations. 
+		<a class="btn btn-default btn-xs" ui-sref="operation({accountId : accountId})">Back</a>
+	</div>
+
+	<h2 ng-show="periods.length > 0">
 		Periodic operation
 		<a class="btn btn-default btn-xs" ui-sref="operation({accountId : accountId})">Back</a>
 	</h2>
