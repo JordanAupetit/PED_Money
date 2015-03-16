@@ -31,28 +31,6 @@ module.exports = function (app, tool, accountModel, operationModel) {
         }) 
     }
 
-/*
-    function updateBalance(accountId, userId, next, callback){
-        operationModel.find({accountId: accountId, userId: userId}, function (err, operations) {
-            if (!err) {
-                var balance = 0
-                for(var i in operations){
-                    balance = balance + operations[i].value
-                }
-                accountModel.findByIdAndUpdate(accountId, {'balance': balance}, function(err, res){
-                    if(err)
-                        next(err);
-                    else{
-                        callback()
-                    }
-                })
-            } else {
-                next(err);
-            }
-        })
-    }
-*/
-
     function getAccount(req, resp, next) {
         'use strict';
 
@@ -67,7 +45,7 @@ module.exports = function (app, tool, accountModel, operationModel) {
                             for(var i in operations){
                                 account.balance = account.balance + operations[i].value
                             }
-                            account.operations = operations
+                            account.set('operations', operations, { strict : false })
                             return resp.send(account);
                         } else {
                             next(err);
@@ -77,26 +55,6 @@ module.exports = function (app, tool, accountModel, operationModel) {
                     next(err);
                 }
             })
-
-/*
-            operationModel.find({accountId: accountId}, function (err, operations) {
-                if (!err) {
-                    return resp.send(operations);
-                } else {
-                    next(err);
-                }
-            });
-            /*
-            updateBalance(accountId, userId, next, function(){
-                accountModel.findOne({_id: accountId}, function (err, account) {
-                    if (!err) {
-                        return resp.send(account);
-                    } else {
-                        next(err);
-                    }
-                });
-            })
-            */
         }) 
     }
 
