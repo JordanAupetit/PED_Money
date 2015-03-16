@@ -92,6 +92,8 @@
                 var operation = {
                     "value": $scope.rebalance-$scope.account.balance,
                     "accountId":$scope.account._id,
+                    "dateOperation": moment().format('YYYY-MM-DD'),
+                    "datePrelevement": moment().format('YYYY-MM-DD'),
                     "description": 
                     "Rebalance from " + 
                     $scope.account.balance + " " + $scope.account.currency 

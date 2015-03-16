@@ -4,8 +4,8 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'StorageServices', 
-            function($scope, $rootScope, LoginService, $state, StorageServices) {
+        .controller('LoginController', ['$scope', '$rootScope', '$http', 'LoginService', '$state', 'StorageServices', 
+            function($scope, $rootScope, $http, LoginService, $state, StorageServices) {
 
 
             /**
@@ -34,6 +34,18 @@
                     }
                 });
             };
+
+            $scope.loginFB = function(){
+                $http.get('/auth/facebook').
+                    success(function(data, status, headers, config) {
+                        console.log('success')
+                        console.log(data)
+                    }).
+                    error(function(data, status, headers, config) {
+                        console.log('error')
+                        console.log(data)
+                    });
+            }
 
             /**
              * Signup fct

@@ -1,12 +1,10 @@
+var Cookies = require('cookies')
+var passport = require('passport')
+var FacebookStrategy = require('passport-facebook').Strategy
+var config = require('./oauth.js')
 
 module.exports = function (app, userModel) {
-  console.log("nooooooooop")
-
   app.use(passport.initialize())
-
-
-  console.log("go ni facebook")
-
 
   app.get('/auth/facebook',
     passport.authenticate('facebook',  { scope: [ 'email' ] }),
