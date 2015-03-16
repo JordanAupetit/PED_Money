@@ -31,6 +31,7 @@ module.exports = function (app, tool, accountModel, operationModel) {
         }) 
     }
 
+/*
     function updateBalance(accountId, userId, next, callback){
         operationModel.find({accountId: accountId, userId: userId}, function (err, operations) {
             if (!err) {
@@ -50,13 +51,42 @@ module.exports = function (app, tool, accountModel, operationModel) {
             }
         })
     }
+*/
 
     function getAccount(req, resp, next) {
-        'use strict';       
+        'use strict';
 
         tool.getUserId(req, next, function(userId){
             var accountId = req.params.id;
 
+            accountModel.findOne({_id: accountId}, function (err, account) {
+                if (!err) {
+                     operationModel.find({accountId: accountId}, function (err, operations) {
+                        if (!err) {
+                            account.balance = 0
+                            for(var i in operations){
+                                account.balance = account.balance + operations[i].value
+                            }
+                            account.operations = operations
+                            return resp.send(account);
+                        } else {
+                            next(err);
+                        }
+                    })
+                } else {
+                    next(err);
+                }
+            })
+
+/*
+            operationModel.find({accountId: accountId}, function (err, operations) {
+                if (!err) {
+                    return resp.send(operations);
+                } else {
+                    next(err);
+                }
+            });
+            /*
             updateBalance(accountId, userId, next, function(){
                 accountModel.findOne({_id: accountId}, function (err, account) {
                     if (!err) {
@@ -66,6 +96,7 @@ module.exports = function (app, tool, accountModel, operationModel) {
                     }
                 });
             })
+            */
         }) 
     }
 
