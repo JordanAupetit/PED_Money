@@ -3,9 +3,9 @@
 
     angular
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', NavbarController])
+        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', 'AccountResource', NavbarController])
 
-    function NavbarController($scope, $rootScope, $state, initService, StorageServices) {
+    function NavbarController($scope, $rootScope, $state, initService, StorageServices, AccountResource) {
 
         $scope.user = StorageServices.getUser()
 
@@ -32,12 +32,12 @@
             })
         }
 
-        /*var getAccounts = function() {
+        var getAccounts = function() {
             AccountResource.getAll().$promise.then(function(accounts){
                 $scope.accounts = accounts
             })
         }
 
-        getAccounts();*/
+        getAccounts();
     }	
 })();

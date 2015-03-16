@@ -338,6 +338,7 @@ form.loginSignUp .signUp
     top: 52px;
     right: -350px;
     bottom: 0px;
+    padding: 20px 0 20px 0;
     /* width: 350px; */
     width:100%;
     max-width: 350px;
@@ -349,11 +350,11 @@ form.loginSignUp .signUp
 #sidebar-wrapper-left {
     position: fixed;
     top: 52px;
-    left: -300px;
+    left: -200px;
     bottom: 0px;
     /* width: 300px; */
-    width:100%;
-    max-width: 300px;
+    width: 100%;
+    max-width: 200px;
     overflow-y: auto;
     overflow-x: hidden;
     background: white;
@@ -377,10 +378,17 @@ form.loginSignUp .signUp
     position: absolute;
     top: 0;
     width: 100%;
-    padding: 0 20px 0 20px;
+    padding: 0;
+    padding-top: 10px;
     margin: 0;
     list-style: none;
 }
+
+#sidebar-wrapper-right > form > .sidebar-nav, #sidebar-wrapper-right > .sidebar-nav {
+    padding: 0px 20px 0px 20px;
+}
+
+
 
 .sidebar-nav li {
     margin-bottom: 10px;
@@ -398,8 +406,17 @@ form.loginSignUp .signUp
     color: #999999;
 }
 
+.sidebar-left-element {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 16px;
+    padding-left: 20px;
+    cursor:pointer;
+}
 
-
+.sidebar-left-element:hover {
+    background: whitesmoke;
+}
 
 
 
