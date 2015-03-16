@@ -7,14 +7,12 @@
         .module('appModule')
         .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
 
-
-
             $urlRouterProvider.otherwise('/login');
             // Now set up the states
 
             $stateProvider
                 .state('login', {
-                    url: '/login',
+                    url: '/login?username&token',
                     templateUrl: 'app/components/login/loginView.html',
                     controller: 'LoginController',
                     data: {
@@ -104,12 +102,15 @@
             /**
              * Init ressources on page reload
              */
-            var user = StorageServices.getUser()
-            if(user !== undefined){
-                initService.initRessources(user.token)
-            } else {
-                //console.log("*Redirect* User doesn't exist")
-                $location.path("/")
+
+            if($location.$$path !== "/login"){
+                var user = StorageServices.getUser()
+                if(user !== undefined){
+                    initService.initRessources(user.token)
+                } else {
+                    //console.log("*Redirect* User doesn't exist")
+                    $location.path("/")
+                }
             }
 
             /**

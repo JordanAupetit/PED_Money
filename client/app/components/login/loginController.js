@@ -4,16 +4,29 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'StorageServices', 
-            function($scope, $rootScope, LoginService, $state, StorageServices) {
+        .controller('LoginController', ['$scope', '$stateParams', '$rootScope', '$http', 'LoginService', '$state', 'StorageServices', 
+            function($scope, $stateParams, $rootScope, $http, LoginService, $state, StorageServices) {
+/*
+            console.log($stateParams)
+            console.log('test')
 
+            if($stateParams.id !== undefined && $stateParams.cid !== undefined){
+                console.log("yeeeeeeeeep")
+            }
+*/
+// http://localhost:8754/#/login?id=5506b658c45&cid=10206070
+// http://localhost:8754/#/login?id=azert&cid=azerty
+
+            
 
             /**
              * Redirect user if already login
              */
+             /*
             if(StorageServices.getUser() !== undefined){
                 $state.go('accounts');
             }
+            */
 
             /**
              * Login fct
@@ -33,7 +46,24 @@
                         $state.go('accounts');
                     }
                 });
-            };
+            }
+
+            if($stateParams.username !== undefined && $stateParams.token !== undefined){
+                console.log("oui")
+                $scope.signin($stateParams)
+            }
+
+            $scope.loginFB = function(){
+                $http.get('/auth/facebook').
+                    success(function(data, status, headers, config) {
+                        console.log('success')
+                        console.log(data)
+                    }).
+                    error(function(data, status, headers, config) {
+                        console.log('error')
+                        console.log(data)
+                    });
+            }
 
             /**
              * Signup fct

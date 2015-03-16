@@ -1,12 +1,10 @@
+var passport = require('passport')
+var FacebookStrategy = require('passport-facebook').Strategy
+var config = require('./oauth.js')
 
-module.exports = function (app, userModel) {
-  console.log("nooooooooop")
 
+module.exports = function (app, tool, userModel, jwt) {
   app.use(passport.initialize())
-
-
-  console.log("go ni facebook")
-
 
   app.get('/auth/facebook',
     passport.authenticate('facebook',  { scope: [ 'email' ] }),
@@ -16,11 +14,7 @@ module.exports = function (app, userModel) {
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/' }),
     function(req, res) {
-      console.log("test")
-      var cookies = new Cookies( req, res)
-      cookies.set('token', req.user.token,{ httpOnly: false } )
-      cookies.set('user', req.user.username,{ httpOnly: false } )
-      res.redirect('/#/accounts')
+      res.redirect('/#/login?username='+req.user.username+'&token='+req.user.tokentiers)
     }
   )
 
@@ -54,16 +48,30 @@ module.exports = function (app, userModel) {
           username: profile.displayName,
           firstName: profile.name.givenName,
           lastName: profile.name.familyName,
-          token : accessToken,
+          tokentiers : accessToken,
           email : profile.emails[0].value
           // created: Date.now()
         })
-        user.save(function(err) {
+        user.save(function(err, user) {
           if(err) {
             console.log(err)
           } else {
-            console.log("saving user ...")
-            done(null, user)
+            var tokenInfo = {
+                id: user._id,
+                username: user.username,
+                lastName: user.lastName,
+                firstName: user.firstName,
+                email: user.email
+            }
+
+            user.token = jwt.sign(tokenInfo, tool.secretKey);
+
+            user.save(function(err, user1) {
+                console.log("saving user ...")
+                done(null, user1)
+            });
+
+            
           }
         })
       }

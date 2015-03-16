@@ -1,8 +1,8 @@
-<div ng-show="!account" class="container">
+<div ng-show="!account" class="container pt70">
 	<h3 class="center">Loading ...</h3>
 </div>
 
-<div ng-show="account" class="container">
+<div ng-show="account" class="container pt70">
 	<div class="row pl15 pr15">
 		<h1>Rebalance</h1>
 		<p>You forgot to add a bill? You get extra money this mounth? You forgot to save it in your account? Your real account balance is not the same as the one here? Don't worry ! Just give us your current balance and we will fix it for you.</p>
@@ -15,33 +15,15 @@
 		</form>
 	</div>
 
-	<div class="row">
-		<h1 class="pl15">Edit</h1>
-		<div class="col-md-4 col-xs-12 mt10">
+	<div class="row pl15 pr15">
+		<h1>Rename the account</h1>
+		<form class="form-inline">
 			<div class="form-group">
-				<label for="name">Name</label>
+				<label for="name">New name</label>
 				<input type="text" class="form-control" id="name" placeholder="Name" ng-model="account.name">
 			</div>
-		</div>
-
-		<div class="col-md-4 col-xs-12 mt10">
-			<div class="form-group">
-				<label for="type">Type</label>
-				<select class="form-control " id="type" ng-model="account.type" ng-options="type as type.name for type in accountTypes"></select>
-			</div>
-		</div>
-
-		<div class="col-md-4 col-xs-12 mt10">
-			<div class="form-group">
-				<label for="currency">Currency</label>
-				<select class="form-control " id="currency" ng-model="account.currency" ng-options="currency as currency.name for currency in currencies"></select>
-			</div>
-
-		</div>
-
-		<div class="col-md-12 col-xs-12 mt10">
-			<button ng-click="updateAccount()" type="button" class="btn btn-primary">Update account informations</button>
-		</div>
+			<button ng-click="updateAccount()" type="submit" class="btn btn-primary">Update account name</button>
+		</form>
 	</div>
 
 	<div class="row pl15 pr15">

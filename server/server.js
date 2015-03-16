@@ -28,14 +28,8 @@ var apiPeriod = require('./api-period')
 // var apiOther = require('./api-other')
 // var api = require('./api')
 
-var Cookies = require('cookies')
-var passport = require('passport')
-var FacebookStrategy = require('passport-facebook').Strategy
-var config = require('./oauth.js')
-
 var oauthFacebook = require('./oauthFacebook')
-
-//var oauthGoogle = require('./oauthGoogle')
+var oauthGoogle = require('./oauthGoogle')
 
 	
 
@@ -47,7 +41,8 @@ var oneDay = 86400000;
 app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static(path.join(application_root ,'../client'), { maxAge: oneDay }));
+app.use(express.static(path.join(application_root ,'../client')));
+//app.use(express.static(path.join(application_root ,'../client'), { maxAge: oneDay }));
 //Show all errors in development
 //app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));*
 
@@ -139,6 +134,8 @@ apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, tool, database.getPeriodModel())
 
+oauthFacebook(app, tool, userModel, jwt)
+oauthGoogle(app, tool, userModel, jwt)
 
 
 /**

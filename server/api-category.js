@@ -1,3 +1,4 @@
+var moment = require('moment')
 
 module.exports = function (app, tool, categoryModel, userModel, accountModel, operationModel) {
     app.get('/api/category/:userid', getCategories)
@@ -93,7 +94,7 @@ module.exports = function (app, tool, categoryModel, userModel, accountModel, op
         var accountId = req.params.accountId
         var superdata = {}
         accountModel.findOne({_id: accountId}, '_id name currency userId', function(err, account){
-            superdata.date = new Date()
+            superdata.date = moment().format("MMM Do YYYY")
             superdata.account = account
             operationModel.find({accountId: account._id}, function(err, operations){
                 var balance = 0
