@@ -208,6 +208,17 @@ form.loginSignUp .signUp
     margin: 5px;
 }
 
+.periodicOperationLine {
+    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    position:relative;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.projectionColor {
+    background: rgba(226, 226, 226, 0.26);
+}
+
 .ventilationLine {
     box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
     height: 100%;
@@ -549,3 +560,5 @@ form.loginSignUp .signUp
 .colorGreen {color: green;}
 
 .backWhite {background: white;}
+
+.fw600 {font-weight: 600;}
