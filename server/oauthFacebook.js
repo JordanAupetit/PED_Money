@@ -4,7 +4,7 @@ var FacebookStrategy = require('passport-facebook').Strategy
 var config = require('./oauth.js')
 
 
-module.exports = function (app, userModel) {
+module.exports = function (app, tool, userModel, jwt) {
   app.use(passport.initialize())
 
   app.get('/auth/facebook',
@@ -53,12 +53,26 @@ module.exports = function (app, userModel) {
           email : profile.emails[0].value
           // created: Date.now()
         })
-        user.save(function(err) {
+        user.save(function(err, user) {
           if(err) {
             console.log(err)
           } else {
-            console.log("saving user ...")
-            done(null, user)
+            var tokenInfo = {
+                id: user._id,
+                username: user.username,
+                lastName: user.lastName,
+                firstName: user.firstName,
+                email: user.email
+            }
+
+            user.token = jwt.sign(tokenInfo, tool.secretKey);
+
+            user.save(function(err, user1) {
+                console.log("saving user ...")
+                done(null, user1)
+            });
+
+            
           }
         })
       }

@@ -134,8 +134,8 @@ apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, tool, database.getPeriodModel())
 
-oauthFacebook(app, userModel)
-oauthGoogle(app, userModel)
+oauthFacebook(app, tool, userModel, jwt)
+oauthGoogle(app, tool, userModel, jwt)
 
 
 /**

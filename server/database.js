@@ -454,7 +454,7 @@ var UserSchema  = new Schema({
 	password: String, // TODO Add salt ??
     allowAlert: {type: Boolean, default: true},
 	token: String,
-    tokentiers; String,
+    tokentiers: String,
     categories: {type: [CategorySchema], default: defaultCategories}
 })
 
