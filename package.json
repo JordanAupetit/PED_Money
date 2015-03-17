@@ -77,7 +77,7 @@
     "karma": "karma start ./client/karma.conf.js",
     "jshint": "jshint client/app",
     "jshints": "jshint server/*.js",
-    "postinstall": "bower install"
+    "postinstall": "node node_modules/.bin/bower install"
   },
   "config": {
     "blanket": {
