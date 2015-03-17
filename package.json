@@ -2,6 +2,10 @@
   "name": "MyMoneyClient",
   "version": "0.0.1",
   "description": "MyMoneyClient web app",
+  "engines": {
+    "node": "0.12.x",
+    "npm": "2.5.x"
+  },
   "author": "Etienne Grandier-Vazeille <jackiller33@gmail.com>",
   "contributors": [
     {
@@ -13,10 +17,6 @@
       "email": "ranc.dimitri@gmail.com"
     }
   ],
-  "engines": {
-    "node": "0.12.x",
-    "npm": "2.5.x"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/JordanAupetit/PED_Money"
