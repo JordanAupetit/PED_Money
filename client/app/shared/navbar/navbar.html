@@ -1,5 +1,5 @@
-<div ng-show="user !== undefined" ng-controller="NavbarController" class="navbarApp">
 
+<div ng-show="user !== undefined" ng-controller="NavbarController" class="navbarApp">
 
     <!-- <nav ng-show="login" class="navbar navbar-default" role="navigation" > -->
     <nav class="navbar navbar-default" role="navigation" >
@@ -61,19 +61,24 @@
                     Menu
                 </li> -->
 
-                <li hide-sidebar-menu ui-sref="budget" class="sidebar-left-element">
-                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                    Budget
-                </li>
 
                 <li hide-sidebar-menu ui-sref="settings" class="sidebar-left-element">
-                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-user pr10" aria-hidden="true"></span>
                     User account
                 </li>
 
                 <li hide-sidebar-menu ng-click="logout()" class="sidebar-left-element">
-                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    <span class="glyphicon glyphicon-off pr10" aria-hidden="true"></span>
                     Logout
+                </li>
+
+                <li>
+                    <hr>
+                </li>
+
+                <li hide-sidebar-menu ui-sref="budget" class="sidebar-left-element">
+                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    Budget
                 </li>
 
                 <li hide-sidebar-menu ui-sref="accounts" class="sidebar-left-element">
@@ -81,9 +86,15 @@
                     Accounts
                 </li>
 
+                <li>
+                    <hr>
+                </li>
+
+                <li class="sidebar-left-element-title">Accounts list</li>
+
                 <li hide-sidebar-menu ui-sref="operation({accountId : acc._id})" ng-repeat="acc in accounts" class="sidebar-left-element">
                     <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                    Account: {{ acc.name }} - {{ acc.currency }}
+                    {{ acc.name }}
                 </li>
     
             </ul>

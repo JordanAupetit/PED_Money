@@ -16,6 +16,7 @@
         $rootScope.$on('login', function(event) {
             // console.log('login evt'); 
             $scope.user = StorageServices.getUser()
+            getAccounts();
         })
 
         $scope.logout = function() {
@@ -38,6 +39,9 @@
             })
         }
 
-        getAccounts();
+        // Si on est deja connecté lors du F5, récupérer les accounts
+        if(StorageServices.getUser()) {
+            getAccounts();
+        }
     }	
 })();
