@@ -3,11 +3,20 @@
 
     angular
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', 'AccountResource', NavbarController])
+        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', 'AccountResource', '$location', NavbarController])
 
-    function NavbarController($scope, $rootScope, $state, initService, StorageServices, AccountResource) {
+    function NavbarController($scope, $rootScope, $state, initService, StorageServices, AccountResource, $location) {
 
         $scope.user = StorageServices.getUser()
+
+        // On récupère toujours l'URL courante même en la changeant à la main
+        // cela permet de ne pas afficher la navbar sur le login
+        $rootScope.$watch(function() { 
+            return $location.path(); 
+        },
+        function(url){  
+            $scope.currentUrl = url
+        });
 
         /**
          * Trigger on login
@@ -41,7 +50,11 @@
 
         // Si on est deja connecté lors du F5, récupérer les accounts
         if(StorageServices.getUser()) {
-            getAccounts();
+            if($location.url() === "/login") {
+                $scope.logout()
+            } else {
+                getAccounts();
+            }
         }
     }	
 })();
