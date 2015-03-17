@@ -82,26 +82,6 @@
 
             /**
              * @Description
-             * Get all accounts (offline or online)
-             */  
-            function getAccountAndGenerateCsv(){
-                if(StorageServices.isOnline()){
-                    AccountResource.get(accountId).$promise.then(function(account){
-                        StorageServices.setAccount(accountId, account)
-                        $scope.account = account
-                        generateCsv()
-                    }, function(err){
-                        getAccountAndGenerateCsv()
-                    })
-                }
-                else{
-                    $scope.account = StorageServices.getAccount(accountId)
-                    generateCsv()
-                }
-            }
-
-            /**
-             * @Description
              * Clone an object
              * @Param {Object} operations An object to clone
              */  
@@ -176,49 +156,30 @@
                 })
             }
 
+            function getAccount(account){
+                $scope.account = account
+                genCategories()
+
+                // Le fix doit se faire avant l'update
+                fixOperations()
+                $scope.updateSolde()
+
+                generateCsv()
+
+                // Dans le cas où l'on ajoute une operation lors d'un regroupement
+                // Il ne faut pas le faire si on est sans groupe sinon cela fait
+                // une boucle infinie
+                if($scope.groupedBy !== '') {
+                    $scope.groupOperation();
+                }
+            }
+
             /**
              * @Description
              * Refresh account page
              */ 
             function refresh() {
-                if(StorageServices.isOnline()){
-                    AccountResource.get(accountId).$promise.then(function(account){
-
-                        $scope.account = account
-                        StorageServices.setAccount(accountId, account)
-                        genCategories()
-
-                        // Le fix doit se faire avant l'update
-                        fixOperations()
-                        $scope.updateSolde()
-                        getAccountAndGenerateCsv()
-                        //generateCsv()
-
-                        // Dans le cas où l'on ajoute une operation lors d'un regroupement
-                        // Il ne faut pas le faire si on est sans groupe sinon cela fait
-                        // une boucle infinie
-                        if($scope.groupedBy !== '') {
-                            $scope.groupOperation();
-                        }
-
-                    }, function(err){
-                        //refresh()
-                        console.log("Erreur refresh")
-                    })
-                } else {
-                    /*
-                    $scope.operations = StorageServices.getOperations(accountId)
-
-                    fixOperations()
-                    $scope.updateSolde()
-                    getAccountAndGenerateCsv()
-                    //generateCsv()
-
-                    if($scope.groupedBy !== '') {
-                        $scope.groupOperation();
-                    }
-                    */
-                }
+                StorageServices.getAccount(accountId, getAccount)
             }
 
             /**

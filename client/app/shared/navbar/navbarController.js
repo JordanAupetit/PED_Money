@@ -33,10 +33,12 @@
             })
         }
 
+        function callback(accounts){
+            $scope.accounts = accounts
+        }
+
         var getAccounts = function() {
-            AccountResource.getAll().$promise.then(function(accounts){
-                $scope.accounts = accounts
-            })
+            StorageServices.getAccounts(callback)
         }
 
         // Si on est deja connecté lors du F5, récupérer les accounts

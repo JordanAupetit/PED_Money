@@ -21,9 +21,26 @@ module.exports = function (app, tool, accountModel, operationModel) {
     function getAllAccounts(req, resp, next) {
         'use strict';
         tool.getUserId(req, next, function(userId){
-            accountModel.find({userId: userId}, '_id name type currency balance', function (err, coll) {
+            accountModel.find({userId: userId}, function (err, accounts) {
                 if (!err) {
-                    return resp.send(coll);
+                    for(var i in accounts){
+                        var account = accounts[i]
+                        operationModel.find({accountId: account._id}, function (err, operations) {
+                            if (!err) {
+                                var balance = 0
+                                for(var i in operations){
+                                    balance = balance + operations[i].value
+                                }
+                                account.set('balance', balance, { strict : false })
+                                account.set('operations', operations, { strict : false })
+                                if(i == accounts.length){
+                                    return resp.send(accounts)
+                                }
+                            } else {
+                                next(err);
+                            }
+                        })
+                    }
                 } else {
                     next(err);
                 }
@@ -39,12 +56,13 @@ module.exports = function (app, tool, accountModel, operationModel) {
 
             accountModel.findOne({_id: accountId}, function (err, account) {
                 if (!err) {
-                     operationModel.find({accountId: accountId}, function (err, operations) {
+                    operationModel.find({accountId: accountId}, function (err, operations) {
                         if (!err) {
-                            account.balance = 0
+                            var balance = 0
                             for(var i in operations){
-                                account.balance = account.balance + operations[i].value
+                                balance = balance + operations[i].value
                             }
+                            account.set('balance', balance, { strict : false })
                             account.set('operations', operations, { strict : false })
                             return resp.send(account);
                         } else {

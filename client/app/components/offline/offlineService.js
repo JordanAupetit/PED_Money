@@ -25,21 +25,15 @@
             localStorageService.set("WFC", JSON.stringify(data))
         }
 
-        function getLocalData(){
-            return localStorageService.get("DATA")
-            /*
-            var data = localStorageService.get("DATA")
-            if(data === null) // If DATA is not define
-                return {'user': undefined, 'accounts': []}
-            //TODO remettre return {} quand le lien avec la connection
-            //sera fait
-            else
-                return data
-            */
-        }
-
-        function setLocalData(data){
-            localStorageService.set("DATA", JSON.stringify(data))
+        function getLocalAccount(){
+            var accounts = []
+            var keys = localStorageService.keys()
+            for(var i in keys){
+                if(keys[i] === "USER"){
+                    accounts.push(localStorageService.get(keys))
+                }
+            }
+            return accounts
         }
 
         var online = true
@@ -69,33 +63,25 @@
             getUser: function(){
                 return localStorageService.get("USER")
             },
-            getAccount: function(accountId){
-                return localStorageService.get("ACCOUNT-"+accountId)
+            getAccount: function(accountId, callback){
+                AccountResource.get(accountId).$promise.then(function(account){
+                    localStorageService.set(account._id, account)
+                    callback(account)
+                }, function(err){
+                    callback(localStorageService.get(accountId))
+                })                
             },
-            setAccount: function(accountId, account){
-                return localStorageService.set("ACCOUNT-"+accountId, account)
-            },
-            getOperations: function(accountId){
-                /*
-                var data = getLocalData()
-                for(var i in data.accounts){
-                    if(data.accounts[i]._id == accountId)
-                        return data.accounts[i].operations
-                }
-                return {}
-                */
-            },
-            setOperations: function(accountId, operations){
-                /*
-                var data = getLocalData()
-                for(var i in data.accounts){
-                    if(data.accounts[i]._id == accountId){
-                        data.accounts[i].operations = operations
+            getAccounts: function(callback){
+                AccountResource.getAll().$promise.then(function(accounts){
+                    for(var i in accounts){
+                        if(accounts[i]._id)
+                            localStorageService.set(accounts[i]._id, accounts[i])
                     }
-                }
-                setLocalData(data)
-                */
-            },            
+                    callback(accounts)
+                }, function(err){
+                    callback(getLocalAccounts())
+                })
+            },  
             postOperation: function(accountId, operation){
                 /*
                 addWaitingForConnection(new wfc('OperationResource', 'add', operation))
@@ -111,6 +97,7 @@
                 */
             },
             updateOperation: function(operation){
+
             },
             deleteOperation: function(operation){
 
