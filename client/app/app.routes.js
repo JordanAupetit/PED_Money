@@ -105,7 +105,7 @@
 
             if($location.$$path !== "/login"){
                 var user = StorageServices.getUser()
-                if(user !== undefined){
+                if(user !== null){
                     initService.initRessources(user.token)
                 } else {
                     //console.log("*Redirect* User doesn't exist")

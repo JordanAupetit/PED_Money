@@ -2,7 +2,7 @@
 
     <div class="container">
         <div ng-show="ventilateOperation === null">
-            <div ng-if="operations.length > 0" class="fs20">
+            <div ng-if="account.operations.length > 0" class="fs20">
                 <strong>Balance : </strong>
                 <span ng-if="balance <= 0" class="colorRed">
                     {{ balance }}€
@@ -12,7 +12,7 @@
                 </span>
             </div>
 
-            <div ng-if="operations.length > 0" class="mb20 fs12">
+            <div ng-if="account.operations.length > 0" class="mb20 fs12">
                 <strong>Deferred balance : </strong>
                 <span ng-if="deferredBalance <= 0" class="colorRed">
                     {{ deferredBalance }}€
@@ -32,15 +32,15 @@
                 <a class="btn btn-default" href="#/{{accountId}}/settings">Account settings</a>
             </div>
             
-            <div ng-show="operations.length > 0" class="mt10">
+            <div ng-show="account.operations.length > 0" class="mt10">
                 <a class="btn btn-default" href="/api/account/{{accountId}}/pdf" target="_blank">Export to PDF</a>
             </div>
 
-            <div ng-show="operations.length > 0" class="mt10">
+            <div ng-show="account.operations.length > 0" class="mt10">
                 <a download="operations.csv" ng-href="{{ urlCsv }}" class="btn btn-default">Export to CSV</a>
             </div>
 
-            <div ng-show="operations.length > 0" class="mt10">
+            <div ng-show="account.operations.length > 0" class="mt10">
                 <form class="importCsv">
                     <div class="wid300 ftl">
                         <input type="file" on-read-file="importCsv($fileContent)" class="filestyle">
@@ -50,7 +50,7 @@
                 </form>
             </div>
 
-            <div ng-show="operations.length > 0" class="row">
+            <div ng-show="account.operations.length > 0" class="row">
                 <div class="col-md-4 col-xs-12 mt10">
                     <select class="form-control " ng-change="groupOperation()" ng-model="groupedBy">
                         <option value="">Not grouped</option>
@@ -62,11 +62,11 @@
                 </div>
                 
                 <div class="col-md-4 col-xs-12 mt10">
-                  <input ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="searchText" class="form-control" placeholder="Search">
+                  <input ng-show="account.operations.length > 0 && groupOfOperations.length <= 0" ng-model="searchText" class="form-control" placeholder="Search">
                 </div>
 
                 <div class="col-md-4 col-xs-12 mt10">
-                  <select ng-show="operations.length > 0 && groupOfOperations.length <= 0" ng-model="orderProp" class="form-control" ng-change="test()">
+                  <select ng-show="account.operations.length > 0 && groupOfOperations.length <= 0" ng-model="orderProp" class="form-control" ng-change="test()">
                       <option value="value">Order by Price</option>
                       <option value="dateOperation">Order by Date</option>
                       <option value="categoryName">Order by Category</option>
@@ -134,12 +134,12 @@
             </div>
 
 
-            <div ng-if="operations.length > 0 && groupOfOperations.length <= 0">
+            <div ng-if="account.operations.length > 0 && groupOfOperations.length <= 0">
 
                 <div ng-if="countOfOperationsAfterToday > 0 && showDeferredOps">
                     <label class="mt20">Deferred operations</label>
                     <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
-                    <div ng-if="op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp"> 
+                    <div ng-if="op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in account.operations | filter:searchText | orderBy:orderProp"> 
                         <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
                     </div>
                 </div>
@@ -147,14 +147,14 @@
                 <div ng-if="countOfOperationsNotAfterToday > 0" class="mt20">
                     <label>Operations</label>
                     <div ng-include="'/app/components/operation/operationDescriptionTemplate.html'"></div>
-                    <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in operations | filter:searchText | orderBy:orderProp">
+                    <div ng-if="!op.datePrelevementIsAfterToday" class="operationLine backWhite" ng-repeat="op in account.operations | filter:searchText | orderBy:orderProp">
                         <div click-operation ng-include="'/app/components/operation/operationLineTemplate.html'"></div>
                     </div>
 
                 </div>
             </div>
 
-            <div ng-if="operations.length <= 0 && groupOfOperations.length <= 0" class="mt20">
+            <div ng-if="account.operations.length <= 0 && groupOfOperations.length <= 0" class="mt20">
                 There are yet no operations on this account.
             </div>
         </div>

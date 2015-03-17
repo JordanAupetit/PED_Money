@@ -5,49 +5,6 @@
     .factory('StorageServices', ['$rootScope', 'OperationResource', 'AccountResource', 'localStorageService', 
     function($rootScope, OperationResource, AccountResource, localStorageService){
         
-/*
-
-        // register the interceptor as a service
-        //$provide.factory('myHttpInterceptor', function($q, dependency1, dependency2) {
-          return {
-            // optional method
-            'request': function(config) {
-              // do something on success
-              return config;
-            },
-
-            // optional method
-           'requestError': function(rejection) {
-              // do something on error
-              if (canRecover(rejection)) {
-                return responseOrNewPromise
-              }
-              return $q.reject(rejection);
-            },
-
-
-
-            // optional method
-            'response': function(response) {
-              // do something on success
-              return response;
-            },
-
-            // optional method
-           'responseError': function(rejection) {
-              // do something on error
-              if (canRecover(rejection)) {
-                return responseOrNewPromise
-              }
-              return $q.reject(rejection);
-            }
-          };
-        });
-
-        $httpProvider.interceptors.push('myHttpInterceptor');
-
-*/
-
         function wfc(resource, fct, data){
             this.resource = resource
             this.fct = fct
@@ -69,6 +26,8 @@
         }
 
         function getLocalData(){
+            return localStorageService.get("DATA")
+            /*
             var data = localStorageService.get("DATA")
             if(data === null) // If DATA is not define
                 return {'user': undefined, 'accounts': []}
@@ -76,6 +35,7 @@
             //sera fait
             else
                 return data
+            */
         }
 
         function setLocalData(data){
@@ -101,46 +61,32 @@
                 return online
             },
             login: function(user) {
-                setLocalData({'user': user, 'accounts': []})
+                localStorageService.set("USER", user)                
             },
             logout: function() {
-                setLocalData({'user': undefined, 'accounts': []})
+                localStorageService.clearAll()
             },
             getUser: function(){
-                return getLocalData().user
+                return localStorageService.get("USER")
             },
             getAccount: function(accountId){
-                var data = getLocalData()
-                for(var i in data.accounts){
-                    if(data.accounts[i]._id == accountId)
-                        return data.accounts[i]
-                }
-                return {}
+                return localStorageService.get("ACCOUNT-"+accountId)
             },
             setAccount: function(accountId, account){
-                var data = getLocalData()
-                for(var i in data.accounts){
-                    if(!data.accounts[i].hasOwnProperty('operations'))
-                        data.accounts[i].operations  = []
-                    if(data.accounts[i]._id == accountId){
-                        account.operations = data.accounts[i].operations
-                        data.accounts[i] = account
-                        setLocalData(data)
-                        return
-                    }
-                }
-                data.accounts.push(account)
-                setLocalData(data)
+                return localStorageService.set("ACCOUNT-"+accountId, account)
             },
             getOperations: function(accountId){
+                /*
                 var data = getLocalData()
                 for(var i in data.accounts){
                     if(data.accounts[i]._id == accountId)
                         return data.accounts[i].operations
                 }
                 return {}
+                */
             },
             setOperations: function(accountId, operations){
+                /*
                 var data = getLocalData()
                 for(var i in data.accounts){
                     if(data.accounts[i]._id == accountId){
@@ -148,8 +94,10 @@
                     }
                 }
                 setLocalData(data)
+                */
             },            
             postOperation: function(accountId, operation){
+                /*
                 addWaitingForConnection(new wfc('OperationResource', 'add', operation))
                 var data = getLocalData()
                 for(var i in data.accounts){
@@ -160,6 +108,7 @@
                     }
                 }
                 setLocalData(data)
+                */
             },
             updateOperation: function(operation){
             },
