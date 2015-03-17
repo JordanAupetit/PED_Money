@@ -124,7 +124,6 @@
                     initService.initRessources(user.token)
                 }
             })
-
         }
 
 
