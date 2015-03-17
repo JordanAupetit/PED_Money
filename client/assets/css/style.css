@@ -418,6 +418,11 @@ form.loginSignUp .signUp
     background: whitesmoke;
 }
 
+.sidebar-left-element-title {
+    color: #999;
+    font-size: .9em;
+    padding-left: 20px;
+}
 
 
 
