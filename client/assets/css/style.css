@@ -231,6 +231,11 @@ form.loginSignUp .signUp
     top: 15px;
 }
 
+.otherLineOperation {
+    display: none;
+    position: relative;
+}
+
 .operationGroupOfLine:hover, .firstLineOperation:hover {
     background: whitesmoke;
 }
@@ -409,8 +414,9 @@ form.loginSignUp .signUp
 .sidebar-left-element {
     padding-top: 10px;
     padding-bottom: 10px;
-    font-size: 16px;
     padding-left: 20px;
+    padding-right: 10px;
+    font-size: 16px;
     cursor:pointer;
 }
 

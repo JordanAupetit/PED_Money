@@ -121,16 +121,13 @@
                 transclude: false,
                 link: function (scope, element, attrs) {
                     
-                    var allOps = $(".operationLine")
-                    var allInfos = $(".otherLineOperation")
-                    
                     $(element).find(".firstLineOperation").click(function() {
                         var infos = $(element).find(".otherLineOperation")
                         var thisLine = $(element).parent()
                         var height = thisLine.css("height")
 
-                        allInfos.hide()
-                        allOps.css("height", "50px")
+                        $(".otherLineOperation").hide()
+                        $(".operationLine").css("height", "50px")
 
                         if(height === "50px") {
                             infos.show()
@@ -142,7 +139,7 @@
                     });
 
                     // On cache toutes les infos sup des operations
-                    $(element).find(".otherLineOperation").hide()
+                    $(".otherLineOperation").hide()
                 }
             };
         })
