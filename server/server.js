@@ -18,6 +18,7 @@ var database = require('./database')
 var apiAccount = require('./api-account')
 var apiUser = require('./api-user')
 var apiOperation = require('./api-operation')
+var apiBudget = require('./api-budget')
 
 var apiCategory = require('./api-category')
 // var apiExpense = require('./api-expense')
@@ -139,6 +140,7 @@ apiCategory(app, tool, database.getCategoryModel(), userModel, accountModel, ope
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, tool, database.getPeriodModel())
+apiBudget(app, tool, accountModel, operationModel)
 
 
 
