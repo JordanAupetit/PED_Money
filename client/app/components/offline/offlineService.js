@@ -5,6 +5,49 @@
     .factory('StorageServices', ['$rootScope', 'OperationResource', 'AccountResource', 'localStorageService', 
     function($rootScope, OperationResource, AccountResource, localStorageService){
         
+/*
+
+        // register the interceptor as a service
+        //$provide.factory('myHttpInterceptor', function($q, dependency1, dependency2) {
+          return {
+            // optional method
+            'request': function(config) {
+              // do something on success
+              return config;
+            },
+
+            // optional method
+           'requestError': function(rejection) {
+              // do something on error
+              if (canRecover(rejection)) {
+                return responseOrNewPromise
+              }
+              return $q.reject(rejection);
+            },
+
+
+
+            // optional method
+            'response': function(response) {
+              // do something on success
+              return response;
+            },
+
+            // optional method
+           'responseError': function(rejection) {
+              // do something on error
+              if (canRecover(rejection)) {
+                return responseOrNewPromise
+              }
+              return $q.reject(rejection);
+            }
+          };
+        });
+
+        $httpProvider.interceptors.push('myHttpInterceptor');
+
+*/
+
         function wfc(resource, fct, data){
             this.resource = resource
             this.fct = fct

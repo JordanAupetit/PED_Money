@@ -202,6 +202,40 @@ form.loginSignUp .signUp
     position:relative;
 }
 
+.accountLine {
+    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    padding: 10px;
+    margin: 5px;
+}
+
+.periodicOperationLine {
+    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    position:relative;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.projectionColor {
+    background: rgba(226, 226, 226, 0.26);
+}
+
+.ventilationLine {
+    box-shadow: 0 -1px 0 #e5e5e5,0 0 2px rgba(0,0,0,.12),0 2px 4px rgba(0,0,0,.24);
+    height: 100%;
+    position:relative;
+}
+
+.ventilationRightZone {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+.otherLineOperation {
+    display: none;
+    position: relative;
+}
+
 .operationGroupOfLine:hover, .firstLineOperation:hover {
     background: whitesmoke;
 }
@@ -280,6 +314,16 @@ form.loginSignUp .signUp
     color: #999999;
 }
 
+.accountDescription {
+    height: 20px;
+    width: 100%;
+    font-size: 12px;
+    color: #999999;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin: 5px;
+}
+
 .navbarApp {
     position:fixed;
     width:100%;
@@ -299,6 +343,7 @@ form.loginSignUp .signUp
     top: 52px;
     right: -350px;
     bottom: 0px;
+    padding: 20px 0 20px 0;
     /* width: 350px; */
     width:100%;
     max-width: 350px;
@@ -310,11 +355,11 @@ form.loginSignUp .signUp
 #sidebar-wrapper-left {
     position: fixed;
     top: 52px;
-    left: -300px;
+    left: -200px;
     bottom: 0px;
     /* width: 300px; */
-    width:100%;
-    max-width: 300px;
+    width: 100%;
+    max-width: 200px;
     overflow-y: auto;
     overflow-x: hidden;
     background: white;
@@ -338,10 +383,17 @@ form.loginSignUp .signUp
     position: absolute;
     top: 0;
     width: 100%;
-    padding: 0 20px 0 20px;
+    padding: 0;
+    padding-top: 10px;
     margin: 0;
     list-style: none;
 }
+
+#sidebar-wrapper-right > form > .sidebar-nav, #sidebar-wrapper-right > .sidebar-nav {
+    padding: 0px 20px 0px 20px;
+}
+
+
 
 .sidebar-nav li {
     margin-bottom: 10px;
@@ -359,9 +411,24 @@ form.loginSignUp .signUp
     color: #999999;
 }
 
+.sidebar-left-element {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 10px;
+    font-size: 16px;
+    cursor:pointer;
+}
 
+.sidebar-left-element:hover {
+    background: whitesmoke;
+}
 
-
+.sidebar-left-element-title {
+    color: #999;
+    font-size: .9em;
+    padding-left: 20px;
+}
 
 
 
@@ -436,6 +503,9 @@ form.loginSignUp .signUp
 .pb55 {padding-bottom:55px;}
 .pb60 {padding-bottom:60px;}
 .pb70 {padding-bottom:70px;}
+.pb80 {padding-bottom:80px;}
+.pb90 {padding-bottom:90px;}
+.pb100 {padding-bottom:100px;}
 
 .pr5  {padding-right:5px;}
 .pr10 {padding-right:10px;}
@@ -518,3 +588,5 @@ form.loginSignUp .signUp
 .colorGreen {color: green;}
 
 .backWhite {background: white;}
+
+.fw600 {font-weight: 600;}

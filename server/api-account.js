@@ -31,40 +31,29 @@ module.exports = function (app, tool, accountModel, operationModel) {
         }) 
     }
 
-    function updateBalance(accountId, userId, next, callback){
-        operationModel.find({accountId: accountId, userId: userId}, function (err, operations) {
-            if (!err) {
-                var balance = 0
-                for(var i in operations){
-                    balance = balance + operations[i].value
-                }
-                accountModel.findByIdAndUpdate(accountId, {'balance': balance}, function(err, res){
-                    if(err)
-                        next(err);
-                    else{
-                        callback()
-                    }
-                })
-            } else {
-                next(err);
-            }
-        })
-    }
-
     function getAccount(req, resp, next) {
-        'use strict';       
+        'use strict';
 
         tool.getUserId(req, next, function(userId){
             var accountId = req.params.id;
 
-            updateBalance(accountId, userId, next, function(){
-                accountModel.findOne({_id: accountId}, function (err, account) {
-                    if (!err) {
-                        return resp.send(account);
-                    } else {
-                        next(err);
-                    }
-                });
+            accountModel.findOne({_id: accountId}, function (err, account) {
+                if (!err) {
+                     operationModel.find({accountId: accountId}, function (err, operations) {
+                        if (!err) {
+                            account.balance = 0
+                            for(var i in operations){
+                                account.balance = account.balance + operations[i].value
+                            }
+                            account.set('operations', operations, { strict : false })
+                            return resp.send(account);
+                        } else {
+                            next(err);
+                        }
+                    })
+                } else {
+                    next(err);
+                }
             })
         }) 
     }

@@ -100,112 +100,45 @@
 </script>
 
 
-<md-content >
-	<div class="container"> <!-- class="container" -->
-<!--     <md-toolbar>
-		<h2 class="md-toolbar-tools">
-			Periodic operation 
-		</h2>
-		<a type="button" ng-click="addData()" class="btn btn-warning btn-xs" role="button">Add data</a> 
-		<a type="button" ng-click="refresh()" class="btn btn-warning btn-xs" role="button">Refresh</a>
-    </md-toolbar> -->
-    <md-card>
-    <md-card-content>
-
-	<h2>Periodic operation 
-		<!-- <a type="button" ng-click="addData()" class="btn btn-warning btn-xs" role="button">Add data</a>  -->
-		<!-- <a type="button" ng-click="refresh()" class="btn btn-warning btn-xs" role="button">Refresh</a> -->
-	</h2>
-	<a class="" ui-sref="operation({accountId : accountId})"><- Back to operations</a>
-	<table class="table">
-		<thead>
-			<tr>
-				<th data-field="name">Name</th>
-				<th data-field="dateBegin">Date Begin</th>
-				<th data-field="dateEnd">Date End</th>
-				<th data-field="nbRepeat">Occurrency</th>
-				<th data-field="step">Step</th>
-				<th data-field="intervalType">Interval type</th>
-				<th data-field="amount">Amount</th>
-				<th data-field="action">   
-					<!-- <a type="button" ng-click="openAdd()" class="btn btn-primary" role="button">Add</a> -->
-				<!--<a ng-show="!isAdding" type="button" ng-click="add()" class="btn btn-primary" role="button">Add</a>
-				<a ng-show="isAdding" type="button" ng-click="addCancel()" class="btn btn-warning" role="button">Cancel</a></th> -->
-			</tr>
-		</thead>
-		<tbody>
-
-			<tr ng-show="isAdding"> 
-
-			 
-		<!--<form name="periodForm" ng-submit="submitForm(periodForm.$valid)" >
-			<td class="form-group">
-				<input type="text" name="name" class="form-control"  ng-model="periodTmp.name" required>
-				<p ng-show="periodForm.name.$invalid && !periodForm.name.$pristine" class="help-block">A name is required.</p>
-				invalid :{{periodForm.name.$invalid}} pristine: {{!periodForm.name.$pristine}}
-			</td>
-			<td><input type="date" name="dateBegin" class="form-control"  ng-model="periodTmp.dateBegin" required></td>
-			<td><input ng-change="computeRepeatDate()" type="date" name="dateEnd" class="form-control"  ng-model="periodTmp.dateEnd" ng-disabled="periodTmp.isInifinite" required></td>
-			<td><input ng-change="computeDateRepeat()" type="number" name="nbRepeat" class="form-control"  ng-model="periodTmp.nbRepeat" ng-disabled="periodTmp.isInifinite" required> 
-				<input ng-change="setInfinite()" type="checkbox" name="isInifinite" ng-model="periodTmp.isInifinite"> Infinite</td>
-			<td><input type="number" class="form-control" name="step" ng-model="periodTmp.step" required></td>
-			<td><select name="intervalType" class="form-control" ng-model="periodTmp.intervalType" ng-options="interval as interval.type for interval in intervalType" required></select></td>
-			<td><input type="number" name="amount" class="form-control"  ng-model="periodTmp.amount" required></td>
-			<td>
-				<a ng-show="isAdding" type="button" ng-click="addValid()" class="btn btn-info" role="button">Ok</a>
-				 <button type="submit" class="btn btn-primary" ng-disabled="periodForm.$invalid">Ok</button>
-			</td>
-		</form> -->
-			<!--             
-			<td>{{periodTmp.name}}</td>
-			<td>{{periodTmp.dateBegin | date}}</td>
-			<td>{{periodTmp.dateEnd | date}}</td>
-			<td>{{periodTmp.nbRepeat | repeat}}</td>
-			<td>{{periodTmp.step}}</td>
-			<td>{{periodTmp.intervalType}}</td>
-			<td>{{periodTmp.amount | currency:'€':0:true}}</td> -->
-		</tr>
-		<tr ng-repeat="period in periods">
-			<td>{{period.name}}</td>
-			<td>{{period.dateBegin | date2:'dd/MM/yyyy'}}</td>
-			<td>{{period.dateEnd | date2:'dd/MM/yyyy'}}</td>
-			<td>{{period.nbRepeat | repeat}}</td>
-			<td>{{period.step}}</td>
-			<td>{{period.intervalType | period}}</td>
-			<td>{{period.operation.value | currency:'€':0:true}}</td>
-			<td> <a type="button" ng-click="remove(period)" class="btn btn-danger btn-xs" role="button">X</a>
-				<a type="button" ng-click="makeProjection(period)" class="btn btn-info btn-xs" role="button">P</a>
-			</td>
-		</tr>
-
-
-
-		<!-- sub array of real operation -->
-		<!-- sub array of projection -->
-		</tbody>
-	</table>
-
-	<table class="table" ng-show="isProjection">
-		<thead>
-			<tr>
-				<!-- <th data-field="name">Name</th> -->
-				<th data-field="date">Date</th>
-				<th data-field="amount">Amount</th>
-				<th data-field="amount">thirdParty</th>
-				<th data-field="amount">type</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="operation in projection">
-				<td>{{operation.dateOperation | date2:'dd/MM/yyyy'}}</td>
-				<td>{{operation.value | currency:'€':0:true}}</td>
-				<td>{{operation.thirdParty }}</td>
-				<td>{{ operation.type }}</td>
-			</tr>
-		</tbody>
-	</table>
-
-	</md-card-content>
-    </md-card>
+<div class="container pt70 pb50">
+	
+	<div ng-show="periods.length <= 0">
+		There isn't any periodic operations. 
+		<a class="btn btn-default btn-xs" ui-sref="operation({accountId : accountId})">Back</a>
 	</div>
-</md-content>	
+
+	<h2 ng-show="periods.length > 0">
+		Periodic operation
+		<a class="btn btn-default btn-xs" ui-sref="operation({accountId : accountId})">Back</a>
+	</h2>
+
+	<div ng-repeat="period in periods" class="periodicOperationLine backWhite pad15 row show-grid">
+		<div class="col-md-4 col-xs-12">
+			<span class="fs12 fw600">Begin to End: </span>
+			{{period.dateBegin | date2:'dd/MM/yyyy'}} to 
+			{{period.dateEnd | date2:'dd/MM/yyyy'}}
+		</div>
+		<div class="col-md-4 col-xs-12">
+			{{period.nbRepeat | repeat}} times - 
+			Each {{period.step}}
+			{{period.intervalType | period}}
+		</div>
+		<div class="col-md-2 col-xs-12">
+			<span class="fs12 fw600">Value: </span>
+			{{period.operation.value | currency:'€':0:true}}
+		</div>
+		<div class="col-md-2 col-xs-12 algright">
+			<a type="button" ng-click="remove(period)" class="btn btn-danger btn-xs" role="button">
+				<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+			</a>
+			<a type="button" ng-click="makeProjection(period)" class="btn btn-info btn-xs" role="button">Projection</a>
+		</div>
+	</div>
+
+	<div ng-repeat="operation in projection" ng-show="isProjection" class="periodicOperationLine pad15 row show-grid backWhite">
+		<div class="col-md-3 col-xs-12"><span class="fs12 fw600">Date: </span>{{operation.dateOperation | date2:'dd/MM/yyyy'}}</div>
+		<div class="col-md-3 col-xs-12"><span class="fs12 fw600">Value: </span>{{operation.value | currency:'€':0:true}}</div>
+		<div class="col-md-3 col-xs-12"><span class="fs12 fw600">Third party: </span>{{operation.thirdParty }}</div>
+		<div class="col-md-3 col-xs-12"><span class="fs12 fw600">Type: </span>{{ operation.type }}</div>
+	</div>
+</div>

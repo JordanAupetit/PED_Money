@@ -29,14 +29,8 @@ var apiPeriod = require('./api-period')
 // var apiOther = require('./api-other')
 // var api = require('./api')
 
-var Cookies = require('cookies')
-var passport = require('passport')
-var FacebookStrategy = require('passport-facebook').Strategy
-var config = require('./oauth.js')
-
 var oauthFacebook = require('./oauthFacebook')
-
-//var oauthGoogle = require('./oauthGoogle')
+var oauthGoogle = require('./oauthGoogle')
 
 	
 
@@ -142,6 +136,8 @@ apiOperation(app, operationModel, accountModel)
 apiPeriod(app, tool, database.getPeriodModel())
 apiBudget(app, tool, accountModel, operationModel)
 
+oauthFacebook(app, tool, userModel, jwt)
+oauthGoogle(app, tool, userModel, jwt)
 
 
 /**

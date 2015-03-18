@@ -4,13 +4,13 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$rootScope', 'LoginService', '$state', 'StorageServices', LoginController])
+        .controller('LoginController', ['$scope', '$stateParams', '$rootScope', '$http', 'LoginService', '$state', 'StorageServices', LoginController])
 
-    function LoginController($scope, $rootScope, LoginService, $state, StorageServices) {
+    function LoginController($scope, $stateParams, $rootScope, $http, LoginService, $state, StorageServices) {
         /**
          * Redirect user if already login
          */
-        if(StorageServices.getUser() !== undefined){
+        if (StorageServices.getUser() !== undefined) {
             $state.go('accounts')
         }
 
@@ -24,6 +24,7 @@
                 password: $scope.password
             }
 
+
             var loginUser = new LoginService(formData);
             loginUser.$query(function(res) {
                 if (res.type == false) {
@@ -35,6 +36,25 @@
                     $state.go('accounts');
                 }
             });
+        }
+
+        //C'est quoi ce truc ?
+        if ($stateParams.username !== undefined && $stateParams.token !== undefined) {
+            // console.log("oui")
+            $scope.signin($stateParams)
+        }
+
+
+        $scope.loginFB = function() {
+            $http.get('/auth/facebook')
+                .success(function(data, status, headers, config) {
+                    console.log('success')
+                    console.log(data)
+                })
+                .error(function(data, status, headers, config) {
+                    console.log('error')
+                    console.log(data)
+                });
         }
 
         /**
@@ -53,4 +73,5 @@
             })
         }
     }
+
 })();

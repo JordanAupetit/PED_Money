@@ -454,6 +454,7 @@ var UserSchema  = new Schema({
 	password: String, // TODO Add salt ??
     allowAlert: {type: Boolean, default: true},
 	token: String,
+    tokentiers: String,
     categories: {type: [CategorySchema], default: defaultCategories}
 })
 
@@ -474,8 +475,9 @@ var OperationSchema = new Schema({
     checked: Boolean,
     dateOperation: Date, /*{ type: Date, default: Date.now }*/
     datePrelevement: Date,
-    categoryId: Number/*,
-    subOperations: []*/,
+    categoryId: Number,
+    categoryId: Number,
+    subOperations: [],
     accountId: String
 })
 

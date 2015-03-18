@@ -14,7 +14,7 @@
                         if(state){ // Open
                             $('#sidebar-wrapper-left').animate({ 'left': '0' }, 'slow' ); 
                         }else{ // Close
-                            $('#sidebar-wrapper-left').animate({ 'left': '-300px' }, 'slow' );
+                            $('#sidebar-wrapper-left').animate({ 'left': '-200px' }, 'slow' );
                         }
                     });
                 }

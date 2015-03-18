@@ -72,11 +72,10 @@ module.exports = function (app, operationModel, accountModel) {
         operation.dateOperation = new Date(operation.dateOperation)
         operation.datePrelevement = new Date(operation.datePrelevement)
 
-        var newOperation = new operationModel(operation);
-        newOperation.save(function(e, results){
-            if(e){
-                return next(e)
-            }else{
+        operationModel.create(operation, function(err, results){
+            if(err){
+                return next(err)
+            } else {
                 res.send(results);   
             }
         })

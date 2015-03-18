@@ -34,6 +34,7 @@ module.exports = function(config) {
       'assets/libs/angular-animate/angular-animate.js',
       'assets/libs/angular-material/angular-material.js',
       'assets/libs/angular-cookie/angular-cookie.js',
+      'assets/libs/papaparse/papaparse.js',
       // 'assets/libs/',
       // 'assets/libs/',
       // 'assets/libs/angular-mocks/angular-mocks.js',

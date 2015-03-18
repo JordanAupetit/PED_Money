@@ -8,7 +8,10 @@
 
         function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, periodRes, initService, $state) {
 
-
+            /**
+             * @Description
+             * Reset few variables for add an operation
+             */
             $scope.resetOperationCreate = function () {
                 $scope.operationCreateModel = {}
                 $scope.operationCreateModel.advanced = false
@@ -28,7 +31,13 @@
             $scope.operationsOfGroup = []
             $scope.orderProp = "dateOperation"
             $scope.showDeferredOps = true
+            $scope.csvFileImported = ""
+            $scope.importButtonTitle = "No operations to import"
+            $scope.ventilateOperation = null
+            $scope.subOperationModel = {}
             var dateFormat = 'YYYY-MM-DD'
+
+
 
 
             $scope.intervalType = INTERVAL_TYPES
@@ -56,6 +65,12 @@
             //     value: 45
             // }
                 
+
+            /**
+             * @Description
+             * Choose between an online or an offline post of an operation
+             * @Param {Object} operationToSend An object operation to send
+             */    
             function postOperation(operationToSend){
                 if(StorageServices.isOnline()){
                     OperationResource.add(operationToSend).$promise.then(function(operation){
@@ -69,24 +84,41 @@
                 }                
             }
 
-            function getAccount(){
+            /**
+             * @Description
+             * Get all accounts (offline or online)
+             */  
+            function getAccountAndGenerateCsv(){
                 if(StorageServices.isOnline()){
                     AccountResource.get(accountId).$promise.then(function(account){
                         StorageServices.setAccount(accountId, account)
                         $scope.account = account
+                        generateCsv()
                     }, function(err){
-                        getAccount()
+                        getAccountAndGenerateCsv()
                     })
                 }
                 else{
                     $scope.account = StorageServices.getAccount(accountId)
+                    generateCsv()
                 }
             }
 
+            /**
+             * @Description
+             * Add operations in the local storage
+             * @Param {number} accountId 
+             * @Param {Object} operations A list a operations to add
+             */  
             function saveOperationsOffline(accountId, operations){
                 localStorage.setItem('operations-' + accountId, JSON.stringify(operations))
             }
 
+            /**
+             * @Description
+             * Clone an object
+             * @Param {Object} operations An object to clone
+             */  
             function clone(obj) {
                 var target = {};
                 for (var i in obj) {
@@ -97,6 +129,10 @@
                 return target;
             }
 
+            /**
+             * @Description
+             * Update the balance and the deferred balance with the operations
+             */  
             $scope.updateSolde = function() {
                 $scope.balance = 0
                 $scope.deferredBalance = 0
@@ -118,11 +154,12 @@
             }
             
 
-            /**
+             /**
+             * @Description
              * Get categories, save in scope 
              * and then format them to the select
              * Finaly launch fixOperations to bind category
-             */
+             */  
             function genCategories() {
                 // console.log('genCategories')
                 CategoryResource.getAll().$promise.then(function(categories){
@@ -153,8 +190,9 @@
             }
 
             /**
+             * @Description
              * Refresh operation page
-             */
+             */ 
             function refresh() {
                 if(StorageServices.isOnline()){
                     OperationResource.getAll(accountId).$promise.then(function(operations){
@@ -163,10 +201,13 @@
                         StorageServices.setOperations(accountId, operations)
                         genCategories()
 
+                        console.log(operations)
+
                         // Le fix doit se faire avant l'update
                         fixOperations()
                         $scope.updateSolde()
-
+                        getAccountAndGenerateCsv()
+                        //generateCsv()
 
                         // Dans le cas où l'on ajoute une operation lors d'un regroupement
                         // Il ne faut pas le faire si on est sans groupe sinon cela fait
@@ -184,12 +225,19 @@
 
                     fixOperations()
                     $scope.updateSolde()
+                    getAccountAndGenerateCsv()
+                    //generateCsv()
+
                     if($scope.groupedBy !== '') {
                         $scope.groupOperation();
                     }
                 }
             }
 
+            /**
+             * @Description
+             * Correct few variables of operations
+             */
             function fixOperations() {
 
                 $scope.countOfOperationsAfterToday = 0;
@@ -234,8 +282,16 @@
                 }
             }
 
+
+
+            // Initiatilisation
             refresh()
 
+            /**
+             * @Description
+             * Correct the dates of an operation
+             * @Param {Object} operation An operation to correct
+             */
             function correctDateOfOperation(operation) {
 
                 // Clean date
@@ -280,6 +336,10 @@
                 On verra quand la gestion du compte sera terminée
             */
 
+            /**
+             * @Description
+             * Do few verifications before to call the previous postOperation
+             */
             $scope.addOperation = function() {
 
                 var newOperation = $scope.operationCreateModel
@@ -290,7 +350,6 @@
                 if(newOperation.hasOwnProperty('category') && newOperation.category !== undefined) {
                     newOperation.categoryId = newOperation.category.id
                 }
-
 
                 if(!newOperation.advanced){ // Simple operation
                     var toSend = {
@@ -367,6 +426,12 @@
                 $scope.resetOperationCreate()
             }
 
+            /**
+             * @Description
+             * Delete an operation
+             * @Param {number} idOperation An id of an operation
+             * @Param {number} index An index of the operation in the list
+             */
             $scope.deleteOperation = function(idOperation, index) {
                 OperationResource.remove(idOperation).$promise.then(function(){
                     //refresh()
@@ -386,17 +451,26 @@
                     
                     $scope.updateSolde()
                     fixOperations()
-                    //getAccount()
+                    generateCsv()
+                    //getAccountAndGenerateCsv()
                     //refresh()
                 })
             }
 
+            /**
+             * @Description
+             * Update an operation
+             * @Param {Object} operation Operation to update
+             */
             $scope.validateOperation = function(operation) {
                 OperationResource.update(operation)
             }
 
-            // TODO: Update non fonctionnel au CREMI, à vérifier
-
+            /**
+             * @Description
+             * Update an operation
+             * @Param {Object} operation Operation to update
+             */
             $scope.updateOperation = function(operation) {
                 operation.editable = false
 
@@ -413,28 +487,113 @@
                 OperationResource.update(operation).$promise.then(function(){
                     // Permet principalement la Mise à jour du nom de la catégorie
                     refresh()
-                    //getAccount()
+                    //getAccountAndGenerateCsv()
                 })
             }
 
+            /**
+             * @Description
+             * Close an editable operation
+             * @Param {Object} operation Operation editable to close
+             */
             $scope.closeUpdateOperation = function(operation) {
                 operation.editable = false
                 refresh()
             }
 
+            /**
+             * @Description
+             * Show an editable operation
+             * @Param {Object} operation Operation editable to show
+             */
             $scope.showUpdateOperation = function(operation) {
                 //TODO Gérer le select pour les catégories
                 operation.editable = true
             }
 
+            /**
+             * @Description
+             * Show the page to modifify the ventilation of an operation
+             * @Param {Object} operation Operation to ventilate
+             */
+            $scope.showVentilation = function(operation) {
+                $scope.ventilateOperation = clone(operation)
+                $scope.balanceToAssign = $scope.ventilateOperation.value
+
+                if(!$scope.ventilateOperation.hasOwnProperty('subOperations')) {
+                    $scope.ventilateOperation.subOperations = []
+                } else {
+                    for(var i = 0; i < $scope.ventilateOperation.subOperations.length; i++) {
+                        $scope.balanceToAssign -= $scope.ventilateOperation.subOperations[i].value
+                    }
+                }
+            }
+
+            /**
+             * @Description
+             * Hide ventilation of an operation
+             */
+            $scope.hideVentilation = function() {
+                $scope.ventilateOperation = null
+                refresh()
+            }
+
+            /**
+             * @Description
+             * Add a subOperation in local variable
+             */
+            $scope.addSubOperation = function() {
+                $scope.ventilateOperation.subOperations.push({
+                    description: $scope.subOperationModel.description,
+                    value: $scope.subOperationModel.value
+                })
+
+                $scope.balanceToAssign -= $scope.subOperationModel.value
+
+                $scope.subOperationModel = {}
+            }
+
+            /**
+             * @Description
+             * Delete a suboperation in local variable
+             * @Param {Object} operation Operation to delete
+             * @Param {number} index Index of the operation in the list
+             */
+            $scope.deleteSubOperation = function(operation, index) {
+                $scope.balanceToAssign += operation.value
+                $scope.ventilateOperation.subOperations.splice(index, 1)
+            }
+
+            /**
+             * @Description
+             * Save the ventilation in BDD
+             */
+            $scope.saveVentilation = function() {
+                if($scope.balanceToAssign === 0) {
+                    OperationResource.update($scope.ventilateOperation)
+                }
+            }
+
+            /**
+             * @Description
+             * Show advanced fields to add operation
+             */
             $scope.showOperationAdvanced = function() {
                 $scope.operationCreateModel.advanced = true
             }
 
+            /**
+             * @Description
+             * Hide advanced fields to add operation
+             */
             $scope.hideOperationAdvanced = function() {
                 $scope.operationCreateModel.advanced = false
             }
 
+            /**
+             * @Description
+             * Group operations by a "select"
+             */
             $scope.groupOperation = function() {
 
                 $scope.groupOfOperations = []
@@ -492,6 +651,10 @@
             // ne contenant qu'une operation il faudra supprimer le groupe
             // OU peut etre pas, comme ça on voit bien le groupe vide
 
+            /**
+             * @Description
+             * Update the value of groups of operation
+             */
             $scope.updateGroups = function() {
                 for(var i = 0; i < $scope.groupOfOperations.length; i++) {
                     $scope.groupOfOperations[i].value = 0
@@ -502,6 +665,12 @@
                 }
             }
 
+            /**
+             * @Description
+             * Toggle a group of operations
+             * @Param {number} index Index of the group of operation
+             * @Param {boolean} currentState Actual state of the group (open / close)
+             */
             $scope.toggleOperationsOfGroup = function(index, currentState) {
 
                 for(var i = 0; i < $scope.groupOfOperations.length; i++) {
@@ -517,8 +686,119 @@
                 $scope.operationsOfGroup = $scope.groupOfOperations[index].subOperations
             }
 
+            /**
+             * @Description
+             * Toggle deferred operations
+             */
             $scope.toggleDeferredOps = function() {
                 $scope.showDeferredOps = !$scope.showDeferredOps
+            }
+
+            /**
+             * @Description
+             * Generate the url for the csv of operations
+             */
+            function generateCsv() {
+                $scope.urlCsv = ""
+
+                var operations = []
+                var account = [clone($scope.account)]
+
+                // On enlève tous les champs inutiles
+                delete account[0].$promise
+                delete account[0].$resolved
+                delete account[0].__v
+                delete account[0]._id
+                delete account[0].alerts
+                delete account[0].balance
+                delete account[0].operations
+                delete account[0].type
+                delete account[0].userId
+
+                for(var i = 0; i < $scope.operations.length; i++) {
+                    operations.push(clone($scope.operations[i]))
+
+                    delete operations[i].__v
+                    delete operations[i]._id
+                    delete operations[i].accountId
+                    delete operations[i].dateOperationIsAfterToday
+                    delete operations[i].datePrelevementIsAfterToday
+                    delete operations[i].__propo__
+                    delete operations[i].subOperations
+                    delete operations[i].$$hashKey
+                }
+
+                var csvAccount = Papa.unparse(account)
+
+                //console.log(operations)
+                var csv = Papa.unparse(operations)
+                //console.log(csv)
+
+                var blob = new Blob([ csvAccount + "\r\n\r\n" + csv ], { type : 'text/plain' })
+                $scope.urlCsv = (window.URL || window.webkitURL).createObjectURL( blob )
+                //console.log("Url generated")
+            }
+
+            /**
+             * @Description
+             * Parse the content of the csv file and convert it to Json
+             * @Param {string} $fileContent Content of the csv file
+             */
+            $scope.importCsv = function($fileContent){
+                //console.log($fileContent);
+                //console.log(Papa.parse($fileContent))
+
+                var ops = []
+                var csvToJson = Papa.parse($fileContent)
+                csvToJson = csvToJson.data
+
+                if(csvToJson.length < 5) {
+                    console.log("Le fichier csv n'est pas correct ou est vide.")
+                } else {
+                    var headerLine = 3
+                    // On commence après les 3 premières lignes
+                    for(var i = (headerLine + 1); i < csvToJson.length; i++) {
+                        var newOp = {}
+                        for(var j = 0; j < csvToJson[i].length; j++) {
+                            newOp[csvToJson[headerLine][j]] = csvToJson[i][j]
+
+                            if(accountId !== "") {
+                                newOp.accountId = accountId
+                            }
+                        }
+
+                        if(newOp.hasOwnProperty("value")) {
+                            newOp = correctDateOfOperation(newOp)
+                            ops.push(newOp)
+                        }
+                    }
+
+                    //console.log("Import was a success")
+                    //console.log(ops)
+                }
+
+                $scope.operationsToAdd = ops
+
+                if(ops.length > 0) {
+                    $scope.importButtonTitle = "Import " + ops.length + " operations"
+                } else {
+                    $scope.importButtonTitle = "No operations to import"
+                }
+            };
+
+            /**
+             * @Description
+             * Add all operations extract from the csv file
+             */
+            $scope.addOperationsFromCsv = function() {
+                //console.log($scope.operationsToAdd)
+
+                if($scope.operationsToAdd.length > 0) {
+                    // On ajoute une liste d'opérations
+                    postOperation($scope.operationsToAdd) 
+                }
+
+                $scope.importButtonTitle = "No operations to import"
             }
         }
 })();

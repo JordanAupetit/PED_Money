@@ -23,4 +23,14 @@ var Promise = Promise || ES6Promise.Promise;
 			'chart.js'
 		])
 
+		// Whitelist des blob pour pouvoir télécharger un csv / file (blob) -- Et http pour le pdf
+		.config( [
+			'$compileProvider',
+			function( $compileProvider )
+			{
+				$compileProvider.aHrefSanitizationWhitelist(/^\s*(|blob|http):/);
+				// Angular before v1.2 uses $compileProvider.urlSanitizationWhitelist(...)
+			}
+		])
+
 })();

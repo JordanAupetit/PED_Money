@@ -1,5 +1,5 @@
-<div ng-show="user !== undefined" ng-controller="NavbarController" class="navbarApp">
 
+<div ng-show="currentUrl !== '/login'" ng-controller="NavbarController" class="navbarApp">
 
     <!-- <nav ng-show="login" class="navbar navbar-default" role="navigation" > -->
     <nav class="navbar navbar-default" role="navigation" >
@@ -26,6 +26,9 @@
                         </select>
                         <button class="navbar-btn btn btn-warning btn-xs" ng-click="initData()">Init</button >
                     </li>
+                </ul>
+
+                <!-- <ul class="nav navbar-nav pull-right">
                     <li class="dropdown ">
                       <a class="dropdown-toggle navbar-brand" style ="cursor: pointer;"data-toggle="dropdown">My Account <b class="caret"></b></a>
                       <ul class="dropdown-menu dropdown-menu-right">
@@ -34,7 +37,7 @@
                         <li><a href="/#/login" ng-click="logout()">Sign Out <span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
                       </ul>
                    </li>
-                </ul>
+                </ul> -->
 
                 <div ng-controller="offlineController">
                     <p ng-if="$root.offline" class="navbar-text navbar-right">HORS LIGNE</p>
@@ -68,29 +71,46 @@
     <div id="sidebar-wrapper-left" class="menuSidebar">
         <form name="addOperationForm">
             <ul class="sidebar-nav">
-                <li class="sidebar-brand">
+                <!-- <li class="sidebar-brand">
                     Menu
-                </li>
-        
-                <!-- TODO: A styliser -->
-
-                <li>
-                    <button hide-sidebar-menu ui-sref="accounts" class="btn btn-default">Accounts</button>
-                </li>
-
-                <!-- <li ng-repeat="acc in accounts">
-                    <button  hide-sidebar-menu ui-sref="operation({accountId : acc._id})" class="btn btn-info">
-                        {{ acc.name }} - {{ acc.currency }}
-                    </button>
                 </li> -->
 
-                <li>
-                    <a hide-sidebar-menu ui-sref="budget">Budget</a>
+
+                <li hide-sidebar-menu ui-sref="settings" class="sidebar-left-element">
+                    <span class="glyphicon glyphicon-user pr10" aria-hidden="true"></span>
+                    User account
+                </li>
+
+                <li hide-sidebar-menu ng-click="logout()" class="sidebar-left-element">
+                    <span class="glyphicon glyphicon-off pr10" aria-hidden="true"></span>
+                    Logout
                 </li>
 
                 <li>
-                    <button hide-sidebar-menu ng-click="logout()" class="btn btn-danger">Logout</button>
+                    <hr>
                 </li>
+
+                <li hide-sidebar-menu ui-sref="budget" class="sidebar-left-element">
+                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    Budget
+                </li>
+
+                <li hide-sidebar-menu ui-sref="accounts" class="sidebar-left-element">
+                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    Accounts
+                </li>
+
+                <li ng-show="accounts.length > 0">
+                    <hr>
+                </li>
+
+                <li ng-show="accounts.length > 0" class="sidebar-left-element-title">Accounts list</li>
+
+                <li ng-show="accounts.length > 0" hide-sidebar-menu ui-sref="operation({accountId : acc._id})" ng-repeat="acc in accounts" class="sidebar-left-element">
+                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    {{ acc.name }}
+                </li>
+    
             </ul>
         </form>
     </div>

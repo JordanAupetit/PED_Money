@@ -68,17 +68,31 @@
         </div>
     </div>
 
+    <div ng-show="!op.editable" ng-repeat="subOperation in op.subOperations" class="otherLineOperation backWhite pad15">
+        <div class="wid70p">
+            <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+            Suboperation: {{ subOperation.description }}
+        </div>
+
+        <div class="wid30p algright ventilationRightZone">
+            <span ng-if="subOperation.value <= 0" class="colorRed">
+                {{ subOperation.value }}
+            </span>
+            <span ng-if="subOperation.value > 0" class="colorGreen">
+                +{{ subOperation.value }}
+            </span>
+        </div>
+    </div>
+
     <div ng-show="op.editable" class="wid100p pt10 otherLineOperation pl15 pr15">
         <label>Operation date and Levy date:</label>
         <input mydatepicker type="text" class="form-control wid200" ng-model="op.dateOperation">
         <input mydatepicker type="text" class="form-control wid200 mt10" ng-model="op.datePrelevement">
     </div>
 
-    <div ng-show="!op.editable" class="wid100p pt10 otherLineOperation pl15 pr15">
-        <div class="visible-xs-block">
-            <label>Category:</label>
-            <span class="label label-default">{{ op.categoryName }}</span>
-        </div>
+    <div ng-show="!op.editable" class="wid100p pt10 otherLineOperation pl15 pr15 visible-xs-block">
+        <label>Category:</label>
+        <span class="label label-default">{{ op.categoryName }}</span>
     </div>
     
     <div ng-show="op.editable" class="wid100p pt10 otherLineOperation pl15 pr15">
@@ -129,6 +143,9 @@
         <input ng-click="validateOperation(op)" type="checkbox" ng-model="op.checked">
 
         <div class="operationsButtons">
+            <button ng-hide="op.editable" ng-click="showVentilation(op)" class="btn btn-default btn-xs">
+                Ventilate
+            </button>
             <button ng-hide="!op.editable" ng-click="closeUpdateOperation(op)" class="btn btn-default btn-xs">
                 Cancel
             </button>
