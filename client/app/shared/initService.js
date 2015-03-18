@@ -183,6 +183,8 @@
 					// Add operations
 					angular.forEach(dataset.operations, function(operation){
 						operation.accountId = accountId
+						operation.dateOperation = moment(operation.dateOperation, 'YYYY/MM/DD').toDate()
+						operation.datePrelevement = moment(operation.datePrelevement, 'YYYY/MM/DD').toDate()
 						// console.log(operation)
 						operationRes.add(operation)
 					})

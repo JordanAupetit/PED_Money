@@ -472,8 +472,8 @@ var OperationSchema = new Schema({
     description: String,
     type: String, // TODO rename in typeOpt due to {type: Boolean, default: false},
     checked: Boolean,
-    dateOperation: String, /*{ type: Date, default: Date.now }*/
-    datePrelevement: String,
+    dateOperation: Date, /*{ type: Date, default: Date.now }*/
+    datePrelevement: Date,
     categoryId: Number/*,
     subOperations: []*/,
     accountId: String
@@ -508,11 +508,11 @@ var PeriodSchema = new Schema({
 //Models
 
 
-var accountModel = mongoose.model('accountModel', AccountSchema);
-var userModel = mongoose.model('userModel', UserSchema);
-var operationModel = mongoose.model('operationModel', OperationSchema);
-var categoryModel = mongoose.model('categoryModel', CategorySchema);
-var periodModel = mongoose.model('periodModel', PeriodSchema);
+var accountModel = mongoose.model('account', AccountSchema);
+var userModel = mongoose.model('user', UserSchema);
+var operationModel = mongoose.model('operation', OperationSchema);
+var categoryModel = mongoose.model('category', CategorySchema);
+var periodModel = mongoose.model('perio', PeriodSchema);
 
 
 // accountModel.collection.drop(); 
