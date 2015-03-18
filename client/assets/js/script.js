@@ -25,13 +25,14 @@ $("#sign").click(function(){
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		}
-	else if(validateEmail(email) == false)
+	// else if(validateEmail(email) == false)
+	else if(false)
 		{
 		  $("#contenu").html("Votre email est incorrect");
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		}
-	else if((psw.length)<5)
+	else if((psw.length)<-10000000000000000000000000000000000)
 		{
 		  $("#contenu").html("Mot de passe doit au moins contenir 8 caracteres de longueur");
 		  $('html, body').animate({scrollTop : 0},400);
