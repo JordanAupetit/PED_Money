@@ -29,7 +29,18 @@
 				}
 			})
 
+			var budgetYearMonthRes = $resource('/api/budget/:year/:month', {}, {
+				getAll: {
+					method: 'GET',
+					isArray: true
+				}
+			})
+
 			var accountValues
+
+
+			var categoryDico
+			var categoryTree
 
 
 			return {
@@ -90,105 +101,135 @@
 									year.monthGoal = 500
 								})
 
-								console.log(evolution)
+								// console.log(evolution)
 								resolve(evolution)
 							})
 					})
 				},
-				getByCategory: function(){
+				getByCategory: function(selector){
 
+					// console.log(selector)
 
-					function random(min,max){
-						return Math.floor(Math.random()*(max-min+1)+min);
-					}
-
+					// function random(min,max){
+					// 	return Math.floor(Math.random()*(max-min+1)+min);
+					// }
 
 					return new Promise(function(resolve, reject) {
-						CategoryRes.getAll().$promise
-							.then(function(categories){
+						function parseCategory(){
+							return new Promise(function(resolve, reject) {
+								categoryDico = {}
+								categoryTree = {}
 
-							var dicCat = {}
+								CategoryRes.getAll().$promise
+									.then(function(categories){
+									/**
+									 * Create dictionary of category
+									 * Init operations array
+									 * TODO in cache
+									 */
+									angular.forEach(categories, function(category){
+										categoryTree[category.name] = {}
+										// operations[category.name].total = 0
+										categoryDico[category.id] = category
+										angular.forEach(category.subCategories, function(subcat){
+											categoryDico[subcat.id] = subcat
+											categoryTree[category.name][subcat.name] = []
+											// operations[category.name][subcat.name].total = 0
+										})
+									})	
+									resolve()	
+								})	
+							})				
+						}
+
+						if(categoryDico === undefined || categoryTree === undefined ){
+							parseCategory().then(function(){
+								doIt().then(function(budget){
+									resolve(budget)
+								})
+							})
+						}else{
+							doIt().then(function(budget){
+								resolve(budget)
+							})
+						}
+					})
+
+					
+
+					function doIt(){
+
+						return new Promise(function(resolve, reject) {
+
+
 							var pie = []
 							var pieDrillDown = []
 							var operations = {}
+							angular.copy(categoryTree, operations)
 
-							/**
-							 * Create dictionary of category
-							 * Init operations array
-							 */
-							angular.forEach(categories, function(category){
-								operations[category.name] = {}
-								// operations[category.name].total = 0
-								dicCat[category.id] = category
-								angular.forEach(category.subCategories, function(subcat){
-									dicCat[subcat.id] = subcat
-									operations[category.name][subcat.name] = []
-									// operations[category.name][subcat.name].total = 0
+							budgetYearMonthRes.getAll({year: selector.currentYear, month: parseInt(selector.currentMonth)}).$promise
+							.then(function(result){
+
+								/**
+								 * Tidy the operation by category
+								 */
+								angular.forEach(result, function(res){
+									
+									if(res.categoryId !== undefined){
+										var groupId = Math.round(res.categoryId/100)*100
+										operations[categoryDico[groupId].name][categoryDico[res.categoryId].name].push(res)
+									}
 								})
+
+								/**
+								 * Compute category sum
+								 */
+								angular.forEach(operations, function(opts, key){
+									var groupTotal = 0
+									var subData = []
+									angular.forEach(opts, function(subOpts, subKey){
+										var total = 0
+										angular.forEach(subOpts, function(opt){
+											total += opt.value
+										})
+										// subOpts.total = total
+										groupTotal += total
+										subData.push([subKey, total])
+									})
+									// opts.total = groupTotal
+
+									pie.push({
+										name: key,
+										y: groupTotal,
+										drilldown: key
+									})
+									pieDrillDown.push({
+										name: key,
+										id: key,
+										data: subData
+									})
+								})
+								var budget ={
+									pie: pie,
+									pieDrillDown: pieDrillDown,
+									operations: operations
+								}
+								// console.log(budget)
+								resolve(budget)
 							})
 
-							budgetRes.getAll().$promise
-								.then(function(result){
-
-									/**
-									 * Tidy the operation by category
-									 */
-									angular.forEach(result, function(res){
-										
-										if(res.categoryId !== undefined){
-											var groupId = Math.round(res.categoryId/100)*100
-											operations[dicCat[groupId].name][dicCat[res.categoryId].name].push(res)
-										}
-									})
-
-									/**
-									 * Compute category sum
-									 */
-									angular.forEach(operations, function(opts, key){
-										var groupTotal = 0
-										var subData = []
-										angular.forEach(opts, function(subOpts, subKey){
-											var total = 0
-											angular.forEach(subOpts, function(opt){
-												total += opt.value
-											})
-											// subOpts.total = total
-											groupTotal += total
-											subData.push([subKey, total])
-										})
-										// opts.total = groupTotal
-
-										pie.push({
-											name: key,
-											y: groupTotal,
-											drilldown: key
-										})
-										pieDrillDown.push({
-											name: key,
-											id: key,
-											data: subData
-										})
-									})
-									var budget ={
-										pie: pie,
-										pieDrillDown: pieDrillDown,
-										operations: operations
-									}
-									console.log(budget)
-									resolve(budget)
-								})
-
 							
+
+							//  resolve([
+							// 	['alimenation', 150.45], 
+							// 	['loisir', 28.75], 
+							// 	['habitation', 300.25], 
+							// 	['habillement', 12.59], 
+							// 	['autre', 87.15]
+							// ])
 						})
 
-						//  resolve([
-						// 	['alimenation', 150.45], 
-						// 	['loisir', 28.75], 
-						// 	['habitation', 300.25], 
-						// 	['habillement', 12.59], 
-						// 	['autre', 87.15]
-						// ])
-					})
+					}
 				},
 				genData : function(startDate){
 					var current = moment(startDate)

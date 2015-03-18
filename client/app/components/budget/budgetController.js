@@ -66,7 +66,8 @@
 		})
 		.factory('budgetHelper2', function() {
 			return {
-				changeMonth: function(data, month, dateSelector, callback){
+				changeMonth: function(dataYear, month, dateSelector, callback){
+					var data = dataYear[dateSelector.currentYear]
 					// Active the month
 					angular.forEach(data, function(v){
 						v.isActive = false
@@ -76,14 +77,16 @@
 
 					dateSelector.currentMonth = data[month].id
 
-					callback()
+					if(callback != undefined){
+						callback()
+					}
 				},
 				resetMonth : function(data, year){
 					angular.forEach(data[year], function(v){
 						v.isActive = false
 					})
 				},
-				changeYear: function(data, year, dateSelector, months){
+				changeYear: function(data, year, dateSelector){
 					this.resetMonth(data, year)
 
 					// Active the year
@@ -95,6 +98,15 @@
 					dateSelector.currentYear = year
 
 					// callback()
+				},
+				getDefaultSelector: function(){
+					return {
+						currentYear: undefined,
+						currentMonth: undefined,
+						setMonth: function(month){
+							this.currentMonth = month+1 < 10 ? '0'+(month+1) : ''+(month.month()+1)
+						}
+					}
 				}
 			}
 		})
@@ -106,10 +118,6 @@
 	 * The controller of the budget
 	 */
 	function BudgetCtrl($scope, budgetService, $modal, $log, budgetHelper) {
-
-		$scope.yearSelector = 2014
-
-
 
 		function genChartConfig(){
 			var chartConfig = {
@@ -202,12 +210,8 @@
 			$scope.chartConfig = chartConfig
 		}
 
-		var dateSelector = {
-			currentYear: undefined,
-			currentMonth: undefined
-		}
+		$scope.dateSelector = budgetHelper.getDefaultSelector()
 
-		$scope.dateSelector = dateSelector
 
 		var defaultData = [
 				// {
@@ -265,15 +269,15 @@
 				$scope.chartConfig.yAxis.plotLines = [defaultMaxLine]
 				console.log('set defaultData')
 			}
-			if(($scope.evolution[dateSelector.currentYear] === undefined 
-				|| $scope.evolution[dateSelector.currentYear][dateSelector.currentMonth] === undefined) && 
-				dateSelector.currentMonth !== '13'){
+			if(($scope.evolution[$scope.dateSelector.currentYear] === undefined 
+				|| $scope.evolution[$scope.dateSelector.currentYear][$scope.dateSelector.currentMonth] === undefined) && 
+				$scope.dateSelector.currentMonth !== '13'){
 				$scope.chartConfig.series = undefined
 				$scope.chartConfig.yAxis.plotLines = undefined
 			}else{
 
-				if(dateSelector.currentMonth === '13'){
-					var valueYearly = $scope.evolution[dateSelector.currentYear]['13'].total
+				if($scope.dateSelector.currentMonth === '13'){
+					var valueYearly = $scope.evolution[$scope.dateSelector.currentYear]['13'].total
 					var by = getBorn(valueYearly)
 
 					$scope.chartConfig.yAxis.currentMin = by.min
@@ -293,7 +297,7 @@
 
 					$scope.chartConfig.series[0].data[0] = valueYearly
 
-					$scope.chartConfig.yAxis.plotLines[0].value = $scope.evolution[dateSelector.currentYear].yearGoal
+					$scope.chartConfig.yAxis.plotLines[0].value = $scope.evolution[$scope.dateSelector.currentYear].yearGoal
 
 					
 
@@ -317,12 +321,12 @@
 					// 	[$scope.evolution[dateSelector.currentYear][dateSelector.currentMonth].total]
 					// ]
 					$scope.chartConfig.series[0].data[0] = 
-						$scope.evolution[dateSelector.currentYear][dateSelector.currentMonth].total
+						$scope.evolution[$scope.dateSelector.currentYear][$scope.dateSelector.currentMonth].total
 					
 
 					// $scope.chartConfig.series[0].data[0] = budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth)
 
-					$scope.chartConfig.yAxis.plotLines[0].value = $scope.evolution[dateSelector.currentYear].monthGoal
+					$scope.chartConfig.yAxis.plotLines[0].value = $scope.evolution[$scope.dateSelector.currentYear].monthGoal
 
 					
 				}
@@ -330,12 +334,12 @@
 		}
 
 		$scope.changeMonth = function(month){
-			budgetHelper.changeMonth($scope.evolution[dateSelector.currentYear], month, dateSelector, updateGraph)
+			budgetHelper.changeMonth($scope.evolution, month, $scope.dateSelector, updateGraph)
 		}
 
 		$scope.changeYear = function(year){
-			$scope.months = budgetHelper.changeYear($scope.evolution, year, dateSelector, $scope.months)
-			$scope.changeMonth(dateSelector.currentMonth)
+			budgetHelper.changeYear($scope.evolution, year, $scope.dateSelector)
+			$scope.changeMonth($scope.dateSelector.currentMonth)
 			// updateGraph()
 		}
 
@@ -346,8 +350,9 @@
 
 		budgetService.getByMonth()
 		.then(function(result){
+			var currentDate = moment()
 			$scope.evolution = result
-			dateSelector.currentMonth = currentDate.month()+1 < 10 ? '0'+(currentDate.month()+1) : ''+(currentDate.month()+1)
+			$scope.dateSelector.setMonth(currentDate.month())
 			$scope.changeYear(currentDate.year())
 
 			$scope.$apply()

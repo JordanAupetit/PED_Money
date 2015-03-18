@@ -11,10 +11,15 @@
 
 	function BudgetDetailsCtrl($scope, budgetService, $modal, $log, budgetHelper){
 
-		$scope.currentSelection = 'nothing'
+		$scope.categorySelector = {
+			currentGroupCat: undefined,
+			currentCat: undefined
+		}
+
+		$scope.dateSelector = budgetHelper.getDefaultSelector()
 
 		function pieCatSelect(name){
-			$scope.currentSelection = name
+			// $scope.currentSelection = name
 			var subCats = $scope.budgetList[name]
 			if(subCats !== undefined){
 				var list = []
@@ -39,9 +44,7 @@
 			// console.log($scope.csOpt)
 		}
 
-		var lolilol = false
-		var currentGroupCat = undefined
-		var currentCat = undefined
+
 
 		var chartConfig = {
 
@@ -53,7 +56,7 @@
 					type: 'pie',
 					events: {
 		                drilldown: function (e) {
-		                	currentGroupCat = e.point.name
+		                	$scope.categorySelector.currentGroupCat = e.point.name
 		                	// console.log(e.point.name)
 		                	// pieCatSelect(e.point.name)
 		                // },
@@ -109,46 +112,21 @@
 
 								if($scope.chartConfig.getHighcharts().getSelectedPoints().length > 0){
 
-									if(currentCat === catName){
-										console.log('case 1')
+									if($scope.categorySelector.currentCat === catName){
+										// console.log('case 1')
 										pieCatSelect(currentGroupCat)
 									}else{
-										console.log('case 2')
+										// console.log('case 2')
 										pieCatSelect(catName)
-										currentCat = catName
+										$scope.categorySelector.currentCat = catName
 									}
 									
 									
 								}else{
 									pieCatSelect(catName)
-									currentCat = catName
-									console.log('case 3')
+									$scope.categorySelector.currentCat = catName
+									// console.log('case 3')
 								}
-
-
-
-								// var drilldown = this.drilldown;
-
-								// console.log(this.drilldown)
-
-								// if (drilldown) { // drill down
-								// 	console.log('drilldown')
-								// 	lolilol = true
-								// 	setChart(drilldown.name, drilldown.categories, drilldown.data, drilldown.color);
-								// 	return false;
-								// } else { // restore
-								// 	console.log('click')
-								// 	lolilol = !lolilol
-								// 	console.log(lolilol)
-								// 	if(lolilol){
-								// 		pieCatSelect(this.data[event.point.index].name)
-								// 	}else{
-								// 		pieCatSelect(this.data[event.point.index].name)
-								// 	}
-									
-								// 	// setChart(name, categories, data);
-								// 	return true;
-								// }
 							}
 						}
 					},
@@ -231,72 +209,48 @@
 		$scope.chartConfig = chartConfig
 
 
-
-		// $scope.years = budgetService.genData('2014-01-01')
-		// $scope.months = []
-
-
-
-
 		function updateGraph(){
-			budgetService.getByCategory().then(function(budget){
-				$scope.chartConfig.series[0] = [{
-					name: 'Category',
-            		colorByPoint: true,
-					data:budget.pie
-				}]
-				$scope.chartConfig.getHighcharts().drilldown.series[0] = budget.pieDrillDown
-				// $scope.chartConfig.drilldown.series[0] = budget.pieDrillDown
-				console.log($scope.chartConfig)
+			budgetService.getByCategory($scope.dateSelector)
+			.then(function(budget){
+				$scope.chartConfig.series = [{
+						name: 'Category',
+						colorByPoint: true,
+						data:budget.pie
+					}]
+				$scope.chartConfig.options.drilldown.series = budget.pieDrillDown
+				$scope.budgetList = budget.operations
+				$scope.chartConfig.loading = false
 				$scope.$apply()
 			})
 		}
 
-		$scope.dateSelector = {
-			currentYear: undefined,
-			currentMonth: undefined
-		}
+		
 
 		$scope.changeMonth = function(month){
-			budgetHelper.changeMonth($scope.months, month, $scope.dateSelector, updateGraph)
+			$scope.chartConfig.loading = true
+			budgetHelper.changeMonth($scope.dataNav, month, $scope.dateSelector, updateGraph)
 		}
 
 		$scope.changeYear = function(year){
-			$scope.months = budgetHelper.changeYear($scope.years, year, $scope.dateSelector, $scope.months)
+			budgetHelper.changeYear($scope.dataNav, year, $scope.dateSelector)
 			$scope.changeMonth($scope.dateSelector.currentMonth)
-			// updateGraph()
 		}
 
-		// var currentDate = moment()
-		// $scope.dateSelector.currentMonth = currentDate.month()+1
-		// $scope.changeYear(currentDate.year())
 
-		budgetService.getByCategory()
-		.then(function(budget){
-			$scope.chartConfig.series = [{
-					name: 'Category',
-            		colorByPoint: true,
-					data:budget.pie
-				}]
-			// console.log($scope.chartConfig.getHighcharts())
-			// $scope.chartConfig.getHighcharts().drilldown = {
-			// 	series: budget.pieDrillDown
-			// }
-			// console.log(JSON.stringify(budget.pie))
-			// console.log(JSON.stringify(budget.pieDrillDown))
-			// $scope.chartConfig.drilldown.series = budget.pieDrillDown
-			$scope.chartConfig.options.drilldown.series = budget.pieDrillDown
-			$scope.budgetList = budget.operations
-			// var currentDate = moment()
-			// $scope.evolution = budget
-			// $scope.dateSelector.currentMonth = currentDate.month()+1 < 10 ? '0'+(currentDate.month()+1) : ''+(currentDate.month()+1)
-			// $scope.changeYear(currentDate.year())
-			// console.log($scope.chartConfig)
-			// console.log($scope.chartConfig)
-			// console.log($scope.chartConfig.getHighcharts())
-			$scope.$apply()
-			console.log($scope.chartConfig.getHighcharts())
-		})
+		$scope.refresh = function(){
+
+			budgetService.getByMonth()
+			.then(function(result){
+				var currentDate = moment()
+				$scope.dataNav = result
+				$scope.dateSelector.setMonth(currentDate.month())
+				$scope.changeYear(currentDate.year())
+
+				$scope.$apply()
+			})
+		}
+
+		$scope.refresh()
 
 		
 
