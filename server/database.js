@@ -19,8 +19,16 @@ module.exports = {
 	}
 }
 
+
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/mymoney');
+
+if(SCALINGO_MONGO_URL === undefined) { // localhost
+    mongoose.connect('mongodb://localhost/mymoney');
+} else {
+    mongoose.connect(SCALINGO_MONGO_URL);
+}
+
+
 var db = mongoose.connection;
 
 //Schemas
