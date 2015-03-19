@@ -58,7 +58,7 @@ db.once('open', function (callback) {
 
 	// Scalingo
 	// The `process.env.PORT` will read the environment variable PORT dynamically provided by our container manager.
-	app.listen(process.env.PORT || process.env.ENV || port, function () {
+	app.listen(process.env.ENV || process.env.PORT || port, function () {
 		'use strict';
 		console.log('Express server listening on port %d in %s mode', port, app.settings.env);
 		console.log('application_root is %s',path.join(application_root ,'./client'));
