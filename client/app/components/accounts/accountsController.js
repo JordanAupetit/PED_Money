@@ -3,9 +3,9 @@
 
     angular
         .module('controllers')
-        .controller('AccountController', ['$scope', '$rootScope', 'AccountResource', 'initService', AccountController])
+        .controller('AccountController', ['$scope', '$rootScope', 'AccountResource', 'initService', 'StorageServices', AccountController])
 
-    function AccountController($scope, $rootScope, AccountResource, initService) {
+    function AccountController($scope, $rootScope, AccountResource, initService, StorageServices) {
         $scope.currencys = CURRENCYS
         $scope.accountTypes = ACCOUNT_TYPES
         $scope.accountCreateModel = {};

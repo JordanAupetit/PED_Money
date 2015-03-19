@@ -7,64 +7,33 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <button toggle-sidebar-menu class="navbar-brand hamburger-button">Show navigation</button>
-                <a class="navbar-brand" href="">MyMoney</a>
+                <a class="navbar-brand" href="">
+                    MyMoney
+                    <span ng-show="account !== undefined" class="hidden-xs">
+                        – {{ account.name }}
+                    </span>
+                </a>
             </div>
 
             <div class="collapse navbar-collapse">
-
-
-
-                <!-- <ul class="nav navbar-nav pull-right">
-                    <li class="dropdown ">
-                      <a class="dropdown-toggle navbar-brand" style ="cursor: pointer;"data-toggle="dropdown">My Account <b class="caret"></b></a>
-                      <ul class="dropdown-menu dropdown-menu-right">
-                        <li><a href="#" ui-sref="settings">Settings   <span class="glyphicon glyphicon-cog pull-right"></span></a></li>
-                        <li class="divider"></li>
-                        <li><a href="/#/login" ng-click="logout()">Sign Out <span class="glyphicon glyphicon-log-out pull-right"></span></a></li>
-                      </ul>
-                   </li>
-                </ul> -->
-
-                <div >
+                <div>
                     <p ng-if="$root.state" class="navbar-text navbar-right">{{$root.state}}</p>
                 </div>
-
-                
             </div>
-            
         </div>
     </nav>
-
-<!--         <div class="collapse navbar-collapse" >
-            <ul class="nav navbar-nav" ng-hide="currentUserSignedIn">
-                <li><a ui-sref="login">login</a></li>
-                <li><a ui-sref="signup">Signup</a></li>
-            </ul>
-            <ul class="nav navbar-nav" ng-show="currentUserSignedIn">
-                <li><a style="cursor: hand;cursor: pointer;" ng-click="logout()">Logout</a></li>
-                <li><a class="" ui-sref="operation">Operations</a></li>
-                <li><a class="" ui-sref="optPeriod">Operations périodiques</a></li>
-                <li><a class="" ui-sref="accounts">Accounts</a></li>
-                <li><a class="" ui-sref="budget">Budget</a></li>
-            </ul>
-
-
-            <div  class="nav navbar-nav navbar-right" >
-                <button class="navbar-btn btn btn-warning btn-xs" ng-click="initData()">Init</button >
-            </div >
-        </div> -->
 
     <div id="sidebar-wrapper-left" class="menuSidebar">
         <form name="addOperationForm">
             <ul class="sidebar-nav">
-                <!-- <li class="sidebar-brand">
-                    Menu
-                </li> -->
-
-
                 <li hide-sidebar-menu ui-sref="settings" class="sidebar-left-element">
                     <span class="glyphicon glyphicon-user pr10" aria-hidden="true"></span>
                     User account
+                </li>
+
+                <li hide-sidebar-menu ng-if="account !== undefined" ui-sref="accountSettings({accountId : account._id})" class="sidebar-left-element">
+                    <span class="glyphicon glyphicon-cog pr10" aria-hidden="true"></span>
+                    Account settings
                 </li>
 
                 <li hide-sidebar-menu ng-click="logout()" class="sidebar-left-element">
@@ -79,6 +48,11 @@
                 <li hide-sidebar-menu ui-sref="budget" class="sidebar-left-element">
                     <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     Budget
+                </li>
+
+                <li hide-sidebar-menu ng-if="account !== undefined" ui-sref="optPeriod({accountId : account._id})" class="sidebar-left-element">
+                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                    Periodics operations
                 </li>
 
                 <li hide-sidebar-menu ui-sref="accounts" class="sidebar-left-element">

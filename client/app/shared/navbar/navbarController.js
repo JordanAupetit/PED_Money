@@ -16,6 +16,11 @@
         },
         function(url){  
             $scope.currentUrl = url
+
+            if(url === "/accounts" || url === "/login") {
+                $rootScope.account = undefined
+                $scope.account = undefined
+            }
         });
 
         /**
@@ -34,6 +39,15 @@
          */
         $rootScope.$on('newAccount', function(event) {
             getAccounts();
+        })
+
+        /**
+         * Trigger on account selected
+         */
+        $rootScope.$on('accountSelected', function(event) {
+            if($rootScope.account !== undefined) {
+                $scope.account = $rootScope.account
+            }
         })
 
         $scope.logout = function() {

@@ -159,6 +159,9 @@
 
             function getAccount(account){
                 $scope.account = account
+                $rootScope.account = account
+                $rootScope.$emit('accountSelected');
+
                 if(!account.operations){
                     account.operations = []
                 }
