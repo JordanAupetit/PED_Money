@@ -21,7 +21,7 @@
          * TODO Add reset form ??
          */
         function refresh() {
-            AccountResource.getAll().$promise.then(function(accounts) {
+            StorageServices.getAccounts(function(accounts){
                 $scope.accounts = accounts
             })
         }
@@ -48,7 +48,7 @@
          * @Param {Object} accountCreateModel The model of the account to add
          */
         $scope.addAccount = function(accountModel) {
-            if ($scope.accountForm.$valid) {
+            if($scope.accountForm.$valid) {
                 accountModel.currency = accountModel.currency.code
                 accountModel.type = accountModel.type.value
                 AccountResource.add(accountModel, function(res) {

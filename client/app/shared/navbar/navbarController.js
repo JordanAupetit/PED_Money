@@ -37,10 +37,11 @@
         })
 
         $scope.logout = function() {
-            StorageServices.logout()
-            initService.initRessources(undefined)
-            $scope.user = undefined
-            $state.go('login')
+            StorageServices.logout(function(){
+                initService.initRessources(undefined)
+                $scope.user = undefined
+                $state.go('login')
+            })
         }
         
         $scope.initData = function(){
@@ -50,10 +51,12 @@
             })
         }
 
+        function callback(accounts){
+            $scope.accounts = accounts
+        }
+
         var getAccounts = function() {
-            AccountResource.getAll().$promise.then(function(accounts){
-                $scope.accounts = accounts
-            })
+            StorageServices.getAccounts(callback)
         }
 
         // Si on est deja connecté lors du F5, récupérer les accounts
