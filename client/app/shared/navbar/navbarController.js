@@ -28,6 +28,14 @@
             getAccounts();
         })
 
+        /**
+         * Trigger on a account is added
+         * Refresh accounts on navbar
+         */
+        $rootScope.$on('newAccount', function(event) {
+            getAccounts();
+        })
+
         $scope.logout = function() {
             StorageServices.logout(function(){
                 initService.initRessources(undefined)

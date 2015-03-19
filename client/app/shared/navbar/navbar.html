@@ -86,13 +86,13 @@
                     Accounts
                 </li>
 
-                <li>
+                <li ng-show="accounts.length > 0">
                     <hr>
                 </li>
 
-                <li class="sidebar-left-element-title">Accounts list</li>
+                <li ng-show="accounts.length > 0" class="sidebar-left-element-title">Accounts list</li>
 
-                <li hide-sidebar-menu ui-sref="operation({accountId : acc._id})" ng-repeat="acc in accounts" class="sidebar-left-element">
+                <li ng-show="accounts.length > 0" hide-sidebar-menu ui-sref="operation({accountId : acc._id})" ng-repeat="acc in accounts" class="sidebar-left-element">
                     <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                     {{ acc.name }}
                 </li>

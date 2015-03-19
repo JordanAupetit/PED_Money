@@ -3,9 +3,9 @@
 
     angular
         .module('controllers')
-        .controller('AccountController', ['$scope', 'StorageServices', 'AccountResource', 'initService', AccountController])
+        .controller('AccountController', ['$scope', '$rootScope', 'AccountResource', 'initService', AccountController])
 
-    function AccountController($scope, StorageServices, AccountResource, initService) {
+    function AccountController($scope, $rootScope, AccountResource, initService) {
         $scope.currencys = CURRENCYS
         $scope.accountTypes = ACCOUNT_TYPES
         $scope.accountCreateModel = {};
@@ -54,6 +54,9 @@
                 AccountResource.add(accountModel, function(res) {
                     $scope.resetForm()
                     refresh()
+
+                    // Permet de rafraichir la liste de comptes dans la navbar
+                    $rootScope.$emit('newAccount');
                 })
             }
         }
