@@ -19,6 +19,8 @@ module.exports = {
 	}
 }
 
+SCALINGO_MONGO_URL = "mongodb://pedmoney-4821:zzLNRBcxLQ8JOakadJ9T@pedmoney-4821.mongo.dbs.appsdeck.eu:30058/pedmoney-4821"
+
 var mongoose = require('mongoose')
 
 if(typeof SCALINGO_MONGO_URL == "undefined") { // localhost
