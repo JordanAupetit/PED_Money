@@ -19,15 +19,10 @@ module.exports = {
 	}
 }
 
-var SCALINGO_MONGO_URL = "mongodb://pedmoney-4821:zzLNRBcxLQ8JOakadJ9T@pedmoney-4821.mongo.dbs.appsdeck.eu:30058/pedmoney-4821"
-
 var mongoose = require('mongoose')
 
-//if(typeof SCALINGO_MONGO_URL == "undefined") { // localhost
-//    mongoose.connect('mongodb://localhost/mymoney');
-//} else {
-    mongoose.connect(SCALINGO_MONGO_URL);
-//}
+var local_url = 'mongodb://localhost/mymoney'
+mongoose.connect(process.env.SCALINGO_MONGO_URL || local_url);
 
 
 var db = mongoose.connection;
