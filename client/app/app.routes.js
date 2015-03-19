@@ -73,16 +73,6 @@
                         requireLogin: true
                     }
                 })
-
-                .state('offline', {
-                    url: '/offline',
-                    templateUrl: 'app/components/offline/offlineView.html',
-                    controller: 'offlineController',
-                    data: {
-                        requireLogin: true
-                    }
-                })
-
                 .state('settings', {
                     url: '/settings',
                     templateUrl: 'app/components/settings/settingsView.html',

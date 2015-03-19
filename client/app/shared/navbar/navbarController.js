@@ -29,10 +29,11 @@
         })
 
         $scope.logout = function() {
-            StorageServices.logout()
-            initService.initRessources(undefined)
-            $scope.user = undefined
-            $state.go('login')
+            StorageServices.logout(function(){
+                initService.initRessources(undefined)
+                $scope.user = undefined
+                $state.go('login')
+            })
         }
         
         $scope.initData = function(){

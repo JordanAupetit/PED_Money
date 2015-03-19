@@ -68,6 +68,8 @@
              * @Param {Object} operationToSend An object operation to send
              */    
             function postOperation(operationToSend){
+                StorageServices.postOperation(operationToSend, refresh)
+                /*
                 if(StorageServices.isOnline()){
                     OperationResource.add(operationToSend).$promise.then(function(operation){
                         refresh()
@@ -77,7 +79,8 @@
                 }   
                 else{
                     StorageServices.postOperation(accountId, operation)
-                }                
+                }
+                */               
             }
 
             /**
@@ -128,41 +131,46 @@
              * Finaly launch fixOperations to bind category
              */  
             function genCategories() {
-                // console.log('genCategories')
-                CategoryResource.getAll().$promise.then(function(categories){
-                    $scope.categories = []
-                    angular.forEach(categories, function(categorie){
-                        $scope.categories.push(categorie)
-                    })
-
-
-                    $scope.categoriesSelect = []
-                    angular.forEach(categories, function(categorie){
-                        $scope.categoriesSelect.push({
-                            id: categorie.id,
-                            name: categorie.name
-                        })
-                        angular.forEach(categorie.subCategories, function(subCategorie){
-                            $scope.categoriesSelect.push({
-                                id: subCategorie.id,
-                                name: '---- '+subCategorie.name
-                            })
-                        })
-                    })
-
-                    // console.log($scope.categories)
-                    // console.log($scope.categoriesSelect)
-                    fixOperations()
+                var categories = StorageServices.getUser().categories
+                $scope.categories = []
+                angular.forEach(categories, function(categorie){
+                    $scope.categories.push(categorie)
                 })
+
+
+                $scope.categoriesSelect = []
+                angular.forEach(categories, function(categorie){
+                    $scope.categoriesSelect.push({
+                        id: categorie.id,
+                        name: categorie.name
+                    })
+                    angular.forEach(categorie.subCategories, function(subCategorie){
+                        $scope.categoriesSelect.push({
+                            id: subCategorie.id,
+                            name: '---- '+subCategorie.name
+                        })
+                    })
+                })
+
+                // console.log($scope.categories)
+                // console.log($scope.categoriesSelect)
+                //fixOperations()
             }
 
             function getAccount(account){
                 $scope.account = account
+                if(!account.operations){
+                    account.operations = []
+                }
+
                 genCategories()
 
                 // Le fix doit se faire avant l'update
-                fixOperations()
-                $scope.updateSolde()
+                // if(account.operations){
+                //     console.log("if")
+                    fixOperations()
+                    $scope.updateSolde()
+                // }
 
                 generateCsv()
 
@@ -304,7 +312,6 @@
                             datePrelevement: moment().format('YYYY-MM-DD')
                         }
 
-                    console.log(toSend)
                     postOperation(toSend) 
                 } else { // Advanced or periodic operation
 
@@ -376,9 +383,11 @@
              * @Param {number} idOperation An id of an operation
              * @Param {number} index An index of the operation in the list
              */
-            $scope.deleteOperation = function(idOperation, index) {
-                OperationResource.remove(idOperation).$promise.then(function(){
+            $scope.deleteOperation = function(operation, index) {
+                StorageServices.deleteOperation(operation, function(){
                     //refresh()
+
+                    console.log(index)
 
                     // On clique sur le delete d'une operation d'un groupe
                     if($scope.operationsOfGroup.length > 0) {
@@ -387,8 +396,8 @@
                     }
 
                     for(var i = 0; i < $scope.account.operations.length; i++) {
-                        if($scope.account.operations._id === idOperation) {
-                            $scope.operations.splice(i, 1)
+                        if($scope.account.operations[i]._id === operation._id) {
+                            $scope.account.operations.splice(i, 1)
                             break
                         }
                     }
@@ -407,7 +416,7 @@
              * @Param {Object} operation Operation to update
              */
             $scope.validateOperation = function(operation) {
-                OperationResource.update(operation)
+                StorageServices.updateOperation(operation)
             }
 
             /**
@@ -428,11 +437,7 @@
                     operation.categoryName = 'No category'
                 }*/
 
-                OperationResource.update(operation).$promise.then(function(){
-                    // Permet principalement la Mise à jour du nom de la catégorie
-                    refresh()
-                    //getAccountAndGenerateCsv()
-                })
+                StorageServices.updateOperation(operation, refresh())
             }
 
             /**

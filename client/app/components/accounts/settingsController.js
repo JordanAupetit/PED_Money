@@ -29,38 +29,29 @@
         *   @Description
         *   Get the account, called the webservice to get the account information
         */
-        function getAccount(){    
-            if(StorageServices.isOnline()){
-                AccountResource.get($state.params.accountId).$promise.then(function(account){
-                    accountBeforeChange = account
+        function getAccount(){
+            StorageServices.getAccount($state.params.accountId, function(account){
+                accountBeforeChange = account
 
-                    var curPos
-                    angular.forEach($scope.currencies, function(cur, pos) {
-                        if (cur.code === account.currency) {
-                            curPos = pos
-                        }
-                    })
-                    account.currency = $scope.currencies[curPos]
-
-                    var typePos
-                    angular.forEach(ACCOUNT_TYPES, function(type, pos) {
-                        if (type.value === account.type) {
-                            typePos = pos
-                        }
-                    })
-                    account.type = ACCOUNT_TYPES[typePos]
-
-                    $scope.account = account
-                    $scope.rebalance = account.balance
-
-                    StorageServices.setAccount($state.params.accountId, account)
-                }, function(err){
-                    getAccount()
+                var curPos
+                angular.forEach($scope.currencies, function(cur, pos) {
+                    if (cur.code === account.currency) {
+                        curPos = pos
+                    }
                 })
-            }
-            else{
-                $scope.account = StorageServices.getAccount($state.params.accountId)
-            }
+                account.currency = $scope.currencies[curPos]
+
+                var typePos
+                angular.forEach(ACCOUNT_TYPES, function(type, pos) {
+                    if (type.value === account.type) {
+                        typePos = pos
+                    }
+                })
+                account.type = ACCOUNT_TYPES[typePos]
+
+                $scope.account = account
+                $scope.rebalance = account.balance
+            })  
         }
 
         /**

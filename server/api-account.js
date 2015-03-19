@@ -23,24 +23,7 @@ module.exports = function (app, tool, accountModel, operationModel) {
         tool.getUserId(req, next, function(userId){
             accountModel.find({userId: userId}, function (err, accounts) {
                 if (!err) {
-                    for(var i in accounts){
-                        var account = accounts[i]
-                        operationModel.find({accountId: account._id}, function (err, operations) {
-                            if (!err) {
-                                var balance = 0
-                                for(var i in operations){
-                                    balance = balance + operations[i].value
-                                }
-                                account.set('balance', balance, { strict : false })
-                                account.set('operations', operations, { strict : false })
-                                if(i == accounts.length){
-                                    return resp.send(accounts)
-                                }
-                            } else {
-                                next(err);
-                            }
-                        })
-                    }
+                    resp.send(accounts)
                 } else {
                     next(err);
                 }
