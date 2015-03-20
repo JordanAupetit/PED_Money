@@ -51,10 +51,25 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
                     }
                 })
             }else{
-                // var groupCat = catId - catId%100
-                userModel.findOne({'_id': userId, 'budget.subCategories.id': catId},function(err, budget) {
+                var groupCat = catId - catId%100
+                userModel.findOne({'_id': userId},function(err, budget) { /*, 'budget.subCategories.id': catId*/
                     if (!err) {
-                        budget.budget[0].subCategories[0].spread[12].value = value
+                        var posg = -1
+                        var posc = -1
+                        for(var ig =0;ig < budget.budget.length && posg < 0;ig++){
+                            if(groupCat == budget.budget[ig].id){
+                                 for(var ic =0;ic < budget.budget[ig].subCategories.length && posc < 0;ic++){
+                                    if(catId == budget.budget[ig].subCategories[ic].id){
+                                        posg = ig
+                                        posc = ic
+                                    }
+                                 }
+                            }
+                        }
+
+
+                        budget.budget[posg].subCategories[posc].spread[12].value = value
+                        budget.markModified('budget');
 
                         budget.save(function (err, docs) {
                             if (!err) {

@@ -295,7 +295,13 @@
 		}
 
 		$scope.validBudget = function(currentBudget){
-			budgetService.setBudget(currentBudget.id, currentBudget.value)
+			budgetService.setBudget(currentBudget.id, currentBudget.value).then(function(){
+				budgetService.getBudget()
+				.then(function(result) {
+					$scope.budgets = result
+				})
+			})
+			
 		}
 
 
@@ -322,7 +328,7 @@
 				})
 		}
 
-		budgetService.getBudget().$promise
+		budgetService.getBudget()
 				.then(function(result) {
 					$scope.budgets = result
 				})

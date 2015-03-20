@@ -39,7 +39,7 @@
 							headers:{'X-User-Token': userToken}
 						}
 					})
-					budgetCatRes = $resource('/api/budget/:catId/:value', {}, {
+					budgetCatRes = $resource('/api/budget/:catId/:value', {catId:'@catId', value:'@value'}, {
 						set: {
 							method: 'PUT',
 							headers:{'X-User-Token': userToken}
@@ -47,7 +47,7 @@
 					})
 				},
 				getBudget: function() {
-					return budgetRes.getAll()
+					return budgetRes.getAll().$promise
 				},
 				setBudget: function(catId, value){
 					return budgetCatRes.set({catId: catId, value, value}).$promise
