@@ -122,7 +122,7 @@
         *   when it's done
         */
         function postOperation(operation, callback){
-            if($rootScope.state === 'ONLINE'){
+            if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                 OperationResource.add(operation).$promise.then(function(operation){
                     callback()
                 }).catch(function(error) {
@@ -136,7 +136,7 @@
         }
 
         function updateOperation(operation, callback){
-            if($rootScope.state === 'ONLINE'){
+            if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                 OperationResource.update(operation).$promise.then(function(){
                     if(callback)
                         callback()
@@ -151,7 +151,7 @@
         }
 
         function deleteOperation(operation, callback){
-            if($rootScope.state === 'ONLINE'){
+            if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                 OperationResource.remove(operation._id).$promise.then(function(){
                     callback()
                 }).catch(function(error){
@@ -228,7 +228,7 @@
                 return localStorageService.get("USER")
             },
             getAccount: function(accountId, callback){
-                if($rootScope.state === 'ONLINE'){
+                if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                     AccountResource.get(accountId).$promise.then(function(account){
                         saveAccount(account)
                         callback(account)
@@ -241,7 +241,7 @@
                 }      
             },
             getAccounts: function(callback){
-                if($rootScope.state === 'ONLINE'){
+                if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                     AccountResource.getAll().$promise.then(function(accounts){
                         for(var i in accounts){
                             if(accounts[i]._id)
