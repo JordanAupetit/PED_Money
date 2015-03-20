@@ -56,7 +56,7 @@
                     refresh()
 
                     // Permet de rafraichir la liste de comptes dans la navbar
-                    $rootScope.$emit('newAccount');
+                    $rootScope.$emit('accountRefresh');
                 })
             }
         }

@@ -34,10 +34,10 @@
         })
 
         /**
-         * Trigger on a account is added
+         * Trigger on a account is added or updated
          * Refresh accounts on navbar
          */
-        $rootScope.$on('newAccount', function(event) {
+        $rootScope.$on('accountRefresh', function(event) {
             getAccounts();
         })
 

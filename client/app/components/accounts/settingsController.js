@@ -3,9 +3,9 @@
 
     angular
         .module('controllers')
-        .controller('AccountSettingsController', ['$scope', '$state', 'StorageServices', 'AccountResource', 'OperationResource', 'initService', AccountSettingsController])
+        .controller('AccountSettingsController', ['$scope', '$rootScope', '$state', 'StorageServices', 'AccountResource', 'OperationResource', 'initService', AccountSettingsController])
 
-    function AccountSettingsController($scope, $state, StorageServices, AccountResource, OperationResource, initService) {
+    function AccountSettingsController($scope, $rootScope, $state, StorageServices, AccountResource, OperationResource, initService) {
 
         /**
         *   We store the account out of the scope, so the user can change the alerts
@@ -51,6 +51,8 @@
 
                 $scope.account = account
                 $scope.rebalance = account.balance
+                $rootScope.account = account
+                $rootScope.$emit('accountSelected');
             })  
         }
 
@@ -62,6 +64,7 @@
         function updateAccount(){
             AccountResource.update(accountBeforeChange).$promise.then(function (account){
                 refreshScope()
+                $rootScope.$emit('accountRefresh');
             }, function(err){
                 console.log("Something went wrong ... " + err)
             })
