@@ -24,6 +24,8 @@
 			<div class="col-md-5">
 				<md-content>
 				{{categorySelector.currentCat}}</br>
+				<legend>Budget</legend>
+				<input type="number" ng-model="currentBudget.value"> <button ng-click="validBudget(currentBudget)">Valid</button>
 				<!-- <a>Details</a> -->
 				<ul>
 <!-- 					<li ng-repeat="opt in csOpt">

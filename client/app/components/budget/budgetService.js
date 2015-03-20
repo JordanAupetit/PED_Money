@@ -6,21 +6,8 @@
 		.factory('budgetService', ['$resource', 'CategoryResource', function($resource, CategoryRes) {
 
 
-			var budgetRes = $resource('/api/budget/:id', {}, {
-				getAll: {
-					method: 'GET',
-					isArray: true
-				},
-				get: {
-					method: 'GET'
-				},
-				add: {
-					method: 'POST'
-				},
-				delete: {
-					method: 'DELETE'
-				}
-			})
+			var budgetRes
+			var budgetCatRes
 
 			var budgetMonthRes = $resource('/api/budget/month', {}, {
 				getAll: {
@@ -29,32 +16,50 @@
 				}
 			})
 
-			var budgetYearMonthRes = $resource('/api/budget/:year/:month', {}, {
+			var expenseRes = $resource('/api/expense/:year/:month', {}, {
 				getAll: {
 					method: 'GET',
 					isArray: true
 				}
 			})
 
+			
+
 			var accountValues
-
-
 			var categoryDico
 			var categoryTree
 
 
 			return {
-				getAll: function() {
-					return budgetRes.getAll()
-				},
-				add: function(operation) {
-					return budgetRes.add(operation)
-				},
-				remove: function(budgetId) {
-					return budgetRes.delete({
-						id: budgetId
+				init: function(userToken){
+					budgetRes = $resource('/api/budget', {}, {
+						getAll: {
+							method: 'GET',
+							isArray: true, 
+							headers:{'X-User-Token': userToken}
+						}
+					})
+					budgetCatRes = $resource('/api/budget/:catId/:value', {}, {
+						set: {
+							method: 'PUT',
+							headers:{'X-User-Token': userToken}
+						}
 					})
 				},
+				getBudget: function() {
+					return budgetRes.getAll()
+				},
+				setBudget: function(catId, value){
+					return budgetCatRes.set({catId: catId, value, value}).$promise
+				}
+				// add: function(operation) {
+				// 	return budgetRes.add(operation)
+				// },
+				// remove: function(budgetId) {
+				// 	return budgetRes.delete({
+				// 		id: budgetId
+				// 	})
+				// },
 				getExpense: function(year, month){
 					if(month === undefined){
 						var tmp = 0
@@ -129,14 +134,17 @@
 									 */
 									angular.forEach(categories, function(category){
 										categoryTree[category.name] = {}
-										// operations[category.name].total = 0
+										categoryTree[category.name].id = category.id
+										// categoryTree[category.name].total = 0
 										categoryDico[category.id] = category
 										angular.forEach(category.subCategories, function(subcat){
 											categoryDico[subcat.id] = subcat
 											categoryTree[category.name][subcat.name] = []
-											// operations[category.name][subcat.name].total = 0
+											categoryTree[category.name][subcat.name].id = subcat.id
+											// categoryTree[category.name][subcat.name].total = 0
 										})
 									})	
+
 									resolve()	
 								})	
 							})				
@@ -162,13 +170,18 @@
 						return new Promise(function(resolve, reject) {
 
 
-							var pie = []
-							var pieDrillDown = []
-							var operations = {}
-							angular.copy(categoryTree, operations)
+							
+							// angular.copy(categoryTree, operations)
+							// operations = jQuery.extend( {}, categoryTree);
 
-							budgetYearMonthRes.getAll({year: selector.currentYear, month: parseInt(selector.currentMonth)}).$promise
+							expenseRes.getAll({year: selector.currentYear, month: parseInt(selector.currentMonth)}).$promise
 							.then(function(result){
+
+								var pie = [];
+								var pieDrillDown = [];
+								var operations = {}
+
+								operations = jQuery.extend(true, {}, categoryTree);
 
 								/**
 								 * Tidy the operation by category

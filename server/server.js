@@ -134,7 +134,7 @@ apiCategory(app, tool, database.getCategoryModel(), userModel, accountModel, ope
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, tool, database.getPeriodModel())
-apiBudget(app, tool, accountModel, operationModel)
+apiBudget(app, tool, accountModel, operationModel, userModel)
 
 oauthFacebook(app, tool, userModel, jwt)
 oauthGoogle(app, tool, userModel, jwt)
