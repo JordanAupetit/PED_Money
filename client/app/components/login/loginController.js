@@ -17,11 +17,11 @@
         /**
          * Login fct
          */
-        $scope.signin = function() {
+        $scope.signin = function(data) {
 
             var formData = {
-                username: $scope.username,
-                password: $scope.password
+                username: data.username,
+                password: data.password
             }
 
 
