@@ -51,7 +51,7 @@
 				},
 				setBudget: function(catId, value){
 					return budgetCatRes.set({catId: catId, value, value}).$promise
-				}
+				},
 				// add: function(operation) {
 				// 	return budgetRes.add(operation)
 				// },
