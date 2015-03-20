@@ -28,7 +28,10 @@
         <!-- <div ng-include src="'./app/shared/navbar/navbar.html'"></div> -->
         <div ng-include="'app/shared/navbar/navbar.html'"></div>
 
-        <div ui-view class="body"></div>
+       <div  ui-view="viewB" ></div>
+        <div ng-hide="bool" class="test">
+            <div  ui-view="viewA" ></div>
+        </div>
 
     </body>
 
