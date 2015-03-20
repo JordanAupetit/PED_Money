@@ -22,6 +22,14 @@ module.exports = {
 var mongoose = require('mongoose')
 
 var local_url = 'mongodb://localhost/mymoney'
+var url_db = local_url
+
+if(process.env.MONGO_URL !== undefined) {
+    url _db = process.env.MONGO_URL
+} else if(process.env.SCALINGO_MONGO_URL !== undefined) {
+    url _db = process.env.SCALINGO_MONGO_URL
+}
+
 mongoose.connect(process.env.MONGO_URL || process.env.SCALINGO_MONGO_URL || local_url);
 
 
