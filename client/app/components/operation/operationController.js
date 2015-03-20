@@ -13,7 +13,11 @@
              * Reset few variables for add an operation
              */
             $scope.resetOperationCreate = function () {
-                $scope.operationCreateModel = {}
+                $scope.operationCreateModel = {
+                    period: {
+                        intervalType: INTERVAL_TYPES[2]
+                    }
+                }
                 $scope.operationCreateModel.advanced = false
 
                 if($scope.addOperationForm !== undefined){
@@ -21,6 +25,7 @@
                 }
             }  
 
+            $scope.intervalType = INTERVAL_TYPES
             var accountId = $state.params.accountId
             $scope.accountId = accountId
             $scope.categories = []
@@ -36,13 +41,6 @@
             $scope.subOperationModel = {}
             var dateFormat = 'YYYY-MM-DD'
 
-            $scope.intervalType = INTERVAL_TYPES
-
-            $scope.operationCreateModel = {
-                period: {
-                    intervalType: INTERVAL_TYPES[2]
-                }
-            }
 
             // $scope.operationCreateModel = {
             //     period: {
