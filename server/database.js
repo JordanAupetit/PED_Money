@@ -25,12 +25,12 @@ var local_url = 'mongodb://localhost/mymoney'
 var url_db = local_url
 
 if(process.env.MONGO_URL !== undefined) {
-    url _db = process.env.MONGO_URL
+    url_db = process.env.MONGO_URL
 } else if(process.env.SCALINGO_MONGO_URL !== undefined) {
-    url _db = process.env.SCALINGO_MONGO_URL
+    url_db = process.env.SCALINGO_MONGO_URL
 }
 
-mongoose.connect(process.env.MONGO_URL || process.env.SCALINGO_MONGO_URL || local_url);
+mongoose.connect(url_db);
 
 
 var db = mongoose.connection;

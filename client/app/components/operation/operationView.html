@@ -92,23 +92,24 @@
                     <div ng-repeat="op in groupOfOperations">
                         <div ng-click="toggleOperationsOfGroup($index, op.showOps)" class="operationGroupOfLine operationLine pointer backWhite pad15">
 
-                          <!-- Plus grand qu'un Mobile -->
-                          <div class="hidden-xs">
-                            <div class="wid40p ftl">
-                                <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
-                            </div>
+                            <!-- Plus grand qu'un Mobile -->
+                            <div class="hidden-xs">
+                                <div class="wid40p ftl">
+                                    <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
+                                </div>
 
-                            <div class="wid50p ftl">
-                                <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
-                            </div>
+                                <div class="wid50p ftl">
+                                    <span>{{ op.subOperations.length }} operation(s) was/were grouped</span>
+                                </div>
 
-                            <div class="wid10p ftl algright">
-                                <span ng-if="op.value <= 0" class="colorRed">
-                                    {{ op.value }}
-                                </span>
-                                <span ng-if="op.value > 0" class="colorGreen">
-                                    +{{ op.value }}
-                                </span>
+                                <div class="wid10p ftl algright">
+                                    <span ng-if="op.value <= 0" class="colorRed">
+                                        {{ op.value }}
+                                    </span>
+                                    <span ng-if="op.value > 0" class="colorGreen">
+                                        +{{ op.value }}
+                                    </span>
+                                </div>
                             </div>
                         </div>
 
@@ -162,68 +163,64 @@
                     There are yet no operations on this account.
                 </div>
             </div>
+        </div>
 
-            <div ng-show="ventilateOperation !== null">
-                <div class="fs20">
-                    <strong>Balance to assign: </strong>
-                    <span ng-if="balanceToAssign <= 0" class="colorRed">
-                        {{ balanceToAssign }}€
-                    </span>
-                    <span ng-if="balanceToAssign > 0" class="colorGreen">
-                        +{{ balanceToAssign }}€
-                    </span>
+        <div ng-show="ventilateOperation !== null">
+            <div class="fs20">
+                <strong>Balance to assign: </strong>
+                <span ng-if="balanceToAssign <= 0" class="colorRed">
+                    {{ balanceToAssign }}€
+                </span>
+                <span ng-if="balanceToAssign > 0" class="colorGreen">
+                    +{{ balanceToAssign }}€
+                </span>
+            </div>
+
+            <form name="formSubOperation">
+                <div class="col-md-5 col-xs-12 mt10">
+                    <!-- <input ng-model="subOperationModel.description" type="text" class="form-control" placeholder="Description" required> -->
+                    <div class="form-group" ng-class="{ 'has-error' : formSubOperation.description.$invalid && !formSubOperation.description.$pristine}">
+                        <input type="text" name="description" ng-model="subOperationModel.description" class="form-control" placeholder="Description" required>
+                        <span class="error help-block" ng-show="formSubOperation.description.$error.required  && !formSubOperation.description.$pristine">
+                            Description is required
+                        </span>
+                    </div>
                 </div>
 
-                <form name="formSubOperation">
-                    <div class="col-md-5 col-xs-12 mt10">
-                        <!-- <input ng-model="subOperationModel.description" type="text" class="form-control" placeholder="Description" required> -->
-                        <div class="form-group" ng-class="{ 'has-error' : formSubOperation.description.$invalid && !formSubOperation.description.$pristine}">
-                            <input type="text" name="description" ng-model="subOperationModel.description" class="form-control" placeholder="Description" required>
-                            <span class="error help-block" ng-show="formSubOperation.description.$error.required  && !formSubOperation.description.$pristine">
-                                Description is required</span>
-                            </div>
-                        </div>
+                <div class="col-md-5 col-xs-12 mt10">
+                    <!-- <input ng-model="subOperationModel.value" type="number" class="form-control" placeholder="Value" required> -->
+                    <div class="form-group" ng-class="{ 'has-error' : formSubOperation.value.$invalid && !formSubOperation.value.$pristine}">
+                        <input type="number" name="value" ng-model="subOperationModel.value" class="form-control" placeholder="Value" required>
+                        <span class="error help-block" ng-show="formSubOperation.value.$error.required  && !formSubOperation.value.$pristine">
+                        Value is required</span>
+                        <span class="error help-block" ng-show="formSubOperation.value.$error.number">
+                        Not valid number</span>
+                    </div>
+                </div>
 
-                        <div class="col-md-5 col-xs-12 mt10">
-                            <!-- <input ng-model="subOperationModel.value" type="number" class="form-control" placeholder="Value" required> -->
-                            <div class="form-group" ng-class="{ 'has-error' : formSubOperation.value.$invalid && !formSubOperation.value.$pristine}">
-                                <input type="number" name="value" ng-model="subOperationModel.value" class="form-control" placeholder="Value" required>
-                                <span class="error help-block" ng-show="formSubOperation.value.$error.required  && !formSubOperation.value.$pristine">
-                                    Value is required</span>
-                                    <span class="error help-block" ng-show="formSubOperation.value.$error.number">
-                                        Not valid number</span>
-                                    </div>
-                                </div>
+                <div class="col-md-2 col-xs-12 mt10">
+                    <button ng-disabled="formSubOperation.$invalid" ng-click="addSubOperation()" class="btn btn-default">Add suboperation</button>
+                </div>
+            </form>
 
-                                <div class="col-md-2 col-xs-12 mt10">
-                                    <button ng-disabled="formSubOperation.$invalid" ng-click="addSubOperation()" class="btn btn-default">Add suboperation</button>
-                                </div>
-                            </form>
+            <div class="clear mb20"></div>
 
-                            <div class="clear mb20"></div>
+            <div ng-repeat="op in ventilateOperation.subOperations" class="ventilationLine backWhite pad15">
+                <div class="wid70p">
+                    {{ op.description }}
+                </div>
 
-                            <div ng-repeat="op in ventilateOperation.subOperations" class="ventilationLine backWhite pad15">
-                                <div class="wid70p">
-                                    {{ op.description }}
-                                </div>
-
-                                <div class="wid30p algright ventilationRightZone">
-                                    <span ng-if="op.value <= 0" class="colorRed">
-                                        {{ op.value }}
-                                    </span>
-                                    <span ng-if="op.value > 0" class="colorGreen">
-                                        +{{ op.value }}
-                                    </span>
-                                    <button ng-click="deleteSubOperation(op, $index)" class="btn btn-danger btn-xs">
-                                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                                    </button>
-                                </div>
-
-                <!-- <div class="wid10p ftl algright">
-                    <button ng-click="deleteSubOperation($index)" class="btn btn-danger btn-xs">
+                <div class="wid30p algright ventilationRightZone">
+                    <span ng-if="op.value <= 0" class="colorRed">
+                        {{ op.value }}
+                    </span>
+                    <span ng-if="op.value > 0" class="colorGreen">
+                        +{{ op.value }}
+                    </span>
+                    <button ng-click="deleteSubOperation(op, $index)" class="btn btn-danger btn-xs">
                         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     </button>
-                </div> -->
+                </div>
             </div>
 
             <button ng-click="hideVentilation()" class="btn btn-default mt10">Back</button>
