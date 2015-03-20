@@ -55,6 +55,15 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
 	//Start server
 	var port = 8754;
+	//console.log("PORT :: " + typeof process.env.PORT)
+	//console.log("PORT :: " + process.env.PORT)
+
+	if(process.env.PORT !== undefined) {
+		port = process.env.PORT
+	}
+
+	// Scalingo
+	// The `process.env.PORT` will read the environment variable PORT dynamically provided by our container manager.
 	app.listen(port, function () {
 		'use strict';
 		console.log('Express server listening on port %d in %s mode', port, app.settings.env);

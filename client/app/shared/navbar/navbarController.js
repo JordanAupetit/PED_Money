@@ -16,6 +16,11 @@
         },
         function(url){  
             $scope.currentUrl = url
+
+            if(url === "/accounts" || url === "/login") {
+                $rootScope.account = undefined
+                $scope.account = undefined
+            }
         });
 
         /**
@@ -29,11 +34,20 @@
         })
 
         /**
-         * Trigger on a account is added
+         * Trigger on a account is added or updated
          * Refresh accounts on navbar
          */
-        $rootScope.$on('newAccount', function(event) {
+        $rootScope.$on('accountRefresh', function(event) {
             getAccounts();
+        })
+
+        /**
+         * Trigger on account selected
+         */
+        $rootScope.$on('accountSelected', function(event) {
+            if($rootScope.account !== undefined) {
+                $scope.account = $rootScope.account
+            }
         })
 
         $scope.logout = function() {
