@@ -16,12 +16,9 @@
                         // quand on selectionne un compte (par exemple)
                         if($('#sidebar-wrapper-left').css("left") !== "0px"){ // Open
                             $('#sidebar-wrapper-left').animate({ 'left': '0' }, 'slow' ); 
-                            console.log(0)
                         }else{ // Close
                             $('#sidebar-wrapper-left').animate({ 'left': '-200px' }, 'slow' );
-                            console.log(-200)
                         }
-
                     });
                 }
             };

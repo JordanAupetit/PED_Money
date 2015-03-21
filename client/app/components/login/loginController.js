@@ -43,8 +43,10 @@
             }
 
             if($stateParams.username !== undefined && $stateParams.token !== undefined){
-                console.log("oui")
                 $scope.signin($stateParams)
+            }
+            else if(!StorageServices.isOnline()){
+                $state.go('offline')
             }
 
             $scope.loginFB = function(){

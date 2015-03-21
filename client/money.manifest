@@ -77,6 +77,10 @@ app/shared/category/categoryView.html
 app/components/accounts/settingsView.html
 app/components/operation/operationLineTemplate.html
 app/components/operation/operationDescriptionTemplate.html
+app/components/login/loginView.html
+assets/img/logo.png
+assets/img/slide/budget1.png
+assets/img/slide/budget2.png 
 
 NETWORK:
 *

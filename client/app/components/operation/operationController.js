@@ -36,7 +36,6 @@
             $scope.orderProp = "dateOperation"
             $scope.showDeferredOps = true
             $scope.csvFileImported = ""
-            $scope.importButtonTitle = "No operations to import"
             $scope.ventilateOperation = null
             $scope.subOperationModel = {}
             var dateFormat = 'YYYY-MM-DD'
@@ -240,48 +239,6 @@
                 }
             }
 
-            /**
-             * @Description
-             * Correct the dates of an operation
-             * @Param {Object} operation An operation to correct
-             */
-            function correctDateOfOperation(operation) {
-
-                // Clean date
-                // TODO: Verifier le bon format de la date
-                if( !operation.hasOwnProperty('dateOperation') 
-                    || operation.dateOperation === ''
-                    || !moment(operation.dateOperation, dateFormat).isValid) {
-                    //console.log('No dateOperation')
-
-                    operation.dateOperation = moment().format('YYYY-MM-DD')
-                } else {
-                    //console.log('Have dateOperation')
-                    //console.log(operation.dateOperation)
-                    //console.log(dateFormat)
-                    operation.dateOperation = moment(operation.dateOperation, dateFormat).format('YYYY-MM-DD')
-                }
-
-
-                if( !operation.hasOwnProperty('datePrelevement') 
-                    || operation.datePrelevement === ''
-                    || !moment(operation.datePrelevement, dateFormat).isValid) {
-
-                    operation.datePrelevement = operation.dateOperation
-                } else {
-
-                    // Si la date différée est inférieur à la date de l'opération
-                    // mettre à la date de l'opération
-                    if(moment(operation.datePrelevement, dateFormat).isBefore(moment(operation.dateOperation, dateFormat))) {
-                        operation.datePrelevement = operation.dateOperation
-                    } else {
-                        operation.datePrelevement = moment(operation.datePrelevement, dateFormat).format('YYYY-MM-DD')
-                    }
-                }
-
-                return operation
-            }
-
             /*  
                 ==== TODO ====
                 - Lorsque l'on raffraichis la page (F5), le rootScope est vidé, et on ne
@@ -316,7 +273,7 @@
                     postOperation(toSend) 
                 } else { // Advanced or periodic operation
 
-                    newOperation = correctDateOfOperation(newOperation)
+                    newOperation = OperationResource.correctDateOfOperation(newOperation)
 
                     if (newOperation.hasOwnProperty('periodic') 
                         && newOperation.periodic) { // Periodic operation
@@ -357,7 +314,7 @@
                             }
                         }
 
-                        console.log(toSend)
+                        //console.log(toSend)
 
                         periodRes.add(toSend).$promise.then(function() {
                             // Si TRUE, alors le $parent est le controller de period operation
@@ -432,7 +389,7 @@
             $scope.updateOperation = function(operation) {
                 operation.editable = false
 
-                operation = correctDateOfOperation(operation)
+                operation = OperationResource.correctDateOfOperation(operation)
 
                 /*if(operation.hasOwnProperty('category') && operation.category !== undefined) {
                     operation.categoryId = operation.category.id
@@ -693,68 +650,6 @@
                 var blob = new Blob([ csvAccount + "\r\n\r\n" + csv ], { type : 'text/plain' })
                 $scope.urlCsv = (window.URL || window.webkitURL).createObjectURL( blob )
                 //console.log("Url generated")
-            }
-
-            /**
-             * @Description
-             * Parse the content of the csv file and convert it to Json
-             * @Param {string} $fileContent Content of the csv file
-             */
-            $scope.importCsv = function($fileContent){
-                //console.log($fileContent);
-                //console.log(Papa.parse($fileContent))
-
-                var ops = []
-                var csvToJson = Papa.parse($fileContent)
-                csvToJson = csvToJson.data
-
-                if(csvToJson.length < 5) {
-                    console.log("Le fichier csv n'est pas correct ou est vide.")
-                } else {
-                    var headerLine = 3
-                    // On commence après les 3 premières lignes
-                    for(var i = (headerLine + 1); i < csvToJson.length; i++) {
-                        var newOp = {}
-                        for(var j = 0; j < csvToJson[i].length; j++) {
-                            newOp[csvToJson[headerLine][j]] = csvToJson[i][j]
-
-                            if(accountId !== "") {
-                                newOp.accountId = accountId
-                            }
-                        }
-
-                        if(newOp.hasOwnProperty("value")) {
-                            newOp = correctDateOfOperation(newOp)
-                            ops.push(newOp)
-                        }
-                    }
-
-                    //console.log("Import was a success")
-                    //console.log(ops)
-                }
-
-                $scope.operationsToAdd = ops
-
-                if(ops.length > 0) {
-                    $scope.importButtonTitle = "Import " + ops.length + " operations"
-                } else {
-                    $scope.importButtonTitle = "No operations to import"
-                }
-            };
-
-            /**
-             * @Description
-             * Add all operations extract from the csv file
-             */
-            $scope.addOperationsFromCsv = function() {
-                //console.log($scope.operationsToAdd)
-
-                if($scope.operationsToAdd.length > 0) {
-                    // On ajoute une liste d'opérations
-                    postOperation($scope.operationsToAdd) 
-                }
-
-                $scope.importButtonTitle = "No operations to import"
             }
 
             // Initiatilisation

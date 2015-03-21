@@ -122,7 +122,7 @@
         *   when it's done
         */
         function postOperation(operation, callback){
-            if($rootScope.state === 'ONLINE'){
+            if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                 OperationResource.add(operation).$promise.then(function(operation){
                     callback()
                 }).catch(function(error) {
@@ -136,7 +136,7 @@
         }
 
         function updateOperation(operation, callback){
-            if($rootScope.state === 'ONLINE'){
+            if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                 OperationResource.update(operation).$promise.then(function(){
                     if(callback)
                         callback()
@@ -151,7 +151,7 @@
         }
 
         function deleteOperation(operation, callback){
-            if($rootScope.state === 'ONLINE'){
+            if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                 OperationResource.remove(operation._id).$promise.then(function(){
                     callback()
                 }).catch(function(error){
@@ -217,18 +217,28 @@
         ping()
 
         return {
+            isOnline: function() {
+                return ($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING')
+            },
             login: function(user) {
                 localStorageService.set("USER", user)                
             },
             logout: function(callback) {
-                localStorageService.clearAll()
-                callback()
+                if(localStorageService.get("WFC")){
+                    if (confirm('All changes you made while you were offline will be lost. Are you sure you want to log out ?')) {
+                        localStorageService.clearAll()
+                        callback()
+                    }
+                }else{
+                    localStorageService.clearAll()
+                    callback()
+                }
             },
             getUser: function(){
                 return localStorageService.get("USER")
             },
             getAccount: function(accountId, callback){
-                if($rootScope.state === 'ONLINE'){
+                if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                     AccountResource.get(accountId).$promise.then(function(account){
                         saveAccount(account)
                         callback(account)
@@ -241,7 +251,7 @@
                 }      
             },
             getAccounts: function(callback){
-                if($rootScope.state === 'ONLINE'){
+                if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                     AccountResource.getAll().$promise.then(function(accounts){
                         for(var i in accounts){
                             if(accounts[i]._id)

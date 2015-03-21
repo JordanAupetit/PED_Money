@@ -473,7 +473,6 @@ var UserSchema  = new Schema({
 var AccountSchema  = new Schema({
     name: String,
     type: Number,
-    balance: Number,
     currency: String,
     userId: String,
     alerts: {type :[AlertSchema], default: defaultAlerts}

@@ -3,7 +3,7 @@
 
     <!-- <nav ng-show="login" class="navbar navbar-default" role="navigation" > -->
     <nav class="navbar navbar-default" role="navigation" >
-    <!-- <nav ng-show="user" class="navbar navbar-default" role="navigation" > -->
+        <!-- <nav ng-show="user" class="navbar navbar-default" role="navigation" > -->
         <div class="container-fluid">
             <div class="navbar-header">
                 <button toggle-sidebar-menu class="navbar-brand hamburger-button">Show navigation</button>
@@ -28,12 +28,7 @@
             <ul class="sidebar-nav">
                 <li hide-sidebar-menu ui-sref="settings" class="sidebar-left-element">
                     <span class="glyphicon glyphicon-user pr10" aria-hidden="true"></span>
-                    User account
-                </li>
-
-                <li hide-sidebar-menu ng-if="account !== undefined" ui-sref="accountSettings({accountId : account._id})" class="sidebar-left-element">
-                    <span class="glyphicon glyphicon-cog pr10" aria-hidden="true"></span>
-                    Account settings
+                    {{user.username}}
                 </li>
 
                 <li hide-sidebar-menu ng-click="logout()" class="sidebar-left-element">
@@ -66,11 +61,17 @@
 
                 <li ng-show="accounts.length > 0" class="sidebar-left-element-title">Accounts list</li>
 
-                <li ng-show="accounts.length > 0" hide-sidebar-menu ui-sref="operation({accountId : acc._id})" ng-repeat="acc in accounts" class="sidebar-left-element">
-                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
-                    {{ acc.name }}
+                <li ng-show="accounts.length > 0" hide-sidebar-menu ng-repeat="acc in accounts" class="sidebar-left-element">
+                    <div class="row">
+                        <div class="col-md-10" ui-sref="operation({accountId : acc._id})">
+                            <span ng-if="account._id!==acc._id">{{ acc.name }}</span>
+                            <b ng-if="account._id===acc._id">{{ acc.name }}</b>
+                        </div>
+                        <div class="col-md-2" ng-if="account._id===acc._id">
+                            <span ui-sref="accountSettings({accountId : acc._id})" class="glyphicon glyphicon-cog pull-right" aria-hidden="true"></span>
+                        </div>
+                    </div>
                 </li>
-    
             </ul>
         </form>
     </div>

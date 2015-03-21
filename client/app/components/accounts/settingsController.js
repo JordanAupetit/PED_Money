@@ -22,6 +22,8 @@
             $scope.newalert = {"level": 0, "message": ''}
             $scope.currencies = CURRENCYS
             $scope.accountTypes = ACCOUNT_TYPES
+            $scope.importButtonTitle = "No operations to import"
+            $scope.operationsToAdd = []
             getAccount()
         }
 
@@ -95,14 +97,12 @@
                     $scope.rebalance + " " + $scope.account.currency,
                 }
 
-                OperationResource.add(operation).$promise.then(function(operation){
+                StorageServices.postOperation(operation, function(operation){
                     refreshScope()
                     if(target !== undefined){
                         target.textContent = "Save"
                         target.disabled = false
                     }
-                }, function(err){
-                    console.log("Something went wrong ... " + err)
                 })
             }
         }
@@ -153,6 +153,61 @@
                 $state.go('accounts')
             })
         }
+
+        /**
+             * @Description
+             * Parse the content of the csv file and convert it to Json
+             * @Param {string} $fileContent Content of the csv file
+             */
+            $scope.importCsv = function($fileContent){
+                var ops = []
+                var csvToJson = Papa.parse($fileContent)
+                csvToJson = csvToJson.data
+
+                if(csvToJson.length < 5) {
+                    console.log("Le fichier csv n'est pas correct ou est vide.")
+                } else {
+                    var headerLine = 3
+                    // On commence après les 3 premières lignes
+                    for(var i = (headerLine + 1); i < csvToJson.length; i++) {
+                        var newOp = {}
+                        for(var j = 0; j < csvToJson[i].length; j++) {
+                            newOp[csvToJson[headerLine][j]] = csvToJson[i][j]
+
+                            if($state.params.accountId !== "") {
+                                newOp.accountId = $state.params.accountId
+                            }
+                        }
+
+                        if(newOp.hasOwnProperty("value")) {
+                            newOp = OperationResource.correctDateOfOperation(newOp)
+                            ops.push(newOp)
+                        }
+                    }
+                }
+
+                $scope.operationsToAdd = ops
+
+                if(ops.length > 0) {
+                    $scope.importButtonTitle = "Import " + ops.length + " operations"
+                } else {
+                    $scope.importButtonTitle = "No operations to import"
+                }
+            }
+
+            /**
+             * @Description
+             * Add all operations extract from the csv file
+             */
+            $scope.addOperationsFromCsv = function() {
+                if($scope.operationsToAdd.length > 0) {
+                    // On ajoute une liste d'opérations
+                    StorageServices.postOperation($scope.operationsToAdd, function(){
+                        refreshScope()
+                    })
+                }
+                $scope.importButtonTitle = "No operations to import"
+            }
 
         /**
         *   When the Controller is loaded, the scope must be refreshed

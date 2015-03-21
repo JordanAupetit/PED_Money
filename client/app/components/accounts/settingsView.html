@@ -27,6 +27,18 @@
 	</div>
 
 	<div class="row pl15 pr15">
+		<h1>Import from CSV</h1>
+		<p>You can upload a CSV file to upload multiple operations at once. If you want to download all the operation from this account, you can do it from <a ui-ref="operation({accountId : acc._id})">this page</a>.</p>
+		<form class="importCsv form-inline">
+            <div class="wid250">
+                <input type="file" on-read-file="importCsv($fileContent)" class="filestyle">
+            </div>
+            <button ng-click="addOperationsFromCsv()" button-import-csv-to-app ng-disabled="importButtonTitle === 'No operations to import'" type="button" class="btn btn-primary mt10">{{ importButtonTitle }}</button>
+            <div class="clear"></div>
+        </form>
+	</div>
+
+	<div class="row pl15 pr15">
 		<h1>Alerts</h1>
 		<table class="table table-bordered table-striped">
 			<thead>
