@@ -6,27 +6,20 @@
         .module('appModule')
         .controller('LoginController', ['$scope', '$stateParams', '$rootScope', '$http', 'LoginService', '$state', 'StorageServices', 
             function($scope, $stateParams, $rootScope, $http, LoginService, $state, StorageServices) {
-/*
-            console.log($stateParams)
-            console.log('test')
 
-            if($stateParams.id !== undefined && $stateParams.cid !== undefined){
-                console.log("yeeeeeeeeep")
-            }
-*/
-// http://localhost:8754/#/login?id=5506b658c45&cid=10206070
-// http://localhost:8754/#/login?id=azert&cid=azerty
-
-            
-
-            /**
-             * Redirect user if already login
-             */
-             /*
-            if(StorageServices.getUser() !== undefined){
-                $state.go('accounts');
-            }
-            */
+            $scope.myInterval = 5000;
+            var slides = $scope.slides = [];
+            $scope.addSlide = function() {
+                var newWidth =  slides.length + 1;
+                slides.push({
+                      image: 'assets/img/slide/budget'+newWidth+'.png' ,
+                      text: ['Budget ','Budget'][slides.length % 4] + ' ' +
+                        ['Account', 'Camembert'][slides.length % 4]
+                        });
+            };
+              for (var i=0; i<2; i++) {
+                $scope.addSlide();
+              }
 
             /**
              * Login fct
@@ -42,6 +35,7 @@
                     } else {
                         StorageServices.login(res.data)
                         $rootScope.$emit('login');
+                        $rootScope.bool=true;
                         //console.log($rootScope.$emit('login'))
                         $state.go('accounts');
                     }

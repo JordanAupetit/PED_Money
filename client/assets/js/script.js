@@ -21,26 +21,26 @@ $("#sign").click(function(){
 	
 	if( username == '' || first == '' || last == '' || email == '' || psw == '' || repsw == '')
 		{
-		  $("#contenu").html("Veulliez remplir tous les champs");
+		  $("#contenu").html("Fill in all required entry fields");
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		}
 	else if(validateEmail(email) == false)
 		{
-		  $("#contenu").html("Votre email est incorrect");
+		  $("#contenu").html(" Incorrect email ");
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		}
 	else if((psw.length)<5)
 		{
-		  $("#contenu").html("Mot de passe doit au moins contenir 8 caracteres de longueur");
+		  $("#contenu").html("Password must contain at least 8 letter");
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		}
 		
 	else if(!(psw).match(repsw))
 		{
-		  $("#contenu").html("Vos mots de passe ne concorde pas. Essayer a nouveau");
+		  $("#contenu").html("Password does not match");
 		  $('html, body').animate({scrollTop : 0},400);
 		  return false;
 		} 

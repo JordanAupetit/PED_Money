@@ -54,6 +54,7 @@
             StorageServices.logout(function(){
                 initService.initRessources(undefined)
                 $scope.user = undefined
+                $rootScope.bool=false;
                 $state.go('login')
             })
         }

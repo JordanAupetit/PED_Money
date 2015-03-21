@@ -13,75 +13,111 @@
             $stateProvider
                 .state('login', {
                     url: '/login?username&token',
-                    templateUrl: 'app/components/login/loginView.html',
-                    controller: 'LoginController',
                     data: {
                         requireLogin: false
-                    }
-                })
-
-                .state('accounts', {
-                        url: '/accounts',
-                        templateUrl: 'app/components/accounts/accountsView.html',
-                        controller: 'AccountController',
-                        data: {
-                            requireLogin: true
+                    },
+                    views: {
+                        "viewA": { templateUrl: "app/components/login/loginView.html" ,
+                                   controller: 'LoginController'
                         }
-                    })
-                
+                      }
+                })
+            .state('accounts', {
+                    url: '/accounts',
+                    data: {
+                        requireLogin: true
+                    },
+                    views: {
+                        "viewB": { templateUrl: 'app/components/accounts/accountsView.html',
+                                   controller: 'AccountController'
+                        }
+                      }
+                })
                 .state('accountSettings', {
                     url: '/:accountId/settings',
-                    templateUrl: 'app/components/accounts/settingsView.html',
-                    controller: 'AccountSettingsController',
                     data: {
                         requireLogin: true
-                    }
+                    },
+                    views: {
+                        "viewB": {  templateUrl: 'app/components/accounts/settingsView.html',
+                                    controller: 'AccountSettingsController'
+                        }
+                      }
                 })
+            .state('operation', {
+                url: '/:accountId/operation/',
+                data: {
+                    requireLogin: true
+                },
+                views: {
+                        "viewB": {  templateUrl: 'app/components/operation/operationView.html',
+                                    controller: 'OperationController'
+                        }
+                      }
+            })
 
-                .state('operation', {
-                    url: '/:accountId/operation/',
-                    templateUrl: 'app/components/operation/operationView.html',
-                    controller: 'OperationController',
-                    data: {
-                        requireLogin: true
-                    }
-                })
+            .state('optPeriod', {
+                url: '/:accountId/operation/period/',
+                
+                data: {
+                    requireLogin: true
+                },
+                views: {
+                        "viewB": {  templateUrl: 'app/components/operation/period/periodView.html',
+                                    controller: 'PeriodCtrl'
+                        }
+                      }
+            })
+            .state('budget', {
+                url: '/budget/',
+                
+                data: {
+                    requireLogin: true
+                },
+                views: {
+                        "viewB": {  templateUrl: 'app/components/budget/budgetView.html',
+                                    controller: 'BudgetCtrl'
+                        }
+                      }
+            })
 
-                .state('optPeriod', {
-                    url: '/:accountId/operation/period/',
-                    templateUrl: 'app/components/operation/period/periodView.html',
-                    controller: 'PeriodCtrl',
-                    data: {
-                        requireLogin: true
-                    }
-                })
+            .state('budgetdetails', {
+                url: '/budget/details/',
+                
+                data: {
+                    requireLogin: true
+                },
+                views: {
+                        "viewB": {  templateUrl: 'app/components/budget/details/detailsView.html',
+                                    controller: 'BudgetDetailsCtrl'
+                        }
+                      }
+            })
 
-                .state('budget', {
-                    url: '/budget/',
-                    templateUrl: 'app/components/budget/budgetView.html',
-                    controller: 'BudgetCtrl',
-                    data: {
-                        requireLogin: true
-                    }
-                })
-
-                .state('budgetdetails', {
-                    url: '/budget/details/',
-                    templateUrl: 'app/components/budget/details/detailsView.html',
-                    controller: 'BudgetDetailsCtrl',
-                    data: {
-                        requireLogin: true
-                    }
-                })
-                .state('settings', {
-                    url: '/settings',
-                    templateUrl: 'app/components/settings/settingsView.html',
-                    controller: 'SettingsController',
-                    data: {
-                        requireLogin: true
-                    }
-                })
-
+            .state('offline', {
+                url: '/offline',
+                
+                data: {
+                    requireLogin: true
+                },
+                views: {
+                        "viewB": { templateUrl: 'app/components/offline/offlineView.html',
+                                   controller: 'offlineController'
+                        }
+                      }
+            })
+            .state('settings', {
+                url: '/settings',
+                
+                data: {
+                    requireLogin: true
+                },
+                views: {
+                        "viewB": {  templateUrl: 'app/components/settings/settingsView.html',
+                                    controller: 'SettingsController'
+                        }
+                      }
+            })
         }])
         .run(['$rootScope', 'StorageServices', 'initService', '$location', startup])
 
@@ -92,11 +128,11 @@
             /**
              * Init ressources on page reload
              */
-
             if($location.$$path !== "/login"){
                 var user = StorageServices.getUser()
                 if(user !== null){
                     initService.initRessources(user.token)
+                    $rootScope.bool=true;
                 } else {
                     //console.log("*Redirect* User doesn't exist")
                     $location.path("/")
