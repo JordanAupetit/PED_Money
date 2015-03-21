@@ -95,14 +95,12 @@
                     $scope.rebalance + " " + $scope.account.currency,
                 }
 
-                OperationResource.add(operation).$promise.then(function(operation){
+                StorageServices.postOperation(operation, function(operation){
                     refreshScope()
                     if(target !== undefined){
                         target.textContent = "Save"
                         target.disabled = false
                     }
-                }, function(err){
-                    console.log("Something went wrong ... " + err)
                 })
             }
         }

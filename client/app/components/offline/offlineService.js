@@ -217,12 +217,22 @@
         ping()
 
         return {
+            isOnline: function() {
+                return ($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING')
+            },
             login: function(user) {
                 localStorageService.set("USER", user)                
             },
             logout: function(callback) {
-                localStorageService.clearAll()
-                callback()
+                if(localStorageService.get("WFC")){
+                    if (confirm('All changes you made while you were offline will be lost. Are you sure you want to log out ?')) {
+                        localStorageService.clearAll()
+                        callback()
+                    }
+                }else{
+                    localStorageService.clearAll()
+                    callback()
+                }
             },
             getUser: function(){
                 return localStorageService.get("USER")
