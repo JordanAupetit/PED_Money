@@ -6,13 +6,13 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<h1>MyMoney</h1>
+			<h1><img src="http://localhost:8754/assets/img/logo.png" height="100" width="100"> MyMoney</h1>
 		</div>
 		<div class="row">
 			<p>
 				<h2>Bank statement <small>{{date}}</small></h2>
 				<h3>{{account.name}}</h3>
-				<h3><b>OWNER :</b> {{owner}} <small>{{username}}</small></h3>
+				<h3><b>OWNER :</b> {{owner}}</h3>
 			</p>
 		</div>
 		<div class="row">
@@ -22,8 +22,8 @@
 						<th class="col-md-1">Date</th>
 						<th class="col-md-1">Date</th>
 						<th class="col-md-6">Description</th>
-						<th class="col-md-2">Débit</th>
-						<th class="col-md-2">Crédit</th>
+						<th class="col-md-2">Withdraw</th>
+						<th class="col-md-2">Credit</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,7 +42,7 @@
 						<td></td>
 						<td></td>
 						<td></td>
-						<td><b>Somme</b></td>
+						<td><b>Sum</b></td>
 						<td>{{account.balance}}</td>
 					</tr>
 				</tfoot>
