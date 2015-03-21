@@ -50,7 +50,8 @@
         $scope.addAccount = function(accountModel) {
             if($scope.accountForm.$valid) {
                 accountModel.currency = accountModel.currency.code
-                accountModel.type = accountModel.type.value
+                //accountModel.type = accountModel.type.value
+                accountModel.type = ACCOUNT_TYPES[0].value // ONLY Banking
                 AccountResource.add(accountModel, function(res) {
                     $scope.resetForm()
                     refresh()

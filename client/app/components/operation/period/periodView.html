@@ -1,105 +1,5 @@
 <!-- periodeView.html -->
 
-<script type="text/ng-template" id="periodModalContent.html">
-
-	<div class="modal-header">
-		<h3 class="modal-title">Add periodic operation</h3>
-	</div>
-	<div class="modal-body">
-	   <div class="row">
-		<div class="col-md-6">
-			
-			<form name="periodForm" class="" ng-submit="submitForm(periodForm.$valid)" >
-				<div class="form-group" ng-class="{ 'has-error' : periodForm.name.$invalid && !periodForm.name.$pristine }">
-					<label>Name</label>
-					<input type="text" name="name" class="form-control"  ng-model="periodTmp.name" ng-minlength="3" ng-maxlength="50"required>
-					<p ng-show="periodForm.name.$error.required && !periodForm.name.$pristine" class="help-block">A name is required.</p>
-					<p ng-show="periodForm.name.$error.minlength" class="help-block">Name is too short.</p>
-					<p ng-show="periodForm.name.$error.maxlength" class="help-block">Name is too long.</p>
-					<!-- <p class=""> invalid :{{periodForm.name.$invalid}} pristine: {{!periodForm.name.$pristine}}</p> -->
-				</div>
-				<div class="form-group" ng-class="{ 'has-error' : periodForm.intervalType.$invalid && !periodForm.intervalType.$pristine }">
-				   <label>Period</label>
-				   <select name="intervalType" class="form-control" ng-model="periodTmp.intervalType" ng-options="interval as interval.type for interval in intervalType" required></select>
-				   <p ng-show="periodForm.intervalType.$invalid && !periodForm.intervalType.$pristine" class="help-block">Period is required.</p> <!-- Useless -->
-			   </div>
-			   <div class="form-group" ng-class="{ 'has-error' : periodForm.step.$invalid && !periodForm.step.$pristine }">
-				<label>Period step</label>
-				<input type="number" class="form-control" name="step" ng-model="periodTmp.step" min="1" required>
-				<p ng-show="periodForm.step.$error.required && !periodForm.step.$pristine" class="help-block">Period step is required.</p>
-				<p ng-show="periodForm.step.$error.min" class="help-block">Period step must be superior of 0.</p>
-			</div>
-			<div class="form-group" ng-class="{ 'has-error' : (periodForm.dateBegin.$invalid || periodForm.dateBegin.$error.date) && !periodForm.dateBegin.$pristine }">
-				<label>Date begin</label>
-				<input type="date" name="dateBegin" class="form-control"  ng-model="periodTmp.dateBegin"  required> <!-- date-before before="{{periodTmp.dateEnd}}" -->
-				<p ng-show="periodForm.dateBegin.$error.required && !periodForm.dateBegin.$pristine" class="help-block">Date begin is required.</p>
-				<p ng-show="periodForm.dateBegin.$error.date" class="help-block">Date begin must be before of date end.</p>
-						<!--                 <p class=""> invalid: {{periodForm.dateBegin.$invalid}} 
-							pristine: {{!periodForm.dateBegin.$pristine}}
-							error: {{periodForm.dateBegin.$error}}
-						</p> -->
-						<p class=""><input type="checkbox" ng-change="setInfinite()" name="isInfinite" ng-model="periodTmp.isInfinite"> Infinite</p> <!--  -->
-					</div>
-					<!-- 					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : (periodForm.dateEnd.$invalid || periodForm.dateEnd.$error.date) && !periodForm.dateEnd.$pristine }">
-						<label>Date end</label>
-						<input ng-change="computeRepeatDate()" type="date" name="dateEnd" class="form-control"  ng-model="periodTmp.dateEnd"  date-after after="{{periodTmp.dateBegin}}" ng-disabled="periodTmp.isInfinite" required>
-						<p ng-show="periodForm.dateEnd.$error.required && !periodForm.dateEnd.$pristine && !periodTmp.isInfinite" class="help-block">Date end is required.</p>
-						<p ng-show="periodForm.dateEnd.$error.date" class="help-block">Date end must be after of date begin.</p>
-					</div> -->
-					<div class="form-group" ng-hide="periodTmp.isInfinite" ng-class="{ 'has-error' : periodForm.nbRepeat.$invalid && !periodForm.nbRepeat.$pristine && !periodTmp.isInfinite}">
-						<label>Occurrency</label>
-						<input ng-change="computeDateRepeat()" type="number" name="nbRepeat" class="form-control"  ng-model="periodTmp.nbRepeat" ng-disabled="periodTmp.isInfinite"  min="1" required> 
-						<p ng-show="periodForm.nbRepeat.$error.required && !periodForm.nbRepeat.$pristine" class="help-block">Nb repeat is required.</p>
-						<p ng-show="periodForm.nbRepeat.$error.min && !periodTmp.isInfinite " class="help-block">Nb repeat must be superior of 0.</p>
-						
-					</div>
-					<div class="form-group" ng-class="{ 'has-error' : periodForm.amount.$invalid && !periodForm.amount.$pristine }">
-						<label>Amount</label>
-						<input type="number" name="amount" class="form-control"  ng-model="periodTmp.amount" required>
-						<p ng-show="periodForm.amount.$invalid && !periodForm.amount.$pristine" class="help-block">Amount is required.</p>
-					</div>
-					<div class="form-group">
-						<!-- <a ng-show="isAdding" type="button" ng-click="addValid()" class="btn btn-info" role="button">Ok</a> -->
-
-						<!-- <button type="submit" class="mt30 btn btn-primary" ng-disabled="periodForm.$invalid">Ok</button> -->
-					</div>
-		<!--             <p class=""> 
-						invalid :{{periodForm.$invalid}} 
-						error :{{periodForm.$error}} 
-					</p> -->
-				</form>
-
-			</div>
-			<div class="col-md-6">
-
-				<!-- <h3>Projection of this operation</h3> -->
-				<table class="table" ng-show="projection !== undefinded">
-					<thead>
-						<tr>
-							<!-- <th data-field="name">Name</th> -->
-							<th data-field="date">Date</th>
-							<th data-field="amount">Amount</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr ng-repeat="operation in projection">
-							<td>{{operation.date | date2:'dd/MM/yyyy'}}</td>
-							<td>{{operation.amount | currency:'€':0:true}}</td>
-						</tr>
-					</tbody>
-				</table>
-
-			</div>
-		</div>
-	</div>
-
-	<div class="modal-footer">
-		<button class="btn btn-primary" ng-click="submitForm(periodForm.$valid)" ng-disabled="periodForm.$invalid">OK</button>
-		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-	</div>
-</script>
-
-
 <div class="container pt70 pb50">
 	
 	<div ng-show="periods.length <= 0">
@@ -141,4 +41,7 @@
 		<div class="col-md-3 col-xs-12"><span class="fs12 fw600">Third party: </span>{{operation.thirdParty }}</div>
 		<div class="col-md-3 col-xs-12"><span class="fs12 fw600">Type: </span>{{ operation.type }}</div>
 	</div>
+
+	
+	<div ng-controller="OperationController" ng-include src="'/app/components/operation/operationAddSidebarRightTemplate.html'"></div>
 </div>
