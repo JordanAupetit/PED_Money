@@ -43,7 +43,8 @@ module.exports = function (app, tool, accountModel, operationModel) {
                         if (!err) {
                             var balance = 0
                             for(var i in operations){
-                                balance = balance + operations[i].value
+                                if(new Date(operations[i].datePrelevement)<new Date())
+                                    balance = balance + operations[i].value
                             }
                             account.set('balance', balance, { strict : false })
                             account.set('operations', operations, { strict : false })
