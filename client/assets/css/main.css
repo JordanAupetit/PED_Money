@@ -3,20 +3,20 @@
 
 .space-30{margin-top: 30px;}
 
-#menu{padding: 20px 0 15px; background-color: #fbdb65; color: #d18f0f;border-bottom: 3px solid #f7b330;}
+#menu{padding: 20px 0 15px; background-color: #fbdb65; color: #d18f0f;border-bottom: 4px solid #f7b330;}
 
 #login-form div {padding: 0;}
 
-form.formInLoginPage input{width: 100%; margin: 0; padding: 7px 15px; border-radius: 1px; outline: none; border:none; border-left: 2px solid #d18f0f; border-bottom: 2px solid transparent; transition: all .2s linear;}
+form.formInLoginPage input{width: 100%; margin: 3px; padding: 7px 15px; border-radius: 1px; outline: none; border:none; border-left: 2px solid #d18f0f; border-bottom: 2px solid transparent; transition: all .2s linear;}
 form.formInLoginPage input:hover{border-left-color: #f7b330;}
 form.formInLoginPage input:focus{border-left-color: #f7b330; border-bottom-color: #d18f0f;}
 form.formInLoginPage input[type="submit"], form.formInLoginPage input[type="button"]{background-color: #f1c40f; color: white;}
-
+.formInLoginPage a {float: right;margin-left: 100px;}
 
 #menu ul{margin: 0; padding: 0;}
 #menu ul li{display: inline-block; list-style: none; margin-top: 3px;}
 
-#menu button{padding: 5px 7px; color: white !important; font-weight: bolder; outline: none; border: none; border-radius: 1px; cursor: pointer; transition: all .2s linear;}
+#menu button{padding: 5px 7px;width: 200px;color: white !important; font-weight: bolder; outline: none; border: none; border-radius: 1px; cursor: pointer; transition: all .2s linear;}
 #menu button i{font-size: 1em !important;}
 #menu button span{font-size: 1em;}
 .facebook{background-color: #d18f0f;}
@@ -24,10 +24,10 @@ form.formInLoginPage input[type="submit"], form.formInLoginPage input[type="butt
 .google-p{background-color: #d18f0f;}
 .google-p:hover{background-color: #dd4b39;}
 
-#menu .signup{width: 100%; padding: 7px 30px; border-radius: 1px; color: white; border: 2px solid #d18f0f; transition: all .2s linear;}
+#menu .signup{width: 100%; padding: 7px 30px; border-radius: 1px; margin-top: 5px; color: white; border: 2px solid #d18f0f; transition: all .2s linear;}
 #menu .signup:hover{background-color: #d18f0f; border-color: #f7b330; text-decoration: none;}
 
-#signup{background-color: #ffe766; padding: 15px 15px 30px; position: absolute; z-index: 10000; color: #d18f0f; top: -200%; border-radius: 7px;}
+#signup{background-color: #ffe766; padding: 15px 15px 10px; position: absolute; z-index: 10000; color: #d18f0f; top: -200%; border-radius: 7px;}
 
 #signup h3{text-transform: uppercase; margin-bottom: 30px;}
 #signup .x{position: absolute; top: 0; right: 15px;}
@@ -37,14 +37,11 @@ form.formInLoginPage input[type="submit"], form.formInLoginPage input[type="butt
 #signup-form div{margin: 7px 0;}
 #signup-form .sign-btn{margin:30px 0;}
 
-#back-signup{width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(0, 0, 0, .7); position: absolute; z-index: 9999; display: none;}
+#back-signup{width: 100%; height: 100%; top: 0; left: 0; background-color: rgba(0, 0, 0, .7); position: fixed; z-index: 9999; display: none;}
 
 #Home{padding: 80px 15px 0px 0px ; height: 85%; color: white; background-color: #353536 !important;}
 
 #contenu{color: #a10000;text-align: center;}
-.body{
-	height: 100%;
-}
 .test{
 	height: 100%;
 	background-color: #353536 !important;
