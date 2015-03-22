@@ -69,8 +69,10 @@
 				changeMonth: function(dataYear, month, dateSelector, callback){
 					var data = dataYear[dateSelector.currentYear]
 					// Active the month
-					angular.forEach(data, function(v){
-						v.isActive = false
+					angular.forEach(data, function(v, k){
+						if(angular.isObject(v)){
+							v.isActive = false
+						}
 					})
 					data[month].isActive = true
 
@@ -82,8 +84,11 @@
 					}
 				},
 				resetMonth : function(data, year){
-					angular.forEach(data[year], function(v){
-						v.isActive = false
+					// console.log(data[year])
+					angular.forEach(data[year], function(v, k){
+						if(angular.isObject(v)){
+							v.isActive = false
+						}
 					})
 				},
 				changeYear: function(data, year, dateSelector){

@@ -88,13 +88,15 @@
 											evolution[res._id.year][monthNumb] = {
 												total: undefined,
 												id: monthNumb,
-												name: moment().month(monthId-1).format('MMMM')
+												name: moment().month(monthId-1).format('MMMM'),
+												isActive: false
 											}
 										}
 										evolution[res._id.year]['13'] = { // 13rd month is the total of the year
 												total: 0,
 												id: '13',
-												name: 'All'
+												name: 'All',
+												isActive: false
 											}
 									}
 									evolution[res._id.year][res._id.month < 10? '0'+res._id.month: ''+res._id.month].total = res.total
