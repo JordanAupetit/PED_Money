@@ -119,75 +119,30 @@ module.exports = function(app, tool, userModel, jwt) {
 
     function editUser(req, res, next) {
         'use strict';
-        userModel.findById(req.body._id,
-            function (err, user1) {
+        userModel.findById(req.body._id, function (err, user1) {
             if (err) {
                 res.json({
                     type: false,
                     data: "Error occured: " + err
                 });
-            } else {
+            } else if(user1 !== null) {
                 userModel.findOne({username: req.body.username},function(err , exists)
-                    {  //console.log(user1.username)
-                        
-                        if(exists && user1.username !== req.body.username){
+                {
+                    if(exists && user1.username !== req.body.username){
+                        res.json({
+                            type: false,
+                            data: "User already exists!"
+                        });
+                    } else {
+                        userModel.findByIdAndUpdate(user1._id,req.body,function(err,user){
                             res.json({
-                                type: false,
-                                data: "User already exists!"
-                    });
-                        }else{
-                            userModel.findByIdAndUpdate(user1._id,req.body,function(err,user){
-                                res.json({
                                 type: true,
                                 data: user
-                    });
-
-                            });
-                            
-                        }
-                    });
-                
-               
-
-    }
-         });
-        /*userModel.findOne({
-            username: req.body.name
-        }, function(err, user) {
-            if (err) {
-                res.json({
-                    type: false,
-                    data: "Error occured: " + err
-                });
-            } else {
-                if (user) {
-                    res.json({
-                        type: false,
-                        data: "User already exists!"
-                    });
-                } else {
-                    var User = {
-                        username: req.body.name,
-                        lastName: req.body.last,
-                        firstName: req.body.first,
-                        email: req.body.mail,
-                        password: req.body.pass
-                    }
-
-                    var nouveauUser = new userModel(User);
-                    nouveauUser.save(function(err, user) {
-                        user.token = jwt.sign(user, user.email);
-                        user.save(function(err, user1) {
-                            res.json({
-                                type: true,
-                                data: user1,
-                                token: user1.token
                             });
                         });
-                    })
-                }
-
+                    }
+                });
             }
-        });*/
+        });
     }
 }

@@ -4,71 +4,46 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$stateParams', '$rootScope', '$http', 'LoginService', '$state', 'StorageServices', LoginController])
+        .controller('LoginController', ['$scope', '$stateParams', '$rootScope', 'LoginService', '$state', 'StorageServices', LoginController])
 
-    function LoginController($scope, $stateParams, $rootScope, $http, LoginService, $state, StorageServices) {
-        /**
-         * Redirect user if already login
-         */
-        if (StorageServices.getUser() !== undefined) {
-            $state.go('accounts')
-        }
+    function LoginController($scope, $stateParams, $rootScope, LoginService, $state, StorageServices) {
+       $scope.team = [
+                {
+                    name: 'Etienne Grandier',
+                    picture: 'assets/img/etienne.jpg',
+                    email: 'jackiller33@gmail.com'
+                },
+                {
+                    name: 'Jordan Aupetit',
+                    picture: 'assets/img/jaupetit.jpg',
+                    email: 'jordan.aupetit@gmail.com'
+                },
+                {
+                    name: 'Dimitri Ranc',
+                    picture: 'assets/img/dranc.jpg',
+                    email: 'ranc.dimitri@gmail.com'
+                },
+                {
+                    name: 'Youssef Sahri',
+                    picture: 'assets/img/default.jpg',
+                    email: 'sahri.youssef@gmail.com'
+                },
+                {
+                    name: 'Abdessamad Essaydi',
+                    picture: 'assets/img/default.jpg',
+                    email: 'abdessaydi@gmail.com'
+                }
+            ]
 
-        /**
-         * Login fct
-         */
-        $scope.signin = function(data) {
-
-            var formData = {
-                username: data.username,
-                password: data.password
-            }
-
-
-            var loginUser = new LoginService(formData);
+        if($stateParams.username !== undefined && $stateParams.token !== undefined){
+            var loginUser = new LoginService($stateParams);
             loginUser.$query(function(res) {
                 if (res.type == false) {
                     alert(res.data);
                 } else {
                     StorageServices.login(res.data)
-                    $rootScope.$emit('login');
-                    //console.log($rootScope.$emit('login'))
-                    $state.go('accounts');
-                }
-            });
-        }
-
-        //C'est quoi ce truc ?
-        if ($stateParams.username !== undefined && $stateParams.token !== undefined) {
-            // console.log("oui")
-            $scope.signin($stateParams)
-        }
-
-
-        $scope.loginFB = function() {
-            $http.get('/auth/facebook')
-                .success(function(data, status, headers, config) {
-                    console.log('success')
-                    console.log(data)
-                })
-                .error(function(data, status, headers, config) {
-                    console.log('error')
-                    console.log(data)
-                });
-        }
-
-        /**
-         * Signup fct
-         */
-        $scope.SignupController = function() {
-            var item = $scope.User
-            var newUser = new LoginService(item)
-            newUser.$save(function(res) {
-                if (res.type == false) {
-                    alert(res.data)
-                } else {
-                    //localStorageService.cookie.set('token',res.data.token);
-                    $state.go('login')
+                    $rootScope.$emit('login')
+                    $state.go('accounts')
                 }
             })
         }

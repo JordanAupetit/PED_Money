@@ -10,8 +10,8 @@ var ids = {
 		callbackURL: "http://127.0.0.1:1337/auth/twitter/callback"
 	},
 	google: {
-		clientID    : '959575085832-koj0s3lo8k1jek5bghsrlg8i51h9a8ul.apps.googleusercontent.com',
-		clientSecret  : 'YLok67bZpsoelFmPtLVAsrk8',
+		clientID    : '810947933726-ekh9bkh6mvtk2709t1c4j280ql7l1886.apps.googleusercontent.com',
+		clientSecret  : 'Q4gdeJIBOG7SPV7wNTPrXzps',
 		callbackURL   : 'http://localhost:8754/auth/google/callback'
 	}
 }

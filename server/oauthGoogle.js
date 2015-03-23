@@ -1,47 +1,47 @@
 var passport = require('passport')
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-var config = require('./oauth.js');
+var config = require('./oauth.js')
+
 
 module.exports = function (app, tool, userModel, jwt) {
-  app.use(passport.initialize());
+  app.use(passport.initialize())
 
   app.get('/auth/google',
-  passport.authenticate('google',  { scope : 'profile email' }),
+    passport.authenticate('google',  { scope: [ 'email' ] }),
     function(req, res){}
   )
-
+ 
   app.get('/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/' }),
     function(req, res) {
-      console.log("ok")
       res.redirect('/#/login?username='+req.user.username+'&token='+req.user.tokentiers)
     }
   )
 
   passport.serializeUser(function(user, done) {
-    done(null, user);
+    done(null, user)
   })
 
   passport.deserializeUser(function(user, done) {
-    done(null, user);
+    done(null, user)
   })
 
   // config
   passport.use(new GoogleStrategy({
+    // pull in our app id and secret from our auth.js file
     clientID        : config.google.clientID,
     clientSecret    : config.google.clientSecret,
-    callbackURL     : config.google.callbackURL,
+    callbackURL     : config.google.callbackURL
   },
 
-  // google will send back the token and profile
+  // facebook will send back the token and profile
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile)
     userModel.findOne({ clientID: profile.id }, function(err, user) {
-      if(err) {
+      if(err) { 
         console.log(err)
       }
       if (!err && user != null) {
-        done(null, user);
+        done(null, user)
       } else {
         var user = new userModel({
           clientID: profile.id,
@@ -51,11 +51,10 @@ module.exports = function (app, tool, userModel, jwt) {
           tokentiers : accessToken,
           email : profile.emails[0].value
           // created: Date.now()
-        });
+        })
         user.save(function(err, user) {
-      
           if(err) {
-            console.log(err);
+            console.log(err)
           } else {
             var tokenInfo = {
                 id: user._id,
@@ -71,8 +70,10 @@ module.exports = function (app, tool, userModel, jwt) {
                 console.log("saving user ...")
                 done(null, user1)
             });
+
+            
           }
-        });
+        })
       }
     })
   }))

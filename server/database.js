@@ -20,7 +20,19 @@ module.exports = {
 }
 
 var mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost/mymoney');
+
+var local_url = 'mongodb://localhost/mymoney'
+var url_db = local_url
+
+if(process.env.MONGO_URL !== undefined) {
+    url_db = process.env.MONGO_URL
+} else if(process.env.SCALINGO_MONGO_URL !== undefined) {
+    url_db = process.env.SCALINGO_MONGO_URL
+}
+
+mongoose.connect(url_db);
+
+
 var db = mongoose.connection;
 
 //Schemas
@@ -572,7 +584,6 @@ var UserSchema  = new Schema({
 var AccountSchema  = new Schema({
     name: String,
     type: Number,
-    balance: Number,
     currency: String,
     userId: String,
     alerts: {type :[AlertSchema], default: defaultAlerts}

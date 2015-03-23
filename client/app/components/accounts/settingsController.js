@@ -3,9 +3,9 @@
 
     angular
         .module('controllers')
-        .controller('AccountSettingsController', ['$scope', '$state', 'StorageServices', 'AccountResource', 'OperationResource', 'initService', AccountSettingsController])
+        .controller('AccountSettingsController', ['$scope', '$rootScope', '$state', 'StorageServices', 'AccountResource', 'OperationResource', 'initService', AccountSettingsController])
 
-    function AccountSettingsController($scope, $state, StorageServices, AccountResource, OperationResource, initService) {
+    function AccountSettingsController($scope, $rootScope, $state, StorageServices, AccountResource, OperationResource, initService) {
 
         /**
         *   We store the account out of the scope, so the user can change the alerts
@@ -22,6 +22,8 @@
             $scope.newalert = {"level": 0, "message": ''}
             $scope.currencies = CURRENCYS
             $scope.accountTypes = ACCOUNT_TYPES
+            $scope.importButtonTitle = "No operations to import"
+            $scope.operationsToAdd = []
             getAccount()
         }
 
@@ -29,38 +31,31 @@
         *   @Description
         *   Get the account, called the webservice to get the account information
         */
-        function getAccount(){    
-            if(StorageServices.isOnline()){
-                AccountResource.get($state.params.accountId).$promise.then(function(account){
-                    accountBeforeChange = account
+        function getAccount(){
+            StorageServices.getAccount($state.params.accountId, function(account){
+                accountBeforeChange = account
 
-                    var curPos
-                    angular.forEach($scope.currencies, function(cur, pos) {
-                        if (cur.code === account.currency) {
-                            curPos = pos
-                        }
-                    })
-                    account.currency = $scope.currencies[curPos]
-
-                    var typePos
-                    angular.forEach(ACCOUNT_TYPES, function(type, pos) {
-                        if (type.value === account.type) {
-                            typePos = pos
-                        }
-                    })
-                    account.type = ACCOUNT_TYPES[typePos]
-
-                    $scope.account = account
-                    $scope.rebalance = account.balance
-
-                    StorageServices.setAccount($state.params.accountId, account)
-                }, function(err){
-                    getAccount()
+                var curPos
+                angular.forEach($scope.currencies, function(cur, pos) {
+                    if (cur.code === account.currency) {
+                        curPos = pos
+                    }
                 })
-            }
-            else{
-                $scope.account = StorageServices.getAccount($state.params.accountId)
-            }
+                account.currency = $scope.currencies[curPos]
+
+                var typePos
+                angular.forEach(ACCOUNT_TYPES, function(type, pos) {
+                    if (type.value === account.type) {
+                        typePos = pos
+                    }
+                })
+                account.type = ACCOUNT_TYPES[typePos]
+
+                $scope.account = account
+                $scope.rebalance = account.balance
+                $rootScope.account = account
+                $rootScope.$emit('accountSelected');
+            })  
         }
 
         /**
@@ -71,6 +66,7 @@
         function updateAccount(){
             AccountResource.update(accountBeforeChange).$promise.then(function (account){
                 refreshScope()
+                $rootScope.$emit('accountRefresh');
             }, function(err){
                 console.log("Something went wrong ... " + err)
             })
@@ -101,14 +97,12 @@
                     $scope.rebalance + " " + $scope.account.currency,
                 }
 
-                OperationResource.add(operation).$promise.then(function(operation){
+                StorageServices.postOperation(operation, function(operation){
                     refreshScope()
                     if(target !== undefined){
                         target.textContent = "Save"
                         target.disabled = false
                     }
-                }, function(err){
-                    console.log("Something went wrong ... " + err)
                 })
             }
         }
@@ -161,6 +155,61 @@
                 })
             }
         }
+
+        /**
+             * @Description
+             * Parse the content of the csv file and convert it to Json
+             * @Param {string} $fileContent Content of the csv file
+             */
+            $scope.importCsv = function($fileContent){
+                var ops = []
+                var csvToJson = Papa.parse($fileContent)
+                csvToJson = csvToJson.data
+
+                if(csvToJson.length < 5) {
+                    console.log("Le fichier csv n'est pas correct ou est vide.")
+                } else {
+                    var headerLine = 3
+                    // On commence après les 3 premières lignes
+                    for(var i = (headerLine + 1); i < csvToJson.length; i++) {
+                        var newOp = {}
+                        for(var j = 0; j < csvToJson[i].length; j++) {
+                            newOp[csvToJson[headerLine][j]] = csvToJson[i][j]
+
+                            if($state.params.accountId !== "") {
+                                newOp.accountId = $state.params.accountId
+                            }
+                        }
+
+                        if(newOp.hasOwnProperty("value")) {
+                            newOp = OperationResource.correctDateOfOperation(newOp)
+                            ops.push(newOp)
+                        }
+                    }
+                }
+
+                $scope.operationsToAdd = ops
+
+                if(ops.length > 0) {
+                    $scope.importButtonTitle = "Import " + ops.length + " operations"
+                } else {
+                    $scope.importButtonTitle = "No operations to import"
+                }
+            }
+
+            /**
+             * @Description
+             * Add all operations extract from the csv file
+             */
+            $scope.addOperationsFromCsv = function() {
+                if($scope.operationsToAdd.length > 0) {
+                    // On ajoute une liste d'opérations
+                    StorageServices.postOperation($scope.operationsToAdd, function(){
+                        refreshScope()
+                    })
+                }
+                $scope.importButtonTitle = "No operations to import"
+            }
 
         /**
         *   When the Controller is loaded, the scope must be refreshed

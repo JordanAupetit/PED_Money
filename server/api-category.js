@@ -95,6 +95,7 @@ module.exports = function (app, tool, categoryModel, userModel, accountModel, op
         var superdata = {}
         accountModel.findOne({_id: accountId}, '_id name currency userId', function(err, account){
             superdata.date = moment().format("MMM Do YYYY")
+            superdata.url = req.protocol + '://' + req.get('host')
             superdata.account = account
             operationModel.find({accountId: account._id}, function(err, operations){
                 var balance = 0

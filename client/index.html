@@ -11,7 +11,6 @@
 
 
         <!-- My CSSs -->
-        <link rel="stylesheet"  href="assets/css/main.css">
         <link rel="stylesheet"  href="assets/css/font-awesome.css">
     
         <link rel="stylesheet" href="assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css">
@@ -26,9 +25,12 @@
     <body ng-app="appModule" role="document">
 
         <!-- <div ng-include src="'./app/shared/navbar/navbar.html'"></div> -->
-        <div ng-include="'app/shared/navbar/navbar.html'"></div>
+        <div ng-include="'app/shared/navbar/navbar.html'" ng-controller="NavbarController"></div>
 
-        <div ui-view class="body"></div>
+       <div  ui-view="viewB" ></div>
+        <div ng-hide="bool" class="test">
+            <div  ui-view="viewA" ></div>
+        </div>
 
     </body>
 
@@ -69,7 +71,7 @@
     <script src="assets/libs/angular-currency-filter/src/currency-filter.js"></script>
     <script src="assets/libs/moment/min/moment.min.js"></script>
     <script src="assets/libs/papaparse/papaparse.js"></script>
-    <script src="assets/js/offline.min.js"></script>
+<!--    <script src="assets/js/offline.min.js"></script>
 
     <!-- Application files -->
     <script src="app/app.modules.js"></script>
@@ -116,7 +118,6 @@
 
 
     <!-- DIIIIIIIM -->
-    <script src="app/components/offline/offlineController.js"></script>
     <script src="app/components/offline/offlineService.js"></script>
     
 
