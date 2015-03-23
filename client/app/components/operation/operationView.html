@@ -3,7 +3,7 @@
     <div class="container">
         <div ng-show="ventilateOperation === null">
             <div class="row">
-                <h1>
+                <h1 class="ml10">
                     <strong>Balance : </strong>
                     <span ng-if="balance <= 0" class="colorRed">
                         {{ balance }}€
@@ -12,7 +12,7 @@
                         +{{ balance }}€
                     </span>
                 </h1>
-                <h3>
+                <h3 class="ml10">
                     <strong>Deferred balance : </strong>
                     <span ng-if="deferredBalance <= 0" class="colorRed">
                         {{ deferredBalance }}€
@@ -21,7 +21,7 @@
                         +{{ deferredBalance }}€
                     </span>
                 </h3>
-                <div class="dropdown pull-right">
+                <div class="dropdown pull-right mr10">
                     <button class="btn btn-primary  btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
                         <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
                         <span class="caret"></span>
