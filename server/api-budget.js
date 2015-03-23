@@ -34,9 +34,17 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
             var isGroupCat = catId%100 === 0;
             var value = parseInt(req.params.value);
             if(isGroupCat){
-                userModel.findOne({'_id': userId, 'budget.id': catId},function(err, budget) {
+                userModel.findOne({'_id': userId/*, 'budget.id': catId*/},function(err, budget) {
                     if (!err) {
-                        budget.budget[0].spread[12].value = value
+
+                        var posg = -1
+                        for(var ig =0;ig < budget.budget.length && posg < 0;ig++){
+                            if(catId == budget.budget[ig].id){
+                                posg = ig
+                            }
+                        }
+                        budget.budget[posg].spread[12].value = value
+                        budget.markModified('budget');
 
                         budget.save(function (err, docs) {
                             if (!err) {
@@ -97,6 +105,30 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
             }
         });
     }
+
+    // function getTotalBudgetByMonth(req, resp, next) {
+    //     'use strict';
+    //     tool.getUserId(req, next, function(userId){
+    //         // var isYear = req.params.isYear;
+    //         var year = req.params.year;
+    //         var month = req.params.month-1;
+    //         if (month === 12) { // All year
+    //             userModel.findOne({'_id': userId}, 'budget',function(err, coll) {
+    //                 if (!err) {
+    //                     var res = {
+    //                         total: 0
+    //                     }
+    //                     coll.budget.foreach(function(budget){
+    //                         res.total += budget.spread[12].value
+    //                     })
+    //                     return resp.send(res);
+    //                 } else {
+    //                     next(err);
+    //                 }
+    //             })
+    //         }
+    //     })
+    // }
 
     function getAllByMonth(req, resp, next) {
         'use strict';

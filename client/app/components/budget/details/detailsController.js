@@ -14,9 +14,11 @@
 		$scope.categorySelector = {
 			currentGroupCat: undefined,
 			currentCat: undefined,
+			total: undefined,
 			reset: function(){
 				this.currentGroupCat = undefined
 				this.currentCat = undefined
+				this.total = undefined
 			}
 		}
 
@@ -72,6 +74,13 @@
 			})
 			
 			$scope.currentBudget.value = bud
+
+			// Compute total of current operation category
+			var total = 0
+			angular.forEach($scope.csOpt, function(opt){
+				total += opt.value
+			})
+			$scope.categorySelector.total = total
 
 
 
@@ -195,7 +204,8 @@
 							// relativeTo: 'spacingBox',
 							position: {
 								y: 0,
-								x: 500
+								x: 0 // linux 
+								// x: 500 //windows
 							},
 							theme: {
 								fill: 'white',
@@ -256,6 +266,8 @@
 		}
 
 		$scope.chartConfig = getDefaultConfig()
+		// console.log($scope.chartConfig)
+
 
 
 		function updateGraph() {
@@ -314,6 +326,7 @@
 		$scope.changeYear = function(year) {
 			budgetHelper.changeYear($scope.dataNav, year, $scope.dateSelector)
 			$scope.changeMonth($scope.dateSelector.currentMonth)
+			// console.log($scope.chartConfig.getHighcharts())
 		}
 
 
