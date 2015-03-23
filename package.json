@@ -88,7 +88,7 @@
       ],
       "pattern": "server",
       "spec-cov": {
-        "threshold": 40
+        "threshold": 20
       }
     },
     "travis-cov": {

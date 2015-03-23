@@ -86,8 +86,8 @@ describe('Server::API', function() {
 			description: 'Loyer',
 			typeOpt: 'Virement',
 			checked: false,
-			dateOperation: '2015-01-20',
-			datePrelevement: '2015-01-25',
+			dateOperation: '2015-01-20T00:00:00.000Z',
+			datePrelevement: '2015-01-15T00:00:00.000Z',
 			categoryId: '54684654dqs'
 		}
 
@@ -111,8 +111,8 @@ describe('Server::API', function() {
 			description: 'Règlement des courses',
 			type: 'Chèque',
 			checked: false,
-			dateOperation: '2015-01-20',
-			datePrelevement: '2015-01-25',
+			dateOperation: '2015-01-20T00:00:00.000Z',
+			datePrelevement: '2015-01-15T00:00:00.000Z',
 			categoryId: '54684654dqs',
 			subOperations: []
 		}
