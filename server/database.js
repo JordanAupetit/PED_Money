@@ -39,109 +39,109 @@ var db = mongoose.connection;
 var Schema = mongoose.Schema;
 
 /*
-habitation
-travaux/brcolage
-elec/gaz eau
-import foncier
-impot habitation
-habitation secondaire
-loyer
-jardin
-assurance logement
-ménages/repassage
-ameublement/équipemment
+    habitation
+    travaux/brcolage
+    elec/gaz eau
+    import foncier
+    impot habitation
+    habitation secondaire
+    loyer
+    jardin
+    assurance logement
+    ménages/repassage
+    ameublement/équipemment
 
 
 
 
-loisirs
-multimédio
-vacances
-animaux
-sport
-sorties
-cadeaux
-évements 
-jeux
-hôtels
-livres
+    loisirs
+    multimédio
+    vacances
+    animaux
+    sport
+    sorties
+    cadeaux
+    évements 
+    jeux
+    hôtels
+    livres
 
 
 
 
 
-communication
-telephone
-internet/tv
+    communication
+    telephone
+    internet/tv
 
 
-alimentation
-restaurant 
-cantine
+    alimentation
+    restaurant 
+    cantine
 
 
-finances
-impot revenue
-épargne
-prets
-agios
-frais banquares
-assurance vie
-bourse
-retrait d'argent
-prêt relais
+    finances
+    impot revenue
+    épargne
+    prets
+    agios
+    frais banquares
+    assurance vie
+    bourse
+    retrait d'argent
+    prêt relais
 
 
-santé/bien être
-soin du corps
-services à la personne
-mutuelle de santé
-pharmacie
-assurance santé
-aides à domicile
-coiffeur
+    santé/bien être
+    soin du corps
+    services à la personne
+    mutuelle de santé
+    pharmacie
+    assurance santé
+    aides à domicile
+    coiffeur
 
 
 
-transport
-auto
-moto
-péage
-essence
-location véhicule
-assurance auto
-assurance moto
-parking
+    transport
+    auto
+    moto
+    péage
+    essence
+    location véhicule
+    assurance auto
+    assurance moto
+    parking
 
 
-habillement
-chaussures
-accessoires
+    habillement
+    chaussures
+    accessoires
 
-autres
-frais pro
-enfants
-assurance : autre
-amendes
-frais de justice
-frais de scolarité
-garde d'enfant
-dons
-impot : autre
+    autres
+    frais pro
+    enfants
+    assurance : autre
+    amendes
+    frais de justice
+    frais de scolarité
+    garde d'enfant
+    dons
+    impot : autre
 
 
-INCOME
+    INCOME
 
-salaires 
-remboursement social
-rem pro
-autre
-revenu fonctier
-allocation
-sécurité social
-rente et pension
-dividendes et plus value
-cadeaux
+    salaires 
+    remboursement social
+    rem pro
+    autre
+    revenu fonctier
+    allocation
+    sécurité social
+    rente et pension
+    dividendes et plus value
+    cadeaux
 
 */
 
@@ -438,6 +438,104 @@ var defaultCategories = [
     }
 ]
 
+function getDefaultBudget(){
+    var res = JSON.parse(JSON.stringify(defaultCategories))
+    // for(groupCat in defaultCategories){
+
+    // }
+    res.forEach(function(groupCat){
+        groupCat.spread = [
+            {
+                month: 0,
+                value: 0
+            },{
+                month: 1,
+                value: 0
+            },{
+                month: 2,
+                value: 0
+            },{
+                month: 3,
+                value: 0
+            },{
+                month: 4,
+                value: 0
+            },{
+                month: 5,
+                value: 0
+            },{
+                month: 6,
+                value: 0
+            },{
+                month: 7,
+                value: 0
+            },{
+                month: 8,
+                value: 0
+            },{
+                month: 9,
+                value: 0
+            },{
+                month: 10,
+                value: 0
+            },{
+                month: 11,
+                value: 0
+            },{
+                month: 12, //All year
+                value: 0
+            }
+        ]
+        groupCat.subCategories.forEach(function(cat){
+            cat.spread = [
+                {
+                    month: 0,
+                    value: 0
+                },{
+                    month: 1,
+                    value: 0
+                },{
+                    month: 2,
+                    value: 0
+                },{
+                    month: 3,
+                    value: 0
+                },{
+                    month: 4,
+                    value: 0
+                },{
+                    month: 5,
+                    value: 0
+                },{
+                    month: 6,
+                    value: 0
+                },{
+                    month: 7,
+                    value: 0
+                },{
+                    month: 8,
+                    value: 0
+                },{
+                    month: 9,
+                    value: 0
+                },{
+                    month: 10,
+                    value: 0
+                },{
+                    month: 11,
+                    value: 0
+                },{
+                    month: 12, //All year
+                    value: 0
+                }
+            ]
+        })
+    })
+    return res
+}
+
+// console.log(getDefaultBudget())
+
 var defaultAlerts = [
     {
         level: 0,
@@ -457,6 +555,18 @@ var AlertSchema = new Schema({
     message: String
 })
 
+var SpreadBudgetSchema = new Schema({
+    month: Number,
+    value: Number
+})
+
+var CategoryBudgetSchema = new Schema({
+    id: Number,
+    name: String,
+    spread: [SpreadBudgetSchema],
+    subCategories:[]
+})
+
 var UserSchema  = new Schema({
 	clientID: Number,
 	username: String,
@@ -467,7 +577,8 @@ var UserSchema  = new Schema({
     allowAlert: {type: Boolean, default: true},
 	token: String,
     tokentiers: String,
-    categories: {type: [CategorySchema], default: defaultCategories}
+    categories: {type: [CategorySchema], default: defaultCategories},
+    budget: {type: [CategoryBudgetSchema], default: getDefaultBudget()}
 })
 
 var AccountSchema  = new Schema({
@@ -484,8 +595,9 @@ var OperationSchema = new Schema({
     description: String,
     type: String, // TODO rename in typeOpt due to {type: Boolean, default: false},
     checked: Boolean,
-    dateOperation: String, /*{ type: Date, default: Date.now }*/
-    datePrelevement: String,
+    dateOperation: Date, /*{ type: Date, default: Date.now }*/
+    datePrelevement: Date,
+    categoryId: Number,
     categoryId: Number,
     subOperations: [],
     accountId: String
@@ -504,8 +616,8 @@ var PeriodSchema = new Schema({
         description: String,
         typeOpt: String,
         checked: {type: Boolean, default: false},
-        dateOperation: String,
-        datePrelevement: String,
+        dateOperation: Date,
+        datePrelevement: Date,
         categoryId: String,
         accountId: String
     },
@@ -520,11 +632,11 @@ var PeriodSchema = new Schema({
 //Models
 
 
-var accountModel = mongoose.model('accountModel', AccountSchema);
-var userModel = mongoose.model('userModel', UserSchema);
-var operationModel = mongoose.model('operationModel', OperationSchema);
-var categoryModel = mongoose.model('categoryModel', CategorySchema);
-var periodModel = mongoose.model('periodModel', PeriodSchema);
+var accountModel = mongoose.model('account', AccountSchema);
+var userModel = mongoose.model('user', UserSchema);
+var operationModel = mongoose.model('operation', OperationSchema);
+var categoryModel = mongoose.model('category', CategorySchema);
+var periodModel = mongoose.model('perio', PeriodSchema);
 
 
 // accountModel.collection.drop(); 

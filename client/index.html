@@ -11,7 +11,6 @@
 
 
         <!-- My CSSs -->
-        <link rel="stylesheet"  href="assets/css/main.css">
         <link rel="stylesheet"  href="assets/css/font-awesome.css">
     
         <link rel="stylesheet" href="assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css">
@@ -26,7 +25,7 @@
     <body ng-app="appModule" role="document">
 
         <!-- <div ng-include src="'./app/shared/navbar/navbar.html'"></div> -->
-        <div ng-include="'app/shared/navbar/navbar.html'"></div>
+        <div ng-include="'app/shared/navbar/navbar.html'" ng-controller="NavbarController"></div>
 
        <div  ui-view="viewB" ></div>
         <div ng-hide="bool" class="test">
@@ -60,9 +59,10 @@
     <!-- <script src="assets/js/highcharts/highcharts.js"></script> -->
     <!-- <script src="http://code.highcharts.com/highcharts.src.js"></script>
     <script src="http://code.highcharts.com/modules/no-data-to-display.js"></script> -->
-    <script src="assets/libs/highcharts-release/highcharts.js"></script>
+    <script src="assets/libs/highcharts-release/highcharts.src.js"></script>
     <script src="assets/libs/highcharts-release/modules/no-data-to-display.js"></script>
-    <script src="assets/libs/highcharts-ng/dist/highcharts-ng.min.js"></script>
+    <script src="assets/libs/highcharts-release/modules/drilldown.js"></script>
+    <script src="assets/libs/highcharts-ng/dist/highcharts-ng.js"></script>
     <script src="assets/libs/Chart.js/Chart.min.js"></script>
     <script src="assets/libs/angular-chart.js/dist/angular-chart.min.js"></script>
 

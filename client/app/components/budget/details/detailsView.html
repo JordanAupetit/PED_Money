@@ -1,17 +1,17 @@
 <md-content >
-<div class="container">
+<div class="container pt70">
 
 
  	<div class="row">
 		<a ui-sref="budget">Back</a>
 
 		<p class="col-centered text-center">
-		  <span ng-class="{activeYear: year.isActive}" ng-click="changeYear(year.year)" value="{{year.year}}" class="budget-btn" ng-repeat="year in years" >{{year.year}}</span> 
+		  <span ng-class="{activeYear: year.isActive}" ng-click="changeYear(year.id)" value="{{year.id}}" class="budget-btn" ng-repeat="year in dataNav" >{{year.id}}</span> 
 		</p>
 
 
 		<p class="col-centered text-center">
-		  <span ng-repeat="month in months">
+		  <span ng-repeat="month in dataNav[dateSelector.currentYear]">
 		    <a ng-class="{activeYear: month.isActive}" class="budget-btn" ng-click="changeMonth(month.id)">{{month.name}}</a>
 		  </span>
 		</p>
@@ -22,9 +22,22 @@
 				<highchart id="chart1" config="chartConfig"></highchart>
 			</div>
 			<div class="col-md-5">
-				<md-content>
-				{{currentSelection}}</br>
-				<a>Details</a>
+				<md-content ng-if="categorySelector.currentCat !== undefined">
+				<legend>{{categorySelector.currentCat}} {{categorySelector.total}} €</legend>
+				Current budget for this month :
+				<input type="number" ng-model="currentBudget.value"> <button ng-click="validBudget(currentBudget)">Valid</button>
+				<!-- <a>Details</a> -->
+				<ul>
+<!-- 					<li ng-repeat="opt in csOpt">
+						{{opt.name}} : {{opt.value}} 
+					</li> -->
+
+					<div ng-repeat="op in csOpt" class="operationLine backWhite">
+						<div ng-include="'/app/components/budget/operationLine.html'"></div>
+					</div>
+
+					
+				</ul>
 				</md-content>
 			</div>
 		</div>

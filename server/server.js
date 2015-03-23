@@ -18,6 +18,7 @@ var database = require('./database')
 var apiAccount = require('./api-account')
 var apiUser = require('./api-user')
 var apiOperation = require('./api-operation')
+var apiBudget = require('./api-budget')
 
 var apiCategory = require('./api-category')
 // var apiExpense = require('./api-expense')
@@ -41,8 +42,8 @@ var oneDay = 86400000;
 app.use(compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+// app.use(express.static(path.join(application_root ,'../client'), { maxAge: oneDay }));
 app.use(express.static(path.join(application_root ,'../client')));
-//app.use(express.static(path.join(application_root ,'../client'), { maxAge: oneDay }));
 //Show all errors in development
 //app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));*
 
@@ -142,6 +143,7 @@ apiCategory(app, tool, database.getCategoryModel(), userModel, accountModel, ope
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, tool, database.getPeriodModel())
+apiBudget(app, tool, accountModel, operationModel, userModel)
 
 oauthFacebook(app, tool, userModel, jwt)
 oauthGoogle(app, tool, userModel, jwt)

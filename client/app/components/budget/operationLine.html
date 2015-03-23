@@ -1,0 +1,71 @@
+<div class="">  
+
+    <div ng-show="!op.editable" class="wid100p firstLineOperation">
+
+        <!-- Plus grand qu'un Mobile -->
+        <div class="hidden-xs">
+            <div class="wid35p ftl">
+                <span title="The operation date is after today" ng-if="op.dateOperationIsAfterToday" class="label label-warning pointer">!</span>
+                <span ng-hide="op.editable">{{ op.dateOperation | date:'dd-MM-yyyy'}}</span>
+                <span title="The levy date is after today" ng-if="op.datePrelevementIsAfterToday && op.datePrelevement !== op.dateOperation" class="label label-warning pointer">!</span>
+                <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement }})</span>
+            </div>
+
+            <div class="wid35p ftl">
+                <span class="label label-default">{{ op.categoryName }}</span>
+            </div>
+
+            <div class="wid30p ftl algright">
+                <span ng-if="op.value <= 0" class="valueSpan colorRed ftl wid100p">
+                    {{ op.value }}
+                </span>
+                <span ng-if="op.value > 0" class="valueSpan colorGreen ftl wid100p">
+                    +{{ op.value }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Taille d'un mobile Mobile -->
+        <div class="visible-xs-block">
+            <div class="wid70p ftl">
+                <span title="The operation date is after today" ng-if="op.dateOperationIsAfterToday" class="label label-warning pointer">!</span>
+                <span ng-hide="op.editable">{{ op.dateOperation }}</span>
+                <span title="The levy date is after today" ng-if="op.datePrelevementIsAfterToday && op.datePrelevement !== op.dateOperation" class="label label-warning pointer">!</span>
+                <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement }})</span>
+            </div>
+
+            <div class="wid30p ftl algright">
+                <span ng-if="op.value <= 0" class="valueSpan colorRed ftl wid100p">
+                    {{ op.value }}
+                </span>
+                <span ng-if="op.value > 0" class="valueSpan colorGreen ftl wid100p">
+                    +{{ op.value }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+  
+    <div class="wid100p pt10 otherLineOperation pl15 pr15">
+        <div class="visible-xs-block">
+            <label>Category:</label>
+            <span class="label label-default">{{ op.categoryName }}</span>
+        </div>
+    </div>
+
+    <div class="wid100p pt10 otherLineOperation pl15 pr15">
+        <label>Description:</label>
+        <span>{{ op.description }}</span>
+    </div>
+
+    <div class="wid100p pt10 otherLineOperation pl15 pr15">
+        <label>Third party:</label>
+        <span>{{ op.thirdParty }}</span>
+    </div>
+
+    <div class="wid100p pt10 otherLineOperation pl15 pr15">
+        <label>Type:</label>
+        <span>{{ op.type }}</span>
+    </div>
+
+</div>

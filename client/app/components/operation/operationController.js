@@ -38,7 +38,7 @@
             $scope.csvFileImported = ""
             $scope.ventilateOperation = null
             $scope.subOperationModel = {}
-            var dateFormat = 'YYYY-MM-DD'
+            $scope.dateFormat = 'YYYY-MM-DD'
 
 
             // $scope.operationCreateModel = {
@@ -222,12 +222,12 @@
                     }
 
                     operation.dateOperationIsAfterToday = false
-                    if(moment(operation.dateOperation, dateFormat).isAfter(moment())) {
+                    if(moment(operation.dateOperation, $scope.dateFormat).isAfter(moment())) {
                         operation.dateOperationIsAfterToday = true
                     }
 
                     operation.datePrelevementIsAfterToday = false
-                    if(moment(operation.datePrelevement, dateFormat).isAfter(moment())) {
+                    if(moment(operation.datePrelevement, $scope.dateFormat).isAfter(moment())) {
                         operation.datePrelevementIsAfterToday = true
                     }
 
@@ -237,6 +237,48 @@
                         $scope.countOfOperationsNotAfterToday++
                     }
                 }
+            }
+
+            /**
+             * @Description
+             * Correct the dates of an operation
+             * @Param {Object} operation An operation to correct
+             */
+            function correctDateOfOperation(operation) {
+
+                // Clean date
+                // TODO: Verifier le bon format de la date
+                if( !operation.hasOwnProperty('dateOperation') 
+                    || operation.dateOperation === ''
+                    || !moment(operation.dateOperation, $scope.dateFormat).isValid) {
+                    //console.log('No dateOperation')
+
+                    operation.dateOperation = moment().format('YYYY-MM-DD')
+                } else {
+                    //console.log('Have dateOperation')
+                    //console.log(operation.dateOperation)
+                    //console.log(dateFormat)
+                    operation.dateOperation = moment(operation.dateOperation, $scope.dateFormat).format('YYYY-MM-DD')
+                }
+
+
+                if( !operation.hasOwnProperty('datePrelevement') 
+                    || operation.datePrelevement === ''
+                    || !moment(operation.datePrelevement, $scope.dateFormat).isValid) {
+
+                    operation.datePrelevement = operation.dateOperation
+                } else {
+
+                    // Si la date différée est inférieur à la date de l'opération
+                    // mettre à la date de l'opération
+                    if(moment(operation.datePrelevement, $scope.dateFormat).isBefore(moment(operation.dateOperation, $scope.dateFormat))) {
+                        operation.datePrelevement = operation.dateOperation
+                    } else {
+                        operation.datePrelevement = moment(operation.datePrelevement, $scope.dateFormat).format('YYYY-MM-DD')
+                    }
+                }
+
+                return operation
             }
 
             /*  
@@ -281,11 +323,11 @@
                         // Clean dateBegin
                         if (!newOperation.period.hasOwnProperty('dateBegin') 
                             || newOperation.period.dateBegin === '' 
-                            || !moment(newOperation.period.dateBegin, dateFormat).isValid) {
+                            || !moment(newOperation.period.dateBegin, $scope.dateFormat).isValid) {
 
                             newOperation.period.dateBegin = newOperation.dateOperation
                         } else {
-                            newOperation.period.dateBegin = moment(newOperation.period.dateBegin, dateFormat).format('YYYY-MM-DD')
+                            newOperation.period.dateBegin = moment(newOperation.period.dateBegin, $scope.dateFormat).format('YYYY-MM-DD')
                         }
 
                         // var newOpt = clone($scope.operationCreateModel)
@@ -409,6 +451,8 @@
              */
             $scope.closeUpdateOperation = function(operation) {
                 operation.editable = false
+                operation.dateOperation = moment(operation.dateOperation, $scope.dateFormat).toDate()
+                operation.datePrelevement = moment(operation.datePrelevement, $scope.dateFormat).toDate()
                 refresh()
             }
 
@@ -420,6 +464,8 @@
             $scope.showUpdateOperation = function(operation) {
                 //TODO Gérer le select pour les catégories
                 operation.editable = true
+                operation.dateOperation = moment(operation.dateOperation).format($scope.dateFormat)
+                operation.datePrelevement = moment(operation.datePrelevement).format($scope.dateFormat)
             }
 
             /**
