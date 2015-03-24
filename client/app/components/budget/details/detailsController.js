@@ -7,7 +7,7 @@
 		.factory('budgetDetailsHelper', function() {
 			return {}
 		})
-		.controller('BudgetDetailsCtrl', ['$scope', 'budgetService', '$modal', '$log', 'budgetHelper2', BudgetDetailsCtrl])
+		.controller('BudgetDetailsCtrl', ['$scope', 'budgetService', '$modal', '$log', 'budgetHelper', BudgetDetailsCtrl])
 
 	function BudgetDetailsCtrl($scope, budgetService, $modal, $log, budgetHelper) {
 
@@ -117,6 +117,9 @@
 						// 	fontWeight: 'bold'
 						// }
 						// pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+					},
+					credits: {
+						enabled: false
 					},
 					// plotOptions: {
 					//                 series: {
