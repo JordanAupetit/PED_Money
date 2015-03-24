@@ -6,66 +6,6 @@
 	angular.module('controllers')
 		.factory('budgetHelper', function() {
 			return {
-				changeMonth: function(months, month, dateSelector, callback){
-					// console.log(months)
-					// console.log(month)
-					// console.log(currentMonth)
-					// console.log(callback)
-					// month security
-					if(month === undefined || month < 1 ){
-						month = 1
-					}else if(month > months.length){
-						month = months.length
-					}
-
-
-					// Active the month
-					angular.forEach(months, function(v){
-						v.isActive = false
-					})
-					months[month-1].isActive = true
-
-
-					// $scope.monthSelector = $scope.months[month-1].name
-					dateSelector.currentMonth = months[month-1].id
-
-					callback()
-				},
-				resetMonth : function(years, yearPos){
-					angular.forEach(years[yearPos].months, function(v){
-						v.isActive = false
-					})
-				},
-				changeYear: function(years, year, dateSelector, months/*, callback*/){
-					// Find year position
-					var yearPos
-					angular.forEach(years, function(y, key){
-						if(y.year === year){
-							yearPos = key
-						}
-					})
-
-					this.resetMonth(years, yearPos)
-
-					// Active the year
-					angular.forEach(years, function(v){
-						v.isActive = false
-					})
-					years[yearPos].isActive = true
-
-					// $scope.yearSelector = years[yearPos].year
-					dateSelector.currentYear = yearPos
-
-					months = years[yearPos].months
-
-					// callback()
-
-					return months
-				}
-			}
-		})
-		.factory('budgetHelper2', function() {
-			return {
 				changeMonth: function(dataYear, month, dateSelector, callback){
 					var data = dataYear[dateSelector.currentYear]
 					// Active the month
@@ -115,7 +55,7 @@
 				}
 			}
 		})
-		.controller('BudgetCtrl', ['$scope', 'budgetService', '$modal', '$log', 'budgetHelper2', BudgetCtrl])
+		.controller('BudgetCtrl', ['$scope', 'budgetService', '$modal', '$log', 'budgetHelper', BudgetCtrl])
 
 
 	/**
@@ -139,6 +79,9 @@
 							padding: 10,
 							fontWeight: 'bold'
 						}
+					},
+					credits: {
+						enabled: false
 					},
 					// plotOptions: {
 				 //                    series: {

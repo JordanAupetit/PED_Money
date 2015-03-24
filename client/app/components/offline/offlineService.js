@@ -58,7 +58,7 @@
             if(data !== null){
                 for(var k in data){
                     if(!account.hasOwnProperty(k)){
-                        account.k = data.k
+                        account[k] = data[k]
                     }
                 }
             }
@@ -80,14 +80,13 @@
 
         function saveDeleteOperation(operation, callback){
             var account = localStorageService.get(operation.accountId)
-            var operation
             for(var i in account.operations){
                 if(account.operations[i]._id === operation._id){
-                    operation = account.operations[i]
                     account.operations.splice(i,1)
                     break
                 }
             }
+            localStorageService.set(account._id, account)
 
             if(operation && operation.wfc)
                 updateWaitingForConnection(operation, true)
@@ -105,6 +104,7 @@
                     account.operations[i] = operation
                 }
             }
+            localStorageService.set(account._id, account)
 
             if(operation && operation.wfc)
                 updateWaitingForConnection(operation, false)
@@ -204,7 +204,6 @@
         }
 
         function ping(){
-            $rootScope.state = 'TESTING'
             $http.get('/favicon.ico').
                 success(function(data, status, headers, config) {
                     $rootScope.state = 'CONNECTING'
@@ -246,7 +245,8 @@
                         saveAccount(account)
                         callback(account)
                     }, function(err){
-                        callback(localStorageService.get(accountId))    
+                        callback(localStorageService.get(accountId))
+                        ping()
                     })
                 }
                 else{
@@ -263,6 +263,7 @@
                         callback(accounts)
                     }, function(err){
                         callback(getLocalAccounts())
+                        ping()
                     })
                 }
                 else{

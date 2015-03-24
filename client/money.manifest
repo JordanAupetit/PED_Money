@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-#Version 0.0.0.3
+#Version 0.0.0.14
 
 CACHE:
 index.html
@@ -59,7 +59,6 @@ app/components/offline/offlineService.js
 app/components/accounts/settingsController.js
 assets/libs/bootstrap/dist/css/bootstrap.min.css
 assets/libs/bootstrap/dist/css/bootstrap-theme.min.css 
-assets/css/main.css
 assets/css/font-awesome.css
 assets/libs/jquery-ui/themes/smoothness/jquery-ui.min.css 
 assets/libs/angular-material/angular-material.css
@@ -79,8 +78,11 @@ app/components/operation/operationLineTemplate.html
 app/components/operation/operationDescriptionTemplate.html
 app/components/login/loginView.html
 assets/img/logo.png
-assets/img/slide/budget1.png
-assets/img/slide/budget2.png 
+assets/libs/jquery-ui/themes/smoothness/images/ui-bg_flat_75_ffffff_40x100.png
+assets/libs/highcharts-release/highcharts.src.js
+assets/libs/highcharts-release/modules/drilldown.js
+assets/libs/highcharts-ng/dist/highcharts-ng.js
+app/components/operation/operationAddSidebarRightTemplate.html
 
 NETWORK:
 *

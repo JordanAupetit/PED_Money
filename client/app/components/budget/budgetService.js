@@ -52,14 +52,6 @@
 				setBudget: function(catId, value){
 					return budgetCatRes.set({catId: catId, value: value}).$promise
 				},
-				// add: function(operation) {
-				// 	return budgetRes.add(operation)
-				// },
-				// remove: function(budgetId) {
-				// 	return budgetRes.delete({
-				// 		id: budgetId
-				// 	})
-				// },
 				getExpense: function(year, month){
 					if(month === undefined){
 						var tmp = 0
@@ -99,8 +91,8 @@
 												isActive: false
 											}
 									}
-									evolution[res._id.year][res._id.month < 10? '0'+res._id.month: ''+res._id.month].total = res.total
-									evolution[res._id.year]['13'].total += res.total
+									evolution[res._id.year][res._id.month < 10? '0'+res._id.month: ''+res._id.month].total = res.total *-1
+									evolution[res._id.year]['13'].total += res.total *-1
 
 								})
 								angular.forEach(evolution, function(year){ // TODO find a iteligent manner
