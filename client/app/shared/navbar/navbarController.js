@@ -107,13 +107,20 @@
          */
         $scope.signUp = function() {
             if(isFormValid()){
-                var newUser = new LoginService($scope.signUpUser);
-                newUser.$save(function(res) {
+                var newUser = {
+                        username: $scope.signUpUser.name,
+                        lastName: $scope.signUpUser.last,
+                        firstName: $scope.signUpUser.first,
+                        email: $scope.signUpUser.mail,
+                        password: $scope.signUpUser.pass
+                    }
+                var newNewUser = new LoginService(newUser);
+                newNewUser.$save(function(res) {
                     if (res.type == false) {
                         alert(res.data);
                     } else {
                         $('#modal-signup').modal('hide');
-                        $scope.signInUser.username = $scope.signUpUser.name
+                        $scope.signInUser.username = newUser.username
                         $scope.signUpUser = {}
                     }
                 })
