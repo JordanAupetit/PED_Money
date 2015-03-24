@@ -138,9 +138,12 @@
         function updateOperation(operation, callback){
             if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                 OperationResource.update(operation).$promise.then(function(){
-                    if(callback)
+                    if(callback) {
                         callback()
+                    }
                 }).catch(function(error){
+                    console.log("Error")
+                    console.log(error)
                     saveUpdateOperation(operation, callback)
                     ping()
                 })

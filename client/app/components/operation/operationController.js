@@ -212,19 +212,19 @@
                 $scope.countOfOperationsAfterToday = 0;
                 $scope.countOfOperationsNotAfterToday = 0;
 
-                
                 for(var i = 0; i < $scope.account.operations.length; i++) {
                     var operation = $scope.account.operations[i]
                     operation.categoryName = 'No category'
 
                     var catToFind = operation.categoryId
+                    //console.log(operation)
 
                     if(catToFind !== '') {
                         angular.forEach($scope.categories, function(categorie){
                             if(categorie.id === catToFind) {
                                 operation.categoryName = categorie.name
                                 operation.category = categorie
-                            }else if(catToFind % categorie.id < 100) {
+                            } else if(catToFind % categorie.id < 100) {
                                 angular.forEach(categorie.subCategories, function(subCategorie) {
                                     if(subCategorie.id === catToFind) {
                                         operation.categoryName = subCategorie.name
@@ -258,7 +258,10 @@
              * Correct the dates of an operation
              * @Param {Object} operation An operation to correct
              */
-            function correctDateOfOperation(operation) {
+
+             // TODO To delete s'il n'y a pas de problèmes
+
+            /*function correctDateOfOperation(operation) {
 
                 // Clean date
                 // TODO: Verifier le bon format de la date
@@ -293,7 +296,7 @@
                 }
 
                 return operation
-            }
+            }*/
 
             /*  
                 ==== TODO ====
@@ -443,11 +446,15 @@
              * @Param {Object} operation Operation to update
              */
             $scope.updateOperation = function(operation) {
-                console.log(operation)
                 operation.categoryId = operation.category.id
                 operation.editable = false
 
+                console.log("UPDATE")
+                console.log(operation.category.id)
                 operation = OperationResource.correctDateOfOperation(operation)
+
+                // Important to update the name of the category
+                //fixOperations()
 
                 /*if(operation.hasOwnProperty('category') && operation.category !== undefined) {
                     operation.categoryId = operation.category.id
@@ -457,7 +464,7 @@
                     operation.categoryName = 'No category'
                 }*/
 
-                StorageServices.updateOperation(operation, refresh())
+                StorageServices.updateOperation(operation, refresh)
             }
 
             /**
@@ -480,8 +487,9 @@
              */
             $scope.showUpdateOperation = function(operation) {
                 //TODO Gérer le select pour les catégories
-                console.log($scope.categoriesSelect)
-                console.log(operation)
+                
+                //console.log($scope.categoriesSelect)
+                //console.log(operation)
                 operation.category = findCat(operation.categoryId)
                 operation.editable = true
                 operation.dateOperation = moment(operation.dateOperation).format($scope.dateFormat)
