@@ -426,8 +426,8 @@
              * @Param {Object} operation Operation to update
              */
             $scope.updateOperation = function(operation) {
-                console.log(operation)
-                operation.categoryId = operation.category.id
+                if(operation.category)
+                    operation.categoryId = operation.category.id
                 operation.editable = false
 
                 operation = OperationResource.correctDateOfOperation(operation)
@@ -440,7 +440,7 @@
                     operation.categoryName = 'No category'
                 }*/
 
-                StorageServices.updateOperation(operation, refresh())
+                StorageServices.updateOperation(operation, refresh)
             }
 
             /**
@@ -463,8 +463,8 @@
              */
             $scope.showUpdateOperation = function(operation) {
                 //TODO Gérer le select pour les catégories
-                console.log($scope.categoriesSelect)
-                console.log(operation)
+                // console.log($scope.categoriesSelect)
+                // console.log(operation)
                 operation.category = findCat(operation.categoryId)
                 operation.editable = true
                 operation.dateOperation = moment(operation.dateOperation).format($scope.dateFormat)

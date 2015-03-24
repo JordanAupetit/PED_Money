@@ -102,6 +102,8 @@ module.exports = function (app, tool, categoryModel, userModel, accountModel, op
                 for(var i in operations){
                     var value = operations[i].value
                     balance = value + balance
+                    operations[i].dateOperationFormat = moment(operations[i].dateOperation).format('LL');
+                    operations[i].datePrelevementFormat = moment(operations[i].datePrelevement).format('LL');
                     if(value>=0)
                         operations[i].credit = value
                     else

@@ -1,6 +1,6 @@
 CACHE MANIFEST
 
-#Version 0.0.0.12
+#Version 0.0.0.14
 
 CACHE:
 index.html
@@ -79,6 +79,10 @@ app/components/operation/operationDescriptionTemplate.html
 app/components/login/loginView.html
 assets/img/logo.png
 assets/libs/jquery-ui/themes/smoothness/images/ui-bg_flat_75_ffffff_40x100.png
+assets/libs/highcharts-release/highcharts.src.js
+assets/libs/highcharts-release/modules/drilldown.js
+assets/libs/highcharts-ng/dist/highcharts-ng.js
+app/components/operation/operationAddSidebarRightTemplate.html
 
 NETWORK:
 *
