@@ -36,7 +36,10 @@
     </div>
   </div>
 
-  <span ng-if="accounts.length <= 0">Il n'y a encore aucun compte à afficher .</span>
+  <div class="row text-center" ng-if="accounts.length <= 0">
+    <h1>Nothing to show</h1>
+    <p>There is no account yet, let's <a btn-add-operation href="" >create the first one</a> !</p>
+  </div>
 
 
   <div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add account" data-target=".modal-operation">
