@@ -25,6 +25,14 @@
                 }
             }  
 
+            /**
+             * Trigger on login
+             * Refresh $scope.user value
+             */
+            $rootScope.$on('connected', function(event) { 
+                refresh()
+            })
+
             $scope.intervalType = INTERVAL_TYPES
             var accountId = $state.params.accountId
             $scope.accountId = accountId

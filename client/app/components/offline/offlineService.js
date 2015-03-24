@@ -196,6 +196,7 @@
                         console.error(wfc.fct + " is not implemented yet")
                     }
                 }
+                $rootScope.$emit('connected');
             }
             $rootScope.state = 'ONLINE'
         }
@@ -209,8 +210,9 @@
                     connecting()
                 }).
                 error(function(data, status, headers, config) {
+                    if(!$rootScope.offline)
+                        $rootScope.showAlert = true
                     $rootScope.offline = true
-                    $rootScope.showAlert = true
                     $rootScope.state = 'OFFLINE'
                     setTimeout(function(){ ping()}, 3000)
                 });

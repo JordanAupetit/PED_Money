@@ -13,7 +13,6 @@
                 <span ng-show="account !== undefined" class="hidden-xs">
                     – {{ account.name }}
                 </span>
-                <span ng-if="$root.state !== 'ONLINE'">{{$root.state}}</span>
             </label>
         </div>
         <div class="collapse navbar-collapse" id="collapse">
@@ -32,6 +31,9 @@
             </ul>
 
             <ul ng-show="user" class="nav navbar-nav pull-right">
+                <li  class="navbar-text" ng-if="$root.state !== 'ONLINE'">
+                    {{$root.state}}
+                </li>
                 <li>
                     <select ng-model="initSelector" name="" id="">
                         <option value="dataset_etienne.json">dataset_etienne.json</option>
