@@ -1,54 +1,5 @@
 
 <div class="container pt70 pb100">
-
-  <!-- <table ng-if="accounts.length > 0" class="table table-bordered table-striped">
-    <thead>
-      <tr>
-        <th class="algcenter">Name</th>
-        <th class="algcenter">Type</th>
-        <th class="algcenter">Alert seuil</th>
-        <th class="algcenter">Currency</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="acc in accounts">
-        <td>
-          <span ng-hide="acc.editable"> {{ acc.name }}</span>
-          <input ng-hide="!acc.editable" type="text" class="form-control" ng-model="acc.name">
-        </td>
-        <td>
-          <span ng-hide="acc.editable"> {{ acc.type | accountType }}</span>
-          <select ng-hide="!acc.editable" id="selectbasic" name="selectbasic" ng-model="acc.type" class="form-control" ng-options="type as type.name for type in accountTypes">
-          </select>
-        </td>
-        <td>
-          <span ng-hide="acc.editable">{{ acc.seuil}}</span>
-           <input ng-hide="!acc.editable" type="text" class="form-control" ng-model="acc.solde">
-          <input ng-hide="!acc.editable" type="text" class="form-control" ng-model="acc.alert">
-        </td>
-        <td>
-          <span ng-hide="acc.editable"> {{ acc.currency | accountCurrency}}</span>
-          <select ng-hide="!acc.editable" id="currency" name="currency" ng-model="acc.currency" class="form-control" ng-options="currency as currency.name for currency in currencys" required>
-          </select>
-        </td>
-        <td class="algcenter">
-          <button ng-hide="!acc.editable" ng-click="updateAccount(acc)" class="btn btn-danger btn-xs">
-          Save
-          </button>
-          <button ng-hide="acc.editable" ng-click="showUpdateAccount(acc)" class="btn btn-danger btn-xs">
-          Edit
-          </button>
-          <button ng-click="deleteAccount(acc._id)" class="btn btn-danger btn-xs">
-          <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-          </button>
-          <button ui-sref="operation({accountId : acc._id})" class="btn btn-info btn-xs">
-          GO
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table> -->
-
   <div ng-if="accounts.length > 0" class="row hidden-xs accountDescription">
     <div class="col-xs-3 algcenter">Name</div>
     <div class="col-xs-3 algcenter">Type</div>
@@ -73,13 +24,13 @@
       <button ui-sref="operation({accountId : acc._id})" class="btn btn-info btn-xs">
         Show the account
       </button>
-      <button ng-hide="!acc.editable" ng-click="updateAccount(acc)" class="btn btn-success btn-xs">
+      <!-- <button ng-hide="!acc.editable" ng-click="updateAccount(acc)" class="btn btn-success btn-xs">
         Save
       </button>
       <button ng-hide="acc.editable" ng-click="showUpdateAccount(acc)" class="btn btn-warning btn-xs">
         Edit
-      </button>
-      <button ng-click="deleteAccount(acc._id)" class="btn btn-danger btn-xs">
+      </button> -->
+      <button ng-really-message="Do you really want to delete this account?" ng-really-click="deleteAccount(acc._id)" class="btn btn-danger btn-xs">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
       </button>
     </div>
@@ -105,14 +56,14 @@
         </div>
       </div>
 
-      <div class="form-group" ng-class="{ 'has-error' : accountForm.type.$invalid && (accountForm.$submitted || accountForm.type.$touched) }">
+      <!-- <div class="form-group" ng-class="{ 'has-error' : accountForm.type.$invalid && (accountForm.$submitted || accountForm.type.$touched) }">
         <label class="control-label" for="type">Type</label>
         <select id="type" name="type" ng-model="accountCreateModel.type" class="form-control" ng-options="type as type.name for type in accountTypes" required >
         </select>
         <div ng-show="accountForm.$submitted || accountForm.type.$touched">
           <span class="error help-block" ng-show="accountForm.type.$error.required">Type is require</span>
         </div>
-      </div>
+      </div> -->
 
       <!--       <div class="form-group">
         <label class="control-label" for="balance">Account Balance</label>
@@ -136,49 +87,5 @@
 
     
   </div>
-
- <!--  <div id="account-form" class="well auth-box">
-    <form name="accountForm" novalidate>
-      <legend>Accounts</legend>
-
-      <div class="form-group" ng-class="{ 'has-error' : accountForm.name.$invalid && (accountForm.$submitted || accountForm.name.$touched) }">
-        <label class="control-label" for="name">Account Name</label>
-        <input id="name" name="name" ng-model="accountCreateModel.name" placeholder="Account Name" class="form-control input-md" type="text" required>
-        <div ng-show="accountForm.$submitted || accountForm.name.$touched">
-          <span class="error help-block" ng-show="accountForm.name.$error.required">Name is require</span>
-        </div>
-      </div>
-
-      <div class="form-group" ng-class="{ 'has-error' : accountForm.type.$invalid && (accountForm.$submitted || accountForm.type.$touched) }">
-        <label class="control-label" for="type">Type</label>
-        <select id="type" name="type" ng-model="accountCreateModel.type" class="form-control" ng-options="type as type.name for type in accountTypes" required >
-        </select>
-        <div ng-show="accountForm.$submitted || accountForm.type.$touched">
-          <span class="error help-block" ng-show="accountForm.type.$error.required">Type is require</span>
-        </div>
-      </div>
-
-            <div class="form-group">
-        <label class="control-label" for="balance">Account Balance</label>
-        <input id="balance" name="balance" ng-model="accountCreateModel.balance" placeholder="Account Balance" class="form-control input-md" type="text">
-      </div>
-
-      <div class="form-group" ng-class="{ 'has-error' : accountForm.currency.$invalid && (accountForm.$submitted || accountForm.currency.$touched) }">
-        <label class="control-label" for="currency">Currency</label>
-        <select id="currency" name="currency" ng-model="accountCreateModel.currency" class="form-control" ng-options="currency as currency.name for currency in currencys" required>
-        </select>
-        <div ng-show="accountForm.$submitted || accountForm.currency.$touched">
-          <span class="error help-block" ng-show="accountForm.currency.$error.required">Currency is require</span>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <button type="submit" ng-click="addAccount(accountCreateModel)" id="button" name="button" class="btn btn-danger">Add Account</button>
-      </div>
-    </form>
-  </div> -->
-
-
-  <!-- <div class="clearfix"></div> -->
 </div>
 

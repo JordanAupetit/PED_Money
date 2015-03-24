@@ -149,11 +149,9 @@
         *   Ask the user if he is sure, delete the account and go to the accounts page
         */
         $scope.deleteAccount = function(){
-            if (confirm('Are you sure you want to delete this account')) {
-                AccountResource.remove($scope.account._id).$promise.then(function() {
-                    $state.go('accounts')
-                })
-            }
+            AccountResource.remove($scope.account._id).$promise.then(function() {
+                $state.go('accounts')
+            })
         }
 
         /**

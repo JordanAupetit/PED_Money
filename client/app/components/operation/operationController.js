@@ -356,11 +356,15 @@
                             }
                         }
 
-                        console.log(toSend)
+                        //console.log(toSend)
 
                         periodRes.add(toSend).$promise.then(function() {
-                            // refresh()
-                            // TODO popup for confirmation
+                            // Si TRUE, alors le $parent est le controller de period operation
+                            if($scope.$parent.hasOwnProperty('thisController') && $scope.$parent.thisController === "periodController") {
+                                // On refresh les operations periodiques
+                                $scope.$parent.refresh();
+                            }
+
                         })
 
                     } else { // Advanced operation
