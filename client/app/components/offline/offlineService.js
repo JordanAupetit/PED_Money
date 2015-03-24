@@ -205,10 +205,12 @@
                 success(function(data, status, headers, config) {
                     $rootScope.state = 'CONNECTING'
                     $rootScope.offline = false
+                    $rootScope.showAlert = false
                     connecting()
                 }).
                 error(function(data, status, headers, config) {
                     $rootScope.offline = true
+                    $rootScope.showAlert = true
                     $rootScope.state = 'OFFLINE'
                     setTimeout(function(){ ping()}, 3000)
                 });

@@ -158,7 +158,10 @@
                 //     console.log('Db init OK')
                 // })
             }
-            
+        }
+
+        $scope.dismissAlert = function(){
+            $rootScope.showAlert = false
         }
 
         /**
