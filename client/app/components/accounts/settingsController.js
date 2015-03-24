@@ -34,6 +34,7 @@
         function getAccount(){
             StorageServices.getAccount($state.params.accountId, function(account){
                 accountBeforeChange = account
+                if(account === null) return;
 
                 var curPos
                 angular.forEach($scope.currencies, function(cur, pos) {
@@ -148,8 +149,8 @@
         *   @Description
         *   Ask the user if he is sure, delete the account and go to the accounts page
         */
-        $scope.deleteAccount = function(){
-            AccountResource.remove($scope.account._id).$promise.then(function() {
+        $scope.deleteAccount = function(accountId){
+            AccountResource.remove(accountId).$promise.then(function() {
                 $state.go('accounts')
             })
         }

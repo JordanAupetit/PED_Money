@@ -1,22 +1,22 @@
 
 module.exports = function (app, tool, accountModel, operationModel) {
-    app.get('/api/account/debug', getDebug)
+    // app.get('/api/account/debug', getDebug)
     app.get('/api/account/', getAllAccounts)
     app.get('/api/account/:id', getAccount)
     app.post('/api/account/', addAccount)    
     app.put('/api/account/', updateAccount)
     app.delete('/api/account/:id', deleteAccount)
 
-    function getDebug(req, resp, next) {
-        'use strict';
-        accountModel.find( function (err, coll) {
-            if (!err) {
-                return resp.send(coll);
-            } else {
-                next(err);
-            }
-        });
-    }
+    // function getDebug(req, resp, next) {
+    //     'use strict';
+    //     accountModel.find( function (err, coll) {
+    //         if (!err) {
+    //             return resp.send(coll);
+    //         } else {
+    //             next(err);
+    //         }
+    //     });
+    // }
 
     function getAllAccounts(req, resp, next) {
         'use strict';

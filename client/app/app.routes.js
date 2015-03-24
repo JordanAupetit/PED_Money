@@ -33,17 +33,17 @@
                         }
                       }
                 })
-                .state('accountSettings', {
-                    url: '/:accountId/settings',
-                    data: {
-                        requireLogin: true
-                    },
-                    views: {
-                        "viewB": {  templateUrl: 'app/components/accounts/settingsView.html',
-                                    controller: 'AccountSettingsController'
-                        }
-                      }
-                })
+            .state('accountSettings', {
+                url: '/:accountId/settings',
+                data: {
+                    requireLogin: true
+                },
+                views: {
+                    "viewB": {  templateUrl: 'app/components/accounts/settingsView.html',
+                                controller: 'AccountSettingsController'
+                    }
+                  }
+            })
             .state('operation', {
                 url: '/:accountId/operation/',
                 data: {
@@ -55,7 +55,6 @@
                         }
                       }
             })
-
             .state('optPeriod', {
                 url: '/:accountId/operation/period/',
                 
@@ -80,7 +79,6 @@
                         }
                       }
             })
-
             .state('budgetdetails', {
                 url: '/budget/details/',
                 
@@ -93,7 +91,6 @@
                         }
                       }
             })
-
             .state('offline', {
                 url: '/offline',
                 
@@ -115,6 +112,18 @@
                 views: {
                         "viewB": {  templateUrl: 'app/components/settings/settingsView.html',
                                     controller: 'SettingsController'
+                        }
+                      }
+            })
+            .state('analysis', {
+                url: '/analysis',
+                
+                data: {
+                    requireLogin: true
+                },
+                views: {
+                        "viewB": {  templateUrl: 'app/components/analysis/analysisView.html',
+                                    controller: 'AnalysisController'
                         }
                       }
             })

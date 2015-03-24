@@ -7,29 +7,20 @@
   </div>
   <div class="row accountLine" ng-repeat="acc in accounts">
     <div class="col-xs-12 col-md-3 algcenter">
-      <span ng-hide="acc.editable">{{ acc.name }}</span>
-      <input ng-hide="!acc.editable" type="text" class="form-control mt10" ng-model="acc.name">
+      <span>{{ acc.name }}</span>
     </div>
     <div class="col-xs-12 col-md-3 algcenter">
-      <span ng-hide="acc.editable">{{ acc.type | accountType }}</span>
-      <select ng-hide="!acc.editable" id="selectbasic" name="selectbasic" ng-model="acc.type" class="form-control mt10" ng-options="type as type.name for type in accountTypes">
+      <span>{{ acc.type | accountType }}</span>
       </select>
     </div>
     <div class="col-xs-12 col-md-3 algcenter">
-      <span ng-hide="acc.editable">{{ acc.currency | accountCurrency}}</span>
-      <select ng-hide="!acc.editable" id="currency" name="currency" ng-model="acc.currency" class="form-control mt10 mb10" ng-options="currency as currency.name for currency in currencys" required>
+      <span>{{ acc.currency | accountCurrency}}</span>
       </select>
     </div>
     <div class="col-xs-12 col-md-3 algcenter">
       <button ui-sref="operation({accountId : acc._id})" class="btn btn-info btn-xs">
         Show the account
       </button>
-      <!-- <button ng-hide="!acc.editable" ng-click="updateAccount(acc)" class="btn btn-success btn-xs">
-        Save
-      </button>
-      <button ng-hide="acc.editable" ng-click="showUpdateAccount(acc)" class="btn btn-warning btn-xs">
-        Edit
-      </button> -->
       <button ng-really-message="Do you really want to delete this account?" ng-really-click="deleteAccount(acc._id)" class="btn btn-danger btn-xs">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
       </button>
@@ -40,7 +31,6 @@
     <h1>Nothing to show</h1>
     <p>There is no account yet, let's <a btn-add-operation href="" >create the first one</a> !</p>
   </div>
-
 
   <div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add account" data-target=".modal-operation">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -66,11 +56,6 @@
         <div ng-show="accountForm.$submitted || accountForm.type.$touched">
           <span class="error help-block" ng-show="accountForm.type.$error.required">Type is require</span>
         </div>
-      </div> -->
-
-      <!--       <div class="form-group">
-        <label class="control-label" for="balance">Account Balance</label>
-        <input id="balance" name="balance" ng-model="accountCreateModel.balance" placeholder="Account Balance" class="form-control input-md" type="text">
       </div> -->
 
       <div class="form-group" ng-class="{ 'has-error' : accountForm.currency.$invalid && (accountForm.$submitted || accountForm.currency.$touched) }">

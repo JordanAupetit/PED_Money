@@ -1,175 +1,178 @@
-// describe('UNIT::AccountSettings', function() {
-//     beforeEach(module('appModule'));
-//     beforeEach(module('services'));
+describe('UNIT::AccountSettings', function() {
+    beforeEach(module('appModule'));
+    beforeEach(module('services'));
 
-//     var accountDefault = {
-//         _id: "5501a2d78fa2f1fc1582c1ed",
-//         alerts: [
-//             {
-//                 message: "Alert 1 !", level: 1, _id: "5501a3cfbd878d280b2f8c03"
-//             }
-//         ],
-//         balance: 0,
-//         currency: "EUR",
-//         name: "Compte courrant",
-//         type: 3,
-//         userId: "5501a2778fa2f1fc1582c1ea",
-//     }
+    var accountDefault = {
+        _id: "5501a2d78fa2f1fc1582c1ed",
+        alerts: [
+            {
+                message: "Alert 1 !", level: 1, _id: "5501a3cfbd878d280b2f8c03"
+            }
+        ],
+        balance: 0,
+        currency: "EUR",
+        name: "Compte courrant",
+        type: 3,
+        userId: "5501a2778fa2f1fc1582c1ea",
+    }
 
-//     var $controller;
-//     var $httpBackend;
-//     var scope;
-//     var initService;
+    var $controller;
+    var $httpBackend;
+    var scope;
+    var initService;
 
-//     beforeEach(inject(function(_$controller_, _initService_) {
-//         // The injector unwraps the underscores (_) from around the parameter names when matching
-//         $controller = _$controller_;
-//         initService = _initService_;
-//     }));
+    beforeEach(inject(function(_$controller_, _initService_) {
+        // The injector unwraps the underscores (_) from around the parameter names when matching
+        $controller = _$controller_;
+        initService = _initService_;
+    }));
 
-//     describe('accountSettingsController', function() {
-//         var $scope, controller;
+    describe('Controller', function() {
+        var $scope, controller;
 
-//         beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, initService) {
-//             // $httpBackend = _$httpBackend_;
-//             // initService.initRessources('fakeToken')
+        beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, initService) {
+            $httpBackend = _$httpBackend_;
+            initService.initRessources('fakeToken')
 
-//             // scope = $rootScope.$new();
-//             // controller = $controller('AccountSettingsController', {
-//             //     $scope: scope
-//             // });
+            scope = $rootScope.$new();
+            controller = $controller('AccountSettingsController', {
+                $scope: scope
+            });
+
+            $httpBackend.expect('GET', '/favicon.ico').respond(200, '');
+
+            scope.accounts = [accountDefault]
 
 
-//             // // Initialisation des tests avec une Operation en mémoire
-//             // $httpBackend.whenGET('/api/account').respond(200, accountDefault)
-//             // $httpBackend.whenGET('app/components/login/loginView.html').respond(200, '');
+            // // Initialisation des tests avec une Operation en mémoire
+            // $httpBackend.whenGET('/api/account').respond(200, accountDefault)
+            $httpBackend.whenGET('app/components/login/loginView.html').respond(200, '');
 
-//             // //$httpBackend.flush()
+            $httpBackend.flush()
 
-//             // $httpBackend.expectGET('/api/account')
-//         }));
+            // $httpBackend.expectGET('/api/account')
+        }));
 
-// /*
-//         it('should initialise of controller', function() {
-//             expect(scope.account).not.to.be.null
-//             expect(scope.account).not.to.be.undefined
-//         });
-// */
+/*
+        it('should initialise of controller', function() {
+            expect(scope.account).not.to.be.null
+            expect(scope.account).not.to.be.undefined
+        });
+*/
 
-//         it('should rebalance the account', function(){
-//      /*       $httpBackend.expect('POST', '/api/operation').respond(200, '')
+        // it('should rebalance the account', function(){
+        //     $httpBackend.expect('POST', '/api/operation').respond(200, '')
             
 
-//             scope.rebalance = scope.account.balance + 150
-//             scope.rebalanceAccount()
+        //     scope.rebalance = scope.account.balance + 150
+        //     scope.rebalanceAccount()
             
-//             $httpBackend.flush()
-//        */     
-//         })
+        //     $httpBackend.flush()
+            
+        // })
 
-//         it('should update the account informations', function(){
+        // it('should update the account informations', function(){
 
-//         })
+        // })
 
-//         it('should delete the account', function(){
-
-//         })
+        // it('should delete the account', function(){
+        // })
         
 
-//         it('should delete account', function() {
+        it('should delete account', function() {
 
-//             $httpBackend.expect('DELETE', '/api/account/' + '54feed0a3612a53c11bb33b5').respond(200, '');
-//             $httpBackend.expectGET('/api/account').respond(200, [])
+            $httpBackend.expect('DELETE', '/api/account/' + '54feed0a3612a53c11bb33b5').respond(204, '');
+            $httpBackend.whenGET('app/components/accounts/accountsView.html').respond(200, '');
 
-//             scope.deleteAccount('54feed0a3612a53c11bb33b5');
+            scope.deleteAccount('54feed0a3612a53c11bb33b5');
 
-//             expect(scope.accounts.length).toBe(1);
-//             $httpBackend.flush();
-//             expect(scope.accounts.length).toBe(0);
-//         });
+            expect(scope.accounts.length).toBe(1);
+            $httpBackend.flush();
 
-//         it('should update account', function() {
+        });
 
-//             $httpBackend.expect('PUT', '/api/account').respond(200, '');
+        // it('should update account', function() {
 
-//             scope.updateAccount(scope.accounts[0]);
+        //     $httpBackend.expect('PUT', '/api/account').respond(200, '');
 
-//             $httpBackend.flush();
-//         });
+        //     scope.updateAccount(scope.accounts[0]);
 
-//         it('should add account', function() {
+        //     $httpBackend.flush();
+        // });
 
-//             $httpBackend.expect('POST', '/api/account').respond(200, '');
+        // it('should add account', function() {
 
-//             var accountModel = {
-//                 _id: "bb335a53c11b54feed0a3612",
-//                 name: "test 2",
-//                 type: 2,
-//                 currency: "USD"
-//             }
+        //     $httpBackend.expect('POST', '/api/account').respond(200, '');
 
-//             scope.accountForm = {
-//                 $valid: true
-//             }
+        //     var accountModel = {
+        //         _id: "bb335a53c11b54feed0a3612",
+        //         name: "test 2",
+        //         type: 2,
+        //         currency: "USD"
+        //     }
 
-//             spyOn(scope, 'resetForm');
+        //     scope.accountForm = {
+        //         $valid: true
+        //     }
 
-//             scope.addAccount(accountModel)
+        //     spyOn(scope, 'resetForm');
 
-//             $httpBackend.expectGET('/api/account').respond(200, 
-//                 [
-//                     accountDefault, 
-//                     accountModel
-//                 ]);
+        //     scope.addAccount(accountModel)
 
-//             expect(scope.accounts.length).toBe(1);
-//             $httpBackend.flush();
-//             expect(scope.accounts.length).toBe(2);
-//         });
+        //     $httpBackend.expectGET('/api/account').respond(200, 
+        //         [
+        //             accountDefault, 
+        //             accountModel
+        //         ]);
 
-//         it('should not add invalid account', function() {
+        //     expect(scope.accounts.length).toBe(1);
+        //     $httpBackend.flush();
+        //     expect(scope.accounts.length).toBe(2);
+        // });
 
-//             var accountModel = {
-//                 _id: "bb335a53c11b54feed0a3612",
-//                 name: "test 2",
-//                 type: 2,
-//                 currency: undefined
-//             }
+        // it('should not add invalid account', function() {
 
-//             scope.accountForm = {
-//                 $valid: false
-//             }
+        //     var accountModel = {
+        //         _id: "bb335a53c11b54feed0a3612",
+        //         name: "test 2",
+        //         type: 2,
+        //         currency: undefined
+        //     }
 
-//             scope.addAccount(accountModel)
+        //     scope.accountForm = {
+        //         $valid: false
+        //     }
+
+        //     scope.addAccount(accountModel)
            
-//             expect(scope.accounts.length).toBe(1);
+        //     expect(scope.accounts.length).toBe(1);
 
-//         });
-
-
-//         it('should reset account form', function() {
-//             scope.accountCreateModel = {
-//                 foo:'bar'
-//             }
-//             scope.closeRightMenu = function(){}
-//             scope.accountForm = {
-//                 $setPristine: function(){},
-//                 $setUntouched: function(){}
-//             }
-
-//             scope.resetForm();
-
-//             expect(scope.accountCreateModel).toEqual({})
-//         });
+        // });
 
 
-//         it('should switch to edit account', function() {
-//             scope.showUpdateAccount(scope.accounts[0]);
+        // it('should reset account form', function() {
+        //     scope.accountCreateModel = {
+        //         foo:'bar'
+        //     }
+        //     scope.closeRightMenu = function(){}
+        //     scope.accountForm = {
+        //         $setPristine: function(){},
+        //         $setUntouched: function(){}
+        //     }
 
-//             expect(scope.editable).toBe.true
-//             expect(scope.accounts[0].currency).toEqual({ name: 'EUR(€)', code: 'EUR', value: 'EUR' })
-//             expect(scope.accounts[0].type).toEqual({ name: 'Banking', value: 1 })
-//         });
+        //     scope.resetForm();
 
-//     });
-// });
+        //     expect(scope.accountCreateModel).toEqual({})
+        // });
+
+
+        // it('should switch to edit account', function() {
+        //     scope.showUpdateAccount(scope.accounts[0]);
+
+        //     expect(scope.editable).toBe.true
+        //     expect(scope.accounts[0].currency).toEqual({ name: 'EUR(€)', code: 'EUR', value: 'EUR' })
+        //     expect(scope.accounts[0].type).toEqual({ name: 'Banking', value: 1 })
+        // });
+
+    });
+});

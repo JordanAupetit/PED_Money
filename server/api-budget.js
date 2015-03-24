@@ -178,24 +178,30 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
 
     function getByMonth(req, resp, next) {
         'use strict';
-        operationModel.aggregate({
-            $group: {
-                _id: {
-                    year: {
-                        $year: "$dateOperation"
-                    },
-                    month: {
-                        $month: "$dateOperation"
-                    }
-                },
-                count: {
-                    $sum: 1
-                },
-                total: {
-                    $sum: '$value'
+        operationModel.aggregate([{
+                $match: {
+                   value: { $lt: 0}
                 }
-            }
-        },
+            },{
+                $group: {
+                    _id: {
+                        year: {
+                            $year: "$dateOperation"
+                        },
+                        month: {
+                            $month: "$dateOperation"
+                        }
+                    },
+                    count: {
+                        $sum: 1
+                    },
+                    total: {
+                        $sum: '$value'
+                    }
+                }
+            }]
+
+        ,
         function(err, res) {
             if (!err) {
                 // console.log(res)

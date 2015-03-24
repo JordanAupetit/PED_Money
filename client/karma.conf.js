@@ -45,9 +45,14 @@ module.exports = function(config) {
       'app/components/operation/period/*.js',
       'app/components/**/*.js',
       'app/shared/**/*.js',
-      'test/**/*.js',
-      'test/unit/**/*.js'//,
-      //'test/unit/**/*.js'
+      // 'test/unit/accountSpec.js',
+      // 'test/unit/accountSettingsSpec.js',
+      // 'test/unit/operationSpec.js', 
+      // 'test/unit/periodSpec.js',
+      // 'test/unit/loginSpec.js'
+      // 'test/**/*.js',
+      'test/unit/**/*.js',
+      'test/e2e/**/*.js'
     ],
 
 
