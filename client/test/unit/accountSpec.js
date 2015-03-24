@@ -86,8 +86,6 @@ describe('UNIT::Account', function() {
         }));
 
         it('should initialise of controller', function() {
-
-
             expect(scope.accounts.length).toBe(1);
         });
 
@@ -101,15 +99,6 @@ describe('UNIT::Account', function() {
             expect(scope.accounts.length).toBe(1);
             $httpBackend.flush();
             expect(scope.accounts.length).toBe(0);
-        });
-
-        it('should update account', function() {
-
-            $httpBackend.expect('PUT', '/api/account').respond(200, '');
-
-            scope.updateAccount(scope.accounts[0]);
-
-            $httpBackend.flush();
         });
 
         it('should add account', function() {
@@ -177,13 +166,5 @@ describe('UNIT::Account', function() {
             expect(scope.accountCreateModel).toEqual({})
         });
 
-
-        it('should switch to edit account', function() {
-            scope.showUpdateAccount(scope.accounts[0]);
-
-            expect(scope.editable).toBe.true
-            expect(scope.accounts[0].currency).toEqual({ name: 'EUR(€)', code: 'EUR', value: 'EUR' })
-            expect(scope.accounts[0].type).toEqual({ name: 'Banking', value: 1 })
-        });
     });
 });
