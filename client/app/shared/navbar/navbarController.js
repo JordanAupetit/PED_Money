@@ -44,7 +44,18 @@
                 $rootScope.account = undefined
                 $scope.account = undefined
             }
+
+            checkIfUserExist()
         });
+
+        // Redirection si l'user n'existe pas sur la page de login
+        function checkIfUserExist() {
+            var url = $location.path()
+
+            if(url === "/login" && $scope.user) {
+                $state.go('accounts')
+            }
+        }
 
         /**
          * Login fct
@@ -188,5 +199,6 @@
         })
 
         refreshScope()
+        checkIfUserExist()
     }	
 })();
