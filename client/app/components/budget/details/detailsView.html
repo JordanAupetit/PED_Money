@@ -27,13 +27,14 @@
 				<div>
 					Current budget for this month :
 				</div>
-				<div ng-if="!isEdit">
-					<p>{{currentBudget.value}} €</p>
-					<button class="btn btn-default ml10 mb10" ng-click="showEdit()">Edit</button>
+				<div ng-if="!isEdit" class="mb10">
+					<p></p>
+					<span class="label label-default">{{currentBudget.value}} €</span>
+					<button class="btn btn-warning btn-xs ml10" ng-click="showEdit()">Edit</button>
 				</div>
 				<div ng-if="isEdit">
 					<input class="form-control wid100 ftl" type="number" ng-model="currentBudget.value"> 
-					<button class="btn btn-default ml10 mb10" ng-click="validBudget(currentBudget)">Valid</button>
+					<button class="btn btn-primary ml10 mb10" ng-click="validBudget(currentBudget)">Save budget</button>
 				</div>
 				
 
