@@ -68,10 +68,13 @@ describe('UNIT::Account', function() {
             controller = $controller('AccountController', {
                 $scope: scope
             });
+            $httpBackend.expect('GET', '/favicon.ico').respond(200, 'fjhxklhjgdjb!blofhobm');
 
+
+            scope.accounts = [accountDefault]
 
             // Initialisation des tests avec une Operation en mémoire
-            $httpBackend.expectGET('/api/account').respond(200, [accountDefault])
+            // $httpBackend.expectGET('/api/account').respond(200, [accountDefault])
 
             // $httpBackend.expectGET('app/components/login/loginView.html').respond(200, '');
             // $httpBackend.expectGET('/api/category').respond(200, '');
@@ -83,6 +86,7 @@ describe('UNIT::Account', function() {
         }));
 
         it('should initialise of controller', function() {
+
 
             expect(scope.accounts.length).toBe(1);
         });

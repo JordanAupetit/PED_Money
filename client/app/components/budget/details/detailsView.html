@@ -27,9 +27,17 @@
 				<div>
 					Current budget for this month :
 				</div>
-				<input class="form-control wid100 ftl" type="number" ng-model="currentBudget.value"> 
-				<button class="btn btn-default ml10 mb10" ng-click="validBudget(currentBudget)">Valid</button>
+				<div ng-if="!isEdit">
+					<p>{{currentBudget.value}} €</p>
+					<button class="btn btn-default ml10 mb10" ng-click="showEdit()">Edit</button>
+				</div>
+				<div ng-if="isEdit">
+					<input class="form-control wid100 ftl" type="number" ng-model="currentBudget.value"> 
+					<button class="btn btn-default ml10 mb10" ng-click="validBudget(currentBudget)">Valid</button>
+				</div>
+				
 
+				<p>Operation for this category : </p>
 				<div ng-repeat="op in csOpt" class="operationLine backWhite">
 					<div ng-include="'/app/components/budget/operationLine.html'"></div>
 				</div>

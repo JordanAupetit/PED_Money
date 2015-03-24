@@ -31,7 +31,7 @@
                 <span title="The operation date is after today" ng-if="op.dateOperationIsAfterToday" class="label label-warning pointer">!</span>
                 <span ng-hide="op.editable">{{ op.dateOperation | date:'dd-MM-yyyy'}}</span>
                 <span title="The levy date is after today" ng-if="op.datePrelevementIsAfterToday && op.datePrelevement !== op.dateOperation" class="label label-warning pointer">!</span>
-                <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement }})</span>
+                <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement | date:'dd-MM-yyyy'}})</span>
             </div>
 
             <div class="wid35p ftl">
@@ -52,9 +52,9 @@
         <div ng-show="!op.editable" class="visible-xs-block">
             <div class="wid70p ftl">
                 <span title="The operation date is after today" ng-if="op.dateOperationIsAfterToday" class="label label-warning pointer">!</span>
-                <span ng-hide="op.editable">{{ op.dateOperation }}</span>
+                <span ng-hide="op.editable">{{ op.dateOperation | date:'dd-MM-yyyy'}}</span>
                 <span title="The levy date is after today" ng-if="op.datePrelevementIsAfterToday && op.datePrelevement !== op.dateOperation" class="label label-warning pointer">!</span>
-                <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement }})</span>
+                <span ng-if="op.datePrelevement !== op.dateOperation" class="datePrelevement">({{ op.datePrelevement | date:'dd-MM-yyyy'}})</span>
             </div>
 
             <div class="wid30p ftl algright">

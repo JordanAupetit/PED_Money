@@ -190,6 +190,20 @@
                 StorageServices.getAccount(accountId, getAccount)
             }
 
+
+            function findCat(catToFind){
+                var res
+
+                if(catToFind !== '') {
+                    angular.forEach($scope.categoriesSelect, function(categorie){
+                        if(categorie.id === catToFind) {
+                            res = categorie
+                        }
+                    })
+                }
+                return res
+            }
+
             /**
              * @Description
              * Correct few variables of operations
@@ -429,6 +443,8 @@
              * @Param {Object} operation Operation to update
              */
             $scope.updateOperation = function(operation) {
+                console.log(operation)
+                operation.categoryId = operation.category.id
                 operation.editable = false
 
                 operation = OperationResource.correctDateOfOperation(operation)
@@ -450,6 +466,7 @@
              * @Param {Object} operation Operation editable to close
              */
             $scope.closeUpdateOperation = function(operation) {
+
                 operation.editable = false
                 operation.dateOperation = moment(operation.dateOperation, $scope.dateFormat).toDate()
                 operation.datePrelevement = moment(operation.datePrelevement, $scope.dateFormat).toDate()
@@ -463,6 +480,9 @@
              */
             $scope.showUpdateOperation = function(operation) {
                 //TODO Gérer le select pour les catégories
+                console.log($scope.categoriesSelect)
+                console.log(operation)
+                operation.category = findCat(operation.categoryId)
                 operation.editable = true
                 operation.dateOperation = moment(operation.dateOperation).format($scope.dateFormat)
                 operation.datePrelevement = moment(operation.datePrelevement).format($scope.dateFormat)

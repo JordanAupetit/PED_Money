@@ -313,7 +313,12 @@
 					$scope.budgets = result
 				})
 			})
+			$scope.isEdit = false
 			
+		}
+
+		$scope.showEdit = function(){
+			$scope.isEdit = true
 		}
 
 
@@ -328,6 +333,8 @@
 			$scope.changeMonth($scope.dateSelector.currentMonth)
 			// console.log($scope.chartConfig.getHighcharts())
 		}
+
+
 
 
 		$scope.refresh = function() {
