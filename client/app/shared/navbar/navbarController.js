@@ -3,9 +3,11 @@
 
     angular
         .module('controllers')
-        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', 'LoginService', 'AccountResource', '$location', NavbarController])
+        .controller('NavbarController', ['$scope','$rootScope','$state', 'initService', 'StorageServices', '$http', 'LoginService' , 'AccountResource', '$location', NavbarController])
 
-    function NavbarController($scope, $rootScope, $state, initService, StorageServices, LoginService, AccountResource, $location) {
+    function NavbarController($scope, $rootScope, $state, initService, StorageServices, $http, LoginService, AccountResource, $location) {
+
+        
         
         function refreshScope(){
             $scope.error = null
@@ -26,6 +28,8 @@
                     $scope.account = $rootScope.account
                 }
             }
+
+            $scope.initSelector = 'dataset_etienne_budget.json'
         }
 
         // On récupère toujours l'URL courante même en la changeant à la main
@@ -55,6 +59,7 @@
                         $scope.user = res.data
                         StorageServices.login($scope.user)
                         $state.go('accounts');
+                        initService.initRessources(StorageServices.getUser().token)
                     }
                 })
             }
@@ -102,13 +107,20 @@
          */
         $scope.signUp = function() {
             if(isFormValid()){
-                var newUser = new LoginService($scope.signUpUser);
-                newUser.$save(function(res) {
+                var newUser = {
+                        username: $scope.signUpUser.name,
+                        lastName: $scope.signUpUser.last,
+                        firstName: $scope.signUpUser.first,
+                        email: $scope.signUpUser.mail,
+                        password: $scope.signUpUser.pass
+                    }
+                var newNewUser = new LoginService(newUser);
+                newNewUser.$save(function(res) {
                     if (res.type == false) {
                         alert(res.data);
                     } else {
                         $('#modal-signup').modal('hide');
-                        $scope.signInUser.username = $scope.signUpUser.name
+                        $scope.signInUser.username = newUser.username
                         $scope.signUpUser = {}
                     }
                 })
@@ -125,10 +137,28 @@
         }
         
         $scope.initData = function(){
-            initService.loadDataset1()
-            .then(function(){
-                console.log('Db init OK')
-            })
+            var accountId = $state.params.accountId
+
+            if(accountId === undefined){
+                console.log('Got to an account to init data')
+            }else{
+                // console.log(accountId)
+                $http.get('datasets/'+$scope.initSelector).success(function(data){
+                    initService.loadDataset(data, accountId).then(function(){
+                        console.log('Db init OK')
+                    })
+                }).error(function(data, status, headers, config){
+                    console.log(data)
+                    console.log(status)
+                    console.log(headers)
+                    console.log(config)
+                })
+                // initService.loadDataset1()
+                // .then(function(){
+                //     console.log('Db init OK')
+                // })
+            }
+            
         }
 
         /**

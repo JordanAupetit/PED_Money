@@ -374,6 +374,10 @@
 
 		}
 
+		// NE PAS SUPPRIMER
+		// Permet de détecter le controller en parent d'un autre controller
+		$scope.thisController = "periodController";
+
 		/**
 		 * @Description
 		 * Refresh the page

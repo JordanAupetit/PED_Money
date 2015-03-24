@@ -4,10 +4,10 @@
 
     angular
         .module('appModule')
-        .controller('LoginController', ['$scope', '$stateParams', '$rootScope', '$http', 'LoginService', '$state', 'StorageServices', 
-            function($scope, $stateParams, $rootScope, $http, LoginService, $state, StorageServices) {
+        .controller('LoginController', ['$scope', '$stateParams', '$rootScope', 'LoginService', '$state', 'StorageServices', LoginController])
 
-            $scope.team = [
+    function LoginController($scope, $stateParams, $rootScope, LoginService, $state, StorageServices) {
+       $scope.team = [
                 {
                     name: 'Etienne Grandier',
                     picture: 'assets/img/etienne.jpg',
@@ -35,17 +35,18 @@
                 }
             ]
 
-            if($stateParams.username !== undefined && $stateParams.token !== undefined){
-                var loginUser = new LoginService($stateParams);
-                loginUser.$query(function(res) {
-                    if (res.type == false) {
-                        alert(res.data);
-                    } else {
-                        StorageServices.login(res.data)
-                        $rootScope.$emit('login')
-                        $state.go('accounts')
-                    }
-                })
-            }
-        }]);
+        if($stateParams.username !== undefined && $stateParams.token !== undefined){
+            var loginUser = new LoginService($stateParams);
+            loginUser.$query(function(res) {
+                if (res.type == false) {
+                    alert(res.data);
+                } else {
+                    StorageServices.login(res.data)
+                    $rootScope.$emit('login')
+                    $state.go('accounts')
+                }
+            })
+        }
+    }
+
 })();

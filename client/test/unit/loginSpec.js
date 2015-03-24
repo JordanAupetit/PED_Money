@@ -38,6 +38,8 @@ describe('UNIT::User', function() {
                 $scope: scope
             });
 
+            $httpBackend.expect('GET', '/favicon.ico').respond(200, '');
+
 
             // Initialisation des tests avec une Operation en mémoire
             //$httpBackend.expectGET('/api/user').respond(200, [UserDefault])

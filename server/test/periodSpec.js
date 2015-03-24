@@ -38,8 +38,9 @@ describe('Server::API', function() {
 				if (err) {
 					throw err;
 				}
-				fakeUser._id = res.body._id
-				fakeUser.token = res.body.token
+
+				fakeUser._id = res.body.data._id
+				fakeUser.token = res.body.data.token
 
 				request(app)
 					.post(urlAccount)
@@ -85,8 +86,8 @@ describe('Server::API', function() {
 			description: 'Loyer',
 			typeOpt: 'Virement',
 			checked: false,
-			dateOperation: '2015-01-20',
-			datePrelevement: '2015-01-25',
+			dateOperation: '2015-01-20T00:00:00.000Z',
+			datePrelevement: '2015-01-15T00:00:00.000Z',
 			categoryId: '54684654dqs'
 		}
 
@@ -110,8 +111,8 @@ describe('Server::API', function() {
 			description: 'Règlement des courses',
 			type: 'Chèque',
 			checked: false,
-			dateOperation: '2015-01-20',
-			datePrelevement: '2015-01-25',
+			dateOperation: '2015-01-20T00:00:00.000Z',
+			datePrelevement: '2015-01-15T00:00:00.000Z',
 			categoryId: '54684654dqs',
 			subOperations: []
 		}
@@ -228,15 +229,15 @@ describe('Server::API', function() {
 
 			it('should delete specific Period', function() {
 				request(app)
-					.delete(url +'/' + idPeriod)
+					.delete(url + '/' + idPeriod)
 					.expect(204)
 					.end(function(err, res) {
 						if (err) {
 							throw err;
 						}
 
-						request(url)
-							.get('/' + idPeriod)
+						request(app)
+							.get(url + '/' + idPeriod)
 							.expect(204)
 							.end(function(err, res) {
 								if (err) {

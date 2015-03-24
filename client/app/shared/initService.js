@@ -3,10 +3,10 @@
 	'use strict';
 
 	angular.module('services')
-		.factory('initService', ['$log', 'periodRessource', 'AccountResource', 'OperationResource', 'LoginService', 'CategoryResource', initService])
+		.factory('initService', ['$log', 'periodRessource', 'AccountResource', 'OperationResource', 'LoginService', 'CategoryResource', 'budgetService', initService])
 
 
-	function initService($log, periodRes, accountRes, operationRes, loginRes, categoryRes) {
+	function initService($log, periodRes, accountRes, operationRes, loginRes, categoryRes, budgetRes) {
 
 		return {
 			initRessources: function(token){
@@ -14,6 +14,7 @@
 				periodRes.init(token)
 				accountRes.init(token)
 				categoryRes.init(token)
+				budgetRes.init(token)
 			},
 			populatePeriod: function() {
 				var p1 = {
@@ -176,12 +177,21 @@
 					// })
 
 				})
-				
+			},
+			loadDataset : function(dataset, accountId){
+				return new Promise(function(resolve, reject) {
 
-
+					// Add operations
+					angular.forEach(dataset.operations, function(operation){
+						operation.accountId = accountId
+						operation.dateOperation = moment(operation.dateOperation, 'YYYY/MM/DD').toDate()
+						operation.datePrelevement = moment(operation.datePrelevement, 'YYYY/MM/DD').toDate()
+						// console.log(operation)
+						operationRes.add(operation)
+					})
+					resolve()
+				})
 			}
-
-
 		}
 	}
 })()

@@ -67,6 +67,11 @@ module.exports = function (app, operationModel, accountModel) {
         var operation = req.body
         delete operation._id
 
+        // console.log(operation)
+
+        operation.dateOperation = new Date(operation.dateOperation)
+        operation.datePrelevement = new Date(operation.datePrelevement)
+
         operationModel.create(operation, function(err, results){
             if(err){
                 return next(err)

@@ -33,25 +33,25 @@ module.exports = function(app, tool, userModel, jwt) {
         'use strict';
         userModel.findOne({
             username: req.body.name
-        }, function(err, user) {
+        }, function(err, userExist) {
             if (err) {
                 res.json({
                     type: false,
                     data: "Error occured: " + err
                 });
             } else {
-                if (user) {
+                if (userExist) {
                     res.json({
                         type: false,
                         data: "User already exists!"
                     });
                 } else {
                     var User = {
-                        username: req.body.name,
-                        lastName: req.body.last,
-                        firstName: req.body.first,
-                        email: req.body.mail,
-                        password: req.body.pass
+                        username: req.body.username,
+                        lastName: req.body.lastName,
+                        firstName: req.body.firstName,
+                        email: req.body.email,
+                        password: req.body.password
                     }
 
                     var nouveauUser = new userModel(User);
@@ -90,6 +90,7 @@ module.exports = function(app, tool, userModel, jwt) {
         else{
             data.password = req.body.password
         }
+
 
         userModel.findOne(data, function(err, user) {
             if (err) {

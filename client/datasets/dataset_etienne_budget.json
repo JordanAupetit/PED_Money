@@ -1,0 +1,123 @@
+{
+   "operations":[
+   		{
+         "categoryId":106,
+         "dateOperation":"2015-02-01",
+         "datePrelevement":"2015-02-01",
+         "description": "loyer",
+         "value":300
+      },
+      {
+         "categoryId":102,
+         "dateOperation":"2015-02-10",
+         "datePrelevement":"2015-02-10",
+         "description": "Electricité",
+         "value":80
+      },
+      {
+         "categoryId":201,
+         "dateOperation":"2015-02-27",
+         "datePrelevement":"2015-02-27",
+         "description": "Souris",
+         "type":"credit card",
+         "thirdParty": "Materiel.net",
+         "value":70
+      },
+      {
+         "categoryId":301,
+         "dateOperation":"2015-02-15",
+         "datePrelevement":"2015-02-15",
+         "description": "",
+         "type":"credit card",
+         "thirdParty": "Sosh",
+         "value":20
+      },
+      {
+         "categoryId":302,
+         "dateOperation":"2015-02-05",
+         "datePrelevement":"2015-02-05",
+         "description": "",
+         "type":"credit card",
+         "thirdParty": "Numericable",
+         "value":18
+      },
+      {
+         "categoryId":402,
+         "dateOperation":"2015-02-19",
+         "datePrelevement":"2015-02-19",
+         "description": "RU",
+         "type":"credit card",
+         "thirdParty": "CROUS",
+         "value":30
+      },
+      {
+         "categoryId":704,
+         "dateOperation":"2015-01-29",
+         "datePrelevement":"2015-01-29",
+         "description": "Essence",
+         "type":"credit card",
+         "thirdParty": "Total",
+         "value":47.58
+      },
+
+
+      {
+         "categoryId":106,
+         "dateOperation":"2015-03-01",
+         "datePrelevement":"2015-03-01",
+         "value":300
+      },
+      {
+         "categoryId":102,
+         "dateOperation":"2015-03-10",
+         "datePrelevement":"2015-03-10",
+         "value":80
+      },
+      {
+         "categoryId":207,
+         "dateOperation":"2015-03-18",
+         "datePrelevement":"2015-03-18",
+         "description": "concert",
+         "type":"credit card",
+         "thirdParty": "Barbey",
+         "value":48
+      },
+      {
+         "categoryId":301,
+         "dateOperation":"2015-03-15",
+         "datePrelevement":"2015-03-15",
+         "description": "",
+         "type":"credit card",
+         "thirdParty": "Sosh",
+         "value":20
+      },
+      {
+         "categoryId":302,
+         "dateOperation":"2015-03-05",
+         "datePrelevement":"2015-03-05",
+         "description": "",
+         "type":"credit card",
+         "thirdParty": "Numericable",
+         "value":18
+      },
+      {
+         "categoryId":402,
+         "dateOperation":"2015-03-10",
+         "datePrelevement":"2015-03-10",
+         "description": "RU",
+         "type":"credit card",
+         "thirdParty": "CROUS",
+         "value":30
+      },
+      {
+         "categoryId":704,
+         "dateOperation":"2015-03-08",
+         "datePrelevement":"2015-03-08",
+         "description": "Essence",
+         "type":"credit card",
+         "thirdParty": "Total",
+         "value":80
+      }
+      
+   ]
+}
