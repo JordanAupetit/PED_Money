@@ -58,7 +58,7 @@
             if(data !== null){
                 for(var k in data){
                     if(!account.hasOwnProperty(k)){
-                        account.k = data.k
+                        account[k] = data[k]
                     }
                 }
             }
@@ -201,7 +201,6 @@
         }
 
         function ping(){
-            $rootScope.state = 'TESTING'
             $http.get('/favicon.ico').
                 success(function(data, status, headers, config) {
                     $rootScope.state = 'CONNECTING'
@@ -243,7 +242,8 @@
                         saveAccount(account)
                         callback(account)
                     }, function(err){
-                        callback(localStorageService.get(accountId))    
+                        callback(localStorageService.get(accountId))
+                        ping()
                     })
                 }
                 else{
@@ -260,6 +260,7 @@
                         callback(accounts)
                     }, function(err){
                         callback(getLocalAccounts())
+                        ping()
                     })
                 }
                 else{

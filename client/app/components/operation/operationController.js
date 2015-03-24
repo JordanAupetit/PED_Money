@@ -4,9 +4,9 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'periodRessource', 'initService', '$state', OperationController])
+        .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'periodRessource', 'initService', '$state', OperationController])
 
-        function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, periodRes, initService, $state) {
+        function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, periodRes, initService, $state) {
 
             /**
              * @Description
@@ -66,18 +66,6 @@
              */    
             function postOperation(operationToSend){
                 StorageServices.postOperation(operationToSend, refresh)
-                /*
-                if(StorageServices.isOnline()){
-                    OperationResource.add(operationToSend).$promise.then(function(operation){
-                        refresh()
-                    }, function(err){
-                        postOperation(operation)
-                    })
-                }   
-                else{
-                    StorageServices.postOperation(accountId, operation)
-                }
-                */               
             }
 
             /**
@@ -148,38 +136,6 @@
                         })
                     })
                 })
-
-                // console.log($scope.categories)
-                // console.log($scope.categoriesSelect)
-                //fixOperations()
-            }
-
-            function getAccount(account){
-                $scope.account = account
-                $rootScope.account = account
-                $rootScope.$emit('accountSelected');
-
-                if(!account.operations){
-                    account.operations = []
-                }
-
-                genCategories()
-
-                // Le fix doit se faire avant l'update
-                // if(account.operations){
-                //     console.log("if")
-                    fixOperations()
-                    $scope.updateSolde()
-                // }
-
-                generateCsv()
-
-                // Dans le cas où l'on ajoute une operation lors d'un regroupement
-                // Il ne faut pas le faire si on est sans groupe sinon cela fait
-                // une boucle infinie
-                if($scope.groupedBy !== '') {
-                    $scope.groupOperation();
-                }
             }
 
             /**
@@ -187,7 +143,34 @@
              * Refresh account page
              */ 
             function refresh() {
-                StorageServices.getAccount(accountId, getAccount)
+                StorageServices.getAccount(accountId, function(account){
+                    $scope.account = account
+
+                    $rootScope.account = account
+                    $rootScope.$emit('accountSelected');
+
+                    if(!account.operations){
+                        account.operations = []
+                    }
+
+                    genCategories()
+
+                    // Le fix doit se faire avant l'update
+                    // if(account.operations){
+                    //     console.log("if")
+                        fixOperations()
+                        $scope.updateSolde()
+                    // }
+
+                    generateCsv()
+
+                    // Dans le cas où l'on ajoute une operation lors d'un regroupement
+                    // Il ne faut pas le faire si on est sans groupe sinon cela fait
+                    // une boucle infinie
+                    if($scope.groupedBy !== '') {
+                        $scope.groupOperation();
+                    }
+                })
             }
 
             /**
