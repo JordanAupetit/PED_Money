@@ -149,8 +149,8 @@
                     $rootScope.account = account
                     $rootScope.$emit('accountSelected');
 
-                    if(!account.operations){
-                        account.operations = []
+                    if(!$scope.account.hasOwnProperty('operations')){
+                        $scope.account.operations = []
                     }
 
                     genCategories()
