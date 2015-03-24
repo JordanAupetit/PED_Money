@@ -78,7 +78,7 @@
 	<div class="row pl15 pr15">
 		<h1>Delete</h1>
 		<p>If you decide to delete your account, all your operations in this account will be deleted to. <strong>This can't be undone.</strong> <br>
-		<button ng-really-message="Do you really want to delete this account?" ng-really-click="deleteAccount()" type="submit" class="btn btn-danger">Delete this account</button></p>
+		<button ng-really-message="Do you really want to delete this account?" ng-really-click="deleteAccount(account._id))" type="submit" class="btn btn-danger">Delete this account</button></p>
 	</div>
 
 	<a class="btn btn-default mb20" href="#/{{account._id}}/operation/">Back</a>

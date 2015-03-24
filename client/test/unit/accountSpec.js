@@ -68,7 +68,7 @@ describe('UNIT::Account', function() {
             controller = $controller('AccountController', {
                 $scope: scope
             });
-            $httpBackend.expect('GET', '/favicon.ico').respond(200, 'fjhxklhjgdjb!blofhobm');
+            $httpBackend.expect('GET', '/favicon.ico').respond(200, '');
 
 
             scope.accounts = [accountDefault]
