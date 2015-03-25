@@ -14,7 +14,8 @@
                 .state('login', {
                     url: '/login?username&token',
                     data: {
-                        requireLogin: false
+                        requireLogin: false,
+                        requieOnline: false
                     },
                     views: {
                         "viewA": { templateUrl: "app/components/login/loginView.html" ,
@@ -25,7 +26,8 @@
             .state('accounts', {
                     url: '/accounts',
                     data: {
-                        requireLogin: true
+                        requireLogin: true,
+                        requieOnline: false
                     },
                     views: {
                         "viewB": { templateUrl: 'app/components/accounts/accountsView.html',
@@ -36,7 +38,8 @@
             .state('accountSettings', {
                 url: '/:accountId/settings',
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requieOnline: false
                 },
                 views: {
                     "viewB": {  templateUrl: 'app/components/accounts/settingsView.html',
@@ -47,7 +50,8 @@
             .state('operation', {
                 url: '/:accountId/operation/',
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requieOnline: false
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/operation/operationView.html',
@@ -59,7 +63,8 @@
                 url: '/:accountId/operation/period/',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requieOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/operation/period/periodView.html',
@@ -71,7 +76,8 @@
                 url: '/budget/',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requieOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/budget/budgetView.html',
@@ -83,7 +89,8 @@
                 url: '/budget/details/',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requieOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/budget/details/detailsView.html',
@@ -95,7 +102,8 @@
                 url: '/offline',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requieOnline: true
                 },
                 views: {
                         "viewB": { templateUrl: 'app/components/offline/offlineView.html',
@@ -107,7 +115,8 @@
                 url: '/settings',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requieOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/settings/settingsView.html',
@@ -119,7 +128,8 @@
                 url: '/analysis',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requieOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/analysis/analysisView.html',
