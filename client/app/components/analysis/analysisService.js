@@ -20,28 +20,28 @@
 						}
 					})
 					analRes = $resource('/api/analysis', {}, {
-						getSolde: {
+						getBalance: {
 							method: 'GET',
 							isArray: true,
-							headers:{'X-User-Token': userToken}
+							headers:{'X-User-Token': userToken}	
 						}
 					})
 				},
-				getSolde : function(){
+				getBalance : function(){
 					return new Promise(function(resolve, reject) {
 						budgetMonthRes.getAll().$promise.then(function(result){
 							var data = []
 							angular.forEach(result, function(res){
 								data.push([
-									moment({ years: res._id.year, months: res._id.month }).unix(),
+									moment.utc({ years: res._id.year, months: res._id.month }).valueOf(),
 									res.total *-1
 								])
 							})
 							var solde = {
 								id: 1,
-								data: data
+								data: data.sort()
 							}
-							// console.log(solde)
+							console.log(solde)
 							resolve(solde)
 						})
 						// resolve({

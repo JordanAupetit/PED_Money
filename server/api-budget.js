@@ -232,8 +232,6 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
         'use strict';
         tool.getUserId(req, next, function(userId){
             getAccountListUser(resp, next, userId, function(accountList) {
-                console.log(accountList)
-                console.log(accountList[0])
                 operationModel.aggregate([{
                         $match: {
                            value: { $lt: 0},
