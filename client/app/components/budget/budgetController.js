@@ -214,14 +214,14 @@
 		function updateGraph(){
 			if($scope.chartConfig.series === undefined || $scope.chartConfig.series.length !== 1){
 				$scope.chartConfig.series = defaultData
-				$scope.chartConfig.yAxis.plotLines = [defaultMaxLine]
+				// $scope.chartConfig.yAxis.plotLines = [defaultMaxLine]
 				console.log('set defaultData')
 			}
 			if(($scope.evolution[$scope.dateSelector.currentYear] === undefined 
 				|| $scope.evolution[$scope.dateSelector.currentYear][$scope.dateSelector.currentMonth] === undefined) && 
 				$scope.dateSelector.currentMonth !== '13'){
 				$scope.chartConfig.series = undefined
-				$scope.chartConfig.yAxis.plotLines = undefined
+				// $scope.chartConfig.yAxis.plotLines = undefined
 			}else{
 
 				if($scope.dateSelector.currentMonth === '13'){
@@ -245,7 +245,7 @@
 
 					$scope.chartConfig.series[0].data[0] = valueYearly
 
-					$scope.chartConfig.yAxis.plotLines[0].value = $scope.evolution[$scope.dateSelector.currentYear].yearGoal
+					// $scope.chartConfig.yAxis.plotLines[0].value = $scope.evolution[$scope.dateSelector.currentYear].yearGoal
 
 					
 
@@ -274,7 +274,7 @@
 
 					// $scope.chartConfig.series[0].data[0] = budgetService.getExpense(dateSelector.currentYear, dateSelector.currentMonth)
 
-					$scope.chartConfig.yAxis.plotLines[0].value = $scope.evolution[$scope.dateSelector.currentYear].monthGoal
+					// $scope.chartConfig.yAxis.plotLines[0].value = $scope.evolution[$scope.dateSelector.currentYear].monthGoal
 
 					
 				}

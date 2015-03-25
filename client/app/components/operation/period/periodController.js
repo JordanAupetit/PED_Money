@@ -363,6 +363,8 @@
 		 */
 		$scope.remove = function(period) {
 			periodRes.remove(period._id)
+			$scope.isProjection = false
+			$scope.projection = []
 			refresh()
 		}
 

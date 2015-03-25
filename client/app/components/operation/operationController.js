@@ -13,16 +13,31 @@
              * Reset few variables for add an operation
              */
             $scope.resetOperationCreate = function () {
-                $scope.operationCreateModel = {
-                    period: {
-                        intervalType: INTERVAL_TYPES[2]
+                if($scope.$parent.hasOwnProperty('thisController') && $scope.$parent.thisController === "periodController") { // MODE BERSER
+                    $scope.operationCreateModel = {
+                        period: {
+                            intervalType: INTERVAL_TYPES[2]
+                        }
                     }
-                }
-                $scope.operationCreateModel.advanced = false
+                    $scope.operationCreateModel.advanced = true
+                    $scope.operationCreateModel.periodic = true
 
-                if($scope.addOperationForm !== undefined){
-                    $scope.addOperationForm.$setPristine();
+                    if($scope.addOperationForm !== undefined){
+                        $scope.addOperationForm.$setPristine();
+                    }
+                }else{
+                    $scope.operationCreateModel = {
+                        period: {
+                            intervalType: INTERVAL_TYPES[2]
+                        }
+                    }
+                    $scope.operationCreateModel.advanced = false
+
+                    if($scope.addOperationForm !== undefined){
+                        $scope.addOperationForm.$setPristine();
                 }
+                }
+                
             }  
 
             /**
