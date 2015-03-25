@@ -37,14 +37,17 @@
     <div class="row pad15">
       <h1 class="page-header">THE TEAM</h1>
       <p>Some students from Bordeaux University have joined their forces for two months to give a second breath to Money ... They worked hard to give life of this website and now you can enjoy it for free. It's time for you to enjoy it !</p>
-      <div class="col-md-2 col-xs-6" ng-repeat="author in team">
-        <img ng-src="{{author.picture}}" alt="..." class="img-circle" height="100" width="100">
-        <p><strong>{{author.name}}</strong></p>
+      
+      <div>
+        <div class="col-md-4 col-xs-6" ng-repeat="author in team">
+          <img ng-src="{{author.picture}}" alt="..." class="img-circle" height="100" width="100">
+          <p><strong>{{author.name}}</strong></p>
+        </div>
       </div>
     </div>
   </div>
 
-  <footer class="footer">
+  <footer class="footer mb20">
     <div class="container">
       <p class="text-muted">The website is in beta, you should'nt use it to manage your real money. But you can help us with our code <a href="https://github.com/JordanAupetit/PED_Money/">here</a>.</p>
     </div>

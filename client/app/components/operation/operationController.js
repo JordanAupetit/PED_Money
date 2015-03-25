@@ -4,9 +4,9 @@
 
     angular
         .module('controllers')
-        .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'CategoryResource', 'periodRessource', 'initService', '$state', OperationController])
+        .controller('OperationController', ['$scope', '$rootScope', 'StorageServices', 'OperationResource', 'AccountResource', 'periodRessource', 'initService', '$state', OperationController])
 
-        function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, CategoryResource, periodRes, initService, $state) {
+        function OperationController($scope, $rootScope, StorageServices, OperationResource, AccountResource, periodRes, initService, $state) {
 
             /**
              * @Description
@@ -24,6 +24,14 @@
                     $scope.addOperationForm.$setPristine();
                 }
             }  
+
+            /**
+             * Trigger on login
+             * Refresh $scope.user value
+             */
+            $rootScope.$on('connected', function(event) { 
+                refresh()
+            })
 
             $scope.intervalType = INTERVAL_TYPES
             var accountId = $state.params.accountId
@@ -66,18 +74,6 @@
              */    
             function postOperation(operationToSend){
                 StorageServices.postOperation(operationToSend, refresh)
-                /*
-                if(StorageServices.isOnline()){
-                    OperationResource.add(operationToSend).$promise.then(function(operation){
-                        refresh()
-                    }, function(err){
-                        postOperation(operation)
-                    })
-                }   
-                else{
-                    StorageServices.postOperation(accountId, operation)
-                }
-                */               
             }
 
             /**
@@ -148,38 +144,6 @@
                         })
                     })
                 })
-
-                // console.log($scope.categories)
-                // console.log($scope.categoriesSelect)
-                //fixOperations()
-            }
-
-            function getAccount(account){
-                $scope.account = account
-                $rootScope.account = account
-                $rootScope.$emit('accountSelected');
-
-                if(!account.operations){
-                    account.operations = []
-                }
-
-                genCategories()
-
-                // Le fix doit se faire avant l'update
-                // if(account.operations){
-                //     console.log("if")
-                    fixOperations()
-                    $scope.updateSolde()
-                // }
-
-                generateCsv()
-
-                // Dans le cas où l'on ajoute une operation lors d'un regroupement
-                // Il ne faut pas le faire si on est sans groupe sinon cela fait
-                // une boucle infinie
-                if($scope.groupedBy !== '') {
-                    $scope.groupOperation();
-                }
             }
 
             /**
@@ -187,7 +151,34 @@
              * Refresh account page
              */ 
             function refresh() {
-                StorageServices.getAccount(accountId, getAccount)
+                StorageServices.getAccount(accountId, function(account){
+                    $scope.account = account
+
+                    $rootScope.account = account
+                    $rootScope.$emit('accountSelected');
+
+                    if(!$scope.account.hasOwnProperty('operations')){
+                        $scope.account.operations = []
+                    }
+
+                    genCategories()
+
+                    // Le fix doit se faire avant l'update
+                    // if(account.operations){
+                    //     console.log("if")
+                        fixOperations()
+                        $scope.updateSolde()
+                    // }
+
+                    generateCsv()
+
+                    // Dans le cas où l'on ajoute une operation lors d'un regroupement
+                    // Il ne faut pas le faire si on est sans groupe sinon cela fait
+                    // une boucle infinie
+                    if($scope.groupedBy !== '') {
+                        $scope.groupOperation();
+                    }
+                })
             }
 
 
@@ -212,19 +203,19 @@
                 $scope.countOfOperationsAfterToday = 0;
                 $scope.countOfOperationsNotAfterToday = 0;
 
-                
                 for(var i = 0; i < $scope.account.operations.length; i++) {
                     var operation = $scope.account.operations[i]
                     operation.categoryName = 'No category'
 
                     var catToFind = operation.categoryId
+                    //console.log(operation)
 
                     if(catToFind !== '') {
                         angular.forEach($scope.categories, function(categorie){
                             if(categorie.id === catToFind) {
                                 operation.categoryName = categorie.name
                                 operation.category = categorie
-                            }else if(catToFind % categorie.id < 100) {
+                            } else if(catToFind % categorie.id < 100) {
                                 angular.forEach(categorie.subCategories, function(subCategorie) {
                                     if(subCategorie.id === catToFind) {
                                         operation.categoryName = subCategorie.name
@@ -258,7 +249,10 @@
              * Correct the dates of an operation
              * @Param {Object} operation An operation to correct
              */
-            function correctDateOfOperation(operation) {
+
+             // TODO To delete s'il n'y a pas de problèmes
+
+            /*function correctDateOfOperation(operation) {
 
                 // Clean date
                 // TODO: Verifier le bon format de la date
@@ -293,7 +287,7 @@
                 }
 
                 return operation
-            }
+            }*/
 
             /*  
                 ==== TODO ====
@@ -443,21 +437,20 @@
              * @Param {Object} operation Operation to update
              */
             $scope.updateOperation = function(operation) {
-                console.log(operation)
-                operation.categoryId = operation.category.id
-                operation.editable = false
 
-                operation = OperationResource.correctDateOfOperation(operation)
-
-                /*if(operation.hasOwnProperty('category') && operation.category !== undefined) {
+                if(operation.hasOwnProperty('category') && operation.category !== undefined) {
                     operation.categoryId = operation.category.id
-
                 } else { // Plus de catégories
                     operation.categoryId = ''
                     operation.categoryName = 'No category'
-                }*/
+                }
 
-                StorageServices.updateOperation(operation, refresh())
+                //if(operation.category)
+                //    operation.categoryId = operation.category.id
+
+                operation.editable = false
+                operation = OperationResource.correctDateOfOperation(operation)
+                StorageServices.updateOperation(operation, refresh)
             }
 
             /**
@@ -480,8 +473,6 @@
              */
             $scope.showUpdateOperation = function(operation) {
                 //TODO Gérer le select pour les catégories
-                console.log($scope.categoriesSelect)
-                console.log(operation)
                 operation.category = findCat(operation.categoryId)
                 operation.editable = true
                 operation.dateOperation = moment(operation.dateOperation).format($scope.dateFormat)

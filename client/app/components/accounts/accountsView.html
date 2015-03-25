@@ -22,13 +22,15 @@
         Show the account
       </button>
       <button ng-really-message="Do you really want to delete this account?" ng-really-click="deleteAccount(acc._id)" class="btn btn-danger btn-xs">
-        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
       </button>
     </div>
   </div>
 
-  <span ng-if="accounts.length <= 0">No account the show.</span>
-
+  <div class="row text-center" ng-if="accounts.length <= 0">
+    <h1>Nothing to show</h1>
+    <p>There is no account yet, let's <a btn-add-operation href="" >create the first one</a> !</p>
+  </div>
 
   <div btn-add-operation tooltip class="circle" data-toggle="modal" data-placement="left" title="Add account" data-target=".modal-operation">
     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>

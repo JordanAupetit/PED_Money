@@ -11,14 +11,36 @@
             // Now set up the states
 
             $stateProvider
-                .state('login', {
-                    url: '/login?username&token',
+            .state('login', {
+                url: '/login?username&token',
+                data: {
+                    requireLogin: false
+                },
+                views: {
+                    "viewA": { templateUrl: "app/components/login/loginView.html" ,
+                               controller: 'LoginController'
+                    }
+                  }
+            })
+            .state('forgotpass', {
+                url: '/forgotpass',
+                data: {
+                    requireLogin: false
+                },
+                views: {
+                    "viewB": { templateUrl: 'app/components/forgotpass/passView.html',
+                               controller: 'PassController'
+                    }
+                  }
+            })
+            .state('passchange', {
+                    url: '/passchange/:token',
                     data: {
                         requireLogin: false
                     },
                     views: {
-                        "viewA": { templateUrl: "app/components/login/loginView.html" ,
-                                   controller: 'LoginController'
+                        "viewB": { templateUrl: 'app/components/forgotpass/newpassView.html',
+                                   controller: 'NewPassController'
                         }
                       }
                 })
@@ -128,16 +150,17 @@
                       }
             })
         }])
-        .run(['$rootScope', 'StorageServices', 'initService', '$location', startup])
+        .run(['$rootScope', 'StorageServices', 'initService', '$location', '$state', startup])
 
 
-        function startup($rootScope, StorageServices, initService, $location){
+        function startup($rootScope, StorageServices, initService, $location, $state){
             // console.log('Startup or Refresh')
 
             /**
              * Init ressources on page reload
              */
-            if($location.$$path !== "/login"){
+
+            /*if($location.$$path !== "/login"){
                 var user = StorageServices.getUser()
                 if(user !== null){
                     initService.initRessources(user.token)
@@ -146,7 +169,32 @@
                     //console.log("*Redirect* User doesn't exist")
                     $location.path("/")
                 }
-            }
+            }*/
+
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+                console.log("url changed : " + toState.name)
+                var requireLogin = toState.data.requireLogin;
+
+                if(toState.name !== "login"){
+                    
+                    var user = StorageServices.getUser()
+                    if(user !== null) {
+                        initService.initRessources(user.token)
+                        $rootScope.bool = true;
+
+                    } else if(requireLogin == true) {
+                        event.preventDefault();
+                        $rootScope.bool = false;
+                        $state.go("login")
+                    } 
+                    
+                } else {
+
+                    $rootScope.bool = false;
+                }
+
+            });
+
 
             /**
              * Trigger on login

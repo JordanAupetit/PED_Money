@@ -58,7 +58,7 @@
             if(data !== null){
                 for(var k in data){
                     if(!account.hasOwnProperty(k)){
-                        account.k = data.k
+                        account[k] = data[k]
                     }
                 }
             }
@@ -80,14 +80,13 @@
 
         function saveDeleteOperation(operation, callback){
             var account = localStorageService.get(operation.accountId)
-            var operation
             for(var i in account.operations){
                 if(account.operations[i]._id === operation._id){
-                    operation = account.operations[i]
                     account.operations.splice(i,1)
                     break
                 }
             }
+            localStorageService.set(account._id, account)
 
             if(operation && operation.wfc)
                 updateWaitingForConnection(operation, true)
@@ -105,6 +104,7 @@
                     account.operations[i] = operation
                 }
             }
+            localStorageService.set(account._id, account)
 
             if(operation && operation.wfc)
                 updateWaitingForConnection(operation, false)
@@ -138,9 +138,12 @@
         function updateOperation(operation, callback){
             if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                 OperationResource.update(operation).$promise.then(function(){
-                    if(callback)
+                    if(callback) {
                         callback()
+                    }
                 }).catch(function(error){
+                    console.log("Error")
+                    console.log(error)
                     saveUpdateOperation(operation, callback)
                     ping()
                 })
@@ -196,19 +199,22 @@
                         console.error(wfc.fct + " is not implemented yet")
                     }
                 }
+                $rootScope.$emit('connected');
             }
             $rootScope.state = 'ONLINE'
         }
 
         function ping(){
-            $rootScope.state = 'TESTING'
             $http.get('/favicon.ico').
                 success(function(data, status, headers, config) {
                     $rootScope.state = 'CONNECTING'
                     $rootScope.offline = false
+                    $rootScope.showAlert = false
                     connecting()
                 }).
                 error(function(data, status, headers, config) {
+                    if(!$rootScope.offline)
+                        $rootScope.showAlert = true
                     $rootScope.offline = true
                     $rootScope.state = 'OFFLINE'
                     setTimeout(function(){ ping()}, 3000)
@@ -243,7 +249,8 @@
                         saveAccount(account)
                         callback(account)
                     }, function(err){
-                        callback(localStorageService.get(accountId))    
+                        callback(localStorageService.get(accountId))
+                        ping()
                     })
                 }
                 else{
@@ -260,6 +267,7 @@
                         callback(accounts)
                     }, function(err){
                         callback(getLocalAccounts())
+                        ping()
                     })
                 }
                 else{
