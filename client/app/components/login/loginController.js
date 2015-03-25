@@ -25,7 +25,7 @@
                 },
                 {
                     name: 'Youssef Sahri',
-                    picture: 'assets/img/default.jpg',
+                    picture: 'assets/img/youssef.jpg',
                     email: 'sahri.youssef@gmail.com'
                 },
                 {
