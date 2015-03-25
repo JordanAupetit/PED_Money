@@ -37,7 +37,7 @@
                     url: '/passchange/:token',
                     data: {
                         requireLogin: false,
-                        requieOnline: false
+                        requireOnline: false
                     },
                     views: {
                         "viewB": { templateUrl: 'app/components/forgotpass/newpassView.html',
@@ -49,7 +49,7 @@
                     url: '/accounts',
                     data: {
                         requireLogin: true,
-                        requieOnline: false
+                        requireOnline: false
                     },
                     views: {
                         "viewB": { templateUrl: 'app/components/accounts/accountsView.html',
@@ -61,7 +61,7 @@
                 url: '/:accountId/settings',
                 data: {
                     requireLogin: true,
-                    requieOnline: false
+                    requireOnline: false
                 },
                 views: {
                     "viewB": {  templateUrl: 'app/components/accounts/settingsView.html',
@@ -73,7 +73,7 @@
                 url: '/:accountId/operation/',
                 data: {
                     requireLogin: true,
-                    requieOnline: false
+                    requireOnline: false
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/operation/operationView.html',
@@ -86,7 +86,7 @@
                 
                 data: {
                     requireLogin: true,
-                    requieOnline: true
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/operation/period/periodView.html',
@@ -99,7 +99,7 @@
                 
                 data: {
                     requireLogin: true,
-                    requieOnline: true
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/budget/budgetView.html',
@@ -112,7 +112,7 @@
                 
                 data: {
                     requireLogin: true,
-                    requieOnline: true
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/budget/details/detailsView.html',
@@ -125,11 +125,10 @@
                 
                 data: {
                     requireLogin: true,
-                    requieOnline: true
+                    requireOnline: false
                 },
                 views: {
-                        "viewB": { templateUrl: 'app/components/offline/offlineView.html',
-                                   controller: 'offlineController'
+                        "viewB": { templateUrl: 'app/components/offline/offlineView.html'
                         }
                       }
             })
@@ -138,7 +137,7 @@
                 
                 data: {
                     requireLogin: true,
-                    requieOnline: true
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/settings/settingsView.html',
@@ -151,7 +150,7 @@
                 
                 data: {
                     requireLogin: true,
-                    requieOnline: true
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/analysis/analysisView.html',
@@ -160,10 +159,10 @@
                       }
             })
         }])
-        .run(['$rootScope', 'StorageServices', 'initService', '$location', startup])
+        .run(['$rootScope', 'StorageServices', 'initService', '$location', '$state', startup])
 
 
-        function startup($rootScope, StorageServices, initService, $location){
+        function startup($rootScope, StorageServices, initService, $location, $state){
             // console.log('Startup or Refresh')
 
             /**
@@ -179,6 +178,13 @@
                     $location.path("/")
                 }
             }
+
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {                
+                if($rootScope.offline && toState.data.requireOnline){
+                    event.preventDefault()
+                    $state.go("offline")
+                }
+            })
 
            /* $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 var requireLogin = toState.data.requireLogin;
@@ -200,6 +206,7 @@
                 }
 
               });*/
+
             /**
              * Trigger on login
              * Init ressources o n login
