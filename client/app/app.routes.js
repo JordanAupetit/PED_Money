@@ -159,27 +159,16 @@
             /**
              * Init ressources on page reload
              */
-           $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-                var requireLogin = toState.data.requireLogin;
-                if(toState.name !== "login"){
-                    
+            if($location.$$path !== "/login"){
                 var user = StorageServices.getUser()
-                    if(user !== null){
-                        initService.initRessources(user.token)
-                        $rootScope.bool = true;
-                    } else {
-                        if(requireLogin == true){
-                                event.preventDefault();
-                                $rootScope.bool = false;
-                                $state.go("login")
-                            } 
-                    }
-                }else{
-                     $rootScope.bool = false;
+                if(user !== null){
+                    initService.initRessources(user.token)
+                    $rootScope.bool=true;
+                } else {
+                    //console.log("*Redirect* User doesn't exist")
+                    $location.path("/")
                 }
-
-              });
-
+            }
             /**
              * Trigger on login
              * Init ressources o n login
