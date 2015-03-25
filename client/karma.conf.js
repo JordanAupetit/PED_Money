@@ -47,12 +47,12 @@ module.exports = function(config) {
       'app/shared/**/*.js',
       // 'test/unit/accountSpec.js',
       // 'test/unit/accountSettingsSpec.js',
-      // 'test/unit/operationSpec.js', 
+      //'test/unit/operationSpec.js', 
       // 'test/unit/periodSpec.js',
       // 'test/unit/loginSpec.js'
       // 'test/**/*.js',
       'test/unit/**/*.js',
-      'test/e2e/**/*.js'
+      // 'test/e2e/**/*.js'
     ],
 
 

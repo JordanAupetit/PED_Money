@@ -30,7 +30,7 @@
                 },
                 {
                     name: 'Abdessamad Essaydi',
-                    picture: 'assets/img/default.jpg',
+                    picture: 'assets/img/abdessaydi.jpg',
                     email: 'abdessaydi@gmail.com'
                 }
             ]

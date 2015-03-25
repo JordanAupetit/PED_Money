@@ -36,7 +36,8 @@
             .state('passchange', {
                     url: '/passchange/:token',
                     data: {
-                        requireLogin: false
+                        requireLogin: false,
+                        requireOnline: false
                     },
                     views: {
                         "viewB": { templateUrl: 'app/components/forgotpass/newpassView.html',
@@ -47,7 +48,8 @@
             .state('accounts', {
                     url: '/accounts',
                     data: {
-                        requireLogin: true
+                        requireLogin: true,
+                        requireOnline: false
                     },
                     views: {
                         "viewB": { templateUrl: 'app/components/accounts/accountsView.html',
@@ -58,7 +60,8 @@
             .state('accountSettings', {
                 url: '/:accountId/settings',
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requireOnline: false
                 },
                 views: {
                     "viewB": {  templateUrl: 'app/components/accounts/settingsView.html',
@@ -69,7 +72,8 @@
             .state('operation', {
                 url: '/:accountId/operation/',
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requireOnline: false
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/operation/operationView.html',
@@ -81,7 +85,8 @@
                 url: '/:accountId/operation/period/',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/operation/period/periodView.html',
@@ -93,7 +98,8 @@
                 url: '/budget/',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/budget/budgetView.html',
@@ -105,7 +111,8 @@
                 url: '/budget/details/',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/budget/details/detailsView.html',
@@ -117,11 +124,11 @@
                 url: '/offline',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requireOnline: false
                 },
                 views: {
-                        "viewB": { templateUrl: 'app/components/offline/offlineView.html',
-                                   controller: 'offlineController'
+                        "viewB": { templateUrl: 'app/components/offline/offlineView.html'
                         }
                       }
             })
@@ -129,7 +136,8 @@
                 url: '/settings',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/settings/settingsView.html',
@@ -141,7 +149,8 @@
                 url: '/analysis',
                 
                 data: {
-                    requireLogin: true
+                    requireLogin: true,
+                    requireOnline: true
                 },
                 views: {
                         "viewB": {  templateUrl: 'app/components/analysis/analysisView.html',
@@ -172,29 +181,29 @@
             }*/
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-                console.log("url changed : " + toState.name)
-                var requireLogin = toState.data.requireLogin;
-
-                if(toState.name !== "login"){
-                    
-                    var user = StorageServices.getUser()
-                    if(user !== null) {
-                        initService.initRessources(user.token)
-                        $rootScope.bool = true;
-
-                    } else if(requireLogin == true) {
-                        event.preventDefault();
-                        $rootScope.bool = false;
-                        $state.go("login")
-                    } 
-                    
-                } else {
-
-                    $rootScope.bool = false;
+                if($rootScope.offline && toState.data.requireOnline){
+                    event.preventDefault()
+                    $state.go("offline")
                 }
+                else{
+                    var requireLogin = toState.data.requireLogin;
+                    if(toState.name !== "login"){
+                        
+                        var user = StorageServices.getUser()
+                        if(user !== null) {
+                            initService.initRessources(user.token)
+                            $rootScope.bool = true;
 
-            });
-
+                        } else if(requireLogin == true) {
+                            event.preventDefault();
+                            $rootScope.bool = false;
+                            $state.go("login")
+                        }
+                    } else {
+                        $rootScope.bool = false;
+                    }
+                }  
+            })
 
             /**
              * Trigger on login
