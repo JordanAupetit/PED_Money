@@ -188,40 +188,47 @@
 									}
 								})
 
-								/**
-								 * Compute category sum
-								 */
-								angular.forEach(operations, function(opts, key){
-									var groupTotal = 0
-									var subData = []
-									angular.forEach(opts, function(subOpts, subKey){
-										var total = 0
-										angular.forEach(subOpts, function(opt){
-											total += opt.value
-										})
-										// subOpts.total = total
-										groupTotal += total
-										subData.push([subKey, total])
-									})
-									// opts.total = groupTotal
 
-									pie.push({
-										name: key,
-										y: groupTotal,
-										drilldown: key
+								if(result.length > 0){
+									/**
+									 * Compute category sum
+									 */
+									angular.forEach(operations, function(opts, key){
+										var groupTotal = 0
+										var subData = []
+										angular.forEach(opts, function(subOpts, subKey){
+											var total = 0
+											angular.forEach(subOpts, function(opt){
+												total += opt.value *-1
+											})
+											// subOpts.total = total
+											groupTotal += total
+											if(subKey !== 'id'){
+												subData.push([subKey, total])
+											}
+										})
+										// opts.total = groupTotal
+
+										pie.push({
+											name: key,
+											y: groupTotal,
+											drilldown: key
+										})
+
+										pieDrillDown.push({
+											name: key,
+											id: key,
+											data: subData
+										})
 									})
-									pieDrillDown.push({
-										name: key,
-										id: key,
-										data: subData
-									})
-								})
+								}
+
 								var budget ={
 									pie: pie,
 									pieDrillDown: pieDrillDown,
 									operations: operations
 								}
-								// console.log(budget)
+								console.log(budget)
 								resolve(budget)
 							})
 

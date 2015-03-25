@@ -139,7 +139,8 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
                     "dateOperation": {
                         "$gte": moment([year, 0, 1, 23, 59, 59]).subtract(1, 'days').toDate(),
                         "$lt": moment([year, 11, 1]).add(1, 'months').toDate()
-                    }
+                    },
+                    "value": {"$lt": 0}
                 },
                 function(err, coll) {
                     if (!err) {
@@ -153,7 +154,8 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
                     "dateOperation": {
                         "$gte": moment([year, month, 1, 23, 59, 59]).subtract(1, 'days').toDate(),
                         "$lt": moment([year, month, 1]).add(1, 'months').toDate()
-                    }
+                    },
+                    "value": {"$lt": 0}
                 },
                 function(err, coll) {
                     if (!err) {

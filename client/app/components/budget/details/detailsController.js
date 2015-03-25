@@ -80,7 +80,7 @@
 			angular.forEach($scope.csOpt, function(opt){
 				total += opt.value
 			})
-			$scope.categorySelector.total = total
+			$scope.categorySelector.total = total *-1
 
 
 
@@ -144,7 +144,7 @@
 							},
 							events: {
 								click: function(event) {
-									// console.log('Click on the pie')
+									console.log('Click on the pie')
 									// console.log(event)
 									// console.log(this)
 									// console.log(this.data)
