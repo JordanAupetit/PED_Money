@@ -169,6 +169,27 @@
                     $location.path("/")
                 }
             }
+
+           /* $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+                var requireLogin = toState.data.requireLogin;
+                if(toState.name !== "login"){
+                    
+                var user = StorageServices.getUser()
+                    if(user !== null){
+                        initService.initRessources(user.token)
+                        $rootScope.bool = true;
+                    } else {
+                        if(requireLogin == true){
+                                event.preventDefault();
+                                $rootScope.bool = false;
+                                $state.go("login")
+                            } 
+                    }
+                }else{
+                     $rootScope.bool = false;
+                }
+
+              });*/
             /**
              * Trigger on login
              * Init ressources o n login
