@@ -39,20 +39,18 @@ module.exports = function (app, tool, accountModel, operationModel) {
 
             accountModel.findOne({_id: accountId}, function (err, account) {
                 if (!err) {
-                    operationModel.find({accountId: accountId}, function (err, operations) {
-                        if (!err) {
-                            var balance = 0
-                            for(var i in operations){
-                                if(new Date(operations[i].datePrelevement)<new Date())
-                                    balance = balance + operations[i].value
+                    if(account !== null){
+                        operationModel.find({accountId: accountId}, function (err, operations) {
+                            if (!err) {
+                                account.set('operations', operations, { strict : false })
+                                return resp.send(account);
+                            } else {
+                                next(err);
                             }
-                            account.set('balance', balance, { strict : false })
-                            account.set('operations', operations, { strict : false })
-                            return resp.send(account);
-                        } else {
-                            next(err);
-                        }
-                    })
+                        })
+                    }else{
+                        return resp.sendStatus(204);
+                    }
                 } else {
                     next(err);
                 }
