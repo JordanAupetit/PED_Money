@@ -168,7 +168,6 @@
             function refresh() {
                 StorageServices.getAccount(accountId, function(account){
                     $scope.account = account
-                    console.log(account)
 
                     $rootScope.account = account
                     $rootScope.$emit('accountSelected');
