@@ -1,10 +1,11 @@
-module.exports = function(app, tool, userModel, jwt) {
+module.exports = function(app, tool, userModel, jwt,nodemailer) {
     app.get('/api/user', getAllUsers) // TEST ONLY
     app.put('/api/user', editUser)
     app.post('/api/user', addUser)
     app.delete('/api/user', deleteUser)
     app.post('/api/authenticate', authenticate)
-    
+    app.post('/api/forgot', sendmail)
+    app.post('/api/passchange/:token', change)
 
     function getAllUsers(req, resp, next) {
         'use strict';
@@ -144,6 +145,66 @@ module.exports = function(app, tool, userModel, jwt) {
                     }
                 });
             }
+        });
+    }
+
+    function change(req,res,next){
+         userModel.findOne( {token: req.params.token} , function(err, user) {
+            if (err) {
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                        });
+            } else {
+
+                user.password = req.body.psw;
+                user.save();
+                res.json({
+                    type: true
+                });
+            }
+        });
+     }
+
+     function sendmail(req, res, next){
+        "use strict"
+          userModel.findOne( {username: req.body.username, email : req.body.email} , function(err, user) {
+            if (err) {
+                res.json({
+                    type: false,
+                    data: "Error occured: " + err
+                });
+            } else {
+                if (user) {
+                        var transporter2 = nodemailer.createTransport({
+                            service: 'Gmail',
+                            auth: {
+                                user: 'sahriyoussef159@gmail.com',
+                                pass: 'Bordeaux14'
+                            }
+                        });
+                        var mailOptions = {
+                                        from: 'MyMoney <do.not.respond.money@gmail.com>',
+                                        to: user.email, // list of receivers
+                                        subject: 'Change password', // Subject line
+                                        text: "to change your password please click here", // plaintext body
+                                        html: '<p> http://localhost:8754/#/passchange/'+user.token+'<p>'// html body
+                                    }
+                                    console.info("sending email")
+                                    transporter2.sendMail(mailOptions, function(error, info){
+                                        if(error){
+                                            console.log(error)
+                                        }
+                                    })               
+                         res.json({type: true});
+                } else {
+                    res.json({
+                        type: false,
+                        data: "Incorrect username/password"
+                    });
+                }
+            }
+
         });
     }
 }
