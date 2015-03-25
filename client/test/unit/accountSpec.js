@@ -76,7 +76,7 @@ describe('UNIT::Account', function() {
             // Initialisation des tests avec une Operation en mémoire
             // $httpBackend.expectGET('/api/account').respond(200, [accountDefault])
 
-            // $httpBackend.expectGET('app/components/login/loginView.html').respond(200, '');
+            $httpBackend.expectGET('app/components/login/loginView.html').respond(200, '');
             // $httpBackend.expectGET('/api/category').respond(200, '');
 
             // $httpBackend.expectGET('/api/category').respond(200, defaultCat);
