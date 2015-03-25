@@ -138,7 +138,7 @@ var tool = {
 }
 
 
-apiUser(app, tool, userModel, jwt)
+apiUser(app, tool, userModel, jwt, nodemailer)
 apiCategory(app, tool, database.getCategoryModel(), userModel, accountModel, operationModel)
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
