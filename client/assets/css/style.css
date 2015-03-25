@@ -438,7 +438,17 @@ form.loginSignUp .signUp
 
 
 
-.navbar-default {text-align: center; background-image: -webkit-linear-gradient(top, #ffe766 0,#fbdb65 100%); color: #d18f0f;  border-bottom: 3px solid #f7b330;}
+.navbar-default {   
+    text-align: center; 
+    background-image: -webkit-linear-gradient(top, #ffe766 0,#fbdb65 100%); 
+    background-image: -moz-linear-gradient(top, #ffe766 0,#fbdb65 100%);
+    background-image: -ms-linear-gradient(top, #ffe766 0,#fbdb65 100%);
+    background-image: -o-linear-gradient(top, #ffe766 0,#fbdb65 100%);
+
+    color: #d18f0f;  
+    border-bottom: 3px solid #f7b330;
+}
+
 .navbar-default .navbar-collapse, .navbar-default .navbar-form {border: none; margin-right: 0px; margin-left:0px;}
 .navbar-text {padding-top: 5px}
 .navbar-header {padding-top: 5px}

@@ -70,10 +70,14 @@
 
                   <div class="col-md-4 col-xs-12 mt10">
                       <select ng-show="account.operations.length > 0 && groupOfOperations.length <= 0" ng-model="orderProp" class="form-control" ng-change="test()">
-                          <option value="value">Order by Price</option>
-                          <option value="dateOperation">Order by Date</option>
-                          <option value="categoryName">Order by Category</option>
-                          <option value="type">Order by Type</option>
+                          <option value="value">Order by Price (ascending)</option>
+                          <option value="-value">Order by Price (descending)</option>
+                          <option value="dateOperation">Order by Date (ascending)</option>
+                          <option value="-dateOperation">Order by Date (descending)</option>
+                          <option value="categoryName">Order by Category (ascending)</option>
+                          <option value="-categoryName">Order by Category (descending)</option>
+                          <option value="type">Order by Type (ascending)</option>
+                          <option value="-type">Order by Type (descending)</option>
                       </select>
                   </div>
               </div>
