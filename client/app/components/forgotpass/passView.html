@@ -1,0 +1,31 @@
+<div class="container pt70">
+    <h1>Enter your email and your username </h1>
+    <div class="row row-centered pad15">
+      
+      <!-- edit form column -->
+      <div class="col-md col-centered personal-info">
+        
+        <form class="form-horizontal" role="form" ng-submit='checkuser(pass)'>
+          <div class="form-group">
+            <label class="col-md-3 control-label">Username:</label>
+            <div class="col-md-8">
+              <input class="form-control" type="text" ng-model="pass.username">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="email" ng-model="pass.email" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="submit" class="btn btn-primary" value="Send">
+            </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+<hr>
