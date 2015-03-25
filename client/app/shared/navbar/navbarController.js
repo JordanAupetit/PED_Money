@@ -29,8 +29,6 @@
                 }
             }
 
-            console.log("nav")
-
             $scope.initSelector = 'dataset_etienne_budget.json'
         }
 

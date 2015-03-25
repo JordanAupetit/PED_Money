@@ -83,6 +83,24 @@ assets/libs/highcharts-release/highcharts.src.js
 assets/libs/highcharts-release/modules/drilldown.js
 assets/libs/highcharts-ng/dist/highcharts-ng.js
 app/components/operation/operationAddSidebarRightTemplate.html
+app/components/offline/offlineView.html
+assets/img/offline.png
+assets/libs/highstock-release/highstock.js
+assets/libs/highstock-release/modules/no-data-to-display.js
+assets/libs/highstock-release/modules/drilldown.js
+assets/libs/highstock-release/modules/exporting.js
+app/components/forgotpass/passController.js
+app/components/forgotpass/passService.js
+app/components/forgotpass/newpassController.js
+app/components/analysis/analysisController.js
+app/components/analysis/analysisService.js
+assets/img/free.jpg
+assets/img/etienne.jpg
+assets/img/jaupetit.jpg
+assets/img/dranc.jpg
+assets/img/youssef.jpg
+assets/img/default.jpg
+assets/img/abdessaydi.jpg
 
 NETWORK:
 *
