@@ -17,16 +17,12 @@
         </div>
         <div class="collapse navbar-collapse" id="collapse">
             <ul ng-if="!user" class="nav navbar-nav navbar-right">
-                <li>
-                    <form class="navbar-form" ng-submit="signIn()">
-                        <input type="text" class="form-control" placeholder="Username" ng-model="signInUser.username">
-                        <input type="password" class="form-control" placeholder="Password" ng-model="signInUser.password">
-                        <button type="submit" class="btn btn-mymoney">Login</button>
-                    </form>
+                <li class="mr10 ml10">
+                    <button type="button" class="btn btn-mymoney" data-toggle="modal" data-target="#modal-login" style="margin-top:11px;">Login</button>
                 </li>
-                <li><span class="navbar-text text-center">OR</span></li>
-                <li>
-                    <button type="submit" class="btn btn-mymoney" data-toggle="modal" data-target="#modal-signup" style="margin-top:11px;">Sign Up</button>
+                <!-- <li><span class="navbar-text text-center">OR</span></li> -->
+                <li class="mr10 ml10">
+                    <button type="button" class="btn btn-mymoney" data-toggle="modal" data-target="#modal-signup" style="margin-top:11px;">Sign Up</button>
                 </li>
             </ul>
 
@@ -62,9 +58,9 @@
 
                 <div class="center-block" style="max-width: 400px;">
 
-                    <a href="/auth/facebook" type="button" class="btn btn-lg btn-block facebook"><i class="fa fa-facebook-square"></i> <span>Login with Facebook</span></a>
+                    <a href="/auth/facebook" type="button" class="btn btn-lg btn-block facebook"><i class="fa fa-facebook-square"></i> <span>Sign up with Facebook</span></a>
 
-                    <a href="/auth/google" type="button" class="btn btn-lg btn-block google-p"><i class="fa fa-google-plus-square"></i> <span>Login with Google</span></a>
+                    <a href="/auth/google" type="button" class="btn btn-lg btn-block google-p"><i class="fa fa-google-plus-square"></i> <span>Sign up with Google</span></a>
                 </div>
 
                 <div class="strike pt30">
@@ -98,8 +94,50 @@
                         <label>Confirm Password :</label>
                         <input class="form-control" type="password" placeholder="Confirm Password" ng-model="signUpUser.repass">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group ml5">
                         <button type="submit" class="btn btn-mymoney pull-right">Sign Up</button>
+                    </div>
+                </form>
+            </div>          
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="modal-login">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h1 class="modal-title">Log in</h1>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="center-block" style="max-width: 400px;">
+
+                    <a href="/auth/facebook" type="button" class="btn btn-lg btn-block facebook"><i class="fa fa-facebook-square"></i> <span>Login with Facebook</span></a>
+
+                    <a href="/auth/google" type="button" class="btn btn-lg btn-block google-p"><i class="fa fa-google-plus-square"></i> <span>Login with Google</span></a>
+                </div>
+
+                <div class="strike pt30">
+                    <span>OR</span>
+                </div>
+
+                <form class="nav">
+                    <p class="text-center text-danger">{{error}}</p>
+                    <div class="form-group">
+                        <label >Username :</label>
+                        <input type="text" class="form-control" placeholder="Username" ng-model="signInUser.username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password :</label>
+                        <input type="password" class="form-control" placeholder="Password" ng-model="signInUser.password">
+                    </div>
+                    <div class="form-group ml5">
+                        <button type="submit" class="btn btn-mymoney pull-right" ng-click="signIn()" data-dismiss="modal">Log in</button>
+                        <button type="button" class="btn btn-mymoney pull-right mt10" ui-sref="forgotpass" data-dismiss="modal">Forgot password</button>
                     </div>
                 </form>
             </div>          

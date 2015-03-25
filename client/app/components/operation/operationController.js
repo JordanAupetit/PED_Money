@@ -554,6 +554,9 @@
             $scope.saveVentilation = function() {
                 if($scope.balanceToAssign === 0) {
                     OperationResource.update($scope.ventilateOperation)
+
+                    $scope.ventilateOperation = null
+                    refresh()
                 }
             }
 

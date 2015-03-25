@@ -50,8 +50,8 @@ module.exports = function(config) {
       //'test/unit/operationSpec.js', 
       // 'test/unit/periodSpec.js',
       // 'test/unit/loginSpec.js'
-      // 'test/**/*.js',
-      'test/unit/**/*.js',
+      'test/**/*.js',
+      //'test/unit/**/*.js',
       // 'test/e2e/**/*.js'
     ],
 
