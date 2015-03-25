@@ -134,84 +134,142 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
         'use strict';
         var year = req.params.year;
         var month = req.params.month-1;
-        if (month === 12) { // All year
-            operationModel.find({
-                    "dateOperation": {
-                        "$gte": moment([year, 0, 1, 23, 59, 59]).subtract(1, 'days').toDate(),
-                        "$lt": moment([year, 11, 1]).add(1, 'months').toDate()
-                    },
-                    "value": {"$lt": 0}
-                },
-                function(err, coll) {
-                    if (!err) {
-                        return resp.send(coll)
-                    } else {
-                        next(err)
-                    }
-                })
-        } else {
-            operationModel.find({
-                    "dateOperation": {
-                        "$gte": moment([year, month, 1, 23, 59, 59]).subtract(1, 'days').toDate(),
-                        "$lt": moment([year, month, 1]).add(1, 'months').toDate()
-                    },
-                    "value": {"$lt": 0}
-                },
-                function(err, coll) {
-                    if (!err) {
-                        return resp.send(coll)
-                    } else {
-                        next(err)
-                    }
-                })
-        }
+        tool.getUserId(req, next, function(userId){
+            getAccountListUser(resp, next, userId, function(accountList) {
+                if (month === 12) { // All year
+                    operationModel.find({
+                            "dateOperation": {
+                                "$gte": moment([year, 0, 1, 23, 59, 59]).subtract(1, 'days').toDate(),
+                                "$lt": moment([year, 11, 1]).add(1, 'months').toDate()
+                            },
+                            "value": {"$lt": 0},
+                            "accountId": { $in: accountList.map(function(id){ return id+''  }) }
+                        },
+                        function(err, coll) {
+                            if (!err) {
+                                return resp.send(coll)
+                            } else {
+                                next(err)
+                            }
+                        })
+                } else {
+                    operationModel.find({
+                            "dateOperation": {
+                                "$gte": moment([year, month, 1, 23, 59, 59]).subtract(1, 'days').toDate(),
+                                "$lt": moment([year, month, 1]).add(1, 'months').toDate()
+                            },
+                            "value": {"$lt": 0},
+                            "accountId": { $in: accountList.map(function(id){ return id+''  }) }
+                        },
+                        function(err, coll) {
+                            if (!err) {
+                                return resp.send(coll)
+                            } else {
+                                next(err)
+                            }
+                        })
+                }
+            })
+        })
     }
 
-    function getAll(req, resp, next) {
-        'use strict';
-        operationModel.find(function (err, coll) {
+    function getAllOperationUser(resp, next,userId, callback){
+        accountModel.find({userId: userId}, function (err, accounts) {
             if (!err) {
-                return resp.send(coll)
+                var res = []
+                accounts.forEach(function(account){
+                    operationModel.find({accountId: account._id}, function (err, operations) {
+                        if (!err) {
+                            operations.forEach(function(operation){
+                                res.push(operation)
+                            })
+                        } else {
+                            next(err);
+                        }
+                    })
+                })
+                callback(res);
             } else {
-                next(err)
+                next(err);
             }
+        });
+    }
+
+    function getAccountListUser(resp, next, userId, callback){
+        accountModel.find({userId: userId}, function (err, accounts) {
+            if (!err) {
+                var res = []
+                if(accounts.length > 0){
+                 accounts.forEach(function(account){
+                    res.push(account._id)     
+                })
+                   
+                }
+                callback(res);
+            } else {
+                next(err);
+            }
+        });
+    }
+
+    function getAll(req, resp, next) {  
+        'use strict';
+        tool.getUserId(req, next, function(userId){
+            getAllOperationUser(resp, next, userId, function(res){
+                return resp.send(res)
+            })
         })
+        // operationModel.find(function (err, coll) {
+        //     if (!err) {
+        //         return resp.send(coll)
+        //     } else {
+        //         next(err)
+        //     }
+        // })
     }
 
     function getByMonth(req, resp, next) {
         'use strict';
-        operationModel.aggregate([{
-                $match: {
-                   value: { $lt: 0}
-                }
-            },{
-                $group: {
-                    _id: {
-                        year: {
-                            $year: "$dateOperation"
-                        },
-                        month: {
-                            $month: "$dateOperation"
+        tool.getUserId(req, next, function(userId){
+            getAccountListUser(resp, next, userId, function(accountList) {
+                console.log(accountList)
+                console.log(accountList[0])
+                operationModel.aggregate([{
+                        $match: {
+                           value: { $lt: 0},
+                           accountId: { $in: accountList.map(function(id){ return id+''  }) }
                         }
-                    },
-                    count: {
-                        $sum: 1
-                    },
-                    total: {
-                        $sum: '$value'
+                    },{
+                        $group: {
+                            _id: {
+                                year: {
+                                    $year: "$dateOperation"
+                                },
+                                month: {
+                                    $month: "$dateOperation"
+                                }
+                            },
+                            count: {
+                                $sum: 1
+                            },
+                            total: {
+                                $sum: '$value'
+                            }
+                        }
+                    }]
+                ,
+                function(err, res) {
+                    if (!err) {
+                        console.log(res)
+                        return resp.send(res)
+                    } else {
+                        next(err)
                     }
-                }
-            }]
-
-        ,
-        function(err, res) {
-            if (!err) {
-                // console.log(res)
-                return resp.send(res)
-            } else {
-                next(err)
-            }
+                })
+                // .match({ accountId: { $in: [ accountList ] } });
+            })
         })
+        
     }
 
     

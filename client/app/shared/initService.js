@@ -3,10 +3,10 @@
 	'use strict';
 
 	angular.module('services')
-		.factory('initService', ['$log', 'periodRessource', 'AccountResource', 'OperationResource', 'LoginService', 'CategoryResource', 'budgetService', initService])
+		.factory('initService', ['$log', 'periodRessource', 'AccountResource', 'OperationResource', 'LoginService', 'CategoryResource', 'budgetService', 'analysisService', initService])
 
 
-	function initService($log, periodRes, accountRes, operationRes, loginRes, categoryRes, budgetRes) {
+	function initService($log, periodRes, accountRes, operationRes, loginRes, categoryRes, budgetRes, analysisRes) {
 
 		return {
 			initRessources: function(token){
@@ -15,6 +15,7 @@
 				accountRes.init(token)
 				categoryRes.init(token)
 				budgetRes.init(token)
+				analysisRes.init(token)
 			},
 			populatePeriod: function() {
 				var p1 = {

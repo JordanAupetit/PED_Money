@@ -8,20 +8,8 @@
 
 			var budgetRes
 			var budgetCatRes
-
-			var budgetMonthRes = $resource('/api/budget/month', {}, {
-				getAll: {
-					method: 'GET',
-					isArray: true
-				}
-			})
-
-			var expenseRes = $resource('/api/expense/:year/:month', {}, {
-				getAll: {
-					method: 'GET',
-					isArray: true
-				}
-			})
+			var budgetMonthRes
+			var expenseRes
 
 			
 
@@ -42,6 +30,22 @@
 					budgetCatRes = $resource('/api/budget/:catId/:value', {catId:'@catId', value:'@value'}, {
 						set: {
 							method: 'PUT',
+							headers:{'X-User-Token': userToken}
+						}
+					})
+
+					expenseRes = $resource('/api/expense/:year/:month', {}, {
+						getAll: {
+							method: 'GET',
+							isArray: true,
+							headers:{'X-User-Token': userToken}
+						}
+					})
+
+					budgetMonthRes = $resource('/api/budget/month', {}, {
+						getAll: {
+							method: 'GET',
+							isArray: true,
 							headers:{'X-User-Token': userToken}
 						}
 					})

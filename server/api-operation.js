@@ -1,52 +1,52 @@
 module.exports = function (app, operationModel, accountModel) {
-    app.get('/api/operation/', getAllOperations)
+    // app.get('/api/operation/', getAllOperations)
     app.post('/api/operation/', addOperation)
-    app.get('/api/operation/:id', getOperation)
+    // app.get('/api/operation/:id', getOperation)
     app.put('/api/operation/', updateOperation)
     app.delete('/api/operation/:id', deleteOperation)
 
-    app.get('/api/account/:accountId/operation/', getAllOperationsByAccount)
+    // app.get('/api/account/:accountId/operation/', getAllOperationsByAccount)
 
 
-    function getAllOperationsByAccount(req, resp, next) {
-        'use strict';
+    // function getAllOperationsByAccount(req, resp, next) {
+    //     'use strict';
 
-        var accountId = req.params.accountId
+    //     var accountId = req.params.accountId
 
-        operationModel.find({accountId: accountId}, function (err, coll) {
-            if (!err) {
-                return resp.send(coll);
-            } else {
-                next(err);
-            }
-        });
-    }
+    //     operationModel.find({accountId: accountId}, function (err, coll) {
+    //         if (!err) {
+    //             return resp.send(coll);
+    //         } else {
+    //             next(err);
+    //         }
+    //     });
+    // }
 
-    function getAllOperations(req, resp, next) {
-        'use strict';
-        operationModel.find(/*{user: userId},*/ function (err, coll) {
-            if (!err) {
-                return resp.send(coll);
-            } else {
-                next(err);
-            }
-        });
-    }
+    // function getAllOperations(req, resp, next) {
+    //     'use strict';
+    //     operationModel.find(/*{user: userId},*/ function (err, coll) {
+    //         if (!err) {
+    //             return resp.send(coll);
+    //         } else {
+    //             next(err);
+    //         }
+    //     });
+    // }
 
 
-    function getOperation(req, resp, next) {
-        'use strict';
-        var operationId = req.params.id;
+    // function getOperation(req, resp, next) {
+    //     'use strict';
+    //     var operationId = req.params.id;
 
-        operationModel.findOne({_id: operationId}, function (err, coll) {
-            if (!err) {
-                return resp.send(coll);
-            } else {
-                next(err);
-            }
-        });
+    //     operationModel.findOne({_id: operationId}, function (err, coll) {
+    //         if (!err) {
+    //             return resp.send(coll);
+    //         } else {
+    //             next(err);
+    //         }
+    //     });
 
-    }
+    // }
 
 
     function updateOperation(req, resp, next) {

@@ -5,29 +5,27 @@
 	angular.module('services')
 		.factory('analysisService', ['$resource', 'CategoryResource', function($resource, CategoryRes) {
 
-			var analRes = $resource('/api/analysis', {}, {
-				getSolde: {
-					method: 'GET',
-					isArray: true
-				}
-			})
-
-			var budgetMonthRes = $resource('/api/budget/month', {}, {
-				getAll: {
-					method: 'GET',
-					isArray: true
-				}
-			})
+			var analRes
+			var budgetMonthRes
 
 			return {
 				init: function(userToken){
-					// budgetRes = $resource('/api/budget', {}, {
-					// 	getAll: {
-					// 		method: 'GET',
-					// 		isArray: true, 
-					// 		headers:{'X-User-Token': userToken}
-					// 	}
-					// })
+
+
+					budgetMonthRes = $resource('/api/budget/month', {}, {
+						getAll: {
+							method: 'GET',
+							isArray: true,
+							headers:{'X-User-Token': userToken}
+						}
+					})
+					analRes = $resource('/api/analysis', {}, {
+						getSolde: {
+							method: 'GET',
+							isArray: true,
+							headers:{'X-User-Token': userToken}
+						}
+					})
 				},
 				getSolde : function(){
 					return new Promise(function(resolve, reject) {
