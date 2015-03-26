@@ -59,7 +59,8 @@
     "mocha-spec-cov-alt": "^0.2.4",
     "should": "^5.2.0",
     "supertest": "^0.15.0",
-    "travis-cov": "^0.2.5"
+    "travis-cov": "^0.2.5",
+    "uglify-js": "^2.4.17"
   },
   "scripts": {
     "test": "npm run test:client && npm run test:server:alt",
@@ -78,6 +79,7 @@
     "karma": "karma start ./client/karma.conf.js",
     "jshint": "jshint client/app",
     "jshints": "jshint server/*.js",
+    "dist": "node_modules/uglify-js/bin/uglifyjs  client/app/*.js client/app/**/*.js -o client/dist-client.min.js",
     "postinstall": "node ./node_modules/bower/bin/bower install"
   },
   "config": {

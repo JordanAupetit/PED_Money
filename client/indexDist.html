@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- <html lang="en" manifest="/money.manifest" type="text/cache-manifest"> -->
+<html lang="en" type="text/cache-manifest">
+    <head>
+        <meta charset="UTF-8">
+        <title>MyMoney</title>
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+
+        <!-- My CSSs -->
+    
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.3/angular-material.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
+        <link rel="stylesheet" href="assets/css/material.css">
+
+        <link rel="stylesheet" href="https://raw.githubusercontent.com/jtblin/angular-chart.js/master/dist/angular-chart.css">
+    </head>
+
+
+    <body ng-app="appModule" role="document">
+
+        <!-- <div ng-include src="'./app/shared/navbar/navbar.html'"></div> -->
+        <div ng-include="'app/shared/navbar/navbar.html'" ng-controller="NavbarController"></div>
+
+       <div  ui-view="viewB" ></div>
+        <div ng-hide="bool" class="test">
+            <div  ui-view="viewA" ></div>
+        </div>
+
+    </body>
+
+
+    <!-- Libs -->
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://es6-promises.s3.amazonaws.com/es6-promise-2.0.1.min.js"></script>
+    <script src="https://raw.githubusercontent.com/markusslima/bootstrap-filestyle/master/src/bootstrap-filestyle.js"></script>
+
+    <!-- Angular & Plugins -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.3.15/angular-cookies.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.13/angular-ui-router.js"></script>
+    <script src="https://code.angularjs.org/1.3.15/angular-resource.min.js"></script>
+
+    <script src="https://code.angularjs.org/1.3.15/angular-aria.min.js"></script>
+    <script src="https://code.angularjs.org/1.3.15/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.2/angular-material.min.js"></script>
+
+    <!-- View plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.12.1/ui-bootstrap-tpls.min.js"></script>
+
+
+   
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/no-data-to-display.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/drilldown.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+ 
+
+    <script src="https://raw.githubusercontent.com/pablojim/highcharts-ng/master/dist/highcharts-ng.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
+    <script src="https://raw.githubusercontent.com/jtblin/angular-chart.js/master/dist/angular-chart.min.js"></script>
+
+    <!-- Data plugins -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-local-storage/0.1.5/angular-local-storage.min.js"></script>
+    <script src="https://raw.githubusercontent.com/Zmetser/angular-currency-filter/master/dist/currency-filter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.0/papaparse.min.js"></script>
+
+    <!-- Application files -->
+    <script src="dist-client.min.js"></script>
+
+</html>

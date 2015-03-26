@@ -3,3 +3,4 @@ npm-debug.log
 assets/libs
 assets/js/highcharts
 coverage/
+dist-client.min.js
