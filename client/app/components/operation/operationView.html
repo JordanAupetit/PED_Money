@@ -36,16 +36,6 @@
                     </ul>
                 </div>
             </div>
-            
-
-            <!-- <div class="mt10">
-                <a class="btn btn-default" ui-sref="optPeriod({accountId : accountId})">Periodics operations</a>
-            </div>
-            
-            <div class="mt10">
-                <a class="btn btn-default" href="#/{{accountId}}/settings">Account settings</a>
-            </div> -->
-            
 
             <div class="clear"></div>
 
@@ -91,7 +81,8 @@
                     <!-- Plus grand qu'un Mobile -->
                     <div class="hidden-xs">
                         <div class="wid40p ftl">
-                            <span>Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
+                            <span ng-show="groupedBy !== 'date'">Grouped by {{ groupedBy }} : '{{ op.groupedByField }}'</span>
+                            <span ng-show="groupedBy === 'date'">Grouped by {{ groupedBy }} : '{{ op.groupedByField | date:'dd-MM-yyyy' }}'</span>
                         </div>
 
                         <div class="wid50p ftl">

@@ -111,12 +111,6 @@
 				},
 				getByCategory: function(selector){
 
-					// console.log(selector)
-
-					// function random(min,max){
-					// 	return Math.floor(Math.random()*(max-min+1)+min);
-					// }
-
 					return new Promise(function(resolve, reject) {
 						function parseCategory(){
 							return new Promise(function(resolve, reject) {
@@ -230,19 +224,9 @@
 									pieDrillDown: pieDrillDown,
 									operations: operations
 								}
-								// console.log(budget)
 								resolve(budget)
 							})
 
-							
-
-							//  resolve([
-							// 	['alimenation', 150.45], 
-							// 	['loisir', 28.75], 
-							// 	['habitation', 300.25], 
-							// 	['habillement', 12.59], 
-							// 	['autre', 87.15]
-							// ])
 						})
 
 					}

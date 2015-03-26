@@ -16,10 +16,6 @@
                     if (res.type == false) {
                         alert(res.data);
                     } else {
-                        //StorageServices.login(res.data)
-                        //$rootScope.$emit('login');
-                        //$rootScope.bool=true;
-                        //console.log($rootScope.$emit('login'))
                         $state.go('login');
                     }
                 });

@@ -154,19 +154,13 @@ describe('Server::API', function() {
 					if (err) {
 						throw err;
 					}
-					// console.log(res.body)
 
 					res.body.should.have.property('_id')
 					var fp = clone(fakePeriod)
 					fp.__v = 0
 					fp._id = res.body._id
-						// res.body.should.have.property('name').and.equal(fakePeriod.name)
 					res.body.should.be.eql(fp)
 
-					// res.body.length.should.be.above(0)
-					// console.log(res.should.have.status)
-					// res.should.have.status(200);
-					// done();
 				})
 		})
 
@@ -250,24 +244,6 @@ describe('Server::API', function() {
 
 		})
 
-
-		// it.skip('should not be empty', function() {
-		// 		request(app)
-		// 			.get(url)
-		// 			.expect(200)
-		// 			.end(function(err, res) {
-		// 				if (err) {
-		// 					throw err;
-		// 				}
-		// 				// console.log(res.body)
-		// 				res.status.should.be.equal(200)
-
-		// 				res.body.length.should.be.above(0)
-		// 					// console.log(res.should.have.status)
-		// 					// res.should.have.status(200);
-		// 					// done();
-		// 			})
-		// 	})
 	})
 
 })

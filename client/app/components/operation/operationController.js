@@ -62,24 +62,6 @@
             $scope.ventilateOperation = null
             $scope.subOperationModel = {}
             $scope.dateFormat = 'YYYY-MM-DD'
-
-
-            // $scope.operationCreateModel = {
-            //     period: {
-            //         intervalType: INTERVAL_TYPES[2],
-            //         step : 2,
-            //         occurency: 3
-            //     },
-            //     accountId: '54ec74a2b5edf01c2c3a3552',
-            //     advanced: true,
-            //     dateOperation: '2015/03/05',
-            //     datePrelevement: '2015/03/05',
-            //     description: 'ceci est un test',
-            //     periodic: true,
-            //     thirdParty: 'Steam',
-            //     type: 'CB',
-            //     value: 45
-            // }
                 
 
             /**
@@ -168,7 +150,6 @@
             function refresh() {
                 StorageServices.getAccount(accountId, function(account){
                     $scope.account = account
-                    // console.log(account)
 
                     $rootScope.account = account
                     $rootScope.$emit('accountSelected');
@@ -180,11 +161,8 @@
                     genCategories()
 
                     // Le fix doit se faire avant l'update
-                    // if(account.operations){
-                    //     console.log("if")
-                        fixOperations()
-                        $scope.updateSolde()
-                    // }
+                    fixOperations()
+                    $scope.updateSolde()
 
                     generateCsv()
 
@@ -224,7 +202,6 @@
                     operation.categoryName = 'No category'
 
                     var catToFind = operation.categoryId
-                    //console.log(operation)
 
                     if(catToFind !== '') {
                         angular.forEach($scope.categories, function(categorie){
@@ -259,58 +236,6 @@
                     }
                 }
             }
-
-            /**
-             * @Description
-             * Correct the dates of an operation
-             * @Param {Object} operation An operation to correct
-             */
-
-             // TODO To delete s'il n'y a pas de problèmes
-
-            /*function correctDateOfOperation(operation) {
-
-                // Clean date
-                // TODO: Verifier le bon format de la date
-                if( !operation.hasOwnProperty('dateOperation') 
-                    || operation.dateOperation === ''
-                    || !moment(operation.dateOperation, $scope.dateFormat).isValid) {
-                    //console.log('No dateOperation')
-
-                    operation.dateOperation = moment().format('YYYY-MM-DD')
-                } else {
-                    //console.log('Have dateOperation')
-                    //console.log(operation.dateOperation)
-                    //console.log(dateFormat)
-                    operation.dateOperation = moment(operation.dateOperation, $scope.dateFormat).format('YYYY-MM-DD')
-                }
-
-
-                if( !operation.hasOwnProperty('datePrelevement') 
-                    || operation.datePrelevement === ''
-                    || !moment(operation.datePrelevement, $scope.dateFormat).isValid) {
-
-                    operation.datePrelevement = operation.dateOperation
-                } else {
-
-                    // Si la date différée est inférieur à la date de l'opération
-                    // mettre à la date de l'opération
-                    if(moment(operation.datePrelevement, $scope.dateFormat).isBefore(moment(operation.dateOperation, $scope.dateFormat))) {
-                        operation.datePrelevement = operation.dateOperation
-                    } else {
-                        operation.datePrelevement = moment(operation.datePrelevement, $scope.dateFormat).format('YYYY-MM-DD')
-                    }
-                }
-
-                return operation
-            }*/
-
-            /*  
-                ==== TODO ====
-                - Lorsque l'on raffraichis la page (F5), le rootScope est vidé, et on ne
-                possède plus l'User ID, et donc plus de requêtes qui ont besoin de cet ID
-                On verra quand la gestion du compte sera terminée
-            */
 
             /**
              * @Description
@@ -380,8 +305,6 @@
                             }
                         }
 
-                        //console.log(toSend)
-
                         periodRes.add(toSend).$promise.then(function() {
                             // Si TRUE, alors le $parent est le controller de period operation
                             if($scope.$parent.hasOwnProperty('thisController') && $scope.$parent.thisController === "periodController") {
@@ -397,7 +320,6 @@
                         delete toSend.periodic
                         delete toSend.advanced
 
-                        console.log(toSend)
                         postOperation(toSend) 
                     }
                 }
@@ -413,9 +335,6 @@
              */
             $scope.deleteOperation = function(operation, index) {
                 StorageServices.deleteOperation(operation, function(){
-                    //refresh()
-
-                    // console.log(index)
 
                     // On clique sur le delete d'une operation d'un groupe
                     if($scope.operationsOfGroup.length > 0) {
@@ -433,8 +352,6 @@
                     $scope.updateSolde()
                     fixOperations()
                     generateCsv()
-                    //getAccountAndGenerateCsv()
-                    //refresh()
                 })
             }
 
@@ -719,13 +636,10 @@
 
                 var csvAccount = Papa.unparse(account)
 
-                //console.log(operations)
                 var csv = Papa.unparse(operations)
-                //console.log(csv)
 
                 var blob = new Blob([ csvAccount + "\r\n\r\n" + csv ], { type : 'text/plain' })
                 $scope.urlCsv = (window.URL || window.webkitURL).createObjectURL( blob )
-                //console.log("Url generated")
             }
 
             // Initiatilisation
