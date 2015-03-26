@@ -101,11 +101,13 @@
 						type: 'pie',
 						events: {
 							drilldown: function(e) {
+								// console.log('drilldown')
 								$scope.categorySelector.currentGroupCat = e.point.name
-									// console.log(e.point.name)
-									// pieCatSelect(e.point.name)
+								$scope.categorySelector.currentCat = e.point.name
+								pieCatSelect(e.point.name)
 							},
 							drillup: function(e) {
+								// console.log('drillup')
 								$scope.categorySelector.currentCat = $scope.categorySelector.currentGroupCat
 								pieCatSelect($scope.categorySelector.currentCat)
 							}
@@ -144,7 +146,7 @@
 							},
 							events: {
 								click: function(event) {
-									console.log('Click on the pie')
+									// console.log('Click on the pie')
 									// console.log(event)
 									// console.log(this)
 									// console.log(this.data)
