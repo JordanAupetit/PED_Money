@@ -7,16 +7,6 @@ module.exports = function (app, tool, accountModel, operationModel) {
     app.put('/api/account/', updateAccount)
     app.delete('/api/account/:id', deleteAccount)
 
-    // function getDebug(req, resp, next) {
-    //     'use strict';
-    //     accountModel.find( function (err, coll) {
-    //         if (!err) {
-    //             return resp.send(coll);
-    //         } else {
-    //             next(err);
-    //         }
-    //     });
-    // }
 
     function getAllAccounts(req, resp, next) {
         'use strict';

@@ -26,17 +26,12 @@
         function correctDateOfOperation(operation) {
 
             // Clean date
-            // TODO: Verifier le bon format de la date
             if( !operation.hasOwnProperty('dateOperation') 
                 || operation.dateOperation === ''
                 || !moment(operation.dateOperation, dateFormat).isValid) {
-                //console.log('No dateOperation')
 
                 operation.dateOperation = moment().format('YYYY-MM-DD')
             } else {
-                //console.log('Have dateOperation')
-                //console.log(operation.dateOperation)
-                //console.log(dateFormat)
                 operation.dateOperation = moment(operation.dateOperation, dateFormat).format('YYYY-MM-DD')
             }
 

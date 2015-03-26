@@ -94,18 +94,6 @@ describe('Server::API', function() {
 			categoryId: 103
 		}
 
-		// var fakePeriod = {
-		// 	name: 'Loyer 2015',
-		// 	dateBegin: '2015-01-15T00:00:00.000Z',
-		// 	nbRepeat: -1,
-		// 	step: 3,
-		// 	intervalType: 'M',
-		// 	isOver: false,
-		// 	opCreat: [],
-		// 	operation : fakeOperation
-		// }
-
-		
 
 		var fakeOperation2 = {
 			_id: '2132sdq0sq',
@@ -339,27 +327,6 @@ describe('Server::API', function() {
 					})
 			})
 
-			// it.skip('should get all expenses of user', function(end) {
-
-			// 	request(app)
-			// 		.get(urlExpense)
-			// 		.set('X-User-Token', fakeToken)
-			// 		.expect(200)
-			// 		.end(function(err, res) {
-			// 			if (err) {
-			// 				throw err;
-			// 			}
-
-			// 			// console.log(res.body)
-			// 			var fopt = clone(fakeOperation)
-			// 			fopt.__v = 0
-			// 			fopt._id = res.body[0]._id
-			// 			fopt.subOperations = []
-			// 			res.body.should.be.eql([fopt])
-
-			// 			end()
-			// 		})
-			// })
 
 			it('should get total expense by month', function(end) {
 

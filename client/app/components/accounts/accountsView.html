@@ -49,15 +49,6 @@
         </div>
       </div>
 
-      <!-- <div class="form-group" ng-class="{ 'has-error' : accountForm.type.$invalid && (accountForm.$submitted || accountForm.type.$touched) }">
-        <label class="control-label" for="type">Type</label>
-        <select id="type" name="type" ng-model="accountCreateModel.type" class="form-control" ng-options="type as type.name for type in accountTypes" required >
-        </select>
-        <div ng-show="accountForm.$submitted || accountForm.type.$touched">
-          <span class="error help-block" ng-show="accountForm.type.$error.required">Type is require</span>
-        </div>
-      </div> -->
-
       <div class="form-group" ng-class="{ 'has-error' : accountForm.currency.$invalid && (accountForm.$submitted || accountForm.currency.$touched) }">
         <label class="control-label" for="currency">Currency</label>
         <select id="currency" name="currency" ng-model="accountCreateModel.currency" class="form-control" ng-options="currency as currency.name for currency in currencys" required>

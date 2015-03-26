@@ -163,22 +163,10 @@
 
 
         function startup($rootScope, StorageServices, initService, $location, $state){
-            // console.log('Startup or Refresh')
 
             /**
              * Init ressources on page reload
              */
-
-            /*if($location.$$path !== "/login"){
-                var user = StorageServices.getUser()
-                if(user !== null){
-                    initService.initRessources(user.token)
-                    $rootScope.bool=true;
-                } else {
-                    //console.log("*Redirect* User doesn't exist")
-                    $location.path("/")
-                }
-            }*/
 
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
                 if($rootScope.offline && toState.data.requireOnline){
@@ -210,7 +198,6 @@
              * Init ressources o n login
              */
             $rootScope.$on('login', function(event) {
-                // console.log('login evt'); 
                 var user = StorageServices.getUser()
                 if(user !== undefined){
                     initService.initRessources(user.token)

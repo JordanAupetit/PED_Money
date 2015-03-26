@@ -5,11 +5,7 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
     app.get('/api/budget/month', getByMonth)
     app.get('/api/budget/', getBudget)
     app.put('/api/budget/:catId/:value', setBudget)
-    // app.get('/api/budget/:catId/:month/:value', setBudgetMonth)
-    // app.get('/api/account/:id', getAccount)
-    // app.post('/api/account/', addAccount)    
-    // app.put('/api/account/', updateAccount)
-    // app.delete('/api/account/:id', deleteAccount)
+   
 
     var moment = require('moment')
 
@@ -106,29 +102,6 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
         });
     }
 
-    // function getTotalBudgetByMonth(req, resp, next) {
-    //     'use strict';
-    //     tool.getUserId(req, next, function(userId){
-    //         // var isYear = req.params.isYear;
-    //         var year = req.params.year;
-    //         var month = req.params.month-1;
-    //         if (month === 12) { // All year
-    //             userModel.findOne({'_id': userId}, 'budget',function(err, coll) {
-    //                 if (!err) {
-    //                     var res = {
-    //                         total: 0
-    //                     }
-    //                     coll.budget.foreach(function(budget){
-    //                         res.total += budget.spread[12].value
-    //                     })
-    //                     return resp.send(res);
-    //                 } else {
-    //                     next(err);
-    //                 }
-    //             })
-    //         }
-    //     })
-    // }
 
     function getAllByMonth(req, resp, next) {
         'use strict';

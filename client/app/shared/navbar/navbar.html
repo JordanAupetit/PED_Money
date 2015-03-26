@@ -20,7 +20,6 @@
                 <li class="mr10 ml10">
                     <button type="button" class="btn btn-mymoney" data-toggle="modal" data-target="#modal-login" style="margin-top:11px;">Login</button>
                 </li>
-                <!-- <li><span class="navbar-text text-center">OR</span></li> -->
                 <li class="mr10 ml10">
                     <button type="button" class="btn btn-mymoney" data-toggle="modal" data-target="#modal-signup" style="margin-top:11px;">Sign Up</button>
                 </li>
@@ -30,14 +29,12 @@
                 <li  class="navbar-text" ng-if="$root.state !== 'ONLINE'">
                     {{$root.state}}
                 </li>
-                <li>
+                <li ng-show="false">
                     <select ng-model="initSelector" name="" id="">
                         <option value="dataset_etienne.json">dataset_etienne.json</option>
                         <option value="dataset_etienne_budget.json">dataset_etienne_budget.json</option>
                         <option value="dataset_jordan.json">dataset_jordan.json</option>
                         <option value="dataset_youssef.json">dataset_youssef.json</option>
-                        <!-- <option value="dataset_etienne.json">dataset_etienne.json</option> -->
-                        <!-- <option value="dataset_etienne.json">dataset_etienne.json</option> -->
                     </select>
                     <button class="navbar-btn btn btn-warning btn-xs" ng-click="initData()">Init</button >
                 </li>

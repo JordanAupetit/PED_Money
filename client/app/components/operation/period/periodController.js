@@ -33,7 +33,6 @@
 						return target;
 					}
 					var projection = []
-						// console.log(period)
 
 					var date = moment(period.dateBegin)
 
@@ -42,10 +41,7 @@
 					proj.dateOperation = date.clone().toDate()
 					proj.datePrelevement = proj.dateOperation
 					projection.push(proj)
-					// projection.push({
-					// 	date: date.clone().toDate(),
-					// 	amount: period.operation.value
-					// })
+					
 					if (period.nbRepeat === -1) {
 						// If the operation is infinite show the first 12 operation
 						for (var i = 0; i < 12; i++) {
@@ -53,10 +49,6 @@
 							proj.dateOperation = date.add(1 * period.step, period.intervalType).clone().toDate()
 							proj.datePrelevement = proj.dateOperation
 							projection.push(proj)
-							// projection.push({
-							// 	date: date.add(1 * period.step, period.intervalType).clone().toDate(),
-							// 	amount: period.amount
-							// })
 						}
 					} else {
 						for (var i = 1; i < period.nbRepeat; i++) {
@@ -65,11 +57,6 @@
 							proj.dateOperation = date.add(1 * period.step, period.intervalType).clone().toDate()
 							proj.datePrelevement = proj.dateOperation
 							projection.push(proj)
-							// var proj = {
-							// 	date: date.add(1 * period.step, period.intervalType).clone().toDate(),
-							// 	amount: period.operation.value
-							// }
-							// projection.push(proj)
 						}
 					}
 
@@ -125,15 +112,6 @@
 				$scope.periodTmp.nbRepeat = 1
 				$scope.computeDateRepeat()
 			}
-
-			// if($scope.periodTmp.isInifinite){
-			// 	$scope.periodTmp.nbRepeat = -1
-
-			// 	$scope.periodTmp.dateEnd = undefined
-			// }else{
-			// 	$scope.periodTmp.nbRepeat = 1
-			// 	$scope.computeDateRepeat()
-			// }
 		}
 
 		/**
@@ -145,7 +123,6 @@
 			var repeat = $scope.periodTmp.nbRepeat
 			var interval = $scope.periodTmp.intervalType.value
 
-			// var end = begin.clone().add(interval*repeat, 'days')
 			var end = begin.clone().add(repeat, $scope.periodTmp.intervalType.code)
 
 			$scope.periodTmp.dateEnd = end.toDate()
@@ -156,15 +133,6 @@
 		 * Reset the form of adding
 		 */
 		function resetAddForm() {
-			// $scope.periodTmp = {
-			// 	name: 'Test',
-			// 	dateBegin: new Date(2015, 1, 13),
-			// 	dateEnd: new Date(2015, 5, 13),
-			// 	nbRepeat: 4,
-			// 	step: 1,
-			// 	intervalType: intervalType[2],
-			// 	amount: 52
-			// }
 			$scope.periodTmp = {
 				name: '',
 				dateBegin: undefined,
@@ -191,14 +159,12 @@
 		 * @Param {Boolean} True if the form is valdid
 		 */
 		$scope.submitForm = function(isValid) {
-			// console.log('submitForm '+isValid)
 			// check to make sure the form is completely valid
 			if (isValid) {
 
 				var tmp = getCleanForm()
 
 				periodRes.add(tmp).$promise.then(function() {
-					// refresh()
 					resetAddForm()
 					$modalInstance.close();
 				})
@@ -227,11 +193,6 @@
 		 */
 		function prepareProjection() {
 
-			// $log.info($scope.periodForm.$valid)
-			// $log.info($scope.periodForm)
-			// $log.info($scope.projection)	
-			// $log.info(getCleanForm())	
-
 			if ($scope.periodForm.$valid && $scope.periodForm.$dirty) {
 				$scope.projection = periodHelper.genProjection(getCleanForm())
 			} else {
@@ -249,7 +210,7 @@
 		$scope.$watch('periodTmp.step', prepareProjection)
 		$scope.$watch('periodTmp.dateBegin', prepareProjection)
 		$scope.$watch('periodTmp.isInfinite', prepareProjection)
-			// $scope.$watch('periodTmp.dateEnd', prepareProjection)
+		// $scope.$watch('periodTmp.dateEnd', prepareProjection)
 		$scope.$watch('periodTmp.nbRepeat', prepareProjection)
 		$scope.$watch('periodTmp.amount', prepareProjection)
 	}
@@ -293,7 +254,6 @@
 			last_modified: 'grey'
 		};
 
-		// TODO Put in shared place
 		var intervalType = [{
 			type: 'day',
 			value: 1,
@@ -350,7 +310,7 @@
 
 		$scope.makeProjection = function(period) {
 			$scope.isProjection = !$scope.isProjection
-				// period.isProjection = !period.isProjection
+			// period.isProjection = !period.isProjection
 			$scope.projection = periodHelper.genProjection(period)
 		}
 
@@ -385,15 +345,11 @@
 		 * Refresh the page
 		 */
 		function refresh() {
-			// console.log(periodService.getAll())
 			periodRes.getAll($scope.accountId).$promise.then(function(periods) {
-				// console.log(periods)
 				$.each(periods, function(k, period) {
 					if (period.nbRepeat !== -1) {
 						periods[k].dateEnd = periodHelper.computeEndDate(period)
 					}
-
-					// console.log(period)
 				})
 				$scope.periods = periods
 			})

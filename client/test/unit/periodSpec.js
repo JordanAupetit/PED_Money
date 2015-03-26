@@ -1,9 +1,3 @@
-// describe('JavaScript addition operator', function() {
-// 	it('adds two numbers together', function() {
-// 		expect(1 + 2).toEqual(3);
-// 	});
-// });
-
 
 describe('PeriodHelper', function() {
 
@@ -42,9 +36,6 @@ describe('PeriodHelper', function() {
 
 
 		it('should compute the end date', function() {
-			// console.log(new periodHelper.computeEndDate(period))
-			// dump(new periodHelper.computeEndDate(period))
-			// dump(new Date(2015,03,15))
 			expect(new periodHelper.computeEndDate(fakePeriod)).toEqual(new Date(2015, 03, 15)); // 2015-04-15
 		});
 
@@ -53,15 +44,6 @@ describe('PeriodHelper', function() {
 	describe('genProjection', function() {
 
 		it('should generate the projection', function() {
-			// var projection = [
-			// 	{
-			// 		date: new Date(2015, 00, 15),
-			// 		amount: 300
-			// 	}, {
-			// 		date: new Date(2015, 03, 15),
-			// 		amount: 300
-			// 	}
-			// ]
 
 			var projection = [{
 					value: 300,
@@ -84,8 +66,6 @@ describe('PeriodHelper', function() {
 					categoryId: '54684654dqs',
 					accountId: 'sddqs1123sqd'
 				}]
-				// dump(projection)
-			// dump(new periodHelper.genProjection(fakePeriod))
 			expect(new periodHelper.genProjection(fakePeriod)).toEqual(projection);
 		});
 

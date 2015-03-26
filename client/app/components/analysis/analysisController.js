@@ -23,13 +23,7 @@
 					chart: {
 						type: 'column'
 					},
-					tooltip: {
-						// style: {
-						// 	padding: 10,
-						// 	fontWeight: 'bold'
-						// }
-						// pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-					},
+					tooltip: {},
 					credits: {
 						enabled: false
 					},
@@ -55,24 +49,6 @@
 							text: ''
 						}
 					},
-					// plotOptions: {
-					//                 series: {
-					//                     borderWidth: 0,
-					//                     dataLabels: {
-					//                         enabled: true,
-					//                         format: '{point.y:.1f}€'
-					//                     }
-					//                 }
-					//             },
-					// plotOptions: {
-					// 	series: {
-					// 		borderWidth: 0,
-					// 		dataLabels: {
-					// 			enabled: true
-					// 		}
-					// 	}
-
-					// },
 					legend: {
 						enabled: false
 					}
@@ -98,12 +74,6 @@
 
 			return {
 				options: {
-					// chart: {
-					//     zoomType: 'x'
-					// },
-					// rangeSelector: {
-					//     enabled: true
-					// },
 					navigator: {
 						enabled: true
 					}
@@ -115,17 +85,6 @@
 				useHighStocks: true
 			}
 		}
-
-		// $scope.chartConfig = getDefaultConfigMonthly()
-		// $scope.chartConfig = getDefaultConfigStock()
-
-
-		// analysisService.getBalance().then(function(result){
-		// 	console.log(result)
-		// 	$scope.chartConfig.series.push(result)
-		// 	$scope.$apply()
-		// })
-
 
 		$scope.selectGraph = function(graphType) {
 			$scope.isSelection = true
@@ -151,14 +110,6 @@
 		}
 
 		$scope.refresh = function() {
-
-			// budgetService.getByMonth()
-			// 	.then(function(result) {
-			// 		var currentDate = moment()
-			// 		$scope.dataNav = result
-			// 		$scope.dateSelector.setMonth(currentDate.month())
-			// 		$scope.changeYear(currentDate.year())
-			// 	})
 		}
 
 
