@@ -462,7 +462,7 @@ form.loginSignUp .signUp
 .strike > span:before {right: 100%;margin-right: 15px;}
 .strike > span:after {left: 100%;margin-left: 15px;}
 
-.btn-mymoney{border-radius: 1px; background-color: #ffe766; border: 2px solid #d18f0f; transition: all .2s linear;}
+.btn-mymoney{border-radius: 1px; background-color: #ffe766; border: 2px solid #d18f0f; transition: all .2s linear; width:100%;}
 .btn-mymoney:hover{background-color: #d18f0f; border-color: #f7b330; color: white;}
 
 .nav input{ margin: 5px; padding: 5px; border-radius: 1px; border-left: 2px solid #d18f0f; border-bottom: 2px solid transparent; transition: all .2s linear;}
@@ -507,6 +507,8 @@ form.loginSignUp .signUp
 .marginNull {margin:0px;}
 
 .mg0 {margin:0px;}
+.mg5 {margin:5px;}
+.mg10 {margin:10px;}
 
 .mt10 {margin-top:10px;}
 .mt20 {margin-top:20px;}
@@ -574,6 +576,7 @@ form.loginSignUp .signUp
 .pr30 {padding-right:30px;}
 .pr40 {padding-right:40px;}
 
+.pad5  {padding:5px;}
 .pad10 {padding:10px;}
 .pad15 {padding:15px;}
 .pad20 {padding:20px;}
