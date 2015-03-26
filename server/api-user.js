@@ -183,14 +183,14 @@ module.exports = function(app, tool, userModel, jwt,nodemailer) {
                                 pass: 'Bordeaux14'
                             }
                         });
+                        var url = req.protocol + '://' + req.get('host')
                         var mailOptions = {
                                         from: 'MyMoney <do.not.respond.money@gmail.com>',
                                         to: user.email, // list of receivers
                                         subject: 'Change password', // Subject line
-                                        text: "to change your password please click here", // plaintext body
-                                        html: '<p> http://localhost:8754/#/passchange/'+user.token+'<p>'// html body
+                                        text: "To change your password please click here '+url+'/#/passchange/"+user.token, // plaintext body
+                                        html: '<p>To change your password please click <a href="'+url+'/#/passchange/'+user.token+'">here</a>. If you don\'t ask anything, please don\'t click on this link<p>'// html body
                                     }
-                                    console.info("sending email")
                                     transporter2.sendMail(mailOptions, function(error, info){
                                         if(error){
                                             console.log(error)
