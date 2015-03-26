@@ -6,12 +6,26 @@
 		<p>There is no operation yet, create some operation first</p>
 	</div>
 
- 	<div class="row pad15" ng-if="chartConfig.series[0].data.length > 0">
+
+	<div class="row" ng-if="!isSelection">
+		<h1>Select</h1>
+		<div  class="list-group">
+			<a class="list-group-item"  href="" ng-click="selectGraph('month')">By month</a>
+			<a class="list-group-item"  href="" ng-click="selectGraph('balance')">Balance evolution</a>
+
+		</div >
+	</div>
+
+ 	<div class="row pad15" ng-if="isSelection && chartConfig.series[0].data.length > 0">
 
 		<div class="row">
 			<!-- <highchart id="chart1" config="chartConfig"></highchart> -->
 
 			<highchart id="chart1" config="chartConfig" class="span10"></highchart>
+		</div>
+
+		<div class="row pad15">
+			<a class="btn btn-default" ng-click="selectGraph()">Back</a>
 		</div>
 
 	</div>
