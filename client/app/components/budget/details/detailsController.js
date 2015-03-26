@@ -15,10 +15,12 @@
 			currentGroupCat: undefined,
 			currentCat: undefined,
 			total: undefined,
+			isDrilldown: false,
 			reset: function(){
 				this.currentGroupCat = undefined
 				this.currentCat = undefined
 				this.total = undefined
+				this.isDrilldown = false
 			}
 		}
 
@@ -105,11 +107,13 @@
 								$scope.categorySelector.currentGroupCat = e.point.name
 								$scope.categorySelector.currentCat = e.point.name
 								pieCatSelect(e.point.name)
+								$scope.categorySelector.isDrilldown = true
 							},
 							drillup: function(e) {
 								// console.log('drillup')
 								$scope.categorySelector.currentCat = $scope.categorySelector.currentGroupCat
 								pieCatSelect($scope.categorySelector.currentCat)
+								$scope.categorySelector.isDrilldown = false
 							}
 						}
 					},
@@ -276,6 +280,12 @@
 
 
 		function updateGraph() {
+			// console.log($scope.chartConfig.getHighcharts())
+			if($scope.categorySelector.isDrilldown){
+				$scope.chartConfig.getHighcharts().drillUp()
+			}
+			// console.log($scope.chartConfig.getHighcharts().get())
+			// $scope.chartConfig.getHighcharts().drillUp()
 			budgetService.getByCategory($scope.dateSelector)
 				.then(function(budget) {
 					// $scope.chartConfig = getDefaultConfig()
