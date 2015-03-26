@@ -438,6 +438,8 @@ var defaultCategories = [
     }
 ]
 
+module.exports.defaultCategories = defaultCategories
+
 function getDefaultBudget(){
     var res = JSON.parse(JSON.stringify(defaultCategories))
     // for(groupCat in defaultCategories){
@@ -533,6 +535,8 @@ function getDefaultBudget(){
     })
     return res
 }
+
+module.exports.getDefaultBudget = getDefaultBudget
 
 // console.log(getDefaultBudget())
 

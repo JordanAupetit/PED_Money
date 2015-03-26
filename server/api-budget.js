@@ -1,6 +1,6 @@
 module.exports = function (app, tool, accountModel, operationModel, userModel) {
     app.get('/api/budget/debug', getDebug)
-    // app.get('/api/budget/', getAll)
+    app.get('/api/expense/', getAll)
     app.get('/api/expense/:year/:month', getAllByMonth)
     app.get('/api/budget/month', getByMonth)
     app.get('/api/budget/', getBudget)
@@ -219,13 +219,6 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
                 return resp.send(res)
             })
         })
-        // operationModel.find(function (err, coll) {
-        //     if (!err) {
-        //         return resp.send(coll)
-        //     } else {
-        //         next(err)
-        //     }
-        // })
     }
 
     function getByMonth(req, resp, next) {
@@ -258,7 +251,7 @@ module.exports = function (app, tool, accountModel, operationModel, userModel) {
                 ,
                 function(err, res) {
                     if (!err) {
-                        console.log(res)
+                        //console.log(res)
                         return resp.send(res)
                     } else {
                         next(err)

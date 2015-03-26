@@ -450,5 +450,10 @@ var job = new CronJob('00 30 01 * * *', function(){
 
 
 // Only for test (mandatory)
-module.exports = app
+// module.exports = app
+
+module.exports = {
+	app: app,
+	database: database
+}
 

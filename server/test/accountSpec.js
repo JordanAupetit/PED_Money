@@ -7,7 +7,8 @@ var should = require('should');
 var assert = require('assert')
 var request = require('supertest');
 var mongoose = require('mongoose');
-var app  = require('../server.js');
+var server  = require('../server.js');
+var app  = server.app;
 
 
 describe('Server::API', function() {
