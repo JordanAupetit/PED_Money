@@ -243,6 +243,11 @@
             getUser: function(){
                 return localStorageService.get("USER")
             },
+            getCategories: function(){
+                var user = localStorageService.get("USER")
+
+                return user.categories
+            },
             getAccount: function(accountId, callback){
                 if($rootScope.state === 'ONLINE' || $rootScope.state === 'CONNECTING'){
                     AccountResource.get(accountId).$promise.then(function(account){

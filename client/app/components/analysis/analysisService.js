@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular.module('services')
-		.factory('analysisService', ['$resource', 'CategoryResource', function($resource, CategoryRes) {
+		.factory('analysisService', ['$resource', 'StorageServices', function($resource, StorageServices) {
 
 			var analRes
 			var budgetMonthRes

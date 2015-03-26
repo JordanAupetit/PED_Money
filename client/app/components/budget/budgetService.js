@@ -3,7 +3,7 @@
 	'use strict';
 
 	angular.module('services')
-		.factory('budgetService', ['$resource', 'CategoryResource', function($resource, CategoryRes) {
+		.factory('budgetService', ['$resource', 'StorageServices', function($resource, StorageServices) {
 
 
 			var budgetRes
@@ -123,28 +123,26 @@
 								categoryDico = {}
 								categoryTree = {}
 
-								CategoryRes.getAll().$promise
-									.then(function(categories){
-									/**
-									 * Create dictionary of category
-									 * Init operations array
-									 * TODO in cache
-									 */
-									angular.forEach(categories, function(category){
-										categoryTree[category.name] = {}
-										categoryTree[category.name].id = category.id
-										// categoryTree[category.name].total = 0
-										categoryDico[category.id] = category
-										angular.forEach(category.subCategories, function(subcat){
-											categoryDico[subcat.id] = subcat
-											categoryTree[category.name][subcat.name] = []
-											categoryTree[category.name][subcat.name].id = subcat.id
-											// categoryTree[category.name][subcat.name].total = 0
-										})
-									})	
+								var categories = StorageServices.getCategories()
 
-									resolve()	
+								/**
+								 * Create dictionary of category
+								 * Init operations array
+								 */
+								angular.forEach(categories, function(category){
+									categoryTree[category.name] = {}
+									categoryTree[category.name].id = category.id
+									// categoryTree[category.name].total = 0
+									categoryDico[category.id] = category
+									angular.forEach(category.subCategories, function(subcat){
+										categoryDico[subcat.id] = subcat
+										categoryTree[category.name][subcat.name] = []
+										categoryTree[category.name][subcat.name].id = subcat.id
+										// categoryTree[category.name][subcat.name].total = 0
+									})
 								})	
+
+								resolve()	
 							})				
 						}
 
@@ -232,7 +230,7 @@
 									pieDrillDown: pieDrillDown,
 									operations: operations
 								}
-								console.log(budget)
+								// console.log(budget)
 								resolve(budget)
 							})
 

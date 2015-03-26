@@ -20,7 +20,8 @@ var apiUser = require('./api-user')
 var apiOperation = require('./api-operation')
 var apiBudget = require('./api-budget')
 
-var apiCategory = require('./api-category')
+// var apiCategory = require('./api-category')
+var apiOther = require('./api-other')
 // var apiExpense = require('./api-expense')
 
 var apiPeriod = require('./api-period')
@@ -139,7 +140,8 @@ var tool = {
 
 
 apiUser(app, tool, userModel, jwt, nodemailer)
-apiCategory(app, tool, database.getCategoryModel(), userModel, accountModel, operationModel)
+// apiCategory(app, tool, database.getCategoryModel(), userModel, accountModel, operationModel)
+apiOther(app, tool, database.getCategoryModel(), userModel, accountModel, operationModel)
 apiAccount(app, tool, accountModel, operationModel)
 apiOperation(app, operationModel, accountModel)
 apiPeriod(app, tool, database.getPeriodModel())
