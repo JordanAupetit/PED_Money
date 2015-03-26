@@ -42,19 +42,21 @@ describe('Server::API', function() {
 				fakeUser._id = res.body.data._id
 				fakeUser.token = res.body.data.token
 
-				request(app)
-					.post(urlAccount)
-					.set('X-User-Token', fakeUser.token)
-					.expect(200)
-					.send(fakeAccount)
-					.end(function(err, res) {
-						if (err) {
-							throw err;
-						}
-						fakeAccount._id = res.body._id
+				end()
 
-						end()
-					})
+				// request(app)
+				// 	.post(urlAccount)
+				// 	.set('X-User-Token', fakeUser.token)
+				// 	.expect(200)
+				// 	.send(fakeAccount)
+				// 	.end(function(err, res) {
+				// 		if (err) {
+				// 			throw err;
+				// 		}
+				// 		fakeAccount._id = res.body._id
+
+				// 		end()
+				// 	})
 			})
 	})
 
@@ -74,48 +76,31 @@ describe('Server::API', function() {
 			})
 	})
 
-	describe('Period', function() {
-		var url = '/api/period'
-		var urlAcc = '/api/account/'
-		var fakeAccountId
+	describe('Account', function() {
+		var url = '/api/account/'
+		// var fakeAccountId
 		var fakeToken
 
-		var fakeOperation = {
-			value: 300,
-			thirdParty: 'M Bougnard',
-			description: 'Loyer',
-			typeOpt: 'Virement',
-			checked: false,
-			dateOperation: '2015-01-20T00:00:00.000Z',
-			datePrelevement: '2015-01-15T00:00:00.000Z',
-			categoryId: '54684654dqs'
+
+		var defaultAlerts = [
+			{
+				level: 0,
+				message: 'Your balance is under 0 !',
+				_id: undefined
+			}
+		]
+
+		var fakeAccountRes = {
+			__v: 0,
+			_id: undefined,
+			name: 'testAccount',
+			type: 1,
+			currency: 'EUR',
+			operations : [],
+			userId: undefined,
+			alerts : defaultAlerts
 		}
 
-		var fakePeriod = {
-			name: 'Loyer 2015',
-			dateBegin: '2015-01-15T00:00:00.000Z',
-			nbRepeat: -1,
-			step: 3,
-			intervalType: 'M',
-			isOver: false,
-			opCreat: [],
-			operation : fakeOperation
-		}
-
-		
-
-		var fakeOperation2 = {
-			_id: '2132sdq0sq',
-			value: -50,
-			thirdParty: 'Auchan',
-			description: 'Règlement des courses',
-			type: 'Chèque',
-			checked: false,
-			dateOperation: '2015-01-20T00:00:00.000Z',
-			datePrelevement: '2015-01-15T00:00:00.000Z',
-			categoryId: '54684654dqs',
-			subOperations: []
-		}
 
 		function clone(obj) {
 			var target = {};
@@ -128,75 +113,66 @@ describe('Server::API', function() {
 		}
 
 		beforeEach(function(end) {
-			fakeAccountId = fakeAccount._id
+			// fakeAccountId = fakeAccount._id
 			fakeToken = fakeUser.token
-
-
-			fakeOperation.accountId = fakeAccountId
-			fakeOperation2.accountId = fakeAccountId
-
-			// console.log(fakeAccountId)
-			// console.log(fakeToken)
 
 			end()
 		})
 
 
-		it('should add Period', function() {
+		it('should add', function() {
+
 
 			request(app)
 				.post(url)
 				.set('X-User-Token', fakeToken)
 				.expect(200)
-				.send(fakePeriod)
+				.send(fakeAccount)
 				.end(function(err, res) {
 					if (err) {
 						throw err;
 					}
-					// console.log(res.body)
 
 					res.body.should.have.property('_id')
-					var fp = clone(fakePeriod)
+					var fp = clone(fakeAccount)
 					fp.__v = 0
 					fp._id = res.body._id
-						// res.body.should.have.property('name').and.equal(fakePeriod.name)
+					fp.userId = fakeUser._id
+					fp.alerts = defaultAlerts
+					fp.alerts[0]._id = res.body.alerts[0]._id
 					res.body.should.be.eql(fp)
-
-					// res.body.length.should.be.above(0)
-					// console.log(res.should.have.status)
-					// res.should.have.status(200);
-					// done();
 				})
 		})
 
 
-		describe('with period in DBB', function() {
+		describe('with account in DBB', function() {
 
-			var idPeriod
+			var idAccount
 
 			/**
-			 * Add a period to work with
+			 * Add a account to work with
 			 */
 			beforeEach(function(end) {
 				request(app)
 					.post(url)
 					.set('X-User-Token', fakeToken)
 					.expect(200)
-					.send(fakePeriod)
+					.send(fakeAccount)
 					.end(function(err, res) {
 						if (err) {
 							throw err;
 						}
-						idPeriod = res.body._id
+						idAccount = res.body._id
 
 						end()
 					})
 			})
 
-			it('should get specific Period', function() {
+			it('should get specific', function(end) {
 
 				request(app)
-					.get(url+'/' + idPeriod)
+					.get(url+ idAccount)
+					.set('X-User-Token', fakeToken)
 					.expect(200)
 					.end(function(err, res) {
 						if (err) {
@@ -204,17 +180,18 @@ describe('Server::API', function() {
 						}
 
 						res.body.should.have.property('_id')
-						var fp = clone(fakePeriod)
-						fp.__v = 0
+						var fp = clone(fakeAccountRes)
 						fp._id = res.body._id
+						fp.userId = fakeUser._id
 						res.body.should.be.eql(fp)
+						end()
 					})
 
 			})
 
-			it('should get all Period (at least the one added)', function() {
+			it('should get all (at least the one added)', function() {
 				request(app)
-					.get(urlAcc+fakeAccountId+'/period')
+					.get(url)
 					.set('X-User-Token', fakeToken)
 					.expect(200)
 					.end(function(err, res) {
@@ -225,9 +202,10 @@ describe('Server::API', function() {
 					})
 			})
 
-			it('should delete specific Period', function() {
+			it('should delete specific', function() {
 				request(app)
-					.delete(url + '/' + idPeriod)
+					.delete(url + idAccount)
+					.set('X-User-Token', fakeToken)
 					.expect(204)
 					.end(function(err, res) {
 						if (err) {
@@ -235,7 +213,8 @@ describe('Server::API', function() {
 						}
 
 						request(app)
-							.get(url + '/' + idPeriod)
+							.get(url + idAccount)
+							.set('X-User-Token', fakeToken)
 							.expect(204)
 							.end(function(err, res) {
 								if (err) {
@@ -247,7 +226,7 @@ describe('Server::API', function() {
 
 
 
-		})
+		// })
 
 
 		// it.skip('should not be empty', function() {
@@ -266,7 +245,7 @@ describe('Server::API', function() {
 		// 					// res.should.have.status(200);
 		// 					// done();
 		// 			})
-		// 	})
+			})
 	})
 
 })

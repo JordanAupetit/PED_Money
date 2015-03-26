@@ -168,7 +168,7 @@
             function refresh() {
                 StorageServices.getAccount(accountId, function(account){
                     $scope.account = account
-                    console.log(account)
+                    // console.log(account)
 
                     $rootScope.account = account
                     $rootScope.$emit('accountSelected');
@@ -415,7 +415,7 @@
                 StorageServices.deleteOperation(operation, function(){
                     //refresh()
 
-                    console.log(index)
+                    // console.log(index)
 
                     // On clique sur le delete d'une operation d'un groupe
                     if($scope.operationsOfGroup.length > 0) {
