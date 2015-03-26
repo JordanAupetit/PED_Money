@@ -1,8 +1,18 @@
 <md-content > -->
 <div class="container pt70">
 
+  <div ng-show="isLoading" class="row text-center pt70">
+    <h3 class="center">Loading ...</h3>
+  </div>
 
-  <div class="row">
+
+  <div class="row text-center" ng-if="!isLoading && evolution === undefined">
+    <h1>Nothing to show</h1>
+    <p>There is no operation yet, create some operation first</p>
+  </div>
+
+
+  <div class="row" ng-if="!isLoading && evolution !== undefined">
 
     <!--     <p>
       <md-button class="md-raised md-primary" ng-click="setup()">Setup</md-button>

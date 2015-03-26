@@ -294,7 +294,8 @@
 	
 		genChartConfig()
 
-		$scope.evolution = 'result'
+		$scope.evolution = undefined
+		$scope.isLoading = true
 
 		budgetService.getByMonth()
 		.then(function(result){
@@ -302,6 +303,7 @@
 			$scope.evolution = result
 			$scope.dateSelector.setMonth(currentDate.month())
 			$scope.changeYear(currentDate.year())
+			$scope.isLoading = false
 
 			$scope.$apply()
 		})

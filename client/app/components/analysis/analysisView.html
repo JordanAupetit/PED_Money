@@ -1,6 +1,12 @@
 <div class="container pt70">
 
- 	<div class="row pad15">
+
+	<div class="row text-center" ng-if="chartConfig.series[0].data.length < 1">
+		<h1>Nothing to show</h1>
+		<p>There is no operation yet, create some operation first</p>
+	</div>
+
+ 	<div class="row pad15" ng-if="chartConfig.series[0].data.length > 0">
 
 		<div class="row">
 			<!-- <highchart id="chart1" config="chartConfig"></highchart> -->
