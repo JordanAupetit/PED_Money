@@ -139,12 +139,12 @@
 			} else if (graphType === 'balance') {
 				$scope.chartConfig = getDefaultConfigStock()
 				analysisService.getBalance().then(function(result) {
-					// console.log(result)
 					$scope.chartConfig.series.push(result)
 					$scope.$apply()
 				})
 
 			} else {
+				$scope.chartConfig.series = []
 				$scope.isSelection = false
 			}
 

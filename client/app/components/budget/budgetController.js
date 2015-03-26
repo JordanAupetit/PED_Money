@@ -299,11 +299,16 @@
 
 		budgetService.getByMonth()
 		.then(function(result){
+			$scope.isLoading = false
 			var currentDate = moment()
 			$scope.evolution = result
-			$scope.dateSelector.setMonth(currentDate.month())
-			$scope.changeYear(currentDate.year())
-			$scope.isLoading = false
+
+			if(!$.isEmptyObject(result)){
+				$scope.dateSelector.setMonth(currentDate.month())
+				$scope.changeYear(currentDate.year())
+			}
+			
+			
 
 			$scope.$apply()
 		})

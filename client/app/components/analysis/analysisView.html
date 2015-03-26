@@ -1,9 +1,12 @@
 <div class="container pt70">
 
-
-	<div class="row text-center" ng-if="chartConfig.series[0].data.length < 1">
+	<div class="row text-center" ng-if="chartConfig.series[0].data.length < 1 || (chartConfig.series.length < 1 && isSelection)">
 		<h1>Nothing to show</h1>
 		<p>There is no operation yet, create some operation first</p>
+
+		<div class="row pad15" ng-if="isSelection">
+			<a class="btn btn-default" ng-click="selectGraph()">Back</a>
+		</div>
 	</div>
 
 
