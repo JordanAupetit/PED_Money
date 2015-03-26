@@ -24,9 +24,9 @@
                     $scope.accounts = accounts
                 })
 
-                if($rootScope.account !== undefined) {
+                //if($rootScope.account !== undefined) {
                     $scope.account = $rootScope.account
-                }
+                //}
             }
 
             $scope.initSelector = 'dataset_etienne_budget.json'

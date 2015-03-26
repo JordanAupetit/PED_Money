@@ -63,7 +63,7 @@
                 $scope.rebalance = account.balance
                 $scope.account = account
                 $rootScope.account = account
-                $rootScope.$emit('accountSelected');
+                $rootScope.$emit('accountSelected')
             })  
         }
 
@@ -75,7 +75,8 @@
         function updateAccount(){
             AccountResource.update(accountBeforeChange).$promise.then(function (account){
                 refreshScope()
-                $rootScope.$emit('accountRefresh');
+                $rootScope.$emit('accountRefresh')
+                $rootScope.$emit('accountSelected')
             }, function(err){
                 console.log("Something went wrong ... " + err)
             })
@@ -161,6 +162,9 @@
         */
         $scope.deleteAccount = function(accountId){
             AccountResource.remove(accountId).$promise.then(function() {
+                $rootScope.account = undefined
+                $rootScope.$emit('accountSelected')
+                $rootScope.$emit('accountRefresh')
                 $state.go('accounts')
             })
         }
