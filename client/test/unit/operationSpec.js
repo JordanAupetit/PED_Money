@@ -86,7 +86,6 @@ describe('OperationTest', function() {
         StorageServices = _StorageServices_;
         OperationResource = _OperationResource_;
         AccountResource = _AccountResource_;
-        //periodRes = _periodRes_;
         $state = _$state_;
     }));
 
@@ -96,35 +95,7 @@ describe('OperationTest', function() {
         beforeEach(inject(function(_$httpBackend_, $rootScope, $controller, initService, OperationResource, AccountResource, StorageServices, $state) {
             $httpBackend = _$httpBackend_;
 
-            //var $injector = angular.injector([ 'appModule' ]);
-            //var myService = $injector.get( 'StorageServices' );
-            //myService.getAccount();
-
-            //$httpBackend.expect('GET', '/favicon.ico').respond(200, '');
-            //$httpBackend.expectGET('app/components/login/loginView.html').respond(200, '');
-
-            //StorageServices.getAccount("5511967b22b1db1c028cdbf8", function(){})
-
-            /*var AccountResource = {
-			    get: function(accountId) {}
-			};*/
-
-			//var fn = jasmine.createSpy();
             scope = $rootScope.$new();
-
-			//spyOn(account, account2);
-			//spyOn(StorageServices, 'getAccount').and.callThrough();
-			//spyOn(AccountResource, 'get').andReturn({});
-			// spyOn(AccountResource, 'get');
-
-            // $httpBackend.whenGET('app/components/accounts/accountsView.html').respond(200, '');
-			// $httpBackend.expect('GET', '/favicon.ico').respond(200, '');
-            // $httpBackend.expectGET('app/components/login/loginView.html').respond(200, '');
-            //$httpBackend.expectGET('/api/account/5511967b22b1db1c028cdbf8').respond(200, account2);
-            // $httpBackend.expectGET('/api/account').respond(200, account2);
-
-
-            //console.log(spyOn(StorageServices, 'getAccount').and)
 
             StorageServices.getAccount = function(id, callback){
                 callback(account)
@@ -134,13 +105,9 @@ describe('OperationTest', function() {
 
             spyOn(StorageServices, 'getUser').and.returnValue({categories: []})
 
-            //console.log(account)
-
 
             controller = $controller('OperationController', {
-                $scope: scope//,
-                //StorageServices: StorageServices
-                //accountId: "5511967b22b1db1c028cdbf8"
+                $scope: scope
             });
             
             $httpBackend.expect('GET', '/favicon.ico').respond(200, '');

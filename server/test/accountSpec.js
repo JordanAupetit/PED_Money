@@ -44,20 +44,6 @@ describe('Server::API', function() {
 				fakeUser.token = res.body.data.token
 
 				end()
-
-				// request(app)
-				// 	.post(urlAccount)
-				// 	.set('X-User-Token', fakeUser.token)
-				// 	.expect(200)
-				// 	.send(fakeAccount)
-				// 	.end(function(err, res) {
-				// 		if (err) {
-				// 			throw err;
-				// 		}
-				// 		fakeAccount._id = res.body._id
-
-				// 		end()
-				// 	})
 			})
 	})
 
@@ -224,29 +210,7 @@ describe('Server::API', function() {
 							})
 					})
 			})
-
-
-
-		// })
-
-
-		// it.skip('should not be empty', function() {
-		// 		request(app)
-		// 			.get(url)
-		// 			.expect(200)
-		// 			.end(function(err, res) {
-		// 				if (err) {
-		// 					throw err;
-		// 				}
-		// 				// console.log(res.body)
-		// 				res.status.should.be.equal(200)
-
-		// 				res.body.length.should.be.above(0)
-		// 					// console.log(res.should.have.status)
-		// 					// res.should.have.status(200);
-		// 					// done();
-		// 			})
-			})
+		})
 	})
 
 })

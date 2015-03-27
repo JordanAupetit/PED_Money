@@ -12,18 +12,6 @@
 
 
   <div class="row" ng-if="!isLoading && evolution !== undefined">
-
-    <!--     <p>
-      <md-button class="md-raised md-primary" ng-click="setup()">Setup</md-button>
-
-    </p>
-
-    <p>
-      <md-button class="md-raised md-primary" ng-click="">Expense</md-button>
-      <md-button class="md-raised md-primary" ng-click="">Income</md-button>
-    </p> -->
-<!--   {{evolution}}
-  {{evolution === undefined}} -->
     <p class="col-centered text-center">
       <span ng-class="{activeYear: year.isActive}" ng-click="changeYear(year.id)" value="{{year.id}}" class="budget-btn pointer" ng-repeat="year in evolution" >{{year.id}}</span> 
     </p>
@@ -37,10 +25,6 @@
 
 
       <highchart id="chart1" config="chartConfig"  style="width: 400px; height: 300px; margin: 0 auto"></highchart>
-    <!--       <p style="width:30%;">
-        <canvas id="bar" class="chart chart-bar" data="data" labels="labels" options="options"></canvas> 
-
-      </p> -->
 
       <div class="row algcenter mb10">
         <a class="btn btn-primary" ui-sref="budgetdetails">Show details</a>

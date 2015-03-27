@@ -12,7 +12,6 @@
 
         /**
          * Refresh the account view
-         * TODO Add reset form ??
          */
         $scope.refresh = function() {
             StorageServices.getAccounts(function(accounts){

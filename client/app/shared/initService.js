@@ -87,8 +87,6 @@
 					checked: false,
 					dateOperation: '2015-01-20',
 					datePrelevement: '2015-01-25',
-					// dateOperation: new Date(2015, 0, 20),
-					// datePrelevement: new Date(2015, 0, 25),
 					categoryId: '54684654dqs',
 					subOperations: [],
 					accountId: accountId
@@ -102,8 +100,6 @@
 					checked: true,
 					dateOperation: '2015-01-01',
 					datePrelevement: '2015-01-12',
-					// dateOperation: new Date(2015, 0, 1),
-					// datePrelevement: new Date(2015, 0, 12),
 					categoryId: 'eza5484654dqs',
 					subOperations: [],
 					accountId: accountId
@@ -146,10 +142,6 @@
 
 				return new Promise(function(resolve, reject) {
 
-
-					// signupRes.save(user).$promise.then(function(res){
-					// 	$log.info(res.data)
-
 						//login
 						var formData = {
 	                        username: user.name,
@@ -187,7 +179,6 @@
 						operation.accountId = accountId
 						operation.dateOperation = moment(operation.dateOperation, 'YYYY/MM/DD').toDate()
 						operation.datePrelevement = moment(operation.datePrelevement, 'YYYY/MM/DD').toDate()
-						// console.log(operation)
 						operationRes.add(operation)
 					})
 					resolve()
