@@ -306,6 +306,8 @@
 			if(!$.isEmptyObject(result)){
 				$scope.dateSelector.setMonth(currentDate.month())
 				$scope.changeYear(currentDate.year())
+			}else{
+				$scope.evolution = undefined
 			}
 			
 			
