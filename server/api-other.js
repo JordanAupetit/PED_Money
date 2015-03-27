@@ -4,6 +4,7 @@ module.exports = function (app, tool, categoryModel, userModel, accountModel, op
     var handlebars = require('handlebars');
     var fs = require('fs')
     var pdf = require('html-pdf')
+    var moment = require('moment')
 
     app.get('/api/account/:accountId/pdf', getPdf)
 
